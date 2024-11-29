@@ -12,6 +12,8 @@
 #include "pxr/imaging/hd/physicsSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
+#include <iostream>
+
 PXR_NAMESPACE_OPEN_SCOPE
 
 TF_REGISTRY_FUNCTION(TfType) {
@@ -26,7 +28,9 @@ public:
     HD_DECLARE_DATASOURCE(_PhysicsMaterialDataSource);
 
     _PhysicsMaterialDataSource(const UsdPrim& prim, const UsdImagingDataSourceStageGlobals& stageGlobals)
-        : _api(prim), _stageGlobals(stageGlobals) {}
+        : _api(prim), _stageGlobals(stageGlobals) {
+        std::cout<<"oooo"<<std::endl;
+    }
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {

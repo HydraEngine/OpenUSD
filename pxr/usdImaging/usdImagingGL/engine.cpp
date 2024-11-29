@@ -1225,8 +1225,6 @@ UsdImagingGLEngine::_SetRenderDelegate(
         _sceneIndex = _displayStyleSceneIndex =
             HdsiLegacyDisplayStyleOverrideSceneIndex::New(_sceneIndex);
 
-        _sceneIndex = _physicsSceneIndex = HdsiPhysicsSceneIndex::New(_sceneIndex);
-
         _renderIndex->InsertSceneIndex(_sceneIndex, _sceneDelegateId);
     } else {
         _sceneDelegate = std::make_unique<UsdImagingDelegate>(

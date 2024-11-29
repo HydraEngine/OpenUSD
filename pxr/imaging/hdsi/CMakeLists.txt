@@ -38,7 +38,6 @@ pxr_library(hdsi
         tetMeshConversionSceneIndex
         utils
         velocityMotionResolvingSceneIndex
-        physicsSceneIndex
 
     PUBLIC_HEADERS
         api.h

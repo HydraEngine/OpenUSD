@@ -7,27 +7,27 @@
 #pragma once
 
 #include <pxr/pxr.h>
-#include <pxr/imaging/hdsi/api.h>
+#include <pxr/imaging/hd/api.h>
 #include <pxr/imaging/hd/filteringSceneIndex.h>
 #include <pxr/usdImaging/usdImaging/stageSceneIndex.h>
 #include "pxr/imaging/hd/physicsSchema.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-TF_DECLARE_REF_PTRS(HdsiPhysicsSceneIndex);
+TF_DECLARE_REF_PTRS(HdPhysicsSceneIndex);
 
-class HdsiPhysicsSceneIndex : public HdSingleInputFilteringSceneIndexBase {
+class HdPhysicsSceneIndex : public HdSingleInputFilteringSceneIndexBase {
 public:
-    HDSI_API
-    static HdsiPhysicsSceneIndexRefPtr New(const HdSceneIndexBaseRefPtr &inputSceneIndex);
+    HD_API
+    static HdPhysicsSceneIndexRefPtr New(const HdSceneIndexBaseRefPtr &inputSceneIndex);
 
-    HDSI_API
+    HD_API
     HdSceneIndexPrim GetPrim(const SdfPath &primPath) const override;
-    HDSI_API
+    HD_API
     SdfPathVector GetChildPrimPaths(const SdfPath &primPath) const override;
 
 protected:
-    HdsiPhysicsSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex);
+    HdPhysicsSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex);
 
     void _PrimsAdded(const HdSceneIndexBase &sender, const HdSceneIndexObserver::AddedPrimEntries &entries) override;
 

@@ -32,6 +32,7 @@
 #include "pxr/imaging/hd/sprim.h"
 #include "pxr/imaging/hd/task.h"
 #include "pxr/imaging/hd/tokens.h"
+#include "pxr/imaging/hd/physicsSceneIndex.h"
 
 #include "pxr/base/work/dispatcher.h"
 #include "pxr/base/work/loops.h"
@@ -63,7 +64,7 @@ TF_DEFINE_PRIVATE_TOKENS(
 static bool
 _IsEnabledSceneIndexEmulation()
 {
-    static bool enabled = 
+    static bool enabled =
         (TfGetEnvSetting(HD_ENABLE_SCENE_INDEX_EMULATION) == true);
     return enabled;
 }
@@ -170,7 +171,7 @@ HdRenderIndex::HdRenderIndex(
     // Create fallback prims.
     _CreateFallbackPrims();
 
-    // If we need to emulate a scene index we create the 
+    // If we need to emulate a scene index we create the
     // data structures now.
     if (_IsEnabledSceneIndexEmulation()) {
         _emulationSceneIndex = HdLegacyPrimSceneIndex::New();
@@ -182,7 +183,7 @@ HdRenderIndex::HdRenderIndex(
 
         _terminalSceneIndex =
             _mergingBatchingCtx->Append(_mergingSceneIndex);
-        
+
         _terminalSceneIndex = HdLegacyGeomSubsetSceneIndex::New(
             _terminalSceneIndex);
 
@@ -200,9 +201,11 @@ HdRenderIndex::HdRenderIndex(
                         rendererDisplayName, _terminalSceneIndex, instanceName);
         }
 
+        _terminalSceneIndex = HdPhysicsSceneIndex::New(_terminalSceneIndex);
+
         _siSd = std::make_unique<HdSceneIndexAdapterSceneDelegate>(
             _terminalSceneIndex,
-            this, 
+            this,
             SdfPath::AbsoluteRootPath());
 
         _tracker._SetTargetSceneIndex(get_pointer(_emulationSceneIndex));
@@ -214,7 +217,7 @@ HdRenderIndex::HdRenderIndex(
 HdRenderIndex::~HdRenderIndex()
 {
     HD_TRACE_FUNCTION();
-    
+
     // Get rid of prims first.
     Clear();
 
@@ -297,7 +300,7 @@ HdRenderIndex::RemoveSceneIndex(
             return;
         }
     }
-    
+
     // Case that given scene index was added by InsertSceneIndex with
     // non-trivial scenePathPrefix. We need to find the HdPrefixingSceneIndex
     // among the input scenes of _mergingSceneIndex that was constructed
@@ -333,13 +336,13 @@ HdRenderIndex::RemoveSubtree(const SdfPath &root,
         _emulationSceneIndex->RemovePrims({root});
         return;
     }
-    
+
     _RemoveSubtree(root, sceneDelegate);
 }
 
 void
 HdRenderIndex::_RemoveSubtree(
-    const SdfPath &root, 
+    const SdfPath &root,
     HdSceneDelegate* sceneDelegate)
 {
     HD_TRACE_FUNCTION();
@@ -359,7 +362,7 @@ HdRenderIndex::InsertRprim(TfToken const& typeId,
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
-    // If we are using emulation, we will need to populate 
+    // If we are using emulation, we will need to populate
     // a data source with the prim information
     if (_IsEnabledSceneIndexEmulation()) {
         _emulationSceneIndex->AddLegacyPrim(rprimId, typeId, sceneDelegate);
@@ -369,7 +372,7 @@ HdRenderIndex::InsertRprim(TfToken const& typeId,
     _InsertRprim(typeId, sceneDelegate, rprimId);
 }
 
-void 
+void
 HdRenderIndex::_InsertRprim(TfToken const& typeId,
                             HdSceneDelegate* sceneDelegate,
                             SdfPath const& rprimId)
@@ -408,7 +411,7 @@ HdRenderIndex::_InsertRprim(TfToken const& typeId,
     _rprimMap[rprimId] = std::move(info);
 }
 
-void 
+void
 HdRenderIndex::RemoveRprim(SdfPath const& id)
 {
     HD_TRACE_FUNCTION();
@@ -419,7 +422,7 @@ HdRenderIndex::RemoveRprim(SdfPath const& id)
         _emulationSceneIndex->RemovePrim(id);
         return;
     }
-    
+
     _RemoveRprim(id);
 }
 
@@ -673,17 +676,17 @@ HdRenderIndex::InsertSprim(TfToken const& typeId,
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
-    // If we are using emulation, we will need to populate 
+    // If we are using emulation, we will need to populate
     // a data source with the prim information
     if (_IsEnabledSceneIndexEmulation()) {
         _emulationSceneIndex->AddLegacyPrim(sprimId, typeId, sceneDelegate);
         return;
     }
-    
+
     _InsertSprim(typeId, sceneDelegate, sprimId);
 }
 
-void 
+void
 HdRenderIndex::_InsertSprim(TfToken const& typeId,
                             HdSceneDelegate* delegate,
                             SdfPath const& sprimId)
@@ -1110,7 +1113,7 @@ namespace {
         }
     };
     // Repr specs to sync for all the dirty Rprims. This information is
-    // gathered during task sync from the render pass' collection opinion. 
+    // gathered during task sync from the render pass' collection opinion.
     using _CollectionReprSpecVector = std::vector<_CollectionReprSpec>;
 
     // -------------------------------------------------------------------------
@@ -1207,7 +1210,7 @@ namespace {
                     // The rprim's authored repr selector is
                     // guaranteed to have been set at this point (via
                     // InitRepr/DirtyRepr handling during PreSync)
-                    HdReprSelector reprSelector = 
+                    HdReprSelector reprSelector =
                         _GetResolvedReprSelector(rprim.GetReprSelector(),
                                                  spec.reprSelector,
                                                  spec.useCollectionRepr);
@@ -1402,10 +1405,10 @@ namespace {
                 continue; // Skip empty/disabled reprs
             }
             _CollectionReprSpec reprSpec(rs, collection.IsForcedRepr());
-        
+
             if (std::find(reprSpecs.begin(), reprSpecs.end(), reprSpec)
                 == reprSpecs.end()) {
-                
+
                 reprSpecs.push_back(reprSpec);
             }
         }
@@ -1538,12 +1541,12 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
 
     // a. Gather render tags and reprSpecs.
     TfTokenVector taskRenderTags = _GatherRenderTags(tasks);
-    
+
     // NOTE: This list of reprSpecs is used to sync every dirty rprim.
     _CollectionReprSpecVector reprSpecs = _GatherReprSpecs(_collectionsToSync);
     HdReprSelectorVector reprSelectors = _GetReprSelectors(reprSpecs);
 
-    // b. Update dirty list params, if needed sync render tags, 
+    // b. Update dirty list params, if needed sync render tags,
     // and get dirty rprim ids
     _rprimDirtyList.UpdateRenderTagsAndReprSelectors(taskRenderTags,
                                                      reprSelectors);
@@ -1552,7 +1555,7 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
     // are dirty, this call will sync render tags before compiling the dirty
     // list. This is outside of the usual sync order, but is necessary for now.
     SdfPathVector const& dirtyRprimIds = _rprimDirtyList.GetDirtyRprims();
- 
+
     // c. Bucket rprims by their scene delegate to help build the the list
     //    of rprims to sync for each scene delegate.
     _SceneDelegateRprimSyncRequestMap sdRprimSyncMap;
@@ -1597,7 +1600,7 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
         // state of all clean rprims.
         //
         // Alternatively if the list contains more the 10% rprims that
-        // are not marked as varying (e.g., when rprims are invisible, or when 
+        // are not marked as varying (e.g., when rprims are invisible, or when
         // the dirty list is reset to all rprims), we flag the dirty list for
         // pruning on the next iteration.
         //
@@ -1616,7 +1619,7 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
         if (numDirtyRprims > MIN_DIRTY_LIST_SIZE) {
             float ratioNumSkipped = numSkipped / (float) numDirtyRprims;
             float ratioNonVarying = numNonVarying / (float) numDirtyRprims;
-            
+
             resetVaryingState = ratioNumSkipped > MIN_RATIO_RPRIMS_SKIPPED;
             pruneDirtyList =
                 ratioNonVarying > MIN_RATIO_RPRIMS_NON_VARYING;
@@ -1688,7 +1691,7 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
         for (auto &entry : sdRprimSyncMap) {
             HdSceneDelegate* sceneDelegate = entry.first;
             _RprimSyncRequestVector& r = entry.second;
-            
+
             {
                 _SyncRPrims workerState(
                     sceneDelegate, r, reprSpecs, _tracker, renderParam);
@@ -1877,7 +1880,7 @@ HdRenderIndex::_RemoveInstancerSubtree(const SdfPath &root,
         const SdfPath &id = it->first;
         HdInstancer *instancer = it->second;
 
-        if (id.HasPrefix(root) && 
+        if (id.HasPrefix(root) &&
             (sceneDelegate == nullptr || sceneDelegate == instancer->GetDelegate())) {
 
             HdInstancer *instancer = it->second;
@@ -1955,7 +1958,7 @@ HdRenderIndex::GetSceneDelegateForRprim(SdfPath const &id) const
                 HdSceneDelegate *delegate = ds->GetTypedValue(0.0f);
                 return delegate;
             }
-        } 
+        }
 
         // fallback value is the back-end emulation delegate
         return _siSd.get();
@@ -2055,7 +2058,7 @@ HdRenderIndex::_AppendDrawItems(
     HdReprSelector const& colReprSelector = collection.GetReprSelector();
     bool forceColRepr = collection.IsForcedRepr();
     TfToken const& materialTag = collection.GetMaterialTag();
-    
+
     HdDrawItemPtrVector &drawItems = result->local();
 
     if (materialTag.IsEmpty()) {
@@ -2117,7 +2120,7 @@ HdRenderIndex::_AppendDrawItems(
                             if (rprimDrawItem->GetMaterialTag() == materialTag)
                             {
                                 drawItems.push_back(rprimDrawItem.get());
-                            }   
+                            }
                         }
                     }
                 }

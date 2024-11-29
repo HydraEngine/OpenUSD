@@ -209,6 +209,7 @@ pxr_library(hd
         xformSchema
 
         physicsSchema
+        physicsSceneIndex
 
     PUBLIC_HEADERS
         api.h
