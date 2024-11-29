@@ -6,6 +6,8 @@
 
 #include "pxr/imaging/hdsi/physicsSceneIndex.h"
 
+#include <iostream>
+
 PXR_NAMESPACE_OPEN_SCOPE
 
 HdsiPhysicsSceneIndexRefPtr HdsiPhysicsSceneIndex::New(const HdSceneIndexBaseRefPtr &inputSceneIndex) {
@@ -16,13 +18,20 @@ HdsiPhysicsSceneIndex::HdsiPhysicsSceneIndex(const HdSceneIndexBaseRefPtr &input
     : HdSingleInputFilteringSceneIndexBase(inputSceneIndex) {}
 
 void HdsiPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
-                                        const HdSceneIndexObserver::AddedPrimEntries &entries) {}
+                                        const HdSceneIndexObserver::AddedPrimEntries &entries) {
+    std::cout<<"lalaa"<<std::endl;
+    _SendPrimsAdded(entries);
+}
 
 void HdsiPhysicsSceneIndex::_PrimsRemoved(const HdSceneIndexBase &sender,
-                                          const HdSceneIndexObserver::RemovedPrimEntries &entries) {}
+                                          const HdSceneIndexObserver::RemovedPrimEntries &entries) {
+    _SendPrimsRemoved(entries);
+}
 
 void HdsiPhysicsSceneIndex::_PrimsDirtied(const HdSceneIndexBase &sender,
-                                          const HdSceneIndexObserver::DirtiedPrimEntries &entries) {}
+                                          const HdSceneIndexObserver::DirtiedPrimEntries &entries) {
+    _SendPrimsDirtied(entries);
+}
 
 HdSceneIndexPrim HdsiPhysicsSceneIndex::GetPrim(const SdfPath &primPath) const {
     HdSceneIndexPrim prim = _GetInputSceneIndex()->GetPrim(primPath);
