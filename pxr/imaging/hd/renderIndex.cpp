@@ -201,8 +201,6 @@ HdRenderIndex::HdRenderIndex(
                         rendererDisplayName, _terminalSceneIndex, instanceName);
         }
 
-        _terminalSceneIndex = HdPhysicsSceneIndex::New(_terminalSceneIndex);
-
         _siSd = std::make_unique<HdSceneIndexAdapterSceneDelegate>(
             _terminalSceneIndex,
             this,
