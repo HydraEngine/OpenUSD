@@ -5,10 +5,16 @@
 //  property of any third parties.
 
 #include "pxr/usdImaging/usdPhysicsImaging/materialAPIAdapter.h"
+#include "pxr/usdImaging/usdImaging/primAdapter.h"
+#include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
+
 #include "pxr/usd/usdPhysics/materialAPI.h"
 #include "pxr/imaging/hd/physicsSchema.h"
+#include "pxr/imaging/hd/retainedDataSource.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
+
+TF_DEFINE_PRIVATE_TOKENS(_tokens, (density)(restitution)(dynamicFriction)(staticFriction));
 
 TF_REGISTRY_FUNCTION(TfType) {
     typedef UsdImagingPhysicsMaterialAPIAdapter Adapter;
@@ -16,11 +22,85 @@ TF_REGISTRY_FUNCTION(TfType) {
     t.SetFactory<UsdImagingAPISchemaAdapterFactory<Adapter>>();
 }
 
+namespace {
+class _PhysicsMaterialDataSource final : public HdContainerDataSource {
+public:
+    HD_DECLARE_DATASOURCE(_PhysicsMaterialDataSource);
+
+    _PhysicsMaterialDataSource(const UsdPrim& prim, const UsdImagingDataSourceStageGlobals& stageGlobals)
+        : _api(prim), _stageGlobals(stageGlobals) {}
+
+    TfTokenVector GetNames() override { return _GetNames(); }
+
+    HdDataSourceBaseHandle Get(const TfToken& name) override {
+        float v;
+        if (name == _tokens->density) {
+            if (UsdAttribute attr = _api.GetDensityAttr()) {
+                if (attr.Get(&v)) {
+                    return HdRetainedTypedSampledDataSource<float>::New(v);
+                }
+            }
+        } else if (name == _tokens->restitution) {
+            if (UsdAttribute attr = _api.GetRestitutionAttr()) {
+                if (attr.Get(&v)) {
+                    return HdRetainedTypedSampledDataSource<float>::New(v);
+                }
+            }
+        } else if (name == _tokens->dynamicFriction) {
+            if (UsdAttribute attr = _api.GetDynamicFrictionAttr()) {
+                if (attr.Get(&v)) {
+                    return HdRetainedTypedSampledDataSource<float>::New(v);
+                }
+            }
+        } else if (name == _tokens->staticFriction) {
+            if (UsdAttribute attr = _api.GetStaticFrictionAttr()) {
+                if (attr.Get(&v)) {
+                    return HdRetainedTypedSampledDataSource<float>::New(v);
+                }
+            }
+        }
+        return nullptr;
+    }
+
+private:
+    static const TfTokenVector& _GetNames() {
+        // Light linking fields 'lightLink' and 'shadowLink' that provide the
+        // category ID for the corresponding collection  are computed by a
+        // scene index downstream.
+        // The collections are transported by collectionAPIAdapter.
+        //
+        static const TfTokenVector names = {
+                _tokens->density,          //
+                _tokens->restitution,      //
+                _tokens->dynamicFriction,  //
+                _tokens->staticFriction    //
+        };
+
+        return names;
+    }
+
+    UsdPhysicsMaterialAPI _api;
+    const UsdImagingDataSourceStageGlobals& _stageGlobals;
+};
+}  // namespace
+
 HdContainerDataSourceHandle UsdImagingPhysicsMaterialAPIAdapter::GetImagingSubprimData(
         UsdPrim const& prim,
         TfToken const& subprim,
         TfToken const& appliedInstanceName,
-        const UsdImagingDataSourceStageGlobals& stageGlobals) {}
+        const UsdImagingDataSourceStageGlobals& stageGlobals) {
+    if (!subprim.IsEmpty() || !appliedInstanceName.IsEmpty()) {
+        return nullptr;
+    }
+
+    if (subprim.IsEmpty()) {
+        return HdRetainedContainerDataSource::New(
+                HdPhysicsSchemaTokens->physics,
+                _PhysicsMaterialDataSource::New(prim, stageGlobals));
+    }
+
+    return nullptr;
+}
 
 HdDataSourceLocatorSet UsdImagingPhysicsMaterialAPIAdapter::InvalidateImagingSubprim(
         UsdPrim const& prim,
