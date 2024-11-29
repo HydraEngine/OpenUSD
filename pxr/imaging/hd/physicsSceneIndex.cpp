@@ -6,7 +6,8 @@
 
 #include "pxr/imaging/hd/physicsSceneIndex.h"
 #include "pxr/imaging/hd/physicsSchema.h"
-#include "pxr/imaging/hd/meshSchema.h"
+#include "pxr/imaging/hd/primvarsSchema.h"
+#include <pxr/imaging/hd/tokens.h>
 #include <iostream>
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -19,7 +20,7 @@ HdPhysicsSceneIndex::HdPhysicsSceneIndex(const HdSceneIndexBaseRefPtr &inputScen
     : HdSingleInputFilteringSceneIndexBase(inputSceneIndex) {}
 
 void HdPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
-                                        const HdSceneIndexObserver::AddedPrimEntries &entries) {
+                                      const HdSceneIndexObserver::AddedPrimEntries &entries) {
     if (!_IsObserved()) {
         return;
     }
@@ -27,8 +28,8 @@ void HdPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
     for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
         auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
         HdPhysicsSchema physicsSchema = HdPhysicsSchema::GetFromParent(prim.dataSource);
-        HdMeshSchema meshSchema = HdMeshSchema::GetFromParent(prim.dataSource);
-        if (physicsSchema && meshSchema) {
+        HdPrimvarsSchema primVarsSchema = HdPrimvarsSchema::GetFromParent(prim.dataSource);
+        if (physicsSchema && primVarsSchema) {
             std::cout << "Density: \t" << physicsSchema.GetDensity()->GetTypedValue(0) << std::endl;
             std::cout << "Restitution: \t" << physicsSchema.GetRestitution()->GetTypedValue(0) << std::endl;
             std::cout << "DynamicFriction: \t" << physicsSchema.GetDynamicFriction()->GetTypedValue(0) << std::endl;
@@ -39,17 +40,30 @@ void HdPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
 }
 
 void HdPhysicsSceneIndex::_PrimsRemoved(const HdSceneIndexBase &sender,
-                                          const HdSceneIndexObserver::RemovedPrimEntries &entries) {
+                                        const HdSceneIndexObserver::RemovedPrimEntries &entries) {
     _SendPrimsRemoved(entries);
 }
 
 void HdPhysicsSceneIndex::_PrimsDirtied(const HdSceneIndexBase &sender,
-                                          const HdSceneIndexObserver::DirtiedPrimEntries &entries) {
+                                        const HdSceneIndexObserver::DirtiedPrimEntries &entries) {
     _SendPrimsDirtied(entries);
 }
 
 HdSceneIndexPrim HdPhysicsSceneIndex::GetPrim(const SdfPath &primPath) const {
     HdSceneIndexPrim prim = _GetInputSceneIndex()->GetPrim(primPath);
+    if (prim.dataSource) {
+        HdPrimvarsSchema depPrimVarsSchema = HdPrimvarsSchema::GetFromParent(prim.dataSource);
+        if (depPrimVarsSchema) {
+            HdPrimvarSchema depPrimVar = depPrimVarsSchema.GetPrimvar(HdTokens->points);
+            if (depPrimVar) {
+                HdSampledDataSourceHandle valueDataSource = depPrimVar.GetPrimvarValue();
+                auto pointsVt = valueDataSource->GetValue(0.f);
+                const auto &outVertices = pointsVt.UncheckedGet<VtArray<GfVec3f>>();
+                std::cout << "Mesh Vertex Count: " << outVertices.size() << "\n";
+            }
+        }
+    }
+
     return prim;
 }
 
