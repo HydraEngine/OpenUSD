@@ -2,3 +2,7 @@
 .DS_Store
 .AppleDouble
 
+.idea
+build_scripts
+cmake-build-debug
+cmake-build-release
