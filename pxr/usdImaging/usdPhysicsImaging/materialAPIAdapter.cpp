@@ -14,8 +14,6 @@
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-TF_DEFINE_PRIVATE_TOKENS(_tokens, (density)(restitution)(dynamicFriction)(staticFriction));
-
 TF_REGISTRY_FUNCTION(TfType) {
     typedef UsdImagingPhysicsMaterialAPIAdapter Adapter;
     TfType t = TfType::Define<Adapter, TfType::Bases<Adapter::BaseAdapter>>();
@@ -32,10 +30,10 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                _tokens->density,          //
-                _tokens->restitution,      //
-                _tokens->dynamicFriction,  //
-                _tokens->staticFriction    //
+                HdPhysicsSchemaTokens->density,          //
+                HdPhysicsSchemaTokens->restitution,      //
+                HdPhysicsSchemaTokens->dynamicFriction,  //
+                HdPhysicsSchemaTokens->staticFriction    //
         };
 
         return names;
@@ -43,25 +41,25 @@ public:
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
         float v;
-        if (name == _tokens->density) {
+        if (name == HdPhysicsSchemaTokens->density) {
             if (UsdAttribute attr = _api.GetDensityAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == _tokens->restitution) {
+        } else if (name == HdPhysicsSchemaTokens->restitution) {
             if (UsdAttribute attr = _api.GetRestitutionAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == _tokens->dynamicFriction) {
+        } else if (name == HdPhysicsSchemaTokens->dynamicFriction) {
             if (UsdAttribute attr = _api.GetDynamicFrictionAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == _tokens->staticFriction) {
+        } else if (name == HdPhysicsSchemaTokens->staticFriction) {
             if (UsdAttribute attr = _api.GetStaticFrictionAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
