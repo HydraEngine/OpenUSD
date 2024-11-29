@@ -30,7 +30,16 @@ public:
     _PhysicsMaterialDataSource(const UsdPrim& prim, const UsdImagingDataSourceStageGlobals& stageGlobals)
         : _api(prim), _stageGlobals(stageGlobals) {}
 
-    TfTokenVector GetNames() override { return _GetNames(); }
+    TfTokenVector GetNames() override {
+        static const TfTokenVector names = {
+                _tokens->density,          //
+                _tokens->restitution,      //
+                _tokens->dynamicFriction,  //
+                _tokens->staticFriction    //
+        };
+
+        return names;
+    }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
         float v;
@@ -63,22 +72,6 @@ public:
     }
 
 private:
-    static const TfTokenVector& _GetNames() {
-        // Light linking fields 'lightLink' and 'shadowLink' that provide the
-        // category ID for the corresponding collection  are computed by a
-        // scene index downstream.
-        // The collections are transported by collectionAPIAdapter.
-        //
-        static const TfTokenVector names = {
-                _tokens->density,          //
-                _tokens->restitution,      //
-                _tokens->dynamicFriction,  //
-                _tokens->staticFriction    //
-        };
-
-        return names;
-    }
-
     UsdPhysicsMaterialAPI _api;
     const UsdImagingDataSourceStageGlobals& _stageGlobals;
 };
@@ -94,9 +87,8 @@ HdContainerDataSourceHandle UsdImagingPhysicsMaterialAPIAdapter::GetImagingSubpr
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(
-                HdPhysicsSchemaTokens->physics,
-                _PhysicsMaterialDataSource::New(prim, stageGlobals));
+        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physics,
+                                                  _PhysicsMaterialDataSource::New(prim, stageGlobals));
     }
 
     return nullptr;
