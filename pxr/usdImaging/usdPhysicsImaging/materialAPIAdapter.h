@@ -7,29 +7,26 @@
 #pragma once
 
 #include "pxr/usdImaging/usdImaging/apiSchemaAdapter.h"
+#include "api.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-class UsdImagingPhysicsMaterialAPIAdapter : public UsdImagingAPISchemaAdapter
-{
+class UsdImagingPhysicsMaterialAPIAdapter : public UsdImagingAPISchemaAdapter {
 public:
-
     using BaseAdapter = UsdImagingAPISchemaAdapter;
 
-    USDIMAGING_API
-    HdContainerDataSourceHandle GetImagingSubprimData(
-            UsdPrim const& prim,
-            TfToken const& subprim,
-            TfToken const& appliedInstanceName,
-            const UsdImagingDataSourceStageGlobals &stageGlobals) override;
+    USDPHYSICSIMAGING_API
+    HdContainerDataSourceHandle GetImagingSubprimData(UsdPrim const& prim,
+                                                      TfToken const& subprim,
+                                                      TfToken const& appliedInstanceName,
+                                                      const UsdImagingDataSourceStageGlobals& stageGlobals) override;
 
-    USDIMAGING_API
-    HdDataSourceLocatorSet InvalidateImagingSubprim(
-            UsdPrim const& prim,
-            TfToken const& subprim,
-            TfToken const& appliedInstanceName,
-            TfTokenVector const& properties,
-            UsdImagingPropertyInvalidationType invalidationType) override;
+    USDPHYSICSIMAGING_API
+    HdDataSourceLocatorSet InvalidateImagingSubprim(UsdPrim const& prim,
+                                                    TfToken const& subprim,
+                                                    TfToken const& appliedInstanceName,
+                                                    TfTokenVector const& properties,
+                                                    UsdImagingPropertyInvalidationType invalidationType) override;
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE
