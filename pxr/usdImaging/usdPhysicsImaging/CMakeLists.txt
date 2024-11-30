@@ -10,6 +10,8 @@ pxr_library(usdPhysicsImaging
 
     PUBLIC_CLASSES
         materialAPIAdapter
+        sceneAdapter
+
         physicsSchema
         physicsSceneIndex
 
