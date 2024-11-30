@@ -8,8 +8,17 @@
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/base/trace/trace.h"
 #include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
+
+HdBoolDataSourceHandle UsdPhysicsImagingCollisionSchema::GetCollisionEnabled() const {
+    return _GetTypedDataSource<HdBoolDataSource>(UsdPhysicsTokens->physicsCollisionEnabled);
+}
+
+HdPathArrayDataSourceHandle UsdPhysicsImagingCollisionSchema::GetSimulationOwner() const {
+    return _GetTypedDataSource<HdPathArrayDataSource>(UsdPhysicsTokens->physicsSimulationOwner);
+}
 
 UsdPhysicsImagingCollisionSchema UsdPhysicsImagingCollisionSchema::GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer) {
@@ -22,6 +31,18 @@ const TfToken &UsdPhysicsImagingCollisionSchema::GetSchemaToken() { return HdPhy
 
 const HdDataSourceLocator &UsdPhysicsImagingCollisionSchema::GetDefaultLocator() {
     static const HdDataSourceLocator locator(GetSchemaToken());
+    return locator;
+}
+
+const HdDataSourceLocator &UsdPhysicsImagingCollisionSchema::GetCollisionEnabledLocator() {
+    static const HdDataSourceLocator locator(UsdPhysicsImagingCollisionSchema::GetSchemaToken(),
+                                             UsdPhysicsTokens->physicsCollisionEnabled);
+    return locator;
+}
+
+const HdDataSourceLocator &UsdPhysicsImagingCollisionSchema::GetSimulationOwnerLocator() {
+    static const HdDataSourceLocator locator(UsdPhysicsImagingCollisionSchema::GetSchemaToken(),
+                                             UsdPhysicsTokens->physicsSimulationOwner);
     return locator;
 }
 

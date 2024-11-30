@@ -12,6 +12,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/usd/usdPhysics/collisionAPI.h"
 
 #include <iostream>
 
@@ -24,6 +25,31 @@ TF_REGISTRY_FUNCTION(TfType) {
 }
 
 namespace {
+class DependentPrimsDataSource : public HdPathArrayDataSource {
+public:
+    HD_DECLARE_DATASOURCE(DependentPrimsDataSource);
+
+    DependentPrimsDataSource(const UsdRelationship& rel) : _usdRel(rel) {}
+
+    VtValue GetValue(HdSampledDataSource::Time shutterOffset) { return VtValue(GetTypedValue(shutterOffset)); }
+
+    VtArray<SdfPath> GetTypedValue(HdSampledDataSource::Time shutterOffset) {
+        SdfPathVector paths;
+        _usdRel.GetForwardedTargets(&paths);
+        VtArray<SdfPath> vtPaths(paths.begin(), paths.end());
+        return vtPaths;
+    }
+
+    bool GetContributingSampleTimesForInterval(HdSampledDataSource::Time startTime,
+                                               HdSampledDataSource::Time endTime,
+                                               std::vector<HdSampledDataSource::Time>* outSampleTimes) {
+        return false;
+    }
+
+private:
+    UsdRelationship _usdRel;
+};
+
 class _PhysicsCollisionDataSource final : public HdContainerDataSource {
 public:
     HD_DECLARE_DATASOURCE(_PhysicsCollisionDataSource);
@@ -39,7 +65,24 @@ public:
         return names;
     }
 
-    HdDataSourceBaseHandle Get(const TfToken& name) override { return nullptr; }
+    HdDataSourceBaseHandle Get(const TfToken& name) override {
+        if (name == UsdPhysicsTokens->physicsCollisionEnabled) {
+            if (UsdAttribute attr = _api.GetCollisionEnabledAttr()) {
+                bool v;
+                if (attr.Get(&v)) {
+                    return HdRetainedTypedSampledDataSource<bool>::New(v);
+                }
+            }
+        } else if (name == UsdPhysicsTokens->physicsRestitution) {
+            if (UsdRelationship rel = _api.GetSimulationOwnerRel()) {
+                return DependentPrimsDataSource::New(rel);
+            }
+        }
+        return nullptr;
+    }
+
+private:
+    UsdPhysicsCollisionAPI _api;
 };
 }  // namespace
 

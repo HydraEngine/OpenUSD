@@ -23,6 +23,10 @@ public:
 
     UsdPhysicsImagingCollisionSchema(HdContainerDataSourceHandle container) : HdSchema(std::move(container)) {}
 
+    [[nodiscard]] USDPHYSICSIMAGING_API HdBoolDataSourceHandle GetCollisionEnabled() const;
+
+    [[nodiscard]] USDPHYSICSIMAGING_API HdPathArrayDataSourceHandle GetSimulationOwner() const;
+
     /// Retrieves a container data source with the schema's default name token
     /// "light" from the parent container and constructs a
     /// HdLightSchema instance.
@@ -38,6 +42,12 @@ public:
 
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetDefaultLocator();
+
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetCollisionEnabledLocator();
+
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetSimulationOwnerLocator();
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE
