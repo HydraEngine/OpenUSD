@@ -11,6 +11,8 @@
 #include "pxr/usdImaging/usdPhysicsImaging/limitSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
+#include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/usd/usdPhysics/limitAPI.h"
 
 #include <iostream>
 
@@ -27,11 +29,37 @@ class _PhysicsLimitDataSource final : public HdContainerDataSource {
 public:
     HD_DECLARE_DATASOURCE(_PhysicsLimitDataSource);
 
-    _PhysicsLimitDataSource() = default;
+    _PhysicsLimitDataSource(const UsdPrim& prim) : _api(prim) {}
 
-    TfTokenVector GetNames() override { return {}; }
+    TfTokenVector GetNames() override {
+        static const TfTokenVector names = {
+                UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsLow,   //
+                UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsHigh,  //
+        };
 
-    HdDataSourceBaseHandle Get(const TfToken& name) override { return nullptr; }
+        return names;
+    }
+
+    HdDataSourceBaseHandle Get(const TfToken& name) override {
+        float v;
+        if (name == UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsLow) {
+            if (UsdAttribute attr = _api.GetLowAttr()) {
+                if (attr.Get(&v)) {
+                    return HdRetainedTypedSampledDataSource<float>::New(v);
+                }
+            }
+        } else if (name == UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsHigh) {
+            if (UsdAttribute attr = _api.GetHighAttr()) {
+                if (attr.Get(&v)) {
+                    return HdRetainedTypedSampledDataSource<float>::New(v);
+                }
+            }
+        }
+        return nullptr;
+    }
+
+private:
+    UsdPhysicsLimitAPI _api;
 };
 }  // namespace
 
@@ -46,7 +74,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsLimitAPIAdapter::GetImagingSubprimD
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsLimit,
-                                                  _PhysicsLimitDataSource::New());
+                                                  _PhysicsLimitDataSource::New(prim));
     }
 
     return nullptr;

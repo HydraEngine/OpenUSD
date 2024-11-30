@@ -23,14 +23,17 @@ public:
 
     UsdPhysicsImagingLimitSchema(HdContainerDataSourceHandle container) : HdSchema(std::move(container)) {}
 
+    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetLow() const;
+
+    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetHigh() const;
+
     /// Retrieves a container data source with the schema's default name token
     /// "light" from the parent container and constructs a
     /// HdLightSchema instance.
     /// Because the requested container data source may not exist, the result
     /// should be checked with IsDefined() or a bool comparison before use.
     USDPHYSICSIMAGING_API
-    static UsdPhysicsImagingLimitSchema GetFromParent(
-            const HdContainerDataSourceHandle &fromParentContainer);
+    static UsdPhysicsImagingLimitSchema GetFromParent(const HdContainerDataSourceHandle &fromParentContainer);
 
     /// Returns a token where the container representing this schema is found in
     /// a container by default.
@@ -39,6 +42,12 @@ public:
 
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetDefaultLocator();
+
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetLowLocator();
+
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetHighLocator();
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE
