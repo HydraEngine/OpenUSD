@@ -24,6 +24,13 @@
             "isInternal": true,
             "apiSchemaName": "PhysicsCollisionAPI"
           },
+          "UsdImagingPhysicsMeshCollisionAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysicsMeshCollisionAPI"
+          },
           "UsdImagingPhysicsSceneAdapter": {
             "bases": [
               "UsdImagingPrimAdapter"
