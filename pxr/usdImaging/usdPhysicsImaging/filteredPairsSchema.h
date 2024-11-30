@@ -23,6 +23,8 @@ public:
 
     UsdPhysicsImagingFilteredPairsSchema(HdContainerDataSourceHandle container) : HdSchema(std::move(container)) {}
 
+    [[nodiscard]] USDPHYSICSIMAGING_API HdPathArrayDataSourceHandle GetFilteredPairs() const;
+
     /// Retrieves a container data source with the schema's default name token
     /// "light" from the parent container and constructs a
     /// HdLightSchema instance.
@@ -38,6 +40,9 @@ public:
 
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetDefaultLocator();
+
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetFilteredPairsLocator();
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE

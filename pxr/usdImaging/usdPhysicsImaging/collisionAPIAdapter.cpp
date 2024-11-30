@@ -73,7 +73,7 @@ public:
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsRestitution) {
+        } else if (name == UsdPhysicsTokens->physicsSimulationOwner) {
             if (UsdRelationship rel = _api.GetSimulationOwnerRel()) {
                 return DependentPrimsDataSource::New(rel);
             }

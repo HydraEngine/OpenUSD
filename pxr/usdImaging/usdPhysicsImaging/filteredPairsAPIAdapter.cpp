@@ -11,6 +11,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/filteredPairsSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
+#include "pxr/usd/usdPhysics/filteredPairsAPI.h"
 
 #include <iostream>
 
@@ -23,16 +24,58 @@ TF_REGISTRY_FUNCTION(TfType) {
 }
 
 namespace {
+class DependentPrimsDataSource : public HdPathArrayDataSource {
+public:
+    HD_DECLARE_DATASOURCE(DependentPrimsDataSource);
+
+    DependentPrimsDataSource(const UsdRelationship& rel) : _usdRel(rel) {}
+
+    VtValue GetValue(HdSampledDataSource::Time shutterOffset) { return VtValue(GetTypedValue(shutterOffset)); }
+
+    VtArray<SdfPath> GetTypedValue(HdSampledDataSource::Time shutterOffset) {
+        SdfPathVector paths;
+        _usdRel.GetForwardedTargets(&paths);
+        VtArray<SdfPath> vtPaths(paths.begin(), paths.end());
+        return vtPaths;
+    }
+
+    bool GetContributingSampleTimesForInterval(HdSampledDataSource::Time startTime,
+                                               HdSampledDataSource::Time endTime,
+                                               std::vector<HdSampledDataSource::Time>* outSampleTimes) {
+        return false;
+    }
+
+private:
+    UsdRelationship _usdRel;
+};
+
 class _PhysicsFilteredPairsDataSource final : public HdContainerDataSource {
 public:
     HD_DECLARE_DATASOURCE(_PhysicsFilteredPairsDataSource);
 
-    _PhysicsFilteredPairsDataSource() = default;
+    _PhysicsFilteredPairsDataSource(const UsdPrim& prim) : _api(prim) {}
 
-    TfTokenVector GetNames() override { return {}; }
+    TfTokenVector GetNames() override {
+        static const TfTokenVector names = {
+                UsdPhysicsTokens->physicsFilteredPairs,  //
+        };
 
-    HdDataSourceBaseHandle Get(const TfToken& name) override { return nullptr; }
+        return names;
+    }
+
+    HdDataSourceBaseHandle Get(const TfToken& name) override {
+        if (name == UsdPhysicsTokens->physicsFilteredPairs) {
+            if (UsdRelationship rel = _api.GetFilteredPairsRel()) {
+                return DependentPrimsDataSource::New(rel);
+            }
+        }
+        return nullptr;
+    }
+
+private:
+    UsdPhysicsFilteredPairsAPI _api;
 };
+
 }  // namespace
 
 HdContainerDataSourceHandle UsdImagingPhysicsFilteredPairsAPIAdapter::GetImagingSubprimData(
@@ -46,7 +89,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsFilteredPairsAPIAdapter::GetImaging
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsFilteredPairs,
-                                                  _PhysicsFilteredPairsDataSource::New());
+                                                  _PhysicsFilteredPairsDataSource::New(prim));
     }
 
     return nullptr;
