@@ -12,9 +12,10 @@ pxr_library(usdPhysicsImaging
         tokens
         materialSchema
         materialAPIAdapter
-
         sceneSchema
         sceneAdapter
+        articulationSchema
+        articulationAPIAdapter
 
         physicsSceneIndex
 

@@ -31,7 +31,9 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         UsdPhysicsImagingMaterialSchema materialSchema =
                 UsdPhysicsImagingMaterialSchema::GetFromParent(prim.dataSource);
         HdPrimvarsSchema primVarsSchema = HdPrimvarsSchema::GetFromParent(prim.dataSource);
+
         if (materialSchema && primVarsSchema) {
+            std::cout << entry.primPath << std::endl;
             std::cout << "Density: \t" << materialSchema.GetDensity()->GetTypedValue(0) << std::endl;
             std::cout << "Restitution: \t" << materialSchema.GetRestitution()->GetTypedValue(0) << std::endl;
             std::cout << "DynamicFriction: \t" << materialSchema.GetDynamicFriction()->GetTypedValue(0) << std::endl;
@@ -40,6 +42,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
 
         UsdPhysicsImagingSceneSchema sceneSchema = UsdPhysicsImagingSceneSchema::GetFromParent(prim.dataSource);
         if (sceneSchema) {
+            std::cout << entry.primPath << std::endl;
             std::cout << "GravityMagnitude: \t" << sceneSchema.GetGravityMagnitude()->GetTypedValue(0) << std::endl;
             auto dir = sceneSchema.GetGravityDirection()->GetTypedValue(0);
             std::cout << "GravityDir: \t" << dir[0] << "\t" << dir[1] << "\t" << dir[2] << std::endl;

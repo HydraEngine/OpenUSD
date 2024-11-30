@@ -30,7 +30,6 @@ public:
 
     _PhysicsMaterialDataSource(const UsdPrim& prim, const UsdImagingDataSourceStageGlobals& stageGlobals)
         : _api(prim), _stageGlobals(stageGlobals) {
-        std::cout << "oooo" << std::endl;
     }
 
     TfTokenVector GetNames() override {
