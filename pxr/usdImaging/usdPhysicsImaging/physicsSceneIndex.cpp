@@ -8,6 +8,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/collisionSchema.h"
+#include "pxr/imaging/hd/cubeSchema.h"
 #include "pxr/imaging/hd/primvarsSchema.h"
 #include <pxr/imaging/hd/tokens.h>
 #include <iostream>
@@ -73,6 +74,11 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             std::cout << "Restitution: \t" << materialSchema.GetRestitution()->GetTypedValue(0) << std::endl;
             std::cout << "DynamicFriction: \t" << materialSchema.GetDynamicFriction()->GetTypedValue(0) << std::endl;
             std::cout << "StaticFriction: \t" << materialSchema.GetStaticFriction()->GetTypedValue(0) << std::endl;
+        }
+
+        HdCubeSchema cubeSchema = HdCubeSchema::GetFromParent(prim.dataSource);
+        if (cubeSchema) {
+            std::cout << entry.primPath << "\t" << "is Cube" << std::endl;
         }
 
         UsdPhysicsImagingCollisionSchema collisionSchema =

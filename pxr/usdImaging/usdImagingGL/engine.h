@@ -63,6 +63,7 @@ TF_DECLARE_REF_PTRS(HdsiLegacyDisplayStyleOverrideSceneIndex);
 TF_DECLARE_REF_PTRS(HdsiPrimTypePruningSceneIndex);
 TF_DECLARE_REF_PTRS(HdsiSceneGlobalsSceneIndex);
 TF_DECLARE_REF_PTRS(HdSceneIndexBase);
+TF_DECLARE_REF_PTRS(UsdImagingPhysicsSceneIndex);
 
 using UsdStageWeakPtr = TfWeakPtr<class UsdStage>;
 
@@ -746,9 +747,6 @@ private:
     static HdSceneIndexBaseRefPtr _AppendSceneGlobalsSceneIndexCallback(const std::string& renderInstanceId,
                                                                         const HdSceneIndexBaseRefPtr& inputScene,
                                                                         const HdContainerDataSourceHandle& inputArgs);
-    static HdSceneIndexBaseRefPtr _AppendPhysicsSceneIndexCallback(const std::string& renderInstanceId,
-                                                                   const HdSceneIndexBaseRefPtr& inputScene,
-                                                                   const HdContainerDataSourceHandle& inputArgs);
 
     HdSceneIndexBaseRefPtr _AppendOverridesSceneIndices(const HdSceneIndexBaseRefPtr& inputScene);
 
@@ -765,6 +763,7 @@ private:
     HdsiPrimTypePruningSceneIndexRefPtr _materialPruningSceneIndex;
     HdsiPrimTypePruningSceneIndexRefPtr _lightPruningSceneIndex;
     HdSceneIndexBaseRefPtr _sceneIndex;
+    UsdImagingPhysicsSceneIndexRefPtr _physicsSceneIndex;
 
     std::unique_ptr<UsdImagingDelegate> _sceneDelegate;
 

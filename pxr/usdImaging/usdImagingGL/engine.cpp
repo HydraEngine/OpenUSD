@@ -59,7 +59,6 @@ namespace UsdImagingGLEngine_Impl {
 // scene index plugin registration callback facility.
 struct _AppSceneIndices {
     HdsiSceneGlobalsSceneIndexRefPtr sceneGlobalsSceneIndex;
-    UsdImagingPhysicsSceneIndexRefPtr physicsSceneIndex;
 };
 
 };  // namespace UsdImagingGLEngine_Impl
@@ -928,24 +927,6 @@ void UsdImagingGLEngine::_RegisterApplicationSceneIndices() {
                 &UsdImagingGLEngine::_AppendSceneGlobalsSceneIndexCallback,
                 /* inputArgs = */ nullptr, insertionPhase, HdSceneIndexPluginRegistry::InsertionOrderAtStart);
     }
-
-    // Physics SI
-    {
-        // Insert earlier so downstream scene indices can query and be notified
-        // of changes and also declare their dependencies (e.g., to support
-        // rendering color spaces).
-        const HdSceneIndexPluginRegistry::InsertionPhase insertionPhase = 1000;
-
-        // Note:
-        // The pattern used below registers the static member fn as a callback,
-        // which retreives the scene index instance using the
-        // renderInstanceId argument of the callback.
-
-        HdSceneIndexPluginRegistry::GetInstance().RegisterSceneIndexForRenderer(
-                std::string(),  // empty string implies all renderers
-                &UsdImagingGLEngine::_AppendPhysicsSceneIndexCallback,
-                /* inputArgs = */ nullptr, insertionPhase, HdSceneIndexPluginRegistry::InsertionOrderAtStart);
-    }
 }
 
 /* static */
@@ -960,24 +941,6 @@ HdSceneIndexBaseRefPtr UsdImagingGLEngine::_AppendSceneGlobalsSceneIndexCallback
         auto &sgsi = appSceneIndices->sceneGlobalsSceneIndex;
         sgsi = HdsiSceneGlobalsSceneIndex::New(inputScene);
         sgsi->SetDisplayName("Scene Globals Scene Index");
-        return sgsi;
-    }
-
-    TF_CODING_ERROR("Did not find appSceneIndices instance for %s,", renderInstanceId.c_str());
-    return inputScene;
-}
-
-HdSceneIndexBaseRefPtr UsdImagingGLEngine::_AppendPhysicsSceneIndexCallback(
-        const std::string &renderInstanceId,
-        const HdSceneIndexBaseRefPtr &inputScene,
-        const HdContainerDataSourceHandle &inputArgs) {
-    UsdImagingGLEngine_Impl::_AppSceneIndicesSharedPtr appSceneIndices =
-            s_renderInstanceTracker->GetInstance(renderInstanceId);
-
-    if (appSceneIndices) {
-        auto &sgsi = appSceneIndices->physicsSceneIndex;
-        sgsi = UsdImagingPhysicsSceneIndex::New(inputScene);
-        sgsi->SetDisplayName("Physics Scene Index");
         return sgsi;
     }
 
@@ -1059,6 +1022,7 @@ void UsdImagingGLEngine::_SetRenderDelegate(HdPluginRenderDelegateUniqueHandle &
         _sceneIndex = sceneIndices.finalSceneIndex;
 
         _sceneIndex = _displayStyleSceneIndex = HdsiLegacyDisplayStyleOverrideSceneIndex::New(_sceneIndex);
+        _sceneIndex = _physicsSceneIndex = UsdImagingPhysicsSceneIndex::New(_sceneIndex);
 
         _renderIndex->InsertSceneIndex(_sceneIndex, _sceneDelegateId);
     } else {
