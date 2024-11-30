@@ -20,7 +20,8 @@ PXR_NAMESPACE_OPEN_SCOPE
 // --(BEGIN CUSTOM CODE: Declares)--
 // --(END CUSTOM CODE: Declares)--
 
-#define HD_PHYSICS_SCHEMA_TOKENS (physics)(density)(restitution)(dynamicFriction)(staticFriction)
+#define HD_PHYSICS_SCHEMA_TOKENS \
+    (physics)(density)(restitution)(dynamicFriction)(staticFriction)(gravityMagnitude)(gravityDirection)
 
 TF_DECLARE_PUBLIC_TOKENS(HdPhysicsSchemaTokens, USDPHYSICSIMAGING_API, HD_PHYSICS_SCHEMA_TOKENS);
 
@@ -43,6 +44,10 @@ public:
 
     [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetStaticFriction() const;
 
+    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetGravityMagnitude() const;
+
+    [[nodiscard]] USDPHYSICSIMAGING_API HdVec3fDataSourceHandle GetGravityDirection() const;
+
     /// Retrieves a container data source with the schema's default name token
     /// "light" from the parent container and constructs a
     /// HdLightSchema instance.
@@ -56,38 +61,26 @@ public:
     USDPHYSICSIMAGING_API
     static const TfToken &GetSchemaToken();
 
-    /// Returns an HdDataSourceLocator (relative to the prim-level data source)
-    /// where the container representing this schema is found by default.
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetDefaultLocator();
 
-    /// Returns an HdDataSourceLocator (relative to the prim-level data source)
-    /// where the source file can be found.
-    /// This is often useful for checking intersection against the
-    /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetDensityLocator();
 
-    /// Returns an HdDataSourceLocator (relative to the prim-level data source)
-    /// where the source file can be found.
-    /// This is often useful for checking intersection against the
-    /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetRestitutionLocator();
 
-    /// Returns an HdDataSourceLocator (relative to the prim-level data source)
-    /// where the dependent prims.
-    /// This is often useful for checking intersection against the
-    /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetDynamicFrictionLocator();
 
-    /// Returns an HdDataSourceLocator (relative to the prim-level data source)
-    /// where the simulation params can be found.
-    /// This is often useful for checking intersection against the
-    /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetStaticFrictionLocator();
+
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetGravityMagnitudeLocator();
+
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetGravityDirectionLocator();
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE

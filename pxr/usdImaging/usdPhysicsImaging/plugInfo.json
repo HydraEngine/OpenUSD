@@ -9,6 +9,13 @@
                         ],
                         "isInternal": true,
                         "apiSchemaName": "PhysicsMaterialAPI"
+                    },
+                    "UsdImagingPhysicsSceneAdapter": {
+                        "bases": [
+                            "UsdImagingPrimAdapter"
+                        ],
+                        "isInternal": true,
+                        "primTypeName": "PhysicsScene"
                     }
                 }
             },

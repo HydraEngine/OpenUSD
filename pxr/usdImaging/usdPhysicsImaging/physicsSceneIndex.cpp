@@ -20,7 +20,7 @@ UsdImagingPhysicsSceneIndex::UsdImagingPhysicsSceneIndex(const HdSceneIndexBaseR
     : HdSingleInputFilteringSceneIndexBase(inputSceneIndex) {}
 
 void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
-                                      const HdSceneIndexObserver::AddedPrimEntries &entries) {
+                                              const HdSceneIndexObserver::AddedPrimEntries &entries) {
     if (!_IsObserved()) {
         return;
     }
@@ -40,12 +40,12 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
 }
 
 void UsdImagingPhysicsSceneIndex::_PrimsRemoved(const HdSceneIndexBase &sender,
-                                        const HdSceneIndexObserver::RemovedPrimEntries &entries) {
+                                                const HdSceneIndexObserver::RemovedPrimEntries &entries) {
     _SendPrimsRemoved(entries);
 }
 
 void UsdImagingPhysicsSceneIndex::_PrimsDirtied(const HdSceneIndexBase &sender,
-                                        const HdSceneIndexObserver::DirtiedPrimEntries &entries) {
+                                                const HdSceneIndexObserver::DirtiedPrimEntries &entries) {
     _SendPrimsDirtied(entries);
 }
 
