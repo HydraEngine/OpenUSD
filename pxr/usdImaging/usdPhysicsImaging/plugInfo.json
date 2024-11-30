@@ -10,13 +10,6 @@
             "isInternal": true,
             "apiSchemaName": "PhysicsMaterialAPI"
           },
-          "UsdImagingPhysicsArticulationRootAPIAdapter": {
-            "bases": [
-              "UsdImagingAPISchemaAdapter"
-            ],
-            "isInternal": true,
-            "apiSchemaName": "PhysicsArticulationRootAPI"
-          },
           "UsdImagingPhysicsCollisionAPIAdapter": {
             "bases": [
               "UsdImagingAPISchemaAdapter"
@@ -30,6 +23,48 @@
             ],
             "isInternal": true,
             "apiSchemaName": "PhysicsMeshCollisionAPI"
+          },
+          "UsdImagingPhysicsMassAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysicsMassAPI"
+          },
+          "UsdImagingPhysicsRigidBodyAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysicsRigidBodyAPI"
+          },
+          "UsdImagingPhysicsArticulationRootAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysicsArticulationRootAPI"
+          },
+          "UsdImagingPhysicsDriveAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysicsDriveAPI"
+          },
+          "UsdImagingPhysicsLimitAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysicsLimitAPI"
+          },
+          "UsdImagingPhysicsFilteredPairsAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysicsFilteredPairsAPI"
           },
           "UsdImagingPhysicsSceneAdapter": {
             "bases": [

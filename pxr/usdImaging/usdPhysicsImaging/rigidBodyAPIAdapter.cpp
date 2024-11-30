@@ -25,34 +25,89 @@ TF_REGISTRY_FUNCTION(TfType) {
 }
 
 namespace {
+class DependentPrimsDataSource : public HdPathArrayDataSource {
+public:
+    HD_DECLARE_DATASOURCE(DependentPrimsDataSource);
+
+    DependentPrimsDataSource(const UsdRelationship& rel) : _usdRel(rel) {}
+
+    VtValue GetValue(HdSampledDataSource::Time shutterOffset) { return VtValue(GetTypedValue(shutterOffset)); }
+
+    VtArray<SdfPath> GetTypedValue(HdSampledDataSource::Time shutterOffset) {
+        SdfPathVector paths;
+        _usdRel.GetForwardedTargets(&paths);
+        VtArray<SdfPath> vtPaths(paths.begin(), paths.end());
+        return vtPaths;
+    }
+
+    bool GetContributingSampleTimesForInterval(HdSampledDataSource::Time startTime,
+                                               HdSampledDataSource::Time endTime,
+                                               std::vector<HdSampledDataSource::Time>* outSampleTimes) {
+        return false;
+    }
+
+private:
+    UsdRelationship _usdRel;
+};
+
 class _PhysicsRigidBodyDataSource final : public HdContainerDataSource {
 public:
     HD_DECLARE_DATASOURCE(_PhysicsRigidBodyDataSource);
 
-    _PhysicsRigidBodyDataSource(const UsdPrim& prim) : _api(prim) {}
+    explicit _PhysicsRigidBodyDataSource(const UsdPrim& prim) : _api(prim) {}
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsLow,   //
-                UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsHigh,  //
+                UsdPhysicsTokens->physicsRigidBodyEnabled,  //
+                UsdPhysicsTokens->physicsKinematicEnabled,  //
+                UsdPhysicsTokens->physicsStartsAsleep,      //
+                UsdPhysicsTokens->physicsVelocity,          //
+                UsdPhysicsTokens->physicsAngularVelocity,   //
+                UsdPhysicsTokens->physicsSimulationOwner,   //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        float v;
-        if (name == UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsLow) {
-            if (UsdAttribute attr = _api.GetLowAttr()) {
+        if (name == UsdPhysicsTokens->physicsRigidBodyEnabled) {
+            if (UsdAttribute attr = _api.GetRigidBodyEnabledAttr()) {
+                bool v;
                 if (attr.Get(&v)) {
-                    return HdRetainedTypedSampledDataSource<float>::New(v);
+                    return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsHigh) {
-            if (UsdAttribute attr = _api.GetHighAttr()) {
+        } else if (name == UsdPhysicsTokens->physicsKinematicEnabled) {
+            if (UsdAttribute attr = _api.GetKinematicEnabledAttr()) {
+                bool v;
                 if (attr.Get(&v)) {
-                    return HdRetainedTypedSampledDataSource<float>::New(v);
+                    return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
+            }
+        } else if (name == UsdPhysicsTokens->physicsStartsAsleep) {
+            if (UsdAttribute attr = _api.GetStartsAsleepAttr()) {
+                bool v;
+                if (attr.Get(&v)) {
+                    return HdRetainedTypedSampledDataSource<bool>::New(v);
+                }
+            }
+        } else if (name == UsdPhysicsTokens->physicsVelocity) {
+            if (UsdAttribute attr = _api.GetVelocityAttr()) {
+                GfVec3f v{};
+                if (attr.Get(&v)) {
+                    return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
+                }
+            }
+        } else if (name == UsdPhysicsTokens->physicsAngularVelocity) {
+            if (UsdAttribute attr = _api.GetAngularVelocityAttr()) {
+                GfVec3f v{};
+                if (attr.Get(&v)) {
+                    return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
+                }
+            }
+        } else if (name == UsdPhysicsTokens->physicsSimulationOwner) {
+            if (UsdRelationship rel = _api.GetSimulationOwnerRel()) {
+                return DependentPrimsDataSource::New(rel);
             }
         }
         return nullptr;

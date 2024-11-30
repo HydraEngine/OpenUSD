@@ -15,16 +15,27 @@ PXR_NAMESPACE_OPEN_SCOPE
 UsdPhysicsImagingRigidBodySchema UsdPhysicsImagingRigidBodySchema::GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer) {
     return UsdPhysicsImagingRigidBodySchema(fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(
-                                                                      HdPhysicsSchemaTokens->physicsRigidBody))
-                                                            : nullptr);
+                                                                          HdPhysicsSchemaTokens->physicsRigidBody))
+                                                                : nullptr);
 }
 
-HdFloatDataSourceHandle UsdPhysicsImagingRigidBodySchema::GetLow() const {
-    return _GetTypedDataSource<HdFloatDataSource>(UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsLow);
+HdBoolDataSourceHandle UsdPhysicsImagingRigidBodySchema::GetRigidBodyEnabled() const {
+    return _GetTypedDataSource<HdBoolDataSource>(UsdPhysicsTokens->physicsRigidBodyEnabled);
 }
-
-HdFloatDataSourceHandle UsdPhysicsImagingRigidBodySchema::GetHigh() const {
-    return _GetTypedDataSource<HdFloatDataSource>(UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsHigh);
+HdBoolDataSourceHandle UsdPhysicsImagingRigidBodySchema::GetKinematicEnabled() const {
+    return _GetTypedDataSource<HdBoolDataSource>(UsdPhysicsTokens->physicsKinematicEnabled);
+}
+HdBoolDataSourceHandle UsdPhysicsImagingRigidBodySchema::GetStartsAsleep() const {
+    return _GetTypedDataSource<HdBoolDataSource>(UsdPhysicsTokens->physicsStartsAsleep);
+}
+HdVec3fDataSourceHandle UsdPhysicsImagingRigidBodySchema::GetVelocity() const {
+    return _GetTypedDataSource<HdVec3fDataSource>(UsdPhysicsTokens->physicsVelocity);
+}
+HdVec3fDataSourceHandle UsdPhysicsImagingRigidBodySchema::GetAngularVelocity() const {
+    return _GetTypedDataSource<HdVec3fDataSource>(UsdPhysicsTokens->physicsAngularVelocity);
+}
+HdPathArrayDataSourceHandle UsdPhysicsImagingRigidBodySchema::GetSimulationOwner() const {
+    return _GetTypedDataSource<HdPathArrayDataSource>(UsdPhysicsTokens->physicsSimulationOwner);
 }
 
 const TfToken &UsdPhysicsImagingRigidBodySchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsLimit; }
@@ -34,15 +45,34 @@ const HdDataSourceLocator &UsdPhysicsImagingRigidBodySchema::GetDefaultLocator()
     return locator;
 }
 
-const HdDataSourceLocator &UsdPhysicsImagingRigidBodySchema::GetLowLocator() {
+const HdDataSourceLocator &UsdPhysicsImagingRigidBodySchema::GetRigidBodyEnabledLocator() {
     static const HdDataSourceLocator locator(UsdPhysicsImagingRigidBodySchema::GetSchemaToken(),
-                                             UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsLow);
+                                             UsdPhysicsTokens->physicsRigidBodyEnabled);
     return locator;
 }
-
-const HdDataSourceLocator &UsdPhysicsImagingRigidBodySchema::GetHighLocator() {
+const HdDataSourceLocator &UsdPhysicsImagingRigidBodySchema::GetKinematicEnabledLocator() {
     static const HdDataSourceLocator locator(UsdPhysicsImagingRigidBodySchema::GetSchemaToken(),
-                                             UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsHigh);
+                                             UsdPhysicsTokens->physicsKinematicEnabled);
+    return locator;
+}
+const HdDataSourceLocator &UsdPhysicsImagingRigidBodySchema::GetStartsAsleepLocator() {
+    static const HdDataSourceLocator locator(UsdPhysicsImagingRigidBodySchema::GetSchemaToken(),
+                                             UsdPhysicsTokens->physicsStartsAsleep);
+    return locator;
+}
+const HdDataSourceLocator &UsdPhysicsImagingRigidBodySchema::GetVelocityLocator() {
+    static const HdDataSourceLocator locator(UsdPhysicsImagingRigidBodySchema::GetSchemaToken(),
+                                             UsdPhysicsTokens->physicsVelocity);
+    return locator;
+}
+const HdDataSourceLocator &UsdPhysicsImagingRigidBodySchema::GetAngularVelocityLocator() {
+    static const HdDataSourceLocator locator(UsdPhysicsImagingRigidBodySchema::GetSchemaToken(),
+                                             UsdPhysicsTokens->physicsAngularVelocity);
+    return locator;
+}
+const HdDataSourceLocator &UsdPhysicsImagingRigidBodySchema::GetSimulationOwnerLocator() {
+    static const HdDataSourceLocator locator(UsdPhysicsImagingRigidBodySchema::GetSchemaToken(),
+                                             UsdPhysicsTokens->physicsSimulationOwner);
     return locator;
 }
 

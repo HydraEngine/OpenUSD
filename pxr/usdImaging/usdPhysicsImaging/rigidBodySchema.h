@@ -23,9 +23,12 @@ public:
 
     UsdPhysicsImagingRigidBodySchema(HdContainerDataSourceHandle container) : HdSchema(std::move(container)) {}
 
-    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetLow() const;
-
-    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetHigh() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdBoolDataSourceHandle GetRigidBodyEnabled() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdBoolDataSourceHandle GetKinematicEnabled() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdBoolDataSourceHandle GetStartsAsleep() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdVec3fDataSourceHandle GetVelocity() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdVec3fDataSourceHandle GetAngularVelocity() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdPathArrayDataSourceHandle GetSimulationOwner() const;
 
     /// Retrieves a container data source with the schema's default name token
     /// "light" from the parent container and constructs a
@@ -44,10 +47,17 @@ public:
     static const HdDataSourceLocator &GetDefaultLocator();
 
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetLowLocator();
-
+    static const HdDataSourceLocator &GetRigidBodyEnabledLocator();
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetHighLocator();
+    static const HdDataSourceLocator &GetKinematicEnabledLocator();
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetStartsAsleepLocator();
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetVelocityLocator();
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetAngularVelocityLocator();
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetSimulationOwnerLocator();
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE
