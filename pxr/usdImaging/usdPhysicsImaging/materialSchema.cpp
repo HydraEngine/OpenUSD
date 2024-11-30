@@ -8,23 +8,24 @@
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/base/trace/trace.h"
 #include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
 HdFloatDataSourceHandle UsdPhysicsImagingMaterialSchema::GetDensity() const {
-    return _GetTypedDataSource<HdFloatDataSource>(HdPhysicsSchemaTokens->density);
+    return _GetTypedDataSource<HdFloatDataSource>(UsdPhysicsTokens->physicsDensity);
 }
 
 HdFloatDataSourceHandle UsdPhysicsImagingMaterialSchema::GetRestitution() const {
-    return _GetTypedDataSource<HdFloatDataSource>(HdPhysicsSchemaTokens->restitution);
+    return _GetTypedDataSource<HdFloatDataSource>(UsdPhysicsTokens->physicsRestitution);
 }
 
 HdFloatDataSourceHandle UsdPhysicsImagingMaterialSchema::GetDynamicFriction() const {
-    return _GetTypedDataSource<HdFloatDataSource>(HdPhysicsSchemaTokens->dynamicFriction);
+    return _GetTypedDataSource<HdFloatDataSource>(UsdPhysicsTokens->physicsDynamicFriction);
 }
 
 HdFloatDataSourceHandle UsdPhysicsImagingMaterialSchema::GetStaticFriction() const {
-    return _GetTypedDataSource<HdFloatDataSource>(HdPhysicsSchemaTokens->staticFriction);
+    return _GetTypedDataSource<HdFloatDataSource>(UsdPhysicsTokens->physicsStaticFriction);
 }
 
 UsdPhysicsImagingMaterialSchema UsdPhysicsImagingMaterialSchema::GetFromParent(
@@ -43,25 +44,25 @@ const HdDataSourceLocator &UsdPhysicsImagingMaterialSchema::GetDefaultLocator() 
 
 const HdDataSourceLocator &UsdPhysicsImagingMaterialSchema::GetDensityLocator() {
     static const HdDataSourceLocator locator(UsdPhysicsImagingMaterialSchema::GetSchemaToken(),
-                                             HdPhysicsSchemaTokens->density);
+                                             UsdPhysicsTokens->physicsDensity);
     return locator;
 }
 
 const HdDataSourceLocator &UsdPhysicsImagingMaterialSchema::GetRestitutionLocator() {
     static const HdDataSourceLocator locator(UsdPhysicsImagingMaterialSchema::GetSchemaToken(),
-                                             HdPhysicsSchemaTokens->restitution);
+                                             UsdPhysicsTokens->physicsRestitution);
     return locator;
 }
 
 const HdDataSourceLocator &UsdPhysicsImagingMaterialSchema::GetDynamicFrictionLocator() {
     static const HdDataSourceLocator locator(UsdPhysicsImagingMaterialSchema::GetSchemaToken(),
-                                             HdPhysicsSchemaTokens->dynamicFriction);
+                                             UsdPhysicsTokens->physicsDynamicFriction);
     return locator;
 }
 
 const HdDataSourceLocator &UsdPhysicsImagingMaterialSchema::GetStaticFrictionLocator() {
     static const HdDataSourceLocator locator(UsdPhysicsImagingMaterialSchema::GetSchemaToken(),
-                                             HdPhysicsSchemaTokens->staticFriction);
+                                             UsdPhysicsTokens->physicsStaticFriction);
     return locator;
 }
 

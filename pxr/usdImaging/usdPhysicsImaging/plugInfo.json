@@ -17,6 +17,13 @@
             "isInternal": true,
             "apiSchemaName": "PhysicsArticulationRootAPI"
           },
+          "UsdImagingPhysicsCollisionAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysicsCollisionAPI"
+          },
           "UsdImagingPhysicsSceneAdapter": {
             "bases": [
               "UsdImagingPrimAdapter"

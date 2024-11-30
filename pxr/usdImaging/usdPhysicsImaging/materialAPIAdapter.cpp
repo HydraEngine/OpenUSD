@@ -34,10 +34,10 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                HdPhysicsSchemaTokens->density,          //
-                HdPhysicsSchemaTokens->restitution,      //
-                HdPhysicsSchemaTokens->dynamicFriction,  //
-                HdPhysicsSchemaTokens->staticFriction    //
+                UsdPhysicsTokens->physicsDensity,          //
+                UsdPhysicsTokens->physicsRestitution,      //
+                UsdPhysicsTokens->physicsDynamicFriction,  //
+                UsdPhysicsTokens->physicsStaticFriction    //
         };
 
         return names;
@@ -45,25 +45,25 @@ public:
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
         float v;
-        if (name == HdPhysicsSchemaTokens->density) {
+        if (name == UsdPhysicsTokens->physicsDensity) {
             if (UsdAttribute attr = _api.GetDensityAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == HdPhysicsSchemaTokens->restitution) {
+        } else if (name == UsdPhysicsTokens->physicsRestitution) {
             if (UsdAttribute attr = _api.GetRestitutionAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == HdPhysicsSchemaTokens->dynamicFriction) {
+        } else if (name == UsdPhysicsTokens->physicsDynamicFriction) {
             if (UsdAttribute attr = _api.GetDynamicFrictionAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == HdPhysicsSchemaTokens->staticFriction) {
+        } else if (name == UsdPhysicsTokens->physicsStaticFriction) {
             if (UsdAttribute attr = _api.GetStaticFrictionAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);

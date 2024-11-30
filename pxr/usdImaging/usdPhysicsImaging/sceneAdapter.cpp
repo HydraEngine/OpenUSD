@@ -34,8 +34,8 @@ public:
 
     static const TfTokenVector& GetPropertyNames() {
         static const TfTokenVector names = {
-                HdPhysicsSchemaTokens->gravityDirection,  //
-                HdPhysicsSchemaTokens->gravityMagnitude   //
+                UsdPhysicsTokens->physicsGravityDirection,  //
+                UsdPhysicsTokens->physicsGravityMagnitude   //
         };
 
         return names;
@@ -44,7 +44,7 @@ public:
     TfTokenVector GetNames() override { return GetPropertyNames(); }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == HdPhysicsSchemaTokens->gravityDirection) {
+        if (name == UsdPhysicsTokens->physicsGravityDirection) {
             if (UsdAttribute attr = _usdPhysicsScene.GetGravityDirectionAttr()) {
                 GfVec3f v;
                 if (attr.Get(&v)) {
@@ -53,7 +53,7 @@ public:
             }
         }
 
-        if (name == HdPhysicsSchemaTokens->gravityMagnitude) {
+        if (name == UsdPhysicsTokens->physicsGravityMagnitude) {
             if (UsdAttribute attr = _usdPhysicsScene.GetGravityMagnitudeAttr()) {
                 float v;
                 if (attr.Get(&v)) {

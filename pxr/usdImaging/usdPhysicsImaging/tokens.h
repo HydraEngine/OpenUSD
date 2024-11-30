@@ -11,9 +11,7 @@
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-#define HD_PHYSICS_SCHEMA_TOKENS     \
-    (physicsScene)(physicsMaterial)( \
-            physicsArticulationRoot)(density)(restitution)(dynamicFriction)(staticFriction)(gravityMagnitude)(gravityDirection)
+#define HD_PHYSICS_SCHEMA_TOKENS (physicsScene)(physicsMaterial)(physicsArticulationRoot)(physicsCollision)
 
 TF_DECLARE_PUBLIC_TOKENS(HdPhysicsSchemaTokens, USDPHYSICSIMAGING_API, HD_PHYSICS_SCHEMA_TOKENS);
 

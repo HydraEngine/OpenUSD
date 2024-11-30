@@ -8,15 +8,16 @@
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/base/trace/trace.h"
 #include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
 HdFloatDataSourceHandle UsdPhysicsImagingSceneSchema::GetGravityMagnitude() const {
-    return _GetTypedDataSource<HdFloatDataSource>(HdPhysicsSchemaTokens->gravityMagnitude);
+    return _GetTypedDataSource<HdFloatDataSource>(UsdPhysicsTokens->physicsGravityMagnitude);
 }
 
 HdVec3fDataSourceHandle UsdPhysicsImagingSceneSchema::GetGravityDirection() const {
-    return _GetTypedDataSource<HdVec3fDataSource>(HdPhysicsSchemaTokens->gravityDirection);
+    return _GetTypedDataSource<HdVec3fDataSource>(UsdPhysicsTokens->physicsGravityDirection);
 }
 
 UsdPhysicsImagingSceneSchema UsdPhysicsImagingSceneSchema::GetFromParent(
@@ -35,13 +36,13 @@ const HdDataSourceLocator &UsdPhysicsImagingSceneSchema::GetDefaultLocator() {
 
 const HdDataSourceLocator &UsdPhysicsImagingSceneSchema::GetGravityMagnitudeLocator() {
     static const HdDataSourceLocator locator(UsdPhysicsImagingSceneSchema::GetSchemaToken(),
-                                             HdPhysicsSchemaTokens->gravityMagnitude);
+                                             UsdPhysicsTokens->physicsGravityMagnitude);
     return locator;
 }
 
 const HdDataSourceLocator &UsdPhysicsImagingSceneSchema::GetGravityDirectionLocator() {
     static const HdDataSourceLocator locator(UsdPhysicsImagingSceneSchema::GetSchemaToken(),
-                                             HdPhysicsSchemaTokens->gravityDirection);
+                                             UsdPhysicsTokens->physicsGravityDirection);
     return locator;
 }
 
