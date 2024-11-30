@@ -8,9 +8,10 @@
 #include "pxr/usdImaging/usdImaging/dataSourceRenderPrims.h"
 #include "pxr/usdImaging/usdImaging/delegate.h"
 #include "pxr/usdImaging/usdImaging/indexProxy.h"
-#include "pxr/usdImaging/usdImaging/tokens.h"
+#include "pxr/usdImaging/usdPhysicsImaging/physicsSchema.h"
+#include "pxr/imaging/hd/retainedDataSource.h"
 
-#include "pxr/usd/usdRender/product.h"
+#include "pxr/usd/usdPhysics/scene.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
@@ -21,14 +22,6 @@ TF_REGISTRY_FUNCTION(TfType) {
 }
 
 namespace {
-inline TfTokenVector _Concat(const TfTokenVector& a, const TfTokenVector& b) {
-    TfTokenVector result;
-    result.reserve(a.size() + b.size());
-    result.insert(result.end(), a.begin(), a.end());
-    result.insert(result.end(), b.begin(), b.end());
-    return result;
-}
-
 ///
 /// A container data source representing render product info.
 ///
@@ -37,12 +30,10 @@ public:
     HD_DECLARE_DATASOURCE(_DataSourcePhysicsScene);
 
     static const TfTokenVector& GetPropertyNames() {
-        static TfTokenVector names = _Concat(
-                UsdPhysicsScene::GetSchemaAttributeNames(
-                        /* includeInherited = */ true),
-                {UsdImagingUsdPhysicsSceneSchemaTokens->namespacedSettings,
-                 // Relationships need to be explicitly specified.
-                 UsdImagingUsdPhysicsSceneSchemaTokens->camera, UsdImagingUsdPhysicsSceneSchemaTokens->orderedVars});
+        static const TfTokenVector names = {
+                HdPhysicsSchemaTokens->gravityDirection,  //
+                HdPhysicsSchemaTokens->gravityDirection   //
+        };
 
         return names;
     }
@@ -50,27 +41,22 @@ public:
     TfTokenVector GetNames() override { return GetPropertyNames(); }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdImagingUsdPhysicsSceneSchemaTokens->namespacedSettings) {
-            VtDictionary settingsDict = _ComputeNamespacedSettings(_usdPhysicsScene.GetPrim());
-
-            return _ToContainerDS(settingsDict);
-        }
-
-        if (name == UsdImagingUsdPhysicsSceneSchemaTokens->camera) {
-            SdfPathVector targets;
-            _usdPhysicsScene.GetCameraRel().GetForwardedTargets(&targets);
-            if (!targets.empty()) {
-                return HdRetainedTypedSampledDataSource<SdfPath>::New(targets[0]);
+        if (name == HdPhysicsSchemaTokens->gravityDirection) {
+            if (UsdAttribute attr = _usdPhysicsScene.GetGravityDirectionAttr()) {
+                GfVec3f v;
+                if (attr.Get(&v)) {
+                    return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
+                }
             }
-            return nullptr;
         }
 
-        if (name == UsdImagingUsdPhysicsSceneSchemaTokens->orderedVars) {
-            SdfPathVector targets;
-            _usdPhysicsScene.GetOrderedVarsRel().GetForwardedTargets(&targets);
-
-            VtArray<SdfPath> vTargets(targets.begin(), targets.end());
-            return HdRetainedTypedSampledDataSource<VtArray<SdfPath>>::New(vTargets);
+        if (name == HdPhysicsSchemaTokens->gravityMagnitude) {
+            if (UsdAttribute attr = _usdPhysicsScene.GetGravityMagnitudeAttr()) {
+                float v;
+                if (attr.Get(&v)) {
+                    return HdRetainedTypedSampledDataSource<float>::New(v);
+                }
+            }
         }
 
         if (UsdAttribute attr = _usdPhysicsScene.GetPrim().GetAttribute(name)) {
@@ -78,7 +64,7 @@ public:
             // to allow the targeting render settings prim's opinion to be
             // inherited by the product via
             // UsdImagingRenderSettingsFlatteningSceneIndex.
-            const TfTokenVector& settingsBaseTokens = UsdRenderSettingsBase::GetSchemaAttributeNames();
+            const TfTokenVector& settingsBaseTokens = UsdPhysicsScene::GetSchemaAttributeNames();
             static const TfToken::HashSet settingsBaseTokenSet(settingsBaseTokens.begin(), settingsBaseTokens.end());
             const bool attrInSettingsBase = settingsBaseTokenSet.find(name) != settingsBaseTokenSet.end();
 
@@ -87,7 +73,7 @@ public:
             }
 
             return UsdImagingDataSourceAttributeNew(attr, _stageGlobals, _sceneIndexPath,
-                                                    UsdImagingUsdPhysicsSceneSchema::GetDefaultLocator().Append(name));
+                                                    UsdImagingPhysicsSchema::GetDefaultLocator().Append(name));
         } else {
             TF_WARN("Unhandled attribute %s in _DataSourcePhysicsScene", name.GetText());
             return nullptr;
@@ -120,12 +106,12 @@ public:
     USDIMAGING_API
     TfTokenVector GetNames() override {
         // Note: Skip properties on UsdImagingDataSourcePrim.
-        return {UsdImagingUsdPhysicsSceneSchema::GetSchemaToken()};
+        return {UsdImagingPhysicsSchema::GetSchemaToken()};
     }
 
     USDIMAGING_API
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdImagingUsdPhysicsSceneSchema::GetSchemaToken()) {
+        if (name == UsdImagingPhysicsSchema::GetSchemaToken()) {
             return _DataSourcePhysicsScene::New(_GetSceneIndexPath(), UsdPhysicsScene(_GetUsdPrim()),
                                                 _GetStageGlobals());
         }
@@ -148,15 +134,8 @@ public:
 
         for (const TfToken& propertyName : properties) {
             if (tokensSet.find(propertyName) != tokensSet.end()) {
-                locators.insert(UsdImagingUsdPhysicsSceneSchema::GetDefaultLocator().Append(propertyName));
-            } else {
-                // It is likely that the property is an attribute that's
-                // aggregated under "namespaced settings". For performance, skip
-                // validating whether that is the case.
-                locators.insert(UsdImagingUsdPhysicsSceneSchema::GetNamespacedSettingsLocator());
+                locators.insert(UsdImagingPhysicsSchema::GetDefaultLocator().Append(propertyName));
             }
-            // Note: Skip UsdImagingDataSourcePrim::Invalidate(...)
-            // since none of the "base" set of properties are relevant here.
         }
 
         return locators;
@@ -181,7 +160,7 @@ TfTokenVector UsdImagingPhysicsSceneAdapter::GetImagingSubprims(UsdPrim const& p
 
 TfToken UsdImagingPhysicsSceneAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return HdPhysicsSceneSchemaTokens->PhysicsScene;
+        return HdPhysicsSchemaTokens->physics;
     }
     return TfToken();
 }
