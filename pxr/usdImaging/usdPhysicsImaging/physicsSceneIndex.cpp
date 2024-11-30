@@ -4,22 +4,22 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "pxr/imaging/hd/physicsSceneIndex.h"
-#include "pxr/imaging/hd/physicsSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/physicsSceneIndex.h"
+#include "pxr/usdImaging/usdPhysicsImaging/physicsSchema.h"
 #include "pxr/imaging/hd/primvarsSchema.h"
 #include <pxr/imaging/hd/tokens.h>
 #include <iostream>
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-HdPhysicsSceneIndexRefPtr HdPhysicsSceneIndex::New(const HdSceneIndexBaseRefPtr &inputSceneIndex) {
-    return TfCreateRefPtr(new HdPhysicsSceneIndex(inputSceneIndex));
+UsdImagingPhysicsSceneIndexRefPtr UsdImagingPhysicsSceneIndex::New(const HdSceneIndexBaseRefPtr &inputSceneIndex) {
+    return TfCreateRefPtr(new UsdImagingPhysicsSceneIndex(inputSceneIndex));
 }
 
-HdPhysicsSceneIndex::HdPhysicsSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex)
+UsdImagingPhysicsSceneIndex::UsdImagingPhysicsSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex)
     : HdSingleInputFilteringSceneIndexBase(inputSceneIndex) {}
 
-void HdPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
+void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
                                       const HdSceneIndexObserver::AddedPrimEntries &entries) {
     if (!_IsObserved()) {
         return;
@@ -27,7 +27,7 @@ void HdPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
 
     for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
         auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
-        HdPhysicsSchema physicsSchema = HdPhysicsSchema::GetFromParent(prim.dataSource);
+        UsdImagingPhysicsSchema physicsSchema = UsdImagingPhysicsSchema::GetFromParent(prim.dataSource);
         HdPrimvarsSchema primVarsSchema = HdPrimvarsSchema::GetFromParent(prim.dataSource);
         if (physicsSchema && primVarsSchema) {
             std::cout << "Density: \t" << physicsSchema.GetDensity()->GetTypedValue(0) << std::endl;
@@ -39,17 +39,17 @@ void HdPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
     _SendPrimsAdded(entries);
 }
 
-void HdPhysicsSceneIndex::_PrimsRemoved(const HdSceneIndexBase &sender,
+void UsdImagingPhysicsSceneIndex::_PrimsRemoved(const HdSceneIndexBase &sender,
                                         const HdSceneIndexObserver::RemovedPrimEntries &entries) {
     _SendPrimsRemoved(entries);
 }
 
-void HdPhysicsSceneIndex::_PrimsDirtied(const HdSceneIndexBase &sender,
+void UsdImagingPhysicsSceneIndex::_PrimsDirtied(const HdSceneIndexBase &sender,
                                         const HdSceneIndexObserver::DirtiedPrimEntries &entries) {
     _SendPrimsDirtied(entries);
 }
 
-HdSceneIndexPrim HdPhysicsSceneIndex::GetPrim(const SdfPath &primPath) const {
+HdSceneIndexPrim UsdImagingPhysicsSceneIndex::GetPrim(const SdfPath &primPath) const {
     HdSceneIndexPrim prim = _GetInputSceneIndex()->GetPrim(primPath);
     if (prim.dataSource) {
         HdPrimvarsSchema depPrimVarsSchema = HdPrimvarsSchema::GetFromParent(prim.dataSource);
@@ -67,7 +67,7 @@ HdSceneIndexPrim HdPhysicsSceneIndex::GetPrim(const SdfPath &primPath) const {
     return prim;
 }
 
-SdfPathVector HdPhysicsSceneIndex::GetChildPrimPaths(const SdfPath &primPath) const {
+SdfPathVector UsdImagingPhysicsSceneIndex::GetChildPrimPaths(const SdfPath &primPath) const {
     return _GetInputSceneIndex()->GetChildPrimPaths(primPath);
 }
 

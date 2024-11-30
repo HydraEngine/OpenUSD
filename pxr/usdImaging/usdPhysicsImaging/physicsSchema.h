@@ -8,7 +8,7 @@
 
 #include <utility>
 
-#include "pxr/imaging/hd/api.h"
+#include "pxr/usdImaging/usdPhysicsImaging/api.h"
 
 #include "pxr/imaging/hd/schema.h"
 
@@ -22,71 +22,71 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 #define HD_PHYSICS_SCHEMA_TOKENS (physics)(density)(restitution)(dynamicFriction)(staticFriction)
 
-TF_DECLARE_PUBLIC_TOKENS(HdPhysicsSchemaTokens, HD_API, HD_PHYSICS_SCHEMA_TOKENS);
+TF_DECLARE_PUBLIC_TOKENS(HdPhysicsSchemaTokens, USDPHYSICSIMAGING_API, HD_PHYSICS_SCHEMA_TOKENS);
 
 //-----------------------------------------------------------------------------
 
-class HdPhysicsSchema : public HdSchema {
+class UsdImagingPhysicsSchema : public HdSchema {
 public:
     /// \name Schema retrieval
     /// @{
 
-    HdPhysicsSchema(HdContainerDataSourceHandle container) : HdSchema(std::move(container)) {}
+    UsdImagingPhysicsSchema(HdContainerDataSourceHandle container) : HdSchema(std::move(container)) {}
 
     // ACCESSORS
 
-    [[nodiscard]] HD_API HdFloatDataSourceHandle GetDensity() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetDensity() const;
 
-    [[nodiscard]] HD_API HdFloatDataSourceHandle GetRestitution() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetRestitution() const;
 
-    [[nodiscard]] HD_API HdFloatDataSourceHandle GetDynamicFriction() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetDynamicFriction() const;
 
-    [[nodiscard]] HD_API HdFloatDataSourceHandle GetStaticFriction() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetStaticFriction() const;
 
     /// Retrieves a container data source with the schema's default name token
     /// "light" from the parent container and constructs a
     /// HdLightSchema instance.
     /// Because the requested container data source may not exist, the result
     /// should be checked with IsDefined() or a bool comparison before use.
-    HD_API
-    static HdPhysicsSchema GetFromParent(const HdContainerDataSourceHandle &fromParentContainer);
+    USDPHYSICSIMAGING_API
+    static UsdImagingPhysicsSchema GetFromParent(const HdContainerDataSourceHandle &fromParentContainer);
 
     /// Returns a token where the container representing this schema is found in
     /// a container by default.
-    HD_API
+    USDPHYSICSIMAGING_API
     static const TfToken &GetSchemaToken();
 
     /// Returns an HdDataSourceLocator (relative to the prim-level data source)
     /// where the container representing this schema is found by default.
-    HD_API
+    USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetDefaultLocator();
 
     /// Returns an HdDataSourceLocator (relative to the prim-level data source)
     /// where the source file can be found.
     /// This is often useful for checking intersection against the
     /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
-    HD_API
+    USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetDensityLocator();
 
     /// Returns an HdDataSourceLocator (relative to the prim-level data source)
     /// where the source file can be found.
     /// This is often useful for checking intersection against the
     /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
-    HD_API
+    USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetRestitutionLocator();
 
     /// Returns an HdDataSourceLocator (relative to the prim-level data source)
     /// where the dependent prims.
     /// This is often useful for checking intersection against the
     /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
-    HD_API
+    USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetDynamicFrictionLocator();
 
     /// Returns an HdDataSourceLocator (relative to the prim-level data source)
     /// where the simulation params can be found.
     /// This is often useful for checking intersection against the
     /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
-    HD_API
+    USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetStaticFrictionLocator();
 };
 

@@ -30,6 +30,7 @@ pxr_library(usdImagingGL
         usdHydra
         usdShade
         usdImaging
+        usdPhysicsImaging
         ar
         ${TBB_tbb_LIBRARY}
 

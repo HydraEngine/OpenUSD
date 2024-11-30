@@ -29,7 +29,7 @@
 #include "pxr/imaging/hdsi/primTypePruningSceneIndex.h"
 #include "pxr/imaging/hdsi/legacyDisplayStyleOverrideSceneIndex.h"
 #include "pxr/imaging/hdsi/sceneGlobalsSceneIndex.h"
-#include "pxr/imaging/hd/physicsSceneIndex.h"
+#include "pxr/usdImaging/usdPhysicsImaging/physicsSceneIndex.h"
 #include "pxr/imaging/hdx/pickTask.h"
 #include "pxr/imaging/hdx/taskController.h"
 #include "pxr/imaging/hdx/tokens.h"
@@ -59,7 +59,7 @@ namespace UsdImagingGLEngine_Impl {
 // scene index plugin registration callback facility.
 struct _AppSceneIndices {
     HdsiSceneGlobalsSceneIndexRefPtr sceneGlobalsSceneIndex;
-    HdPhysicsSceneIndexRefPtr physicsSceneIndex;
+    UsdImagingPhysicsSceneIndexRefPtr physicsSceneIndex;
 };
 
 };  // namespace UsdImagingGLEngine_Impl
@@ -976,7 +976,7 @@ HdSceneIndexBaseRefPtr UsdImagingGLEngine::_AppendPhysicsSceneIndexCallback(
 
     if (appSceneIndices) {
         auto &sgsi = appSceneIndices->physicsSceneIndex;
-        sgsi = HdPhysicsSceneIndex::New(inputScene);
+        sgsi = UsdImagingPhysicsSceneIndex::New(inputScene);
         sgsi->SetDisplayName("Physics Scene Index");
         return sgsi;
     }

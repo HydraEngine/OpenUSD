@@ -208,9 +208,6 @@ pxr_library(hd
         vtBufferSource
         xformSchema
 
-        physicsSchema
-        physicsSceneIndex
-
     PUBLIC_HEADERS
         api.h
         dataSourceTypeDefs.h

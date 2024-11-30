@@ -7,27 +7,28 @@
 #pragma once
 
 #include <pxr/pxr.h>
-#include <pxr/imaging/hd/api.h>
 #include <pxr/imaging/hd/filteringSceneIndex.h>
 #include <pxr/usdImaging/usdImaging/stageSceneIndex.h>
-#include "pxr/imaging/hd/physicsSchema.h"
+
+#include "pxr/usdImaging/usdPhysicsImaging/api.h"
+#include "pxr/usdImaging/usdPhysicsImaging/physicsSchema.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-TF_DECLARE_REF_PTRS(HdPhysicsSceneIndex);
+TF_DECLARE_REF_PTRS(UsdImagingPhysicsSceneIndex);
 
-class HdPhysicsSceneIndex : public HdSingleInputFilteringSceneIndexBase {
+class UsdImagingPhysicsSceneIndex : public HdSingleInputFilteringSceneIndexBase {
 public:
-    HD_API
-    static HdPhysicsSceneIndexRefPtr New(const HdSceneIndexBaseRefPtr &inputSceneIndex);
+    USDPHYSICSIMAGING_API
+    static UsdImagingPhysicsSceneIndexRefPtr New(const HdSceneIndexBaseRefPtr &inputSceneIndex);
 
-    HD_API
+    USDPHYSICSIMAGING_API
     HdSceneIndexPrim GetPrim(const SdfPath &primPath) const override;
-    HD_API
+    USDPHYSICSIMAGING_API
     SdfPathVector GetChildPrimPaths(const SdfPath &primPath) const override;
 
 protected:
-    HdPhysicsSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex);
+    UsdImagingPhysicsSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex);
 
     void _PrimsAdded(const HdSceneIndexBase &sender, const HdSceneIndexObserver::AddedPrimEntries &entries) override;
 
