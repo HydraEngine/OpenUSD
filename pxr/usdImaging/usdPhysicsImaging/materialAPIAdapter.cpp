@@ -9,7 +9,8 @@
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
 #include "pxr/usd/usdPhysics/materialAPI.h"
-#include "pxr/usdImaging/usdPhysicsImaging/physicsSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include <iostream>
@@ -109,7 +110,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsMaterialAPIAdapter::InvalidateImagingSub
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdImagingPhysicsSchema::GetDefaultLocator());
+            result.insert(UsdPhysicsImagingMaterialSchema::GetDefaultLocator());
         }
     }
 

@@ -1,30 +1,27 @@
+//  Copyright (c) 2024 Feng Yang
 //
-// Copyright 2018 Pixar
-//
-// Licensed under the terms set forth in the LICENSE.txt file available at
-// https://openusd.org/license.
-//
-#ifndef PXR_USD_IMAGING_USD_PHYSICS_IMAGING_API_H
-#define PXR_USD_IMAGING_USD_PHYSICS_IMAGING_API_H
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
+
+#pragma once
 
 #include "pxr/base/arch/export.h"
 
 #if defined(PXR_STATIC)
-#   define USDPHYSICSIMAGING_API
-#   define USDPHYSICSIMAGING_API_TEMPLATE_CLASS(...)
-#   define USDPHYSICSIMAGING_API_TEMPLATE_STRUCT(...)
-#   define USDPHYSICSIMAGING_LOCAL
+#define USDPHYSICSIMAGING_API
+#define USDPHYSICSIMAGING_API_TEMPLATE_CLASS(...)
+#define USDPHYSICSIMAGING_API_TEMPLATE_STRUCT(...)
+#define USDPHYSICSIMAGING_LOCAL
 #else
-#   if defined(USDPHYSICSIMAGING_EXPORTS)
-#       define USDPHYSICSIMAGING_API ARCH_EXPORT
-#       define USDPHYSICSIMAGING_API_TEMPLATE_CLASS(...) ARCH_EXPORT_TEMPLATE(class, __VA_ARGS__)
-#       define USDPHYSICSIMAGING_API_TEMPLATE_STRUCT(...) ARCH_EXPORT_TEMPLATE(struct, __VA_ARGS__)
-#   else
-#       define USDPHYSICSIMAGING_API ARCH_IMPORT
-#       define USDPHYSICSIMAGING_API_TEMPLATE_CLASS(...) ARCH_IMPORT_TEMPLATE(class, __VA_ARGS__)
-#       define USDPHYSICSIMAGING_API_TEMPLATE_STRUCT(...) ARCH_IMPORT_TEMPLATE(struct, __VA_ARGS__)
-#   endif
-#   define USDPHYSICSIMAGING_LOCAL ARCH_HIDDEN
+#if defined(USDPHYSICSIMAGING_EXPORTS)
+#define USDPHYSICSIMAGING_API ARCH_EXPORT
+#define USDPHYSICSIMAGING_API_TEMPLATE_CLASS(...) ARCH_EXPORT_TEMPLATE(class, __VA_ARGS__)
+#define USDPHYSICSIMAGING_API_TEMPLATE_STRUCT(...) ARCH_EXPORT_TEMPLATE(struct, __VA_ARGS__)
+#else
+#define USDPHYSICSIMAGING_API ARCH_IMPORT
+#define USDPHYSICSIMAGING_API_TEMPLATE_CLASS(...) ARCH_IMPORT_TEMPLATE(class, __VA_ARGS__)
+#define USDPHYSICSIMAGING_API_TEMPLATE_STRUCT(...) ARCH_IMPORT_TEMPLATE(struct, __VA_ARGS__)
 #endif
-
-#endif // PXR_USD_IMAGING_USD_PHYSICS_IMAGING_API_H
+#define USDPHYSICSIMAGING_LOCAL ARCH_HIDDEN
+#endif

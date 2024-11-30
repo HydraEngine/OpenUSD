@@ -17,22 +17,14 @@
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-// --(BEGIN CUSTOM CODE: Declares)--
-// --(END CUSTOM CODE: Declares)--
-
-#define HD_PHYSICS_SCHEMA_TOKENS \
-    (physics)(density)(restitution)(dynamicFriction)(staticFriction)(gravityMagnitude)(gravityDirection)
-
-TF_DECLARE_PUBLIC_TOKENS(HdPhysicsSchemaTokens, USDPHYSICSIMAGING_API, HD_PHYSICS_SCHEMA_TOKENS);
-
 //-----------------------------------------------------------------------------
 
-class UsdImagingPhysicsSchema : public HdSchema {
+class UsdPhysicsImagingMaterialSchema : public HdSchema {
 public:
     /// \name Schema retrieval
     /// @{
 
-    UsdImagingPhysicsSchema(HdContainerDataSourceHandle container) : HdSchema(std::move(container)) {}
+    UsdPhysicsImagingMaterialSchema(HdContainerDataSourceHandle container) : HdSchema(std::move(container)) {}
 
     // ACCESSORS
 
@@ -44,17 +36,13 @@ public:
 
     [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetStaticFriction() const;
 
-    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetGravityMagnitude() const;
-
-    [[nodiscard]] USDPHYSICSIMAGING_API HdVec3fDataSourceHandle GetGravityDirection() const;
-
     /// Retrieves a container data source with the schema's default name token
     /// "light" from the parent container and constructs a
     /// HdLightSchema instance.
     /// Because the requested container data source may not exist, the result
     /// should be checked with IsDefined() or a bool comparison before use.
     USDPHYSICSIMAGING_API
-    static UsdImagingPhysicsSchema GetFromParent(const HdContainerDataSourceHandle &fromParentContainer);
+    static UsdPhysicsImagingMaterialSchema GetFromParent(const HdContainerDataSourceHandle &fromParentContainer);
 
     /// Returns a token where the container representing this schema is found in
     /// a container by default.
@@ -75,12 +63,6 @@ public:
 
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetStaticFrictionLocator();
-
-    USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetGravityMagnitudeLocator();
-
-    USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetGravityDirectionLocator();
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE

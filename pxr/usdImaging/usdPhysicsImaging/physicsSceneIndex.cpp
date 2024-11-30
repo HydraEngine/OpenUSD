@@ -5,7 +5,8 @@
 //  property of any third parties.
 
 #include "pxr/usdImaging/usdPhysicsImaging/physicsSceneIndex.h"
-#include "pxr/usdImaging/usdPhysicsImaging/physicsSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
 #include "pxr/imaging/hd/primvarsSchema.h"
 #include <pxr/imaging/hd/tokens.h>
 #include <iostream>
@@ -27,13 +28,19 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
 
     for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
         auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
-        UsdImagingPhysicsSchema physicsSchema = UsdImagingPhysicsSchema::GetFromParent(prim.dataSource);
+        UsdPhysicsImagingMaterialSchema materialSchema =
+                UsdPhysicsImagingMaterialSchema::GetFromParent(prim.dataSource);
         HdPrimvarsSchema primVarsSchema = HdPrimvarsSchema::GetFromParent(prim.dataSource);
-        if (physicsSchema && primVarsSchema) {
-            std::cout << "Density: \t" << physicsSchema.GetDensity()->GetTypedValue(0) << std::endl;
-            std::cout << "Restitution: \t" << physicsSchema.GetRestitution()->GetTypedValue(0) << std::endl;
-            std::cout << "DynamicFriction: \t" << physicsSchema.GetDynamicFriction()->GetTypedValue(0) << std::endl;
-            std::cout << "StaticFriction: \t" << physicsSchema.GetStaticFriction()->GetTypedValue(0) << std::endl;
+        if (materialSchema && primVarsSchema) {
+            std::cout << "Density: \t" << materialSchema.GetDensity()->GetTypedValue(0) << std::endl;
+            std::cout << "Restitution: \t" << materialSchema.GetRestitution()->GetTypedValue(0) << std::endl;
+            std::cout << "DynamicFriction: \t" << materialSchema.GetDynamicFriction()->GetTypedValue(0) << std::endl;
+            std::cout << "StaticFriction: \t" << materialSchema.GetStaticFriction()->GetTypedValue(0) << std::endl;
+        }
+
+        UsdPhysicsImagingSceneSchema sceneSchema = UsdPhysicsImagingSceneSchema::GetFromParent(prim.dataSource);
+        if (sceneSchema) {
+            std::cout << "GravityMagnitude: \t" << sceneSchema.GetGravityMagnitude()->GetTypedValue(0) << std::endl;
         }
     }
     _SendPrimsAdded(entries);

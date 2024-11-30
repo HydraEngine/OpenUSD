@@ -5,10 +5,13 @@
 //  property of any third parties.
 
 #include "pxr/usdImaging/usdPhysicsImaging/sceneAdapter.h"
+
+#include "pxr/base/pegtl/pegtl/ascii.hpp"
 #include "pxr/usdImaging/usdImaging/dataSourceRenderPrims.h"
 #include "pxr/usdImaging/usdImaging/delegate.h"
 #include "pxr/usdImaging/usdImaging/indexProxy.h"
-#include "pxr/usdImaging/usdPhysicsImaging/physicsSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/tokens.h""
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include "pxr/usd/usdPhysics/scene.h"
@@ -59,25 +62,7 @@ public:
             }
         }
 
-        if (UsdAttribute attr = _usdPhysicsScene.GetPrim().GetAttribute(name)) {
-            // Only consider authored attributes in UsdRenderSettingsBase,
-            // to allow the targeting render settings prim's opinion to be
-            // inherited by the product via
-            // UsdImagingRenderSettingsFlatteningSceneIndex.
-            const TfTokenVector& settingsBaseTokens = UsdPhysicsScene::GetSchemaAttributeNames();
-            static const TfToken::HashSet settingsBaseTokenSet(settingsBaseTokens.begin(), settingsBaseTokens.end());
-            const bool attrInSettingsBase = settingsBaseTokenSet.find(name) != settingsBaseTokenSet.end();
-
-            if (attrInSettingsBase && !attr.HasAuthoredValue()) {
-                return nullptr;
-            }
-
-            return UsdImagingDataSourceAttributeNew(attr, _stageGlobals, _sceneIndexPath,
-                                                    UsdImagingPhysicsSchema::GetDefaultLocator().Append(name));
-        } else {
-            TF_WARN("Unhandled attribute %s in _DataSourcePhysicsScene", name.GetText());
-            return nullptr;
-        }
+        return nullptr;
     }
 
 private:
@@ -106,12 +91,12 @@ public:
     USDIMAGING_API
     TfTokenVector GetNames() override {
         // Note: Skip properties on UsdImagingDataSourcePrim.
-        return {UsdImagingPhysicsSchema::GetSchemaToken()};
+        return {UsdPhysicsImagingSceneSchema::GetSchemaToken()};
     }
 
     USDIMAGING_API
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdImagingPhysicsSchema::GetSchemaToken()) {
+        if (name == UsdPhysicsImagingSceneSchema::GetSchemaToken()) {
             return _DataSourcePhysicsScene::New(_GetSceneIndexPath(), UsdPhysicsScene(_GetUsdPrim()),
                                                 _GetStageGlobals());
         }
@@ -134,7 +119,7 @@ public:
 
         for (const TfToken& propertyName : properties) {
             if (tokensSet.find(propertyName) != tokensSet.end()) {
-                locators.insert(UsdImagingPhysicsSchema::GetDefaultLocator().Append(propertyName));
+                locators.insert(UsdPhysicsImagingSceneSchema::GetDefaultLocator().Append(propertyName));
             }
         }
 

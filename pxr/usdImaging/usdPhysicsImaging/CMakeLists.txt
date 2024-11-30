@@ -9,10 +9,13 @@ pxr_library(usdPhysicsImaging
         usdPhysics
 
     PUBLIC_CLASSES
+        tokens
+        materialSchema
         materialAPIAdapter
+
+        sceneSchema
         sceneAdapter
 
-        physicsSchema
         physicsSceneIndex
 
     PUBLIC_HEADERS
