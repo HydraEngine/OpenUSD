@@ -10,12 +10,12 @@
             "isInternal": true,
             "apiSchemaName": "PhysicsMaterialAPI"
           },
-          "UsdImagingPhysicsArticulationAPIAdapter": {
+          "UsdImagingPhysicsArticulationRootAPIAdapter": {
             "bases": [
               "UsdImagingAPISchemaAdapter"
             ],
             "isInternal": true,
-            "apiSchemaName": "PhysicsArticulationAPI"
+            "apiSchemaName": "PhysicsArticulationRootAPI"
           },
           "UsdImagingPhysicsSceneAdapter": {
             "bases": [

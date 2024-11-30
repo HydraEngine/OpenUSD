@@ -16,12 +16,12 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 //-----------------------------------------------------------------------------
 
-class UsdPhysicsImagingArticulationSchema : public HdSchema {
+class UsdPhysicsImagingArticulationRootSchema : public HdSchema {
 public:
     /// \name Schema retrieval
     /// @{
 
-    UsdPhysicsImagingArticulationSchema(HdContainerDataSourceHandle container) : HdSchema(std::move(container)) {}
+    UsdPhysicsImagingArticulationRootSchema(HdContainerDataSourceHandle container) : HdSchema(std::move(container)) {}
 
     /// Retrieves a container data source with the schema's default name token
     /// "light" from the parent container and constructs a
@@ -29,7 +29,8 @@ public:
     /// Because the requested container data source may not exist, the result
     /// should be checked with IsDefined() or a bool comparison before use.
     USDPHYSICSIMAGING_API
-    static UsdPhysicsImagingArticulationSchema GetFromParent(const HdContainerDataSourceHandle &fromParentContainer);
+    static UsdPhysicsImagingArticulationRootSchema GetFromParent(
+            const HdContainerDataSourceHandle &fromParentContainer);
 
     /// Returns a token where the container representing this schema is found in
     /// a container by default.

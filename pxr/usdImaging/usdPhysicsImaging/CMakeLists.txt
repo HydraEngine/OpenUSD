@@ -14,8 +14,8 @@ pxr_library(usdPhysicsImaging
         materialAPIAdapter
         sceneSchema
         sceneAdapter
-        articulationSchema
-        articulationAPIAdapter
+        articulationRootSchema
+        articulationRootAPIAdapter
 
         physicsSceneIndex
 

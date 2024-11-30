@@ -11,7 +11,7 @@
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-class UsdImagingPhysicsArticulationAPIAdapter : public UsdImagingAPISchemaAdapter {
+class UsdImagingPhysicsArticulationRootAPIAdapter : public UsdImagingAPISchemaAdapter {
 public:
     using BaseAdapter = UsdImagingAPISchemaAdapter;
 

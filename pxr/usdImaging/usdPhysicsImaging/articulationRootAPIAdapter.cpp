@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "pxr/usdImaging/usdPhysicsImaging/articulationAPIAdapter.h"
+#include "pxr/usdImaging/usdPhysicsImaging/articulationRootAPIAdapter.h"
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/articulationSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/articulationRootSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -17,17 +17,17 @@
 PXR_NAMESPACE_OPEN_SCOPE
 
 TF_REGISTRY_FUNCTION(TfType) {
-    typedef UsdImagingPhysicsArticulationAPIAdapter Adapter;
+    typedef UsdImagingPhysicsArticulationRootAPIAdapter Adapter;
     TfType t = TfType::Define<Adapter, TfType::Bases<Adapter::BaseAdapter>>();
     t.SetFactory<UsdImagingAPISchemaAdapterFactory<Adapter>>();
 }
 
 namespace {
-class _PhysicsArticulationDataSource final : public HdContainerDataSource {
+class _PhysicsArticulationRootDataSource final : public HdContainerDataSource {
 public:
-    HD_DECLARE_DATASOURCE(_PhysicsArticulationDataSource);
+    HD_DECLARE_DATASOURCE(_PhysicsArticulationRootDataSource);
 
-    _PhysicsArticulationDataSource() = default;
+    _PhysicsArticulationRootDataSource() = default;
 
     TfTokenVector GetNames() override { return {}; }
 
@@ -35,7 +35,7 @@ public:
 };
 }  // namespace
 
-HdContainerDataSourceHandle UsdImagingPhysicsArticulationAPIAdapter::GetImagingSubprimData(
+HdContainerDataSourceHandle UsdImagingPhysicsArticulationRootAPIAdapter::GetImagingSubprimData(
         UsdPrim const& prim,
         TfToken const& subprim,
         TfToken const& appliedInstanceName,
@@ -45,14 +45,14 @@ HdContainerDataSourceHandle UsdImagingPhysicsArticulationAPIAdapter::GetImagingS
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsArticulaiton,
-                                                  _PhysicsArticulationDataSource::New());
+        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsArticulationRoot,
+                                                  _PhysicsArticulationRootDataSource::New());
     }
 
     return nullptr;
 }
 
-HdDataSourceLocatorSet UsdImagingPhysicsArticulationAPIAdapter::InvalidateImagingSubprim(
+HdDataSourceLocatorSet UsdImagingPhysicsArticulationRootAPIAdapter::InvalidateImagingSubprim(
         UsdPrim const& prim,
         TfToken const& subprim,
         TfToken const& appliedInstanceName,
@@ -65,7 +65,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsArticulationAPIAdapter::InvalidateImagin
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingArticulationSchema::GetDefaultLocator());
+            result.insert(UsdPhysicsImagingArticulationRootSchema::GetDefaultLocator());
         }
     }
 
