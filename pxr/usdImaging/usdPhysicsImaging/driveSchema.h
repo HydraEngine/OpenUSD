@@ -23,6 +23,13 @@ public:
 
     UsdPhysicsImagingDriveSchema(HdContainerDataSourceHandle container) : HdSchema(std::move(container)) {}
 
+    [[nodiscard]] USDPHYSICSIMAGING_API HdTokenDataSourceHandle GetType() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetMaxForce() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetTargetPosition() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetTargetVelocity() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetDamping() const;
+    [[nodiscard]] USDPHYSICSIMAGING_API HdFloatDataSourceHandle GetStiffness() const;
+
     /// Retrieves a container data source with the schema's default name token
     /// "light" from the parent container and constructs a
     /// HdLightSchema instance.
@@ -38,6 +45,19 @@ public:
 
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetDefaultLocator();
+
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetTypeLocator();
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetMaxForceLocator();
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetTargetPositionLocator();
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetTargetVelocityLocator();
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetDampingLocator();
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetStiffnessLocator();
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE
