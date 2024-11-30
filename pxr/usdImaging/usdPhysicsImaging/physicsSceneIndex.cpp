@@ -41,6 +41,8 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         UsdPhysicsImagingSceneSchema sceneSchema = UsdPhysicsImagingSceneSchema::GetFromParent(prim.dataSource);
         if (sceneSchema) {
             std::cout << "GravityMagnitude: \t" << sceneSchema.GetGravityMagnitude()->GetTypedValue(0) << std::endl;
+            auto dir = sceneSchema.GetGravityDirection()->GetTypedValue(0);
+            std::cout << "GravityDir: \t" << dir[0] << "\t" << dir[1] << "\t" << dir[2] << std::endl;
         }
     }
     _SendPrimsAdded(entries);
