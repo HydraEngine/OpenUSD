@@ -22,6 +22,8 @@ pxr_library(usdPhysicsImaging
         meshCollisionAPIAdapter
         driveSchema
         driveAPIAdapter
+        filteredPairsSchema
+        filteredPairsAPIAdapter
 
         physicsSceneIndex
 
