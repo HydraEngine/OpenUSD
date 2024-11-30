@@ -19,6 +19,8 @@ pxr_library(usdPhysicsImaging
         collisionAPIAdapter
         meshCollisionSchema
         meshCollisionAPIAdapter
+        massSchema
+        massAPIAdapter
 
         articulationRootSchema
         articulationRootAPIAdapter
