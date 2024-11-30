@@ -30,7 +30,7 @@ public:
 
     _PhysicsMaterialDataSource(const UsdPrim& prim, const UsdImagingDataSourceStageGlobals& stageGlobals)
         : _api(prim), _stageGlobals(stageGlobals) {
-        std::cout<<"oooo"<<std::endl;
+        std::cout << "oooo" << std::endl;
     }
 
     TfTokenVector GetNames() override {
@@ -90,7 +90,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsMaterialAPIAdapter::GetImagingSubpr
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physics,
+        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsMaterial,
                                                   _PhysicsMaterialDataSource::New(prim, stageGlobals));
     }
 

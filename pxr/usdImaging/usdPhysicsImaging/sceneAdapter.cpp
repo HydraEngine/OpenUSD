@@ -11,7 +11,7 @@
 #include "pxr/usdImaging/usdImaging/delegate.h"
 #include "pxr/usdImaging/usdImaging/indexProxy.h"
 #include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h""
+#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include "pxr/usd/usdPhysics/scene.h"
@@ -35,7 +35,7 @@ public:
     static const TfTokenVector& GetPropertyNames() {
         static const TfTokenVector names = {
                 HdPhysicsSchemaTokens->gravityDirection,  //
-                HdPhysicsSchemaTokens->gravityDirection   //
+                HdPhysicsSchemaTokens->gravityMagnitude   //
         };
 
         return names;
@@ -145,7 +145,7 @@ TfTokenVector UsdImagingPhysicsSceneAdapter::GetImagingSubprims(UsdPrim const& p
 
 TfToken UsdImagingPhysicsSceneAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return HdPhysicsSchemaTokens->physics;
+        return HdPhysicsSchemaTokens->physicsScene;
     }
     return TfToken();
 }

@@ -19,13 +19,14 @@ HdVec3fDataSourceHandle UsdPhysicsImagingSceneSchema::GetGravityDirection() cons
     return _GetTypedDataSource<HdVec3fDataSource>(HdPhysicsSchemaTokens->gravityDirection);
 }
 
-UsdPhysicsImagingSceneSchema UsdPhysicsImagingSceneSchema::GetFromParent(const HdContainerDataSourceHandle &fromParentContainer) {
-    return UsdPhysicsImagingSceneSchema(
-            fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(HdPhysicsSchemaTokens->physics))
-                                : nullptr);
+UsdPhysicsImagingSceneSchema UsdPhysicsImagingSceneSchema::GetFromParent(
+        const HdContainerDataSourceHandle &fromParentContainer) {
+    return UsdPhysicsImagingSceneSchema(fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(
+                                                                      HdPhysicsSchemaTokens->physicsScene))
+                                                            : nullptr);
 }
 
-const TfToken &UsdPhysicsImagingSceneSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physics; }
+const TfToken &UsdPhysicsImagingSceneSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsScene; }
 
 const HdDataSourceLocator &UsdPhysicsImagingSceneSchema::GetDefaultLocator() {
     static const HdDataSourceLocator locator(GetSchemaToken());
@@ -33,12 +34,14 @@ const HdDataSourceLocator &UsdPhysicsImagingSceneSchema::GetDefaultLocator() {
 }
 
 const HdDataSourceLocator &UsdPhysicsImagingSceneSchema::GetGravityMagnitudeLocator() {
-    static const HdDataSourceLocator locator(HdPhysicsSchemaTokens->physics, HdPhysicsSchemaTokens->gravityMagnitude);
+    static const HdDataSourceLocator locator(UsdPhysicsImagingSceneSchema::GetSchemaToken(),
+                                             HdPhysicsSchemaTokens->gravityMagnitude);
     return locator;
 }
 
 const HdDataSourceLocator &UsdPhysicsImagingSceneSchema::GetGravityDirectionLocator() {
-    static const HdDataSourceLocator locator(HdPhysicsSchemaTokens->physics, HdPhysicsSchemaTokens->gravityDirection);
+    static const HdDataSourceLocator locator(UsdPhysicsImagingSceneSchema::GetSchemaToken(),
+                                             HdPhysicsSchemaTokens->gravityDirection);
     return locator;
 }
 

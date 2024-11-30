@@ -29,12 +29,12 @@ HdFloatDataSourceHandle UsdPhysicsImagingMaterialSchema::GetStaticFriction() con
 
 UsdPhysicsImagingMaterialSchema UsdPhysicsImagingMaterialSchema::GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer) {
-    return UsdPhysicsImagingMaterialSchema(
-            fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(HdPhysicsSchemaTokens->physics))
-                                : nullptr);
+    return UsdPhysicsImagingMaterialSchema(fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(
+                                                                         HdPhysicsSchemaTokens->physicsMaterial))
+                                                               : nullptr);
 }
 
-const TfToken &UsdPhysicsImagingMaterialSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physics; }
+const TfToken &UsdPhysicsImagingMaterialSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsMaterial; }
 
 const HdDataSourceLocator &UsdPhysicsImagingMaterialSchema::GetDefaultLocator() {
     static const HdDataSourceLocator locator(GetSchemaToken());
@@ -42,22 +42,26 @@ const HdDataSourceLocator &UsdPhysicsImagingMaterialSchema::GetDefaultLocator() 
 }
 
 const HdDataSourceLocator &UsdPhysicsImagingMaterialSchema::GetDensityLocator() {
-    static const HdDataSourceLocator locator(HdPhysicsSchemaTokens->physics, HdPhysicsSchemaTokens->density);
+    static const HdDataSourceLocator locator(UsdPhysicsImagingMaterialSchema::GetSchemaToken(),
+                                             HdPhysicsSchemaTokens->density);
     return locator;
 }
 
 const HdDataSourceLocator &UsdPhysicsImagingMaterialSchema::GetRestitutionLocator() {
-    static const HdDataSourceLocator locator(HdPhysicsSchemaTokens->physics, HdPhysicsSchemaTokens->restitution);
+    static const HdDataSourceLocator locator(UsdPhysicsImagingMaterialSchema::GetSchemaToken(),
+                                             HdPhysicsSchemaTokens->restitution);
     return locator;
 }
 
 const HdDataSourceLocator &UsdPhysicsImagingMaterialSchema::GetDynamicFrictionLocator() {
-    static const HdDataSourceLocator locator(HdPhysicsSchemaTokens->physics, HdPhysicsSchemaTokens->dynamicFriction);
+    static const HdDataSourceLocator locator(UsdPhysicsImagingMaterialSchema::GetSchemaToken(),
+                                             HdPhysicsSchemaTokens->dynamicFriction);
     return locator;
 }
 
 const HdDataSourceLocator &UsdPhysicsImagingMaterialSchema::GetStaticFrictionLocator() {
-    static const HdDataSourceLocator locator(HdPhysicsSchemaTokens->physics, HdPhysicsSchemaTokens->staticFriction);
+    static const HdDataSourceLocator locator(UsdPhysicsImagingMaterialSchema::GetSchemaToken(),
+                                             HdPhysicsSchemaTokens->staticFriction);
     return locator;
 }
 

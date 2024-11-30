@@ -1,29 +1,29 @@
 {
-    "Plugins": [
-        {
-            "Info": {
-                "Types": {
-                    "UsdImagingPhysicsMaterialAPIAdapter": {
-                        "bases": [
-                            "UsdImagingAPISchemaAdapter"
-                        ],
-                        "isInternal": true,
-                        "apiSchemaName": "PhysicsMaterialAPI"
-                    },
-                    "UsdImagingPhysicsSceneAdapter": {
-                        "bases": [
-                            "UsdImagingPrimAdapter"
-                        ],
-                        "isInternal": true,
-                        "primTypeName": "PhysicsScene"
-                    }
-                }
-            },
-            "LibraryPath": "@PLUG_INFO_LIBRARY_PATH@",
-            "Name": "usdPhysicsImaging",
-            "ResourcePath": "@PLUG_INFO_RESOURCE_PATH@",
-            "Root": "@PLUG_INFO_ROOT@",
-            "Type": "library"
+  "Plugins": [
+    {
+      "Info": {
+        "Types": {
+          "UsdImagingPhysicsMaterialAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysicsMaterialAPI"
+          },
+          "UsdImagingPhysicsSceneAdapter": {
+            "bases": [
+              "UsdImagingPrimAdapter"
+            ],
+            "isInternal": true,
+            "primTypeName": "PhysicsScene"
+          }
         }
-    ]
+      },
+      "LibraryPath": "@PLUG_INFO_LIBRARY_PATH@",
+      "Name": "usdPhysicsImaging",
+      "ResourcePath": "@PLUG_INFO_RESOURCE_PATH@",
+      "Root": "@PLUG_INFO_ROOT@",
+      "Type": "library"
+    }
+  ]
 }

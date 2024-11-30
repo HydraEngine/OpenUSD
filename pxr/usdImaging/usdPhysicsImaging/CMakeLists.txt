@@ -2,13 +2,13 @@ set(PXR_PREFIX pxr/usdImaging)
 set(PXR_PACKAGE usdPhysicsImaging)
 
 pxr_library(usdPhysicsImaging
-    LIBRARIES
+        LIBRARIES
         hio
         hd
         usdImaging
         usdPhysics
 
-    PUBLIC_CLASSES
+        PUBLIC_CLASSES
         tokens
         materialSchema
         materialAPIAdapter
@@ -18,9 +18,9 @@ pxr_library(usdPhysicsImaging
 
         physicsSceneIndex
 
-    PUBLIC_HEADERS
+        PUBLIC_HEADERS
         api.h
 
-    RESOURCE_FILES
+        RESOURCE_FILES
         plugInfo.json
 )

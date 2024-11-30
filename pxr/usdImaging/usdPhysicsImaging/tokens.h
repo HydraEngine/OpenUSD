@@ -7,12 +7,13 @@
 #pragma once
 
 #include "pxr/usdImaging/usdPhysicsImaging/api.h"
-#include "pxr/pxr.h"
+#include <pxr/imaging/hd/schema.h>
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-#define HD_PHYSICS_SCHEMA_TOKENS \
-(physics)(density)(restitution)(dynamicFriction)(staticFriction)(gravityMagnitude)(gravityDirection)
+#define HD_PHYSICS_SCHEMA_TOKENS     \
+    (physicsScene)(physicsMaterial)( \
+            density)(restitution)(dynamicFriction)(staticFriction)(gravityMagnitude)(gravityDirection)
 
 TF_DECLARE_PUBLIC_TOKENS(HdPhysicsSchemaTokens, USDPHYSICSIMAGING_API, HD_PHYSICS_SCHEMA_TOKENS);
 

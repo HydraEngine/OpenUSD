@@ -11,7 +11,6 @@
 #include <pxr/usdImaging/usdImaging/stageSceneIndex.h>
 
 #include "pxr/usdImaging/usdPhysicsImaging/api.h"
-#include "pxr/usdImaging/usdPhysicsImaging/physicsSchema.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
