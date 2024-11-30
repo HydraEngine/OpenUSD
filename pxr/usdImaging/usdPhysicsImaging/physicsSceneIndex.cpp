@@ -14,6 +14,28 @@
 
 PXR_NAMESPACE_OPEN_SCOPE
 
+static UsdImagingStageSceneIndexRefPtr FindUsdImagingSceneIndex(
+        const std::vector<HdSceneIndexBaseRefPtr> &inputScenes) {
+    TfRefPtr<UsdImagingStageSceneIndex> retVal;
+
+    for (size_t i = 0; i < inputScenes.size(); i++) {
+        HdSceneIndexBaseRefPtr const &sceneIdx = inputScenes[i];
+        if (UsdImagingStageSceneIndexRefPtr const imagingSI =
+                    TfDynamic_cast<UsdImagingStageSceneIndexRefPtr>(sceneIdx)) {
+            retVal = imagingSI;
+            break;
+        }
+        if (HdFilteringSceneIndexBaseRefPtr const filteringSi =
+                    TfDynamic_cast<HdFilteringSceneIndexBaseRefPtr>(sceneIdx)) {
+            retVal = FindUsdImagingSceneIndex(filteringSi->GetInputScenes());
+            if (retVal) {
+                break;
+            }
+        }
+    }
+    return retVal;
+}
+
 UsdImagingPhysicsSceneIndexRefPtr UsdImagingPhysicsSceneIndex::New(const HdSceneIndexBaseRefPtr &inputSceneIndex) {
     return TfCreateRefPtr(new UsdImagingPhysicsSceneIndex(inputSceneIndex));
 }
@@ -27,6 +49,18 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         return;
     }
 
+    UsdImagingStageSceneIndexRefPtr usdImagingSi;
+    if (auto filteringIdx = dynamic_cast<HdFilteringSceneIndexBase const *>(&sender)) {
+        // SceneIndexPlugins do not have access to the current stage/frame time.
+        // Only the UsdImagingStageSceneIndex has this. We store this for each Mesh,
+        // nullptr is a valid value. If valid, warp simulation can use the exact
+        // stage time. If null, the warp has to emulate frame time
+        usdImagingSi = FindUsdImagingSceneIndex(filteringIdx->GetInputScenes());
+    }
+    if (usdImagingSi) {
+        std::cout << "Time: " << usdImagingSi->GetTime().GetValue() << std::endl;
+    }
+
     for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
         auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
         UsdPhysicsImagingMaterialSchema materialSchema =
@@ -34,7 +68,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         HdPrimvarsSchema primVarsSchema = HdPrimvarsSchema::GetFromParent(prim.dataSource);
 
         if (materialSchema && primVarsSchema) {
-            std::cout << entry.primPath << std::endl;
+            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
             std::cout << "Density: \t" << materialSchema.GetDensity()->GetTypedValue(0) << std::endl;
             std::cout << "Restitution: \t" << materialSchema.GetRestitution()->GetTypedValue(0) << std::endl;
             std::cout << "DynamicFriction: \t" << materialSchema.GetDynamicFriction()->GetTypedValue(0) << std::endl;
@@ -44,13 +78,13 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         UsdPhysicsImagingCollisionSchema collisionSchema =
                 UsdPhysicsImagingCollisionSchema::GetFromParent(prim.dataSource);
         if (collisionSchema) {
-            std::cout << entry.primPath << std::endl;
+            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
             std::cout << "CollisionEnabled: \t" << collisionSchema.GetCollisionEnabled()->GetTypedValue(0) << std::endl;
         }
 
         UsdPhysicsImagingSceneSchema sceneSchema = UsdPhysicsImagingSceneSchema::GetFromParent(prim.dataSource);
         if (sceneSchema) {
-            std::cout << entry.primPath << std::endl;
+            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
             std::cout << "GravityMagnitude: \t" << sceneSchema.GetGravityMagnitude()->GetTypedValue(0) << std::endl;
             auto dir = sceneSchema.GetGravityDirection()->GetTypedValue(0);
             std::cout << "GravityDir: \t" << dir[0] << "\t" << dir[1] << "\t" << dir[2] << std::endl;

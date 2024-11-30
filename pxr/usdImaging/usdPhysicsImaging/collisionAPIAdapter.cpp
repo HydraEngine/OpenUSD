@@ -54,7 +54,7 @@ class _PhysicsCollisionDataSource final : public HdContainerDataSource {
 public:
     HD_DECLARE_DATASOURCE(_PhysicsCollisionDataSource);
 
-    _PhysicsCollisionDataSource() = default;
+    _PhysicsCollisionDataSource(const UsdPrim& prim) : _api(prim) {}
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
@@ -97,7 +97,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsCollisionAPIAdapter::GetImagingSubp
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsCollision,
-                                                  _PhysicsCollisionDataSource::New());
+                                                  _PhysicsCollisionDataSource::New(prim));
     }
 
     return nullptr;
