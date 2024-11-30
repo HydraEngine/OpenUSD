@@ -10,18 +10,23 @@ pxr_library(usdPhysicsImaging
 
         PUBLIC_CLASSES
         tokens
-        materialSchema
-        materialAPIAdapter
         sceneSchema
         sceneAdapter
-        articulationRootSchema
-        articulationRootAPIAdapter
+
+        materialSchema
+        materialAPIAdapter
         collisionSchema
         collisionAPIAdapter
         meshCollisionSchema
         meshCollisionAPIAdapter
+
+        articulationRootSchema
+        articulationRootAPIAdapter
         driveSchema
         driveAPIAdapter
+        limitSchema
+        limitAPIAdapter
+
         filteredPairsSchema
         filteredPairsAPIAdapter
 
