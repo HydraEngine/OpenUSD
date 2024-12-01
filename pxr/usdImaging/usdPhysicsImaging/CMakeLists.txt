@@ -32,6 +32,7 @@ pxr_library(usdPhysicsImaging
         limitAPIAdapter
         jointSchema
         dataSourceJoint
+        jointAdapter
 
         filteredPairsSchema
         filteredPairsAPIAdapter
