@@ -30,6 +30,8 @@ pxr_library(usdPhysicsImaging
         driveAPIAdapter
         limitSchema
         limitAPIAdapter
+        jointSchema
+        dataSourceJoint
 
         filteredPairsSchema
         filteredPairsAPIAdapter
