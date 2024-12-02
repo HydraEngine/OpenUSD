@@ -10,6 +10,7 @@
 
 #include "pxr/usdImaging/usdPhysicsImaging/collisionSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/collisionAPI.h"
@@ -25,30 +26,7 @@ TF_REGISTRY_FUNCTION(TfType) {
 }
 
 namespace {
-class DependentPrimsDataSource : public HdPathArrayDataSource {
-public:
-    HD_DECLARE_DATASOURCE(DependentPrimsDataSource);
 
-    DependentPrimsDataSource(const UsdRelationship& rel) : _usdRel(rel) {}
-
-    VtValue GetValue(HdSampledDataSource::Time shutterOffset) { return VtValue(GetTypedValue(shutterOffset)); }
-
-    VtArray<SdfPath> GetTypedValue(HdSampledDataSource::Time shutterOffset) {
-        SdfPathVector paths;
-        _usdRel.GetForwardedTargets(&paths);
-        VtArray<SdfPath> vtPaths(paths.begin(), paths.end());
-        return vtPaths;
-    }
-
-    bool GetContributingSampleTimesForInterval(HdSampledDataSource::Time startTime,
-                                               HdSampledDataSource::Time endTime,
-                                               std::vector<HdSampledDataSource::Time>* outSampleTimes) {
-        return false;
-    }
-
-private:
-    UsdRelationship _usdRel;
-};
 
 class _PhysicsCollisionDataSource final : public HdContainerDataSource {
 public:

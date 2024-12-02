@@ -6,38 +6,11 @@
 
 #include "pxr/usdImaging/usdPhysicsImaging/dataSourceJoint.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
-
+#include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
 #include "pxr/usdImaging/usdPhysicsImaging/jointSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
-
-namespace {
-class DependentPrimsDataSource : public HdPathArrayDataSource {
-public:
-    HD_DECLARE_DATASOURCE(DependentPrimsDataSource);
-
-    DependentPrimsDataSource(const UsdRelationship &rel) : _usdRel(rel) {}
-
-    VtValue GetValue(HdSampledDataSource::Time shutterOffset) override { return VtValue(GetTypedValue(shutterOffset)); }
-
-    VtArray<SdfPath> GetTypedValue(HdSampledDataSource::Time shutterOffset) override {
-        SdfPathVector paths;
-        _usdRel.GetForwardedTargets(&paths);
-        VtArray<SdfPath> vtPaths(paths.begin(), paths.end());
-        return vtPaths;
-    }
-
-    bool GetContributingSampleTimesForInterval(HdSampledDataSource::Time startTime,
-                                               HdSampledDataSource::Time endTime,
-                                               std::vector<HdSampledDataSource::Time> *outSampleTimes) override {
-        return false;
-    }
-
-private:
-    UsdRelationship _usdRel;
-};
-}  // namespace
 
 UsdImagingDataSourceJoint::UsdImagingDataSourceJoint(const SdfPath &sceneIndexPath,
                                                      UsdPhysicsJoint usdJoint,

@@ -10,8 +10,7 @@ pxr_library(usdPhysicsImaging
 
         PUBLIC_CLASSES
         tokens
-        sceneSchema
-        sceneAdapter
+        dependentPrimsDataSource
 
         materialSchema
         materialAPIAdapter
@@ -52,8 +51,12 @@ pxr_library(usdPhysicsImaging
         revoluteJointAdapter
         sphericalJointAdapter
 
+        sceneSchema
+        sceneAdapter
         filteredPairsSchema
         filteredPairsAPIAdapter
+        collisionGroupSchema
+        collisionGroupAdapter
 
         physicsSceneIndex
 
