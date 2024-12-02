@@ -124,7 +124,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
 
             if (rigidBodyEnabled && xformSchema) {
                 auto xform = xformSchema.GetMatrix()->GetTypedValue(0);
-                if (const auto actor = engine->CreateStaticActor(entry.primPath, xform)) {
+                if (const auto actor = engine->CreateDynamicActor(entry.primPath, xform, rigidBodySchema)) {
                     std::cout << entry.primPath << "\t" << entry.primType << "\t RigidBody Created" << std::endl;
                 }
             }

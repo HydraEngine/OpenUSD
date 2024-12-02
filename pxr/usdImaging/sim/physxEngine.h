@@ -9,6 +9,7 @@
 #include <PxPhysicsAPI.h>
 #include <pxr/imaging/hd/sceneIndex.h>
 #include <pxr/usd/usd/prim.h>
+#include <pxr/usdImaging/usdPhysicsImaging/rigidBodySchema.h>
 
 namespace sim {
 class PhysxScene;
@@ -39,17 +40,23 @@ public:
     std::shared_ptr<PhysxScene> CreatePxScene(pxr::SdfPath primPath, pxr::HdContainerDataSourceHandle dataSource);
     std::shared_ptr<PhysxScene> FindScene(pxr::SdfPath primPath);
 
-    physx::PxMaterial* CreateMaterial(pxr::SdfPath primPath, pxr::HdContainerDataSourceHandle dataSource);
-    physx::PxMaterial* FindMaterial(pxr::SdfPath primPath);
+    physx::PxMaterial *CreateMaterial(pxr::SdfPath primPath, pxr::HdContainerDataSourceHandle dataSource);
+    physx::PxMaterial *FindMaterial(pxr::SdfPath primPath);
 
-    physx::PxRigidStatic* CreateStaticActor(const pxr::SdfPath &primPath, const pxr::GfMatrix4d &transform);
+    physx::PxRigidStatic *CreateStaticActor(const pxr::SdfPath &primPath, const pxr::GfMatrix4d &transform);
+    physx::PxRigidStatic *FindStaticActor(pxr::SdfPath primPath);
+    physx::PxRigidDynamic *CreateDynamicActor(const pxr::SdfPath &primPath,
+                                              const pxr::GfMatrix4d &transform,
+                                              pxr::UsdPhysicsImagingRigidBodySchema schema);
+    physx::PxRigidDynamic *FindDynamicsActor(pxr::SdfPath primPath);
 
 private:
     ::physx::PxPhysics *mPxPhysics;
     ::physx::PxFoundation *mPxFoundation;
     std::unordered_map<size_t, std::shared_ptr<PhysxScene>> mScenes;
-    std::unordered_map<size_t, physx::PxMaterial*> mMaterials;
-    std::unordered_map<size_t, physx::PxRigidStatic*> mStaticActors;
+    std::unordered_map<size_t, physx::PxMaterial *> mMaterials;
+    std::unordered_map<size_t, physx::PxRigidStatic *> mStaticActors;
+    std::unordered_map<size_t, physx::PxRigidDynamic *> mDynamicActors;
     PhysxSceneConfig mConfig;
 };
 }  // namespace sim

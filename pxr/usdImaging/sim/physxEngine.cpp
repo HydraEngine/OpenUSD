@@ -138,4 +138,38 @@ physx::PxRigidStatic* PhysxEngine::CreateStaticActor(const pxr::SdfPath& primPat
     return actor;
 }
 
+physx::PxRigidStatic* PhysxEngine::FindStaticActor(pxr::SdfPath primPath) {
+    if (const auto iter = mStaticActors.find(primPath.GetHash()); iter != mStaticActors.end()) {
+        return iter->second;
+    }
+    return nullptr;
+}
+
+physx::PxRigidDynamic* PhysxEngine::CreateDynamicActor(const pxr::SdfPath& primPath,
+                                                       const pxr::GfMatrix4d& transform,
+                                                       pxr::UsdPhysicsImagingRigidBodySchema schema) {
+    auto actor = mPxPhysics->createRigidDynamic(convert(transform));
+    mDynamicActors.insert({primPath.GetHash(), actor});
+
+    if (schema.GetKinematicEnabled()->GetTypedValue(0)) {
+        actor->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
+    } else {
+        actor->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, false);
+    }
+
+    const auto vel = schema.GetVelocity()->GetTypedValue(0);
+    const auto angVel = schema.GetAngularVelocity()->GetTypedValue(0);
+    actor->setLinearVelocity(convert(vel));
+    actor->setAngularVelocity(convert(angVel));
+
+    return actor;
+}
+
+physx::PxRigidDynamic* PhysxEngine::FindDynamicsActor(pxr::SdfPath primPath) {
+    if (const auto iter = mDynamicActors.find(primPath.GetHash()); iter != mDynamicActors.end()) {
+        return iter->second;
+    }
+    return nullptr;
+}
+
 }  // namespace sim
