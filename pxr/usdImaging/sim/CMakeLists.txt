@@ -7,7 +7,7 @@ set(physx5_link_libraries)
 set(physx5_include_directories)
 if (physx5_SOURCE_DIR)
     set(physx5_link_directories ${physx5_SOURCE_DIR}/bin/mac.x86_64/release)
-    set(phys5_link_libraries
+    set(physx5_link_libraries
             ${physx5_link_directories}/libPhysX_static_64.a
             ${physx5_link_directories}/libPhysXCharacterKinematic_static_64.a
             ${physx5_link_directories}/libPhysXCommon_static_64.a
