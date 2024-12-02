@@ -37,13 +37,17 @@ public:
 
 public:
     std::shared_ptr<PhysxScene> CreatePxScene(pxr::SdfPath primPath, pxr::HdContainerDataSourceHandle dataSource);
-
     std::shared_ptr<PhysxScene> FindScene(pxr::SdfPath primPath);
+
+    physx::PxMaterial* CreateMaterial(pxr::SdfPath primPath, pxr::HdContainerDataSourceHandle dataSource);
+    physx::PxMaterial* FindMaterial(pxr::SdfPath primPath);
+
 
 private:
     ::physx::PxPhysics *mPxPhysics;
     ::physx::PxFoundation *mPxFoundation;
     std::unordered_map<size_t, std::shared_ptr<PhysxScene>> mScenes;
+    std::unordered_map<size_t, physx::PxMaterial*> mMaterials;
     PhysxSceneConfig mConfig;
 };
 }  // namespace sim

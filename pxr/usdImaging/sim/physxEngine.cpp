@@ -7,7 +7,24 @@
 #include "physxEngine.h"
 #include "physxScene.h"
 #include "pxr/base/tf/diagnostic.h"
+
+#include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/collisionSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/jointSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/distanceJointSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/revoluteJointSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/fixedJointSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/sphericalJointSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/prismaticJointSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/driveSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/limitSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/articulationRootSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/rigidBodySchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/collisionGroupSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/massSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/filteredPairsSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/meshCollisionSchema.h"
 
 using namespace physx;
 using namespace pxr;
@@ -19,7 +36,7 @@ class UsdErrorCallback : public PxErrorCallback {
     PxErrorCode::Enum mLastErrorCode = PxErrorCode::eNO_ERROR;
 
 public:
-    void reportError(PxErrorCode::Enum code, const char *message, const char *file, int line) override {
+    void reportError(PxErrorCode::Enum code, const char* message, const char* file, int line) override {
         mLastErrorCode = code;
 
 #ifdef NDEBUG
@@ -73,10 +90,10 @@ PhysxEngine::~PhysxEngine() {
 
 std::shared_ptr<PhysxScene> PhysxEngine::CreatePxScene(pxr::SdfPath primPath,
                                                        pxr::HdContainerDataSourceHandle dataSource) {
-    UsdPhysicsImagingSceneSchema sceneSchema = UsdPhysicsImagingSceneSchema::GetFromParent(dataSource);
-    if (sceneSchema) {
-        auto g_length = sceneSchema.GetGravityMagnitude()->GetTypedValue(0);
-        auto g_dir = sceneSchema.GetGravityDirection()->GetTypedValue(0);
+    UsdPhysicsImagingSceneSchema schema = UsdPhysicsImagingSceneSchema::GetFromParent(dataSource);
+    if (schema) {
+        auto g_length = schema.GetGravityMagnitude()->GetTypedValue(0);
+        auto g_dir = schema.GetGravityDirection()->GetTypedValue(0);
         g_dir *= g_length;
         auto scene = std::make_shared<PhysxScene>(g_dir, mConfig);
         mScenes.insert({primPath.GetHash(), scene});
@@ -88,6 +105,28 @@ std::shared_ptr<PhysxScene> PhysxEngine::CreatePxScene(pxr::SdfPath primPath,
 std::shared_ptr<PhysxScene> PhysxEngine::FindScene(pxr::SdfPath primPath) {
     auto iter = mScenes.find(primPath.GetHash());
     if (iter != mScenes.end()) {
+        return iter->second;
+    }
+    return nullptr;
+}
+
+physx::PxMaterial* PhysxEngine::CreateMaterial(pxr::SdfPath primPath, pxr::HdContainerDataSourceHandle dataSource) {
+    UsdPhysicsImagingMaterialSchema schema = UsdPhysicsImagingMaterialSchema::GetFromParent(dataSource);
+    if (schema) {
+        auto restitution = schema.GetRestitution()->GetTypedValue(0);
+        auto staticFriction = schema.GetStaticFriction()->GetTypedValue(0);
+        auto dynamicFriction = schema.GetDynamicFriction()->GetTypedValue(0);
+
+        auto scene = mPxPhysics->createMaterial(staticFriction, dynamicFriction, restitution);
+        mMaterials.insert({primPath.GetHash(), scene});
+        return scene;
+    }
+    return nullptr;
+}
+
+physx::PxMaterial* PhysxEngine::FindMaterial(pxr::SdfPath primPath) {
+    auto iter = mMaterials.find(primPath.GetHash());
+    if (iter != mMaterials.end()) {
         return iter->second;
     }
     return nullptr;
