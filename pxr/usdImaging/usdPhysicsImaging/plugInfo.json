@@ -66,6 +66,20 @@
             "isInternal": true,
             "apiSchemaName": "PhysicsFilteredPairsAPI"
           },
+          "UsdImagingPhysicsJointAPIAdapter": {
+            "bases": [
+              "UsdImagingPrimAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysicsJoint"
+          },
+          "UsdImagingPhysicsDistanceJointAPIAdapter": {
+            "bases": [
+              "UsdImagingPhysicsJointAPIAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysicsDistanceJoint"
+          },
           "UsdImagingPhysicsSceneAdapter": {
             "bases": [
               "UsdImagingPrimAdapter"

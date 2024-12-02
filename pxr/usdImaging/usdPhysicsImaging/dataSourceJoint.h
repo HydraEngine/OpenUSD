@@ -26,13 +26,13 @@ public:
     TfTokenVector GetNames() override;
     HdDataSourceBaseHandle Get(const TfToken &name) override;
 
-private:
+protected:
     // Private constructor, use static New() instead.
     UsdImagingDataSourceJoint(const SdfPath &sceneIndexPath,
                               UsdPhysicsJoint usdJoint,
                               const UsdImagingDataSourceStageGlobals &stageGlobals);
 
-private:
+protected:
     const SdfPath _sceneIndexPath;
     UsdPhysicsJoint _usdJoint;
     const UsdImagingDataSourceStageGlobals &_stageGlobals;
@@ -56,7 +56,7 @@ public:
                                              const TfTokenVector &properties,
                                              UsdImagingPropertyInvalidationType invalidationType);
 
-private:
+protected:
     // Private constructor, use static New() instead.
     UsdImagingDataSourceJointPrim(const SdfPath &sceneIndexPath,
                                   UsdPrim usdPrim,
