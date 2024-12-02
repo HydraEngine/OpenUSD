@@ -6,6 +6,7 @@
 
 #include "physxEngine.h"
 #include "physxScene.h"
+#include "utils.h"
 #include "pxr/base/tf/diagnostic.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
@@ -125,11 +126,16 @@ physx::PxMaterial* PhysxEngine::CreateMaterial(pxr::SdfPath primPath, pxr::HdCon
 }
 
 physx::PxMaterial* PhysxEngine::FindMaterial(pxr::SdfPath primPath) {
-    auto iter = mMaterials.find(primPath.GetHash());
-    if (iter != mMaterials.end()) {
+    if (const auto iter = mMaterials.find(primPath.GetHash()); iter != mMaterials.end()) {
         return iter->second;
     }
     return nullptr;
+}
+
+physx::PxRigidStatic* PhysxEngine::CreateStaticActor(const pxr::SdfPath& primPath, const pxr::GfMatrix4d& transform) {
+    auto actor = mPxPhysics->createRigidStatic(convert(transform));
+    mStaticActors.insert({primPath.GetHash(), actor});
+    return actor;
 }
 
 }  // namespace sim

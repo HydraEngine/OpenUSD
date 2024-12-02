@@ -42,12 +42,14 @@ public:
     physx::PxMaterial* CreateMaterial(pxr::SdfPath primPath, pxr::HdContainerDataSourceHandle dataSource);
     physx::PxMaterial* FindMaterial(pxr::SdfPath primPath);
 
+    physx::PxRigidStatic* CreateStaticActor(const pxr::SdfPath &primPath, const pxr::GfMatrix4d &transform);
 
 private:
     ::physx::PxPhysics *mPxPhysics;
     ::physx::PxFoundation *mPxFoundation;
     std::unordered_map<size_t, std::shared_ptr<PhysxScene>> mScenes;
     std::unordered_map<size_t, physx::PxMaterial*> mMaterials;
+    std::unordered_map<size_t, physx::PxRigidStatic*> mStaticActors;
     PhysxSceneConfig mConfig;
 };
 }  // namespace sim

@@ -33,6 +33,7 @@
 #include "pxr/imaging/hd/meshSchema.h"
 #include "pxr/imaging/hd/xformSchema.h"
 
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/primvarsSchema.h"
 #include <pxr/imaging/hd/tokens.h>
 #include <iostream>
@@ -87,16 +88,45 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         std::cout << "Time: " << usdImagingSi->GetTime().GetValue() << std::endl;
     }
 
-    // Material
+    // Standalone Object
     for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
+        if (entry.primType == UsdPhysicsTokens->PhysicsScene) {
+            const auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
+            if (auto scene = engine->CreatePxScene(entry.primPath, prim.dataSource)) {
+                std::cout << entry.primPath << "\t" << entry.primType << "\t Scene Created" << std::endl;
+                continue;
+            }
+        }
+
         if (entry.primType == HdPrimTypeTokens->material) {
-            auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
-            auto material = engine->CreateMaterial(entry.primPath, prim.dataSource);
-            if (material) {
+            const auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
+            if (const auto material = engine->CreateMaterial(entry.primPath, prim.dataSource)) {
                 std::cout << entry.primPath << "\t" << entry.primType << std::endl;
                 std::cout << "Restitution: \t" << material->getRestitution() << std::endl;
                 std::cout << "DynamicFriction: \t" << material->getDynamicFriction() << std::endl;
                 std::cout << "StaticFriction: \t" << material->getStaticFriction() << std::endl;
+                continue;
+            }
+        }
+
+        auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
+        UsdPhysicsImagingRigidBodySchema rigidBodySchema =
+                UsdPhysicsImagingRigidBodySchema::GetFromParent(prim.dataSource);
+        if (rigidBodySchema) {
+            HdXformSchema xformSchema = HdXformSchema::GetFromParent(prim.dataSource);
+            const auto rigidBodyEnabled = rigidBodySchema.GetRigidBodyEnabled()->GetTypedValue(0);
+            if (!rigidBodyEnabled && xformSchema) {
+                auto xform = xformSchema.GetMatrix()->GetTypedValue(0);
+                if (const auto actor = engine->CreateStaticActor(entry.primPath, xform)) {
+                    std::cout << entry.primPath << "\t" << entry.primType << "\t StaticBody Created" << std::endl;
+                }
+            }
+
+            if (rigidBodyEnabled && xformSchema) {
+                auto xform = xformSchema.GetMatrix()->GetTypedValue(0);
+                if (const auto actor = engine->CreateStaticActor(entry.primPath, xform)) {
+                    std::cout << entry.primPath << "\t" << entry.primType << "\t RigidBody Created" << std::endl;
+                }
             }
         }
     }
@@ -122,18 +152,6 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         if (collisionSchema) {
             std::cout << entry.primPath << "\t" << entry.primType << std::endl;
             std::cout << "CollisionEnabled: \t" << collisionSchema.GetCollisionEnabled()->GetTypedValue(0) << std::endl;
-        }
-
-        UsdPhysicsImagingRigidBodySchema rigidBodySchema =
-        UsdPhysicsImagingRigidBodySchema::GetFromParent(prim.dataSource);
-        if (rigidBodySchema) {
-            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
-            std::cout << "KinematicEnabled: \t" << rigidBodySchema.GetKinematicEnabled()->GetTypedValue(0) << std::endl;
-        }
-
-        engine->CreatePxScene(entry.primPath, prim.dataSource);
-        if (auto pxScene = engine->FindScene(entry.primPath)) {
-            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
         }
 
         HdDistanceJointSchema distanceJointSchema = HdDistanceJointSchema::GetFromParent(prim.dataSource);

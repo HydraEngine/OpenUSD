@@ -37,6 +37,7 @@ pxr_library(usdSimImaging
         physxEngine
         physxScene
         filterShader
+        utils
 
         PUBLIC_HEADERS
         api.h
