@@ -35,14 +35,19 @@ pxr_library(usdPhysicsImaging
         distanceJointSchema
         fixedJointSchema
         prismaticJointSchema
+        revoluteJointSchema
+
         dataSourceJoint
         dataSourceDistanceJoint
         dataSourceFixedJoint
         dataSourcePrismaticJoint
+        dataSourceRevoluteJoint
+
         jointAdapter
         distanceJointAdapter
         fixedJointAdapter
         prismaticJointAdapter
+        revoluteJointAdapter
 
         filteredPairsSchema
         filteredPairsAPIAdapter
