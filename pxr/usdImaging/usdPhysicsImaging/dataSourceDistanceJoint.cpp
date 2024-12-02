@@ -38,7 +38,7 @@ HdDataSourceBaseHandle UsdImagingDataSourceDistanceJoint::Get(const TfToken &nam
             }
         }
     }
-    return nullptr;
+    return UsdImagingDataSourceJoint::Get(name);
 }
 
 // ----------------------------------------------------------------------------

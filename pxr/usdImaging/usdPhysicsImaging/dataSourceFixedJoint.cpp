@@ -23,7 +23,7 @@ TfTokenVector UsdImagingDataSourceFixedJoint::GetNames() {
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceFixedJoint::Get(const TfToken &name) {
-    return nullptr;
+    return UsdImagingDataSourceJoint::Get(name);
 }
 
 // ----------------------------------------------------------------------------
