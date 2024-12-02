@@ -87,6 +87,27 @@
             "isInternal": true,
             "primTypeName": "PhysicsFixedJoint"
           },
+          "UsdImagingPhysicsPrismaticJointAdapter": {
+            "bases": [
+              "UsdImagingPhysicsJointAPIAdapter"
+            ],
+            "isInternal": true,
+            "primTypeName": "PhysicsPrismaticJoint"
+          },
+          "UsdImagingPhysicsRevoluteJointAdapter": {
+            "bases": [
+              "UsdImagingPhysicsJointAPIAdapter"
+            ],
+            "isInternal": true,
+            "primTypeName": "PhysicsRevoluteJoint"
+          },
+          "UsdImagingPhysicsSphericalJointAdapter": {
+            "bases": [
+              "UsdImagingPhysicsJointAPIAdapter"
+            ],
+            "isInternal": true,
+            "primTypeName": "PhysicsSphericalJoint"
+          },
           "UsdImagingPhysicsSceneAdapter": {
             "bases": [
               "UsdImagingPrimAdapter"
