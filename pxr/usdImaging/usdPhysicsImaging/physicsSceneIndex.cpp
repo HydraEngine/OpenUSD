@@ -8,6 +8,8 @@
 #include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/collisionSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/jointSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/distanceJointSchema.h"
 #include "pxr/imaging/hd/cubeSchema.h"
 #include "pxr/imaging/hd/primvarsSchema.h"
 #include <pxr/imaging/hd/tokens.h>
@@ -94,6 +96,15 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             std::cout << "GravityMagnitude: \t" << sceneSchema.GetGravityMagnitude()->GetTypedValue(0) << std::endl;
             auto dir = sceneSchema.GetGravityDirection()->GetTypedValue(0);
             std::cout << "GravityDir: \t" << dir[0] << "\t" << dir[1] << "\t" << dir[2] << std::endl;
+        }
+
+        HdDistanceJointSchema distanceJointSchema = HdDistanceJointSchema::GetFromParent(prim.dataSource);
+        if (distanceJointSchema) {
+            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
+            std::cout << "MinDistance: \t" << distanceJointSchema.GetMinDistance()->GetTypedValue(0) << std::endl;
+            std::cout << "MaxDistance: \t" << distanceJointSchema.GetMaxDistance()->GetTypedValue(0) << std::endl;
+            std::cout << "BreakForce: \t" << distanceJointSchema.GetBreakForce()->GetTypedValue(0) << std::endl;
+            std::cout << "BreakTorque: \t" << distanceJointSchema.GetBreakTorque()->GetTypedValue(0) << std::endl;
         }
     }
     _SendPrimsAdded(entries);
