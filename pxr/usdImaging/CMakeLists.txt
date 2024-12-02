@@ -8,6 +8,7 @@ set(DIRS
         usdVolImaging
         usdAppUtils
         usdviewq
+        sim
         bin
         plugin
 )

@@ -1,0 +1,11 @@
+{
+  "Plugins": [
+    {
+      "LibraryPath": "@PLUG_INFO_LIBRARY_PATH@",
+      "Name": "usdPhysicsImaging",
+      "ResourcePath": "@PLUG_INFO_RESOURCE_PATH@",
+      "Root": "@PLUG_INFO_ROOT@",
+      "Type": "library"
+    }
+  ]
+}

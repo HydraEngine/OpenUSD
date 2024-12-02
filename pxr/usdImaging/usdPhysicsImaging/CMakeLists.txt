@@ -57,8 +57,6 @@ pxr_library(usdPhysicsImaging
         collisionGroupSchema
         collisionGroupAdapter
 
-        physicsSceneIndex
-
         PUBLIC_HEADERS
         api.h
 
