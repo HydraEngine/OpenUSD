@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "pxr/usdImaging/usdPhysicsImaging/physicsSceneIndex.h"
+#include "pxr/usdImaging/sim/physicsSceneIndex.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"

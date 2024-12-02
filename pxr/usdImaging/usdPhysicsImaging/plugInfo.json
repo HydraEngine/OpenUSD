@@ -75,35 +75,35 @@
           },
           "UsdImagingPhysicsDistanceJointAdapter": {
             "bases": [
-              "UsdImagingPhysicsJointAPIAdapter"
+              "UsdImagingPrimAdapter"
             ],
             "isInternal": true,
             "primTypeName": "PhysicsDistanceJoint"
           },
           "UsdImagingPhysicsFixedJointAdapter": {
             "bases": [
-              "UsdImagingPhysicsJointAPIAdapter"
+              "UsdImagingPrimAdapter"
             ],
             "isInternal": true,
             "primTypeName": "PhysicsFixedJoint"
           },
           "UsdImagingPhysicsPrismaticJointAdapter": {
             "bases": [
-              "UsdImagingPhysicsJointAPIAdapter"
+              "UsdImagingPrimAdapter"
             ],
             "isInternal": true,
             "primTypeName": "PhysicsPrismaticJoint"
           },
           "UsdImagingPhysicsRevoluteJointAdapter": {
             "bases": [
-              "UsdImagingPhysicsJointAPIAdapter"
+              "UsdImagingPrimAdapter"
             ],
             "isInternal": true,
             "primTypeName": "PhysicsRevoluteJoint"
           },
           "UsdImagingPhysicsSphericalJointAdapter": {
             "bases": [
-              "UsdImagingPhysicsJointAPIAdapter"
+              "UsdImagingPrimAdapter"
             ],
             "isInternal": true,
             "primTypeName": "PhysicsSphericalJoint"
