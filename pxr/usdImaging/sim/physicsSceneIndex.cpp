@@ -23,6 +23,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/massSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/filteredPairsSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/meshCollisionSchema.h"
+#include "pxr/usdImaging/usdImaging/directMaterialBindingsSchema.h"
 
 #include "pxr/imaging/hd/cubeSchema.h"
 #include "pxr/imaging/hd/capsuleSchema.h"
@@ -85,17 +86,23 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         std::cout << "Time: " << usdImagingSi->GetTime().GetValue() << std::endl;
     }
 
+    // Material
+    for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
+        if (entry.primType == HdPrimTypeTokens->material) {
+            auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
+            auto material = engine->CreateMaterial(entry.primPath, prim.dataSource);
+            if (material) {
+                std::cout << entry.primPath << "\t" << entry.primType << std::endl;
+                std::cout << "Restitution: \t" << material->getRestitution() << std::endl;
+                std::cout << "DynamicFriction: \t" << material->getDynamicFriction() << std::endl;
+                std::cout << "StaticFriction: \t" << material->getStaticFriction() << std::endl;
+            }
+        }
+    }
+
     for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
         auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
         HdPrimvarsSchema primVarsSchema = HdPrimvarsSchema::GetFromParent(prim.dataSource);
-
-        auto material = engine->CreateMaterial(entry.primPath, prim.dataSource);
-        if (material && primVarsSchema) {
-            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
-            std::cout << "Restitution: \t" << material->getRestitution() << std::endl;
-            std::cout << "DynamicFriction: \t" << material->getDynamicFriction() << std::endl;
-            std::cout << "StaticFriction: \t" << material->getStaticFriction() << std::endl;
-        }
 
         HdCubeSchema cubeSchema = HdCubeSchema::GetFromParent(prim.dataSource);
         if (cubeSchema) {
@@ -130,6 +137,27 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             std::cout << "UpperLimit: \t" << revoluteJointSchema.GetUpperLimit()->GetTypedValue(0) << std::endl;
             std::cout << "BreakForce: \t" << revoluteJointSchema.GetBreakForce()->GetTypedValue(0) << std::endl;
             std::cout << "BreakTorque: \t" << revoluteJointSchema.GetBreakTorque()->GetTypedValue(0) << std::endl;
+        }
+    }
+
+    for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
+        auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
+
+        UsdImagingDirectMaterialBindingsSchema materialBindingSchema =
+                UsdImagingDirectMaterialBindingsSchema::GetFromParent(prim.dataSource);
+        if (materialBindingSchema) {
+            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
+            auto binding = materialBindingSchema.GetDirectMaterialBinding(TfToken("physics"));
+            if (binding) {
+                auto path = binding.GetMaterialPath()->GetTypedValue(0);
+                auto material = engine->FindMaterial(path);
+                if (material) {
+                    std::cout << entry.primPath << "\t" << entry.primType << "\t Link Material:\t" << path << std::endl;
+                    std::cout << "Restitution: \t" << material->getRestitution() << std::endl;
+                    std::cout << "DynamicFriction: \t" << material->getDynamicFriction() << std::endl;
+                    std::cout << "StaticFriction: \t" << material->getStaticFriction() << std::endl;
+                }
+            }
         }
     }
     _SendPrimsAdded(entries);
