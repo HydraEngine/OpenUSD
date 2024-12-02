@@ -31,6 +31,7 @@
 #include "pxr/imaging/hd/coneSchema.h"
 #include "pxr/imaging/hd/cylinderSchema.h"
 #include "pxr/imaging/hd/meshSchema.h"
+#include "pxr/imaging/hd/xformSchema.h"
 
 #include "pxr/imaging/hd/primvarsSchema.h"
 #include <pxr/imaging/hd/tokens.h>
@@ -106,7 +107,14 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
 
         HdCubeSchema cubeSchema = HdCubeSchema::GetFromParent(prim.dataSource);
         if (cubeSchema) {
-            std::cout << entry.primPath << "\t" << "is Cube" << std::endl;
+            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
+            std::cout << "Size: \t" << cubeSchema.GetSize()->GetTypedValue(0) << std::endl;
+        }
+
+        HdXformSchema xformSchema = HdXformSchema::GetFromParent(prim.dataSource);
+        if (xformSchema) {
+            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
+            std::cout << "Matrix: \t" << xformSchema.GetMatrix()->GetTypedValue(0) << std::endl;
         }
 
         UsdPhysicsImagingCollisionSchema collisionSchema =
@@ -114,6 +122,13 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         if (collisionSchema) {
             std::cout << entry.primPath << "\t" << entry.primType << std::endl;
             std::cout << "CollisionEnabled: \t" << collisionSchema.GetCollisionEnabled()->GetTypedValue(0) << std::endl;
+        }
+
+        UsdPhysicsImagingRigidBodySchema rigidBodySchema =
+        UsdPhysicsImagingRigidBodySchema::GetFromParent(prim.dataSource);
+        if (rigidBodySchema) {
+            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
+            std::cout << "KinematicEnabled: \t" << rigidBodySchema.GetKinematicEnabled()->GetTypedValue(0) << std::endl;
         }
 
         engine->CreatePxScene(entry.primPath, prim.dataSource);
