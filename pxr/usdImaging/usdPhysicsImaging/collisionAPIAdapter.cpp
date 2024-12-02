@@ -9,7 +9,7 @@
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/collisionSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/tokens.h"
@@ -74,7 +74,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsCollisionAPIAdapter::GetImagingSubp
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsCollision,
+        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsCollisionAPI,
                                                   _PhysicsCollisionDataSource::New(prim));
     }
 

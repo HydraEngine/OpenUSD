@@ -10,7 +10,7 @@
 #include "pxr/usdImaging/usdImaging/delegate.h"
 #include "pxr/usdImaging/usdImaging/indexProxy.h"
 #include "pxr/usdImaging/usdPhysicsImaging/fixedJointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include "pxr/usd/usdPhysics/fixedJoint.h"
@@ -33,7 +33,7 @@ TfTokenVector UsdImagingPhysicsFixedJointAdapter::GetImagingSubprims(UsdPrim con
 
 TfToken UsdImagingPhysicsFixedJointAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return HdPhysicsSchemaTokens->physicsFixedJoint;
+        return UsdPhysicsTokens->PhysicsFixedJoint;
     }
     return TfToken();
 }

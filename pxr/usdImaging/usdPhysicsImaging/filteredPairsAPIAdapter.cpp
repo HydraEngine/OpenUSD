@@ -10,7 +10,7 @@
 
 #include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
 #include "pxr/usdImaging/usdPhysicsImaging/filteredPairsSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/filteredPairsAPI.h"
 
@@ -64,7 +64,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsFilteredPairsAPIAdapter::GetImaging
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsFilteredPairs,
+        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsFilteredPairsAPI,
                                                   _PhysicsFilteredPairsDataSource::New(prim));
     }
 

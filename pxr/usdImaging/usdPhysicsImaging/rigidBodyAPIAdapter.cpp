@@ -10,7 +10,7 @@
 
 #include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
 #include "pxr/usdImaging/usdPhysicsImaging/rigidBodySchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/rigidBodyAPI.h"
@@ -104,7 +104,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsRigidBodyAPIAdapter::GetImagingSubp
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsRigidBody,
+        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsRigidBodyAPI,
                                                   _PhysicsRigidBodyDataSource::New(prim));
     }
 

@@ -9,7 +9,6 @@ pxr_library(usdPhysicsImaging
         usdPhysics
 
         PUBLIC_CLASSES
-        tokens
         dependentPrimsDataSource
 
         materialSchema

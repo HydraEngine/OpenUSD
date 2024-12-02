@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/base/trace/trace.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -31,11 +31,11 @@ HdFloatDataSourceHandle UsdPhysicsImagingMaterialSchema::GetStaticFriction() con
 UsdPhysicsImagingMaterialSchema UsdPhysicsImagingMaterialSchema::GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer) {
     return UsdPhysicsImagingMaterialSchema(fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(
-                                                                         HdPhysicsSchemaTokens->physicsMaterial))
+                                                                         UsdPhysicsTokens->PhysicsMaterialAPI))
                                                                : nullptr);
 }
 
-const TfToken &UsdPhysicsImagingMaterialSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsMaterial; }
+const TfToken &UsdPhysicsImagingMaterialSchema::GetSchemaToken() { return UsdPhysicsTokens->PhysicsMaterialAPI; }
 
 const HdDataSourceLocator &UsdPhysicsImagingMaterialSchema::GetDefaultLocator() {
     static const HdDataSourceLocator locator(GetSchemaToken());

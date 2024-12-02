@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/massSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/base/trace/trace.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -15,7 +15,7 @@ PXR_NAMESPACE_OPEN_SCOPE
 UsdPhysicsImagingMassSchema UsdPhysicsImagingMassSchema::GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer) {
     return UsdPhysicsImagingMassSchema(fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(
-                                                                     HdPhysicsSchemaTokens->physicsMass))
+                                                                     UsdPhysicsTokens->PhysicsMassAPI))
                                                            : nullptr);
 }
 
@@ -35,7 +35,7 @@ HdQuatfDataSourceHandle UsdPhysicsImagingMassSchema::GetPrincipalAxes() const {
     return _GetTypedDataSource<HdQuatfDataSource>(UsdPhysicsTokens->physicsPrincipalAxes);
 }
 
-const TfToken &UsdPhysicsImagingMassSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsMass; }
+const TfToken &UsdPhysicsImagingMassSchema::GetSchemaToken() { return UsdPhysicsTokens->PhysicsMassAPI; }
 
 const HdDataSourceLocator &UsdPhysicsImagingMassSchema::GetDefaultLocator() {
     static const HdDataSourceLocator locator(GetSchemaToken());

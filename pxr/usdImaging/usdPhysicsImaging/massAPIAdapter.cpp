@@ -9,7 +9,7 @@
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/massSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/massAPI.h"
@@ -98,7 +98,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsMassAPIAdapter::GetImagingSubprimDa
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsMass,
+        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsMassAPI,
                                                   _PhysicsMassDataSource::New(prim));
     }
 

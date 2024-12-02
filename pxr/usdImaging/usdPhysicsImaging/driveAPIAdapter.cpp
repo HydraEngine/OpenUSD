@@ -9,7 +9,7 @@
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/driveSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/driveAPI.h"
 #include "pxr/usd/usdPhysics/tokens.h"
@@ -110,7 +110,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsDriveAPIAdapter::GetImagingSubprimD
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsDrive,
+        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsDriveAPI,
                                                   _PhysicsDriveDataSource::New(prim));
     }
 

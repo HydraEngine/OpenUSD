@@ -11,7 +11,7 @@
 #include "pxr/usdImaging/usdImaging/delegate.h"
 #include "pxr/usdImaging/usdImaging/indexProxy.h"
 #include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include "pxr/usd/usdPhysics/scene.h"
@@ -145,7 +145,7 @@ TfTokenVector UsdImagingPhysicsSceneAdapter::GetImagingSubprims(UsdPrim const& p
 
 TfToken UsdImagingPhysicsSceneAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return HdPhysicsSchemaTokens->physicsScene;
+        return UsdPhysicsTokens->PhysicsScene;
     }
     return TfToken();
 }

@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/filteredPairsSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/base/trace/trace.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -16,7 +16,7 @@ UsdPhysicsImagingFilteredPairsSchema UsdPhysicsImagingFilteredPairsSchema::GetFr
         const HdContainerDataSourceHandle &fromParentContainer) {
     return UsdPhysicsImagingFilteredPairsSchema(
             fromParentContainer
-                    ? HdContainerDataSource::Cast(fromParentContainer->Get(HdPhysicsSchemaTokens->physicsFilteredPairs))
+                    ? HdContainerDataSource::Cast(fromParentContainer->Get(UsdPhysicsTokens->PhysicsFilteredPairsAPI))
                     : nullptr);
 }
 
@@ -25,7 +25,7 @@ HdPathArrayDataSourceHandle UsdPhysicsImagingFilteredPairsSchema::GetFilteredPai
 }
 
 const TfToken &UsdPhysicsImagingFilteredPairsSchema::GetSchemaToken() {
-    return HdPhysicsSchemaTokens->physicsFilteredPairs;
+    return UsdPhysicsTokens->PhysicsFilteredPairsAPI;
 }
 
 const HdDataSourceLocator &UsdPhysicsImagingFilteredPairsSchema::GetDefaultLocator() {

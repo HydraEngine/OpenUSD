@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/collisionSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/base/trace/trace.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -23,11 +23,11 @@ HdPathArrayDataSourceHandle UsdPhysicsImagingCollisionSchema::GetSimulationOwner
 UsdPhysicsImagingCollisionSchema UsdPhysicsImagingCollisionSchema::GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer) {
     return UsdPhysicsImagingCollisionSchema(fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(
-                                                                          HdPhysicsSchemaTokens->physicsCollision))
+                                                                         UsdPhysicsTokens->PhysicsCollisionAPI))
                                                                 : nullptr);
 }
 
-const TfToken &UsdPhysicsImagingCollisionSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsCollision; }
+const TfToken &UsdPhysicsImagingCollisionSchema::GetSchemaToken() { return UsdPhysicsTokens->PhysicsCollisionAPI; }
 
 const HdDataSourceLocator &UsdPhysicsImagingCollisionSchema::GetDefaultLocator() {
     static const HdDataSourceLocator locator(GetSchemaToken());

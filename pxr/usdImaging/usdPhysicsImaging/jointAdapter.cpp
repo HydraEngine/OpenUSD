@@ -11,7 +11,7 @@
 #include "pxr/usdImaging/usdImaging/delegate.h"
 #include "pxr/usdImaging/usdImaging/indexProxy.h"
 #include "pxr/usdImaging/usdPhysicsImaging/jointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include "pxr/usd/usdPhysics/joint.h"
@@ -34,7 +34,7 @@ TfTokenVector UsdImagingPhysicsJointAdapter::GetImagingSubprims(UsdPrim const& p
 
 TfToken UsdImagingPhysicsJointAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return HdPhysicsSchemaTokens->physicsJoint;
+        return UsdPhysicsTokens->PhysicsJoint;
     }
     return TfToken();
 }

@@ -10,7 +10,7 @@
 
 #include "pxr/base/trace/trace.h"
 #include "pxr/usd/usdPhysics/tokens.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 HdTokenDataSourceHandle HdPrismaticJointSchema::GetAxis() const {
@@ -26,12 +26,12 @@ HdFloatDataSourceHandle HdPrismaticJointSchema::GetUpperLimit() const {
 /*static*/
 HdPrismaticJointSchema HdPrismaticJointSchema::GetFromParent(const HdContainerDataSourceHandle &fromParentContainer) {
     return HdPrismaticJointSchema(fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(
-                                                               HdPhysicsSchemaTokens->physicsPrismaticJoint))
+                                                               UsdPhysicsTokens->PhysicsPrismaticJoint))
                                                      : nullptr);
 }
 
 /*static*/
-const TfToken &HdPrismaticJointSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsPrismaticJoint; }
+const TfToken &HdPrismaticJointSchema::GetSchemaToken() { return UsdPhysicsTokens->PhysicsPrismaticJoint; }
 
 /*static*/
 const HdDataSourceLocator &HdPrismaticJointSchema::GetDefaultLocator() {

@@ -9,7 +9,7 @@
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/articulationRootSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include <iostream>
@@ -45,7 +45,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsArticulationRootAPIAdapter::GetImag
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsArticulationRoot,
+        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsArticulationRootAPI,
                                                   _PhysicsArticulationRootDataSource::New());
     }
 

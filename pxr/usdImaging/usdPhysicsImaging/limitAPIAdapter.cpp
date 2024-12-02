@@ -9,9 +9,8 @@
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/limitSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
-#include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/limitAPI.h"
 
 #include <iostream>
@@ -73,7 +72,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsLimitAPIAdapter::GetImagingSubprimD
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsLimit,
+        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsLimitAPI,
                                                   _PhysicsLimitDataSource::New(prim));
     }
 

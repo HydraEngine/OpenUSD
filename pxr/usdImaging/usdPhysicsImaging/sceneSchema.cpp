@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/base/trace/trace.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -23,11 +23,11 @@ HdVec3fDataSourceHandle UsdPhysicsImagingSceneSchema::GetGravityDirection() cons
 UsdPhysicsImagingSceneSchema UsdPhysicsImagingSceneSchema::GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer) {
     return UsdPhysicsImagingSceneSchema(fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(
-                                                                      HdPhysicsSchemaTokens->physicsScene))
+                                                                      UsdPhysicsTokens->PhysicsScene))
                                                             : nullptr);
 }
 
-const TfToken &UsdPhysicsImagingSceneSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsScene; }
+const TfToken &UsdPhysicsImagingSceneSchema::GetSchemaToken() { return UsdPhysicsTokens->PhysicsScene; }
 
 const HdDataSourceLocator &UsdPhysicsImagingSceneSchema::GetDefaultLocator() {
     static const HdDataSourceLocator locator(GetSchemaToken());

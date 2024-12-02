@@ -9,7 +9,7 @@
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/meshCollisionSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/meshCollisionAPI.h"
@@ -65,7 +65,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsMeshCollisionAPIAdapter::GetImaging
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsMeshCollision,
+        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsMeshCollisionAPI,
                                                   _PhysicsMeshCollisionDataSource::New(prim));
     }
 

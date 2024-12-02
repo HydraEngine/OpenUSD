@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/rigidBodySchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/base/trace/trace.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -15,7 +15,7 @@ PXR_NAMESPACE_OPEN_SCOPE
 UsdPhysicsImagingRigidBodySchema UsdPhysicsImagingRigidBodySchema::GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer) {
     return UsdPhysicsImagingRigidBodySchema(fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(
-                                                                          HdPhysicsSchemaTokens->physicsRigidBody))
+                                                                          UsdPhysicsTokens->PhysicsRigidBodyAPI))
                                                                 : nullptr);
 }
 
@@ -38,7 +38,7 @@ HdPathArrayDataSourceHandle UsdPhysicsImagingRigidBodySchema::GetSimulationOwner
     return _GetTypedDataSource<HdPathArrayDataSource>(UsdPhysicsTokens->physicsSimulationOwner);
 }
 
-const TfToken &UsdPhysicsImagingRigidBodySchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsLimit; }
+const TfToken &UsdPhysicsImagingRigidBodySchema::GetSchemaToken() { return UsdPhysicsTokens->PhysicsRigidBodyAPI; }
 
 const HdDataSourceLocator &UsdPhysicsImagingRigidBodySchema::GetDefaultLocator() {
     static const HdDataSourceLocator locator(GetSchemaToken());

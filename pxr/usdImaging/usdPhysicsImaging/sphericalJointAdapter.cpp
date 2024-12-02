@@ -10,7 +10,7 @@
 #include "pxr/usdImaging/usdImaging/delegate.h"
 #include "pxr/usdImaging/usdImaging/indexProxy.h"
 #include "pxr/usdImaging/usdPhysicsImaging/sphericalJointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include "pxr/usd/usdPhysics/sphericalJoint.h"
@@ -33,7 +33,7 @@ TfTokenVector UsdImagingPhysicsSphericalJointAdapter::GetImagingSubprims(UsdPrim
 
 TfToken UsdImagingPhysicsSphericalJointAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return HdPhysicsSchemaTokens->physicsSphericalJoint;
+        return UsdPhysicsTokens->PhysicsSphericalJoint;
     }
     return TfToken();
 }

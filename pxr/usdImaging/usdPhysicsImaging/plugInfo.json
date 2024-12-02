@@ -108,6 +108,13 @@
             "isInternal": true,
             "primTypeName": "PhysicsSphericalJoint"
           },
+          "UsdImagingPhysicsCollisionGroupAdapter": {
+            "bases": [
+              "UsdImagingPrimAdapter"
+            ],
+            "isInternal": true,
+            "primTypeName": "PhysicsCollisionGroup"
+          },
           "UsdImagingPhysicsSceneAdapter": {
             "bases": [
               "UsdImagingPrimAdapter"

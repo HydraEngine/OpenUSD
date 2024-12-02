@@ -10,7 +10,7 @@
 #include "pxr/usdImaging/usdImaging/delegate.h"
 #include "pxr/usdImaging/usdImaging/indexProxy.h"
 #include "pxr/usdImaging/usdPhysicsImaging/revoluteJointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include "pxr/usd/usdPhysics/revoluteJoint.h"
@@ -33,7 +33,7 @@ TfTokenVector UsdImagingPhysicsRevoluteJointAdapter::GetImagingSubprims(UsdPrim 
 
 TfToken UsdImagingPhysicsRevoluteJointAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return HdPhysicsSchemaTokens->physicsRevoluteJoint;
+        return UsdPhysicsTokens->PhysicsRevoluteJoint;
     }
     return TfToken();
 }

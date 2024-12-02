@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/driveSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/base/trace/trace.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -15,7 +15,7 @@ PXR_NAMESPACE_OPEN_SCOPE
 UsdPhysicsImagingDriveSchema UsdPhysicsImagingDriveSchema::GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer) {
     return UsdPhysicsImagingDriveSchema(fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(
-                                                                      HdPhysicsSchemaTokens->physicsDrive))
+                                                                      UsdPhysicsTokens->PhysicsDriveAPI))
                                                             : nullptr);
 }
 
@@ -38,7 +38,7 @@ HdFloatDataSourceHandle UsdPhysicsImagingDriveSchema::GetStiffness() const {
     return _GetTypedDataSource<HdFloatDataSource>(UsdPhysicsTokens->drive_MultipleApplyTemplate_PhysicsStiffness);
 }
 
-const TfToken &UsdPhysicsImagingDriveSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsDrive; }
+const TfToken &UsdPhysicsImagingDriveSchema::GetSchemaToken() { return UsdPhysicsTokens->PhysicsDriveAPI; }
 
 const HdDataSourceLocator &UsdPhysicsImagingDriveSchema::GetDefaultLocator() {
     static const HdDataSourceLocator locator(GetSchemaToken());

@@ -10,19 +10,19 @@
 
 #include "pxr/base/trace/trace.h"
 #include "pxr/usd/usdPhysics/tokens.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
 /*static*/
 HdFixedJointSchema HdFixedJointSchema::GetFromParent(const HdContainerDataSourceHandle &fromParentContainer) {
     return HdFixedJointSchema(fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(
-                                                               HdPhysicsSchemaTokens->physicsFixedJoint))
+                                                              UsdPhysicsTokens->PhysicsFixedJoint))
                                                      : nullptr);
 }
 
 /*static*/
-const TfToken &HdFixedJointSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsFixedJoint; }
+const TfToken &HdFixedJointSchema::GetSchemaToken() { return UsdPhysicsTokens->PhysicsFixedJoint; }
 
 /*static*/
 const HdDataSourceLocator &HdFixedJointSchema::GetDefaultLocator() {

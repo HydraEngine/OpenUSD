@@ -10,7 +10,7 @@
 
 #include "pxr/base/trace/trace.h"
 #include "pxr/usd/usdPhysics/tokens.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
@@ -24,12 +24,12 @@ HdFloatDataSourceHandle HdDistanceJointSchema::GetMaxDistance() const {
 /*static*/
 HdDistanceJointSchema HdDistanceJointSchema::GetFromParent(const HdContainerDataSourceHandle &fromParentContainer) {
     return HdDistanceJointSchema(fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(
-                                                               HdPhysicsSchemaTokens->physicsDistanceJoint))
+                                                               UsdPhysicsTokens->PhysicsDistanceJoint))
                                                      : nullptr);
 }
 
 /*static*/
-const TfToken &HdDistanceJointSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsDistanceJoint; }
+const TfToken &HdDistanceJointSchema::GetSchemaToken() { return UsdPhysicsTokens->PhysicsDistanceJoint; }
 
 /*static*/
 const HdDataSourceLocator &HdDistanceJointSchema::GetDefaultLocator() {

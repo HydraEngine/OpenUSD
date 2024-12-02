@@ -10,7 +10,7 @@
 
 #include "pxr/base/trace/trace.h"
 #include "pxr/usd/usdPhysics/tokens.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 HdTokenDataSourceHandle HdSphericalJointSchema::GetAxis() const {
@@ -26,12 +26,12 @@ HdFloatDataSourceHandle HdSphericalJointSchema::GetConeAngle1Limit() const {
 /*static*/
 HdSphericalJointSchema HdSphericalJointSchema::GetFromParent(const HdContainerDataSourceHandle &fromParentContainer) {
     return HdSphericalJointSchema(fromParentContainer ? HdContainerDataSource::Cast(fromParentContainer->Get(
-                                                                HdPhysicsSchemaTokens->physicsSphericalJoint))
+                                                                UsdPhysicsTokens->PhysicsSphericalJoint))
                                                       : nullptr);
 }
 
 /*static*/
-const TfToken &HdSphericalJointSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsSphericalJoint; }
+const TfToken &HdSphericalJointSchema::GetSchemaToken() { return UsdPhysicsTokens->PhysicsSphericalJoint; }
 
 /*static*/
 const HdDataSourceLocator &HdSphericalJointSchema::GetDefaultLocator() {

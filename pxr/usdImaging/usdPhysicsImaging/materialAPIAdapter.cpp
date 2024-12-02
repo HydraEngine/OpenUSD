@@ -10,7 +10,7 @@
 
 #include "pxr/usd/usdPhysics/materialAPI.h"
 #include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include <iostream>
@@ -89,7 +89,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsMaterialAPIAdapter::GetImagingSubpr
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdPhysicsSchemaTokens->physicsMaterial,
+        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsMaterialAPI,
                                                   _PhysicsMaterialDataSource::New(prim, stageGlobals));
     }
 

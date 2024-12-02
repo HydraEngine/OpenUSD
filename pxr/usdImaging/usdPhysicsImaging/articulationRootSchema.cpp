@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/articulationRootSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/base/trace/trace.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
@@ -15,12 +15,12 @@ UsdPhysicsImagingArticulationRootSchema UsdPhysicsImagingArticulationRootSchema:
         const HdContainerDataSourceHandle &fromParentContainer) {
     return UsdPhysicsImagingArticulationRootSchema(fromParentContainer
                                                            ? HdContainerDataSource::Cast(fromParentContainer->Get(
-                                                                     HdPhysicsSchemaTokens->physicsArticulationRoot))
+                                                                     UsdPhysicsTokens->PhysicsArticulationRootAPI))
                                                            : nullptr);
 }
 
 const TfToken &UsdPhysicsImagingArticulationRootSchema::GetSchemaToken() {
-    return HdPhysicsSchemaTokens->physicsArticulationRoot;
+    return UsdPhysicsTokens->PhysicsArticulationRootAPI;
 }
 
 const HdDataSourceLocator &UsdPhysicsImagingArticulationRootSchema::GetDefaultLocator() {

@@ -10,7 +10,7 @@
 
 #include "pxr/base/trace/trace.h"
 #include "pxr/usd/usdPhysics/tokens.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
@@ -51,12 +51,12 @@ HdPathArrayDataSourceHandle HdJointSchema::GetBody1() const {
 /*static*/
 HdJointSchema HdJointSchema::GetFromParent(const HdContainerDataSourceHandle &fromParentContainer) {
     return HdJointSchema(fromParentContainer ? HdContainerDataSource::Cast(
-                                                       fromParentContainer->Get(HdPhysicsSchemaTokens->physicsJoint))
+                                                       fromParentContainer->Get(UsdPhysicsTokens->PhysicsJoint))
                                              : nullptr);
 }
 
 /*static*/
-const TfToken &HdJointSchema::GetSchemaToken() { return HdPhysicsSchemaTokens->physicsJoint; }
+const TfToken &HdJointSchema::GetSchemaToken() { return UsdPhysicsTokens->PhysicsJoint; }
 
 /*static*/
 const HdDataSourceLocator &HdJointSchema::GetDefaultLocator() {

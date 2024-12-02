@@ -11,7 +11,7 @@
 #include "pxr/usdImaging/usdImaging/delegate.h"
 #include "pxr/usdImaging/usdImaging/indexProxy.h"
 #include "pxr/usdImaging/usdPhysicsImaging/collisionGroupSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/tokens.h"
+#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -154,7 +154,7 @@ TfTokenVector UsdImagingPhysicsCollisionGroupAdapter::GetImagingSubprims(UsdPrim
 
 TfToken UsdImagingPhysicsCollisionGroupAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return HdPhysicsSchemaTokens->physicsCollisionGroup;
+        return UsdPhysicsTokens->PhysicsCollisionGroup;
     }
     return TfToken();
 }
