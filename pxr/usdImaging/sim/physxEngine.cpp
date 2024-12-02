@@ -5,7 +5,9 @@
 //  property of any third parties.
 
 #include "physxEngine.h"
+#include "physxScene.h"
 #include "pxr/base/tf/diagnostic.h"
+#include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
 
 using namespace physx;
 using namespace pxr;
@@ -68,4 +70,19 @@ PhysxEngine::~PhysxEngine() {
     mPxPhysics->release();
     mPxFoundation->release();
 }
+
+std::shared_ptr<PhysxScene> PhysxEngine::CreatePxScene(pxr::SdfPath primPath,
+                                                       pxr::HdContainerDataSourceHandle dataSource) {
+    UsdPhysicsImagingSceneSchema sceneSchema = UsdPhysicsImagingSceneSchema::GetFromParent(dataSource);
+    if (sceneSchema) {
+        auto g_length = sceneSchema.GetGravityMagnitude()->GetTypedValue(0);
+        auto g_dir = sceneSchema.GetGravityDirection()->GetTypedValue(0);
+        g_dir *= g_length;
+        auto scene = std::make_shared<PhysxScene>(g_dir, mConfig);
+        mScenes.insert({primPath, scene});
+        return scene;
+    }
+    return nullptr;
+}
+
 }  // namespace sim
