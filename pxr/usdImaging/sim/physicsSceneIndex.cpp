@@ -71,6 +71,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
     if (!_IsObserved()) {
         return;
     }
+    auto engine = GetSimulation();
 
     UsdImagingStageSceneIndexRefPtr usdImagingSi;
     if (auto filteringIdx = dynamic_cast<HdFilteringSceneIndexBase const *>(&sender)) {
@@ -110,12 +111,9 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             std::cout << "CollisionEnabled: \t" << collisionSchema.GetCollisionEnabled()->GetTypedValue(0) << std::endl;
         }
 
-        UsdPhysicsImagingSceneSchema sceneSchema = UsdPhysicsImagingSceneSchema::GetFromParent(prim.dataSource);
-        if (sceneSchema) {
+        engine->CreatePxScene(entry.primPath, prim.dataSource);
+        if (auto pxScene = engine->FindScene(entry.primPath)) {
             std::cout << entry.primPath << "\t" << entry.primType << std::endl;
-            std::cout << "GravityMagnitude: \t" << sceneSchema.GetGravityMagnitude()->GetTypedValue(0) << std::endl;
-            auto dir = sceneSchema.GetGravityDirection()->GetTypedValue(0);
-            std::cout << "GravityDir: \t" << dir[0] << "\t" << dir[1] << "\t" << dir[2] << std::endl;
         }
 
         HdDistanceJointSchema distanceJointSchema = HdDistanceJointSchema::GetFromParent(prim.dataSource);
@@ -169,6 +167,10 @@ HdSceneIndexPrim UsdImagingPhysicsSceneIndex::GetPrim(const SdfPath &primPath) c
 
 SdfPathVector UsdImagingPhysicsSceneIndex::GetChildPrimPaths(const SdfPath &primPath) const {
     return _GetInputSceneIndex()->GetChildPrimPaths(primPath);
+}
+
+std::shared_ptr<sim::PhysxEngine> UsdImagingPhysicsSceneIndex::GetSimulation() {
+    return sim::PhysxEngine::Get();
 }
 
 PXR_NAMESPACE_CLOSE_SCOPE

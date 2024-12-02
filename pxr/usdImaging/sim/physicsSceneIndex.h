@@ -11,6 +11,7 @@
 #include <pxr/usdImaging/usdImaging/stageSceneIndex.h>
 
 #include "pxr/usdImaging/usdPhysicsImaging/api.h"
+#include "physxEngine.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
@@ -25,6 +26,8 @@ public:
     HdSceneIndexPrim GetPrim(const SdfPath &primPath) const override;
     USDPHYSICSIMAGING_API
     SdfPathVector GetChildPrimPaths(const SdfPath &primPath) const override;
+
+    std::shared_ptr<sim::PhysxEngine> GetSimulation();
 
 protected:
     UsdImagingPhysicsSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex);

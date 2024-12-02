@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "physXScene.h"
+#include "physxScene.h"
 #include "physxEngine.h"
 #include "filterShader.h"
 

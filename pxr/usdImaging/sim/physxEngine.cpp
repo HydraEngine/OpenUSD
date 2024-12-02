@@ -79,8 +79,16 @@ std::shared_ptr<PhysxScene> PhysxEngine::CreatePxScene(pxr::SdfPath primPath,
         auto g_dir = sceneSchema.GetGravityDirection()->GetTypedValue(0);
         g_dir *= g_length;
         auto scene = std::make_shared<PhysxScene>(g_dir, mConfig);
-        mScenes.insert({primPath, scene});
+        mScenes.insert({primPath.GetHash(), scene});
         return scene;
+    }
+    return nullptr;
+}
+
+std::shared_ptr<PhysxScene> PhysxEngine::FindScene(pxr::SdfPath primPath) {
+    auto iter = mScenes.find(primPath.GetHash());
+    if (iter != mScenes.end()) {
+        return iter->second;
     }
     return nullptr;
 }
