@@ -5,12 +5,32 @@
 //  property of any third parties.
 
 #include "pxr/usdImaging/usdPhysicsImaging/physicsSceneIndex.h"
+
 #include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/collisionSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/jointSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/distanceJointSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/revoluteJointSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/fixedJointSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/sphericalJointSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/prismaticJointSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/driveSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/limitSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/articulationRootSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/rigidBodySchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/collisionGroupSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/massSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/filteredPairsSchema.h"
+#include "pxr/usdImaging/usdPhysicsImaging/meshCollisionSchema.h"
+
 #include "pxr/imaging/hd/cubeSchema.h"
+#include "pxr/imaging/hd/capsuleSchema.h"
+#include "pxr/imaging/hd/sphereSchema.h"
+#include "pxr/imaging/hd/coneSchema.h"
+#include "pxr/imaging/hd/cylinderSchema.h"
+#include "pxr/imaging/hd/meshSchema.h"
+
 #include "pxr/imaging/hd/primvarsSchema.h"
 #include <pxr/imaging/hd/tokens.h>
 #include <iostream>
@@ -105,6 +125,15 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             std::cout << "MaxDistance: \t" << distanceJointSchema.GetMaxDistance()->GetTypedValue(0) << std::endl;
             std::cout << "BreakForce: \t" << distanceJointSchema.GetBreakForce()->GetTypedValue(0) << std::endl;
             std::cout << "BreakTorque: \t" << distanceJointSchema.GetBreakTorque()->GetTypedValue(0) << std::endl;
+        }
+
+        HdRevoluteJointSchema revoluteJointSchema = HdRevoluteJointSchema::GetFromParent(prim.dataSource);
+        if (revoluteJointSchema) {
+            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
+            std::cout << "LowerLimit: \t" << revoluteJointSchema.GetLowerLimit()->GetTypedValue(0) << std::endl;
+            std::cout << "UpperLimit: \t" << revoluteJointSchema.GetUpperLimit()->GetTypedValue(0) << std::endl;
+            std::cout << "BreakForce: \t" << revoluteJointSchema.GetBreakForce()->GetTypedValue(0) << std::endl;
+            std::cout << "BreakTorque: \t" << revoluteJointSchema.GetBreakTorque()->GetTypedValue(0) << std::endl;
         }
     }
     _SendPrimsAdded(entries);
