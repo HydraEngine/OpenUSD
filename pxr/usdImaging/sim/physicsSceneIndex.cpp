@@ -85,7 +85,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         usdImagingSi = FindUsdImagingSceneIndex(filteringIdx->GetInputScenes());
     }
     if (usdImagingSi) {
-        std::cout << "Time: " << usdImagingSi->GetTime().GetValue() << std::endl;
+        std::cout << "Time: " << usdImagingSi->GetTime().GetValue() << "\n";
     }
 
     // Standalone Object
@@ -93,7 +93,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         if (entry.primType == UsdPhysicsTokens->PhysicsScene) {
             const auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
             if (auto scene = engine->CreatePxScene(entry.primPath, prim.dataSource)) {
-                std::cout << entry.primPath << "\t" << entry.primType << "\t Scene Created" << std::endl;
+                std::cout << entry.primPath << "\t" << entry.primType << "\t Scene Created" << "\n";
                 continue;
             }
         }
@@ -101,10 +101,10 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         if (entry.primType == HdPrimTypeTokens->material) {
             const auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
             if (const auto material = engine->CreateMaterial(entry.primPath, prim.dataSource)) {
-                std::cout << entry.primPath << "\t" << entry.primType << std::endl;
-                std::cout << "Restitution: \t" << material->getRestitution() << std::endl;
-                std::cout << "DynamicFriction: \t" << material->getDynamicFriction() << std::endl;
-                std::cout << "StaticFriction: \t" << material->getStaticFriction() << std::endl;
+                std::cout << entry.primPath << "\t" << entry.primType << "\n";
+                std::cout << "Restitution: \t" << material->getRestitution() << "\n";
+                std::cout << "DynamicFriction: \t" << material->getDynamicFriction() << "\n";
+                std::cout << "StaticFriction: \t" << material->getStaticFriction() << "\n";
                 continue;
             }
         }
@@ -118,15 +118,36 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             if (!rigidBodyEnabled && xformSchema) {
                 auto xform = xformSchema.GetMatrix()->GetTypedValue(0);
                 if (const auto actor = engine->CreateStaticActor(entry.primPath, xform)) {
-                    std::cout << entry.primPath << "\t" << entry.primType << "\t StaticBody Created" << std::endl;
+                    std::cout << entry.primPath << "\t" << entry.primType << "\t StaticBody Created" << "\n";
                 }
             }
 
             if (rigidBodyEnabled && xformSchema) {
                 auto xform = xformSchema.GetMatrix()->GetTypedValue(0);
                 if (const auto actor = engine->CreateDynamicActor(entry.primPath, xform, rigidBodySchema)) {
-                    std::cout << entry.primPath << "\t" << entry.primType << "\t RigidBody Created" << std::endl;
+                    std::cout << entry.primPath << "\t" << entry.primType << "\t RigidBody Created" << "\n";
                 }
+            }
+        }
+    }
+
+    for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
+        const auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
+        UsdPhysicsImagingCollisionSchema collisionSchema =
+                UsdPhysicsImagingCollisionSchema::GetFromParent(prim.dataSource);
+        if (collisionSchema) {
+            std::cout << entry.primPath << "\t" << entry.primType << "\n";
+            bool findActor = false;
+            for (const auto &ancestors : entry.primPath.GetAncestorsRange()) {
+                if (const auto actor = engine->FindActor(ancestors)) {
+                    findActor = true;
+                    std::cout << "Find Actor Ancestor: " << ancestors << "\n";
+                    break;
+                }
+            }
+
+            if (!findActor) {
+                std::cout << "use self as static actor" << "\n";
             }
         }
     }
@@ -137,39 +158,32 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
 
         HdCubeSchema cubeSchema = HdCubeSchema::GetFromParent(prim.dataSource);
         if (cubeSchema) {
-            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
-            std::cout << "Size: \t" << cubeSchema.GetSize()->GetTypedValue(0) << std::endl;
+            std::cout << entry.primPath << "\t" << entry.primType << "\n";
+            std::cout << "Size: \t" << cubeSchema.GetSize()->GetTypedValue(0) << "\n";
         }
 
         HdXformSchema xformSchema = HdXformSchema::GetFromParent(prim.dataSource);
         if (xformSchema) {
-            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
-            std::cout << "Matrix: \t" << xformSchema.GetMatrix()->GetTypedValue(0) << std::endl;
-        }
-
-        UsdPhysicsImagingCollisionSchema collisionSchema =
-                UsdPhysicsImagingCollisionSchema::GetFromParent(prim.dataSource);
-        if (collisionSchema) {
-            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
-            std::cout << "CollisionEnabled: \t" << collisionSchema.GetCollisionEnabled()->GetTypedValue(0) << std::endl;
+            std::cout << entry.primPath << "\t" << entry.primType << "\n";
+            std::cout << "Matrix: \t" << xformSchema.GetMatrix()->GetTypedValue(0) << "\n";
         }
 
         HdDistanceJointSchema distanceJointSchema = HdDistanceJointSchema::GetFromParent(prim.dataSource);
         if (distanceJointSchema) {
-            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
-            std::cout << "MinDistance: \t" << distanceJointSchema.GetMinDistance()->GetTypedValue(0) << std::endl;
-            std::cout << "MaxDistance: \t" << distanceJointSchema.GetMaxDistance()->GetTypedValue(0) << std::endl;
-            std::cout << "BreakForce: \t" << distanceJointSchema.GetBreakForce()->GetTypedValue(0) << std::endl;
-            std::cout << "BreakTorque: \t" << distanceJointSchema.GetBreakTorque()->GetTypedValue(0) << std::endl;
+            std::cout << entry.primPath << "\t" << entry.primType << "\n";
+            std::cout << "MinDistance: \t" << distanceJointSchema.GetMinDistance()->GetTypedValue(0) << "\n";
+            std::cout << "MaxDistance: \t" << distanceJointSchema.GetMaxDistance()->GetTypedValue(0) << "\n";
+            std::cout << "BreakForce: \t" << distanceJointSchema.GetBreakForce()->GetTypedValue(0) << "\n";
+            std::cout << "BreakTorque: \t" << distanceJointSchema.GetBreakTorque()->GetTypedValue(0) << "\n";
         }
 
         HdRevoluteJointSchema revoluteJointSchema = HdRevoluteJointSchema::GetFromParent(prim.dataSource);
         if (revoluteJointSchema) {
-            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
-            std::cout << "LowerLimit: \t" << revoluteJointSchema.GetLowerLimit()->GetTypedValue(0) << std::endl;
-            std::cout << "UpperLimit: \t" << revoluteJointSchema.GetUpperLimit()->GetTypedValue(0) << std::endl;
-            std::cout << "BreakForce: \t" << revoluteJointSchema.GetBreakForce()->GetTypedValue(0) << std::endl;
-            std::cout << "BreakTorque: \t" << revoluteJointSchema.GetBreakTorque()->GetTypedValue(0) << std::endl;
+            std::cout << entry.primPath << "\t" << entry.primType << "\n";
+            std::cout << "LowerLimit: \t" << revoluteJointSchema.GetLowerLimit()->GetTypedValue(0) << "\n";
+            std::cout << "UpperLimit: \t" << revoluteJointSchema.GetUpperLimit()->GetTypedValue(0) << "\n";
+            std::cout << "BreakForce: \t" << revoluteJointSchema.GetBreakForce()->GetTypedValue(0) << "\n";
+            std::cout << "BreakTorque: \t" << revoluteJointSchema.GetBreakTorque()->GetTypedValue(0) << "\n";
         }
     }
 
@@ -179,16 +193,16 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         UsdImagingDirectMaterialBindingsSchema materialBindingSchema =
                 UsdImagingDirectMaterialBindingsSchema::GetFromParent(prim.dataSource);
         if (materialBindingSchema) {
-            std::cout << entry.primPath << "\t" << entry.primType << std::endl;
+            std::cout << entry.primPath << "\t" << entry.primType << "\n";
             auto binding = materialBindingSchema.GetDirectMaterialBinding(TfToken("physics"));
             if (binding) {
                 auto path = binding.GetMaterialPath()->GetTypedValue(0);
                 auto material = engine->FindMaterial(path);
                 if (material) {
-                    std::cout << entry.primPath << "\t" << entry.primType << "\t Link Material:\t" << path << std::endl;
-                    std::cout << "Restitution: \t" << material->getRestitution() << std::endl;
-                    std::cout << "DynamicFriction: \t" << material->getDynamicFriction() << std::endl;
-                    std::cout << "StaticFriction: \t" << material->getStaticFriction() << std::endl;
+                    std::cout << entry.primPath << "\t" << entry.primType << "\t Link Material:\t" << path << "\n";
+                    std::cout << "Restitution: \t" << material->getRestitution() << "\n";
+                    std::cout << "DynamicFriction: \t" << material->getDynamicFriction() << "\n";
+                    std::cout << "StaticFriction: \t" << material->getStaticFriction() << "\n";
                 }
             }
         }

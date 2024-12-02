@@ -38,17 +38,20 @@ public:
 
 public:
     std::shared_ptr<PhysxScene> CreatePxScene(pxr::SdfPath primPath, pxr::HdContainerDataSourceHandle dataSource);
-    std::shared_ptr<PhysxScene> FindScene(pxr::SdfPath primPath);
+    std::shared_ptr<PhysxScene> FindScene(const pxr::SdfPath& primPath);
 
-    physx::PxMaterial *CreateMaterial(pxr::SdfPath primPath, pxr::HdContainerDataSourceHandle dataSource);
-    physx::PxMaterial *FindMaterial(pxr::SdfPath primPath);
+    physx::PxMaterial *CreateMaterial(pxr::SdfPath primPath, const pxr::HdContainerDataSourceHandle& dataSource);
+    physx::PxMaterial *FindMaterial(const pxr::SdfPath& primPath);
 
     physx::PxRigidStatic *CreateStaticActor(const pxr::SdfPath &primPath, const pxr::GfMatrix4d &transform);
-    physx::PxRigidStatic *FindStaticActor(pxr::SdfPath primPath);
+    physx::PxRigidStatic *FindStaticActor(const pxr::SdfPath& primPath);
     physx::PxRigidDynamic *CreateDynamicActor(const pxr::SdfPath &primPath,
                                               const pxr::GfMatrix4d &transform,
                                               pxr::UsdPhysicsImagingRigidBodySchema schema);
     physx::PxRigidDynamic *FindDynamicsActor(pxr::SdfPath primPath);
+    physx::PxRigidActor *FindActor(pxr::SdfPath primPath);
+
+    physx::PxBoxGeometry CreateBoxGeometry(pxr::HdContainerDataSourceHandle dataSource);
 
 private:
     ::physx::PxPhysics *mPxPhysics;

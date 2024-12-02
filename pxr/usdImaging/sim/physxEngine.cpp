@@ -27,6 +27,13 @@
 #include "pxr/usdImaging/usdPhysicsImaging/filteredPairsSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/meshCollisionSchema.h"
 
+#include "pxr/imaging/hd/cubeSchema.h"
+#include "pxr/imaging/hd/capsuleSchema.h"
+#include "pxr/imaging/hd/sphereSchema.h"
+#include "pxr/imaging/hd/coneSchema.h"
+#include "pxr/imaging/hd/cylinderSchema.h"
+#include "pxr/imaging/hd/meshSchema.h"
+
 using namespace physx;
 using namespace pxr;
 
@@ -103,7 +110,7 @@ std::shared_ptr<PhysxScene> PhysxEngine::CreatePxScene(pxr::SdfPath primPath,
     return nullptr;
 }
 
-std::shared_ptr<PhysxScene> PhysxEngine::FindScene(pxr::SdfPath primPath) {
+std::shared_ptr<PhysxScene> PhysxEngine::FindScene(const pxr::SdfPath& primPath) {
     auto iter = mScenes.find(primPath.GetHash());
     if (iter != mScenes.end()) {
         return iter->second;
@@ -111,7 +118,8 @@ std::shared_ptr<PhysxScene> PhysxEngine::FindScene(pxr::SdfPath primPath) {
     return nullptr;
 }
 
-physx::PxMaterial* PhysxEngine::CreateMaterial(pxr::SdfPath primPath, pxr::HdContainerDataSourceHandle dataSource) {
+physx::PxMaterial* PhysxEngine::CreateMaterial(pxr::SdfPath primPath,
+                                               const pxr::HdContainerDataSourceHandle& dataSource) {
     UsdPhysicsImagingMaterialSchema schema = UsdPhysicsImagingMaterialSchema::GetFromParent(dataSource);
     if (schema) {
         auto restitution = schema.GetRestitution()->GetTypedValue(0);
@@ -125,7 +133,7 @@ physx::PxMaterial* PhysxEngine::CreateMaterial(pxr::SdfPath primPath, pxr::HdCon
     return nullptr;
 }
 
-physx::PxMaterial* PhysxEngine::FindMaterial(pxr::SdfPath primPath) {
+physx::PxMaterial* PhysxEngine::FindMaterial(const pxr::SdfPath& primPath) {
     if (const auto iter = mMaterials.find(primPath.GetHash()); iter != mMaterials.end()) {
         return iter->second;
     }
@@ -138,8 +146,9 @@ physx::PxRigidStatic* PhysxEngine::CreateStaticActor(const pxr::SdfPath& primPat
     return actor;
 }
 
-physx::PxRigidStatic* PhysxEngine::FindStaticActor(pxr::SdfPath primPath) {
-    if (const auto iter = mStaticActors.find(primPath.GetHash()); iter != mStaticActors.end()) {
+physx::PxRigidStatic* PhysxEngine::FindStaticActor(const pxr::SdfPath& primPath) {
+    auto hash = primPath.GetHash();
+    if (const auto iter = mStaticActors.find(hash); iter != mStaticActors.end()) {
         return iter->second;
     }
     return nullptr;
@@ -166,10 +175,30 @@ physx::PxRigidDynamic* PhysxEngine::CreateDynamicActor(const pxr::SdfPath& primP
 }
 
 physx::PxRigidDynamic* PhysxEngine::FindDynamicsActor(pxr::SdfPath primPath) {
-    if (const auto iter = mDynamicActors.find(primPath.GetHash()); iter != mDynamicActors.end()) {
+    auto hash = primPath.GetHash();
+    if (const auto iter = mDynamicActors.find(hash); iter != mDynamicActors.end()) {
         return iter->second;
     }
     return nullptr;
+}
+
+physx::PxRigidActor* PhysxEngine::FindActor(pxr::SdfPath primPath) {
+    auto hash = primPath.GetHash();
+    if (const auto iter = mStaticActors.find(hash); iter != mStaticActors.end()) {
+        return iter->second;
+    }
+    if (const auto iter = mDynamicActors.find(hash); iter != mDynamicActors.end()) {
+        return iter->second;
+    }
+    return nullptr;
+}
+
+physx::PxBoxGeometry PhysxEngine::CreateBoxGeometry(pxr::HdContainerDataSourceHandle dataSource) {
+    HdCubeSchema cubeSchema = HdCubeSchema::GetFromParent(dataSource);
+    if (cubeSchema) {
+        auto size = cubeSchema.GetSize()->GetTypedValue(0);
+        return PxBoxGeometry(size, size, size);
+    }
 }
 
 }  // namespace sim
