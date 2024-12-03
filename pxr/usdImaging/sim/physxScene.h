@@ -16,6 +16,12 @@ class PhysxScene {
 public:
     PhysxScene(pxr::GfVec3f gravity, PhysxSceneConfig config);
 
+    physx::PxDirectGPUAPI& GetDirectGPUAPI();
+
+    void Update(float dt);
+
+    physx::PxScene* Handle();
+
 private:
     physx::PxScene* _scene;
     physx::PxCpuDispatcher* _dispatcher;

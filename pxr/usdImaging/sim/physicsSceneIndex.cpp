@@ -115,10 +115,13 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         if (rigidBodySchema) {
             HdXformSchema xformSchema = HdXformSchema::GetFromParent(prim.dataSource);
             const auto rigidBodyEnabled = rigidBodySchema.GetRigidBodyEnabled()->GetTypedValue(0);
+            const auto simulator = rigidBodySchema.GetSimulationOwner()->GetTypedValue(0);
+
             if (!rigidBodyEnabled && xformSchema) {
                 auto xform = xformSchema.GetMatrix()->GetTypedValue(0);
                 if (const auto actor = engine->CreateStaticActor(entry.primPath, xform)) {
                     std::cout << entry.primPath << "\t" << entry.primType << "\t StaticBody Created" << "\n";
+                    engine->AddActor(simulator[0], actor);
                 }
             }
 
@@ -126,6 +129,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
                 auto xform = xformSchema.GetMatrix()->GetTypedValue(0);
                 if (const auto actor = engine->CreateDynamicActor(entry.primPath, xform, rigidBodySchema)) {
                     std::cout << entry.primPath << "\t" << actor->getConcreteTypeName() << "\t Created" << "\n";
+                    engine->AddActor(simulator[0], actor);
                 }
             }
         }
@@ -158,6 +162,9 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
                 auto actorXform = xform.RemoveScaleShear();
                 shapePose = xform / actorXform;
                 actor = engine->CreateStaticActor(entry.primPath, actorXform);
+
+                const auto simulator = collisionSchema.GetSimulationOwner()->GetTypedValue(0);
+                engine->AddActor(simulator[0], actor);
             }
 
             // Find Material
@@ -180,6 +187,8 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             std::cout << entry.primPath << "\t" << shape->getConcreteTypeName() << "\t Created \n";
         }
     }
+
+    engine->Sync();
 
     for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
         auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);

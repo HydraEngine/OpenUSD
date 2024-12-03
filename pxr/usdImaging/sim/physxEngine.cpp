@@ -235,4 +235,23 @@ physx::PxShape* PhysxEngine::CreateShape(const pxr::SdfPath& primPath,
     return nullptr;
 }
 
+void PhysxEngine::AddActor(const pxr::SdfPath& scene, physx::PxRigidActor* actor) {
+    auto iter = mActorScene.find(scene.GetHash());
+    if (iter != mActorScene.end()) {
+        iter->second.push_back(actor);
+    } else {
+        mActorScene.insert({scene.GetHash(), {actor}});
+    }
+}
+
+void PhysxEngine::Sync() {
+    for (const auto& actors : mActorScene) {
+        auto iter = mScenes.find(actors.first);
+        if (iter != mScenes.end()) {
+            auto scene = iter->second;
+            scene->Handle()->addActors(actors.second.data(), actors.second.size());
+        }
+    }
+}
+
 }  // namespace sim

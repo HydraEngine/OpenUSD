@@ -45,4 +45,13 @@ PhysxScene::PhysxScene(GfVec3f gravity, PhysxSceneConfig config) {
     _scene = creator->createScene(sceneDesc);
 }
 
+physx::PxDirectGPUAPI& PhysxScene::GetDirectGPUAPI() { return _scene->getDirectGPUAPI(); }
+
+void PhysxScene::Update(float dt) {
+    _scene->simulate(dt);
+    _scene->fetchResults();
+}
+
+physx::PxScene* PhysxScene::Handle() { return _scene; }
+
 }  // namespace sim
