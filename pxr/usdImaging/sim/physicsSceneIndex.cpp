@@ -176,7 +176,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             }
 
             // create shape
-            engine->CreateShape(entry.primPath, prim.dataSource, material, actor);
+            engine->CreateShape(entry.primPath, prim.dataSource, shapePose, material, actor);
         }
     }
 

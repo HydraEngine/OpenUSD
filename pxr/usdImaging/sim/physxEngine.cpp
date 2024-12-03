@@ -34,6 +34,8 @@
 #include "pxr/imaging/hd/cylinderSchema.h"
 #include "pxr/imaging/hd/meshSchema.h"
 
+#include "pxr/base/gf/transform.h"
+
 using namespace physx;
 using namespace pxr;
 
@@ -98,8 +100,8 @@ PhysxEngine::~PhysxEngine() {
     mPxFoundation->release();
 }
 
-std::shared_ptr<PhysxScene> PhysxEngine::CreatePxScene(pxr::SdfPath primPath,
-                                                       pxr::HdContainerDataSourceHandle dataSource) {
+std::shared_ptr<PhysxScene> PhysxEngine::CreatePxScene(const pxr::SdfPath& primPath,
+                                                       const pxr::HdContainerDataSourceHandle& dataSource) {
     UsdPhysicsImagingSceneSchema schema = UsdPhysicsImagingSceneSchema::GetFromParent(dataSource);
     if (schema) {
         auto g_length = schema.GetGravityMagnitude()->GetTypedValue(0);
@@ -120,7 +122,7 @@ std::shared_ptr<PhysxScene> PhysxEngine::FindScene(const pxr::SdfPath& primPath)
     return nullptr;
 }
 
-physx::PxMaterial* PhysxEngine::CreateMaterial(pxr::SdfPath primPath,
+physx::PxMaterial* PhysxEngine::CreateMaterial(const pxr::SdfPath& primPath,
                                                const pxr::HdContainerDataSourceHandle& dataSource) {
     UsdPhysicsImagingMaterialSchema schema = UsdPhysicsImagingMaterialSchema::GetFromParent(dataSource);
     if (schema) {
@@ -160,7 +162,7 @@ physx::PxRigidStatic* PhysxEngine::FindStaticActor(const pxr::SdfPath& primPath)
 
 physx::PxRigidDynamic* PhysxEngine::CreateDynamicActor(const pxr::SdfPath& primPath,
                                                        const pxr::GfMatrix4d& transform,
-                                                       pxr::UsdPhysicsImagingRigidBodySchema schema) {
+                                                       const pxr::UsdPhysicsImagingRigidBodySchema& schema) {
     auto actor = mPxPhysics->createRigidDynamic(convert(transform));
     mDynamicActors.insert({primPath.GetHash(), actor});
 
@@ -178,7 +180,7 @@ physx::PxRigidDynamic* PhysxEngine::CreateDynamicActor(const pxr::SdfPath& primP
     return actor;
 }
 
-physx::PxRigidDynamic* PhysxEngine::FindDynamicsActor(pxr::SdfPath primPath) {
+physx::PxRigidDynamic* PhysxEngine::FindDynamicsActor(const pxr::SdfPath& primPath) {
     auto hash = primPath.GetHash();
     if (const auto iter = mDynamicActors.find(hash); iter != mDynamicActors.end()) {
         return iter->second;
@@ -186,7 +188,7 @@ physx::PxRigidDynamic* PhysxEngine::FindDynamicsActor(pxr::SdfPath primPath) {
     return nullptr;
 }
 
-physx::PxRigidActor* PhysxEngine::FindActor(pxr::SdfPath primPath) {
+physx::PxRigidActor* PhysxEngine::FindActor(const pxr::SdfPath& primPath) {
     auto hash = primPath.GetHash();
     if (const auto iter = mStaticActors.find(hash); iter != mStaticActors.end()) {
         return iter->second;
@@ -199,19 +201,31 @@ physx::PxRigidActor* PhysxEngine::FindActor(pxr::SdfPath primPath) {
 
 physx::PxShape* PhysxEngine::CreateShape(const pxr::SdfPath& primPath,
                                          const pxr::HdContainerDataSourceHandle& dataSource,
+                                         pxr::GfMatrix4d shapePose,
                                          physx::PxMaterial* material,
                                          physx::PxRigidActor* actor) {
+    auto transform = pxr::GfTransform(shapePose);
+    auto scale = convert(transform.GetScale());
+    auto translation = convert(transform.GetTranslation());
+    auto rotation = convert(transform.GetRotation().GetQuat());
+
     PxShape* shape{nullptr};
     HdCubeSchema cubeSchema = HdCubeSchema::GetFromParent(dataSource);
     if (cubeSchema) {
-        auto size = cubeSchema.GetSize()->GetTypedValue(0);
-        auto geometry = PxBoxGeometry((float)size, (float)size, (float)size);
+        auto size = (float)cubeSchema.GetSize()->GetTypedValue(0);
+        auto s = scale * size;
+        auto geometry = PxBoxGeometry(s.x, s.y, s.z);
         shape = mPxPhysics->createShape(geometry, *material);
     }
 
-    actor->attachShape(*shape);
-    mShapes.insert({primPath.GetHash(), shape});
-    return shape;
+    if (shape) {
+        shape->setLocalPose(PxTransform(translation, rotation));
+        actor->attachShape(*shape);
+        mShapes.insert({primPath.GetHash(), shape});
+        return shape;
+    }
+
+    return nullptr;
 }
 
 }  // namespace sim

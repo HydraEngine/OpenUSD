@@ -18,9 +18,15 @@
 
 physx::PxVec3 convert(const pxr::GfVec3f &value);
 
+physx::PxVec3 convert(const pxr::GfVec3d &value);
+
 physx::PxVec4 convert(const pxr::GfVec4f &value);
 
+physx::PxVec4 convert(const pxr::GfVec4d &value);
+
 physx::PxQuat convert(const pxr::GfQuatf &value);
+
+physx::PxQuat convert(const pxr::GfQuatd &value);
 
 physx::PxTransform convert(const pxr::GfMatrix4f &value);
 

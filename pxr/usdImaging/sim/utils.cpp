@@ -8,11 +8,22 @@
 
 physx::PxVec3 convert(const pxr::GfVec3f &value) { return {value[0], value[1], value[2]}; }
 
+physx::PxVec3 convert(const pxr::GfVec3d &value) { return {(float)value[0], (float)value[1], (float)value[2]}; }
+
 physx::PxVec4 convert(const pxr::GfVec4f &value) { return {value[0], value[1], value[2], value[3]}; }
+
+physx::PxVec4 convert(const pxr::GfVec4d &value) {
+    return {(float)value[0], (float)value[1], (float)value[2], (float)value[3]};
+}
 
 physx::PxQuat convert(const pxr::GfQuatf &value) {
     auto img = value.GetImaginary();
     return {img[0], img[1], img[2], value.GetReal()};
+}
+
+physx::PxQuat convert(const pxr::GfQuatd &value) {
+    auto img = value.GetImaginary();
+    return {(float)img[0], (float)img[1], (float)img[2], (float)value.GetReal()};
 }
 
 physx::PxTransform convert(const pxr::GfMatrix4f &value) {
