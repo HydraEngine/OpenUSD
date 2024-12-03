@@ -148,6 +148,7 @@ public:
     /// \name Rendering
     /// @{
     // ---------------------------------------------------------------------
+    void Update(float dt);
 
     /// Support for batched drawing
     USDIMAGINGGL_API

@@ -388,6 +388,10 @@ void UsdImagingGLEngine::Render(const UsdPrim &root, const UsdImagingGLRenderPar
     RenderBatch(paths, params);
 }
 
+void UsdImagingGLEngine::Update(float dt) {
+    _physicsSceneIndex->GetSimulation()->UpdateAll(dt);
+}
+
 bool UsdImagingGLEngine::IsConverged() const {
     if (ARCH_UNLIKELY(!_renderDelegate)) {
         return true;

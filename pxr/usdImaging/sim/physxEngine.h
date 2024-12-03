@@ -40,6 +40,7 @@ public:
     std::shared_ptr<PhysxScene> CreatePxScene(const pxr::SdfPath &primPath,
                                               const pxr::HdContainerDataSourceHandle &dataSource);
     std::shared_ptr<PhysxScene> FindScene(const pxr::SdfPath &primPath);
+    void UpdateAll(float dt);
 
     physx::PxMaterial *CreateMaterial(const pxr::SdfPath &primPath, const pxr::HdContainerDataSourceHandle &dataSource);
     physx::PxMaterial *FindMaterial(const pxr::SdfPath &primPath);

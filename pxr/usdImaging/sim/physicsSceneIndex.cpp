@@ -116,6 +116,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             HdXformSchema xformSchema = HdXformSchema::GetFromParent(prim.dataSource);
             const auto rigidBodyEnabled = rigidBodySchema.GetRigidBodyEnabled()->GetTypedValue(0);
             const auto simulator = rigidBodySchema.GetSimulationOwner()->GetTypedValue(0);
+            std::cout<<"find scene: " << simulator[0] <<std::endl;
 
             if (!rigidBodyEnabled && xformSchema) {
                 auto xform = xformSchema.GetMatrix()->GetTypedValue(0);
