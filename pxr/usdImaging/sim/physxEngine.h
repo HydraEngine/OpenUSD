@@ -60,7 +60,7 @@ public:
                                 physx::PxMaterial *material,
                                 physx::PxRigidActor *actor);
 
-    void AddActor(const pxr::SdfPath &scene, physx::PxRigidActor *actor);
+    void AddActor(const pxr::VtArray<pxr::SdfPath> &scene, physx::PxRigidActor *actor);
 
     void Sync();
 
@@ -68,6 +68,7 @@ private:
     ::physx::PxPhysics *mPxPhysics;
     ::physx::PxFoundation *mPxFoundation;
     physx::PxMaterial *mDefaultMaterial;
+    pxr::SdfPath mDefaultScene;
     std::unordered_map<size_t, std::shared_ptr<PhysxScene>> mScenes;
     std::unordered_map<size_t, physx::PxMaterial *> mMaterials;
     std::unordered_map<size_t, physx::PxRigidStatic *> mStaticActors;

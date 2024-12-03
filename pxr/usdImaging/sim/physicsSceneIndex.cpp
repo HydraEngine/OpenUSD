@@ -67,7 +67,9 @@ UsdImagingPhysicsSceneIndexRefPtr UsdImagingPhysicsSceneIndex::New(const HdScene
 }
 
 UsdImagingPhysicsSceneIndex::UsdImagingPhysicsSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex)
-    : HdSingleInputFilteringSceneIndexBase(inputSceneIndex) {}
+    : HdSingleInputFilteringSceneIndexBase(inputSceneIndex) {
+    _simulationEngine = sim::PhysxEngine::Get();
+}
 
 void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
                                               const HdSceneIndexObserver::AddedPrimEntries &entries) {
@@ -116,13 +118,12 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             HdXformSchema xformSchema = HdXformSchema::GetFromParent(prim.dataSource);
             const auto rigidBodyEnabled = rigidBodySchema.GetRigidBodyEnabled()->GetTypedValue(0);
             const auto simulator = rigidBodySchema.GetSimulationOwner()->GetTypedValue(0);
-            std::cout<<"find scene: " << simulator[0] <<std::endl;
 
             if (!rigidBodyEnabled && xformSchema) {
                 auto xform = xformSchema.GetMatrix()->GetTypedValue(0);
                 if (const auto actor = engine->CreateStaticActor(entry.primPath, xform)) {
                     std::cout << entry.primPath << "\t" << entry.primType << "\t StaticBody Created" << "\n";
-                    engine->AddActor(simulator[0], actor);
+                    engine->AddActor(simulator, actor);
                 }
             }
 
@@ -130,7 +131,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
                 auto xform = xformSchema.GetMatrix()->GetTypedValue(0);
                 if (const auto actor = engine->CreateDynamicActor(entry.primPath, xform, rigidBodySchema)) {
                     std::cout << entry.primPath << "\t" << actor->getConcreteTypeName() << "\t Created" << "\n";
-                    engine->AddActor(simulator[0], actor);
+                    engine->AddActor(simulator, actor);
                 }
             }
         }
@@ -165,7 +166,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
                 actor = engine->CreateStaticActor(entry.primPath, actorXform);
 
                 const auto simulator = collisionSchema.GetSimulationOwner()->GetTypedValue(0);
-                engine->AddActor(simulator[0], actor);
+                engine->AddActor(simulator, actor);
             }
 
             // Find Material
@@ -255,6 +256,6 @@ SdfPathVector UsdImagingPhysicsSceneIndex::GetChildPrimPaths(const SdfPath &prim
     return _GetInputSceneIndex()->GetChildPrimPaths(primPath);
 }
 
-std::shared_ptr<sim::PhysxEngine> UsdImagingPhysicsSceneIndex::GetSimulation() { return sim::PhysxEngine::Get(); }
+std::shared_ptr<sim::PhysxEngine> UsdImagingPhysicsSceneIndex::GetSimulation() { return _simulationEngine; }
 
 PXR_NAMESPACE_CLOSE_SCOPE

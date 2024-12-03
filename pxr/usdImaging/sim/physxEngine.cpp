@@ -111,6 +111,7 @@ std::shared_ptr<PhysxScene> PhysxEngine::CreatePxScene(const pxr::SdfPath& primP
         g_dir *= g_length;
         auto scene = std::make_shared<PhysxScene>(g_dir, mConfig);
         mScenes.insert({primPath.GetHash(), scene});
+        mDefaultScene = primPath;
         return scene;
     }
     return nullptr;
@@ -248,12 +249,22 @@ physx::PxShape* PhysxEngine::CreateShape(const pxr::SdfPath& primPath,
     return nullptr;
 }
 
-void PhysxEngine::AddActor(const pxr::SdfPath& scene, physx::PxRigidActor* actor) {
-    auto iter = mActorScene.find(scene.GetHash());
-    if (iter != mActorScene.end()) {
-        iter->second.push_back(actor);
+void PhysxEngine::AddActor(const VtArray<pxr::SdfPath>& scene, physx::PxRigidActor* actor) {
+    auto insertScene = [&](const pxr::SdfPath& scenePath) {
+        auto iter = mActorScene.find(scenePath.GetHash());
+        if (iter != mActorScene.end()) {
+            iter->second.push_back(actor);
+        } else {
+            mActorScene.insert({scenePath.GetHash(), {actor}});
+        }
+    };
+
+    if (scene.empty()) {
+        insertScene(mDefaultScene);
     } else {
-        mActorScene.insert({scene.GetHash(), {actor}});
+        for (const auto& path : scene) {
+            insertScene(path);
+        }
     }
 }
 

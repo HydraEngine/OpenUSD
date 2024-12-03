@@ -30,7 +30,7 @@ public:
     std::shared_ptr<sim::PhysxEngine> GetSimulation();
 
 protected:
-    UsdImagingPhysicsSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex);
+    explicit UsdImagingPhysicsSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex);
 
     void _PrimsAdded(const HdSceneIndexBase &sender, const HdSceneIndexObserver::AddedPrimEntries &entries) override;
 
@@ -39,6 +39,9 @@ protected:
 
     void _PrimsDirtied(const HdSceneIndexBase &sender,
                        const HdSceneIndexObserver::DirtiedPrimEntries &entries) override;
+
+private:
+    std::shared_ptr<sim::PhysxEngine> _simulationEngine;
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE
