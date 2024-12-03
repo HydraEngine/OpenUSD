@@ -209,6 +209,9 @@ physx::PxShape* PhysxEngine::CreateShape(const pxr::SdfPath& primPath,
     auto translation = convert(transform.GetTranslation());
     auto rotation = convert(transform.GetRotation().GetQuat());
 
+    UsdPhysicsImagingCollisionSchema collisionSchema = UsdPhysicsImagingCollisionSchema::GetFromParent(dataSource);
+    auto collisionEnabled = collisionSchema.GetCollisionEnabled()->GetTypedValue(0);
+
     PxShape* shape{nullptr};
     HdCubeSchema cubeSchema = HdCubeSchema::GetFromParent(dataSource);
     if (cubeSchema) {
@@ -219,6 +222,10 @@ physx::PxShape* PhysxEngine::CreateShape(const pxr::SdfPath& primPath,
     }
 
     if (shape) {
+        if (!collisionEnabled) {
+            shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
+        }
+
         shape->setLocalPose(PxTransform(translation, rotation));
         actor->attachShape(*shape);
         mShapes.insert({primPath.GetHash(), shape});

@@ -101,7 +101,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         if (entry.primType == HdPrimTypeTokens->material) {
             const auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
             if (const auto material = engine->CreateMaterial(entry.primPath, prim.dataSource)) {
-                std::cout << entry.primPath << "\t" << entry.primType << "\n";
+                std::cout << entry.primPath << "\t" << material->getConcreteTypeName() << "\t Created" << "\n";
                 std::cout << "Restitution: \t" << material->getRestitution() << "\n";
                 std::cout << "DynamicFriction: \t" << material->getDynamicFriction() << "\n";
                 std::cout << "StaticFriction: \t" << material->getStaticFriction() << "\n";
@@ -125,7 +125,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             if (rigidBodyEnabled && xformSchema) {
                 auto xform = xformSchema.GetMatrix()->GetTypedValue(0);
                 if (const auto actor = engine->CreateDynamicActor(entry.primPath, xform, rigidBodySchema)) {
-                    std::cout << entry.primPath << "\t" << entry.primType << "\t RigidBody Created" << "\n";
+                    std::cout << entry.primPath << "\t" << actor->getConcreteTypeName() << "\t Created" << "\n";
                 }
             }
         }
@@ -161,7 +161,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             }
 
             // Find Material
-            physx::PxMaterial* material{nullptr};
+            physx::PxMaterial *material{nullptr};
             UsdImagingDirectMaterialBindingsSchema materialBindingSchema =
                     UsdImagingDirectMaterialBindingsSchema::GetFromParent(prim.dataSource);
             if (materialBindingSchema) {
@@ -176,19 +176,14 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             }
 
             // create shape
-            engine->CreateShape(entry.primPath, prim.dataSource, shapePose, material, actor);
+            auto shape = engine->CreateShape(entry.primPath, prim.dataSource, shapePose, material, actor);
+            std::cout << entry.primPath << "\t" << shape->getConcreteTypeName() << "\t Created \n";
         }
     }
 
     for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
         auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
         HdPrimvarsSchema primVarsSchema = HdPrimvarsSchema::GetFromParent(prim.dataSource);
-
-        HdCubeSchema cubeSchema = HdCubeSchema::GetFromParent(prim.dataSource);
-        if (cubeSchema) {
-            std::cout << entry.primPath << "\t" << entry.primType << "\n";
-            std::cout << "Size: \t" << cubeSchema.GetSize()->GetTypedValue(0) << "\n";
-        }
 
         HdXformSchema xformSchema = HdXformSchema::GetFromParent(prim.dataSource);
         if (xformSchema) {
@@ -215,26 +210,6 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         }
     }
 
-    for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
-        auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
-
-        UsdImagingDirectMaterialBindingsSchema materialBindingSchema =
-                UsdImagingDirectMaterialBindingsSchema::GetFromParent(prim.dataSource);
-        if (materialBindingSchema) {
-            std::cout << entry.primPath << "\t" << entry.primType << "\n";
-            auto binding = materialBindingSchema.GetDirectMaterialBinding(TfToken("physics"));
-            if (binding) {
-                auto path = binding.GetMaterialPath()->GetTypedValue(0);
-                auto material = engine->FindMaterial(path);
-                if (material) {
-                    std::cout << entry.primPath << "\t" << entry.primType << "\t Link Material:\t" << path << "\n";
-                    std::cout << "Restitution: \t" << material->getRestitution() << "\n";
-                    std::cout << "DynamicFriction: \t" << material->getDynamicFriction() << "\n";
-                    std::cout << "StaticFriction: \t" << material->getStaticFriction() << "\n";
-                }
-            }
-        }
-    }
     _SendPrimsAdded(entries);
 }
 
