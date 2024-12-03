@@ -14,6 +14,7 @@
 #include "pxr/base/gf/quatd.h"
 #include "pxr/base/gf/matrix4f.h"
 #include "pxr/base/gf/matrix4d.h"
+#include "pxr/base/gf/rotation.h"
 
 physx::PxVec3 convert(const pxr::GfVec3f &value);
 
@@ -24,3 +25,5 @@ physx::PxQuat convert(const pxr::GfQuatf &value);
 physx::PxTransform convert(const pxr::GfMatrix4f &value);
 
 physx::PxTransform convert(const pxr::GfMatrix4d &value);
+
+pxr::GfMatrix4d convert(const physx::PxTransform &value);

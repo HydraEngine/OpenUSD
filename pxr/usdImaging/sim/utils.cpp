@@ -35,3 +35,12 @@ physx::PxTransform convert(const pxr::GfMatrix4d &value) {
                              static_cast<float>(rotation.GetReal())};
     return result;
 }
+
+pxr::GfMatrix4d convert(const physx::PxTransform &value) {
+    const auto translation = value.p;
+    const auto quat = value.q;
+    const auto t = pxr::GfVec3d(translation.x, translation.y, translation.z);
+    const auto q = pxr::GfQuatd(quat.w, {quat.x, quat.y, quat.z});
+    const auto rot = pxr::GfRotation(q);
+    return {rot, t};
+}

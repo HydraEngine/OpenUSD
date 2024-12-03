@@ -32,6 +32,7 @@
 #include "pxr/imaging/hd/cylinderSchema.h"
 #include "pxr/imaging/hd/meshSchema.h"
 #include "pxr/imaging/hd/xformSchema.h"
+#include "utils.h"
 
 #include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/primvarsSchema.h"
@@ -44,8 +45,7 @@ static UsdImagingStageSceneIndexRefPtr FindUsdImagingSceneIndex(
         const std::vector<HdSceneIndexBaseRefPtr> &inputScenes) {
     TfRefPtr<UsdImagingStageSceneIndex> retVal;
 
-    for (size_t i = 0; i < inputScenes.size(); i++) {
-        HdSceneIndexBaseRefPtr const &sceneIdx = inputScenes[i];
+    for (const auto &sceneIdx : inputScenes) {
         if (UsdImagingStageSceneIndexRefPtr const imagingSI =
                     TfDynamic_cast<UsdImagingStageSceneIndexRefPtr>(sceneIdx)) {
             retVal = imagingSI;
@@ -137,18 +137,46 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
                 UsdPhysicsImagingCollisionSchema::GetFromParent(prim.dataSource);
         if (collisionSchema) {
             std::cout << entry.primPath << "\t" << entry.primType << "\n";
-            bool findActor = false;
+            // Find Actor
+            HdXformSchema xformSchema = HdXformSchema::GetFromParent(prim.dataSource);
+            auto xform = xformSchema.GetMatrix()->GetTypedValue(0);
+            auto shapePose = GfMatrix4d(1);
+            physx::PxRigidActor *actor = nullptr;
             for (const auto &ancestors : entry.primPath.GetAncestorsRange()) {
-                if (const auto actor = engine->FindActor(ancestors)) {
-                    findActor = true;
+                if (const auto result = engine->FindActor(ancestors)) {
                     std::cout << "Find Actor Ancestor: " << ancestors << "\n";
+                    actor = result;
+                    auto globalPose = actor->getGlobalPose();
+                    auto actorXform = convert(globalPose);
+                    actorXform = actorXform.RemoveScaleShear();
+                    shapePose = xform / actorXform;
                     break;
                 }
             }
-
-            if (!findActor) {
+            if (!actor) {
                 std::cout << "use self as static actor" << "\n";
+                auto actorXform = xform.RemoveScaleShear();
+                shapePose = xform / actorXform;
+                actor = engine->CreateStaticActor(entry.primPath, actorXform);
             }
+
+            // Find Material
+            physx::PxMaterial* material{nullptr};
+            UsdImagingDirectMaterialBindingsSchema materialBindingSchema =
+                    UsdImagingDirectMaterialBindingsSchema::GetFromParent(prim.dataSource);
+            if (materialBindingSchema) {
+                auto binding = materialBindingSchema.GetDirectMaterialBinding(TfToken("physics"));
+                if (binding) {
+                    auto path = binding.GetMaterialPath()->GetTypedValue(0);
+                    material = engine->FindMaterial(path);
+                }
+            }
+            if (!material) {
+                material = engine->DefaultMaterial();
+            }
+
+            // create shape
+            engine->CreateShape(entry.primPath, prim.dataSource, material, actor);
         }
     }
 

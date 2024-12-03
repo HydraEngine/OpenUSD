@@ -38,28 +38,34 @@ public:
 
 public:
     std::shared_ptr<PhysxScene> CreatePxScene(pxr::SdfPath primPath, pxr::HdContainerDataSourceHandle dataSource);
-    std::shared_ptr<PhysxScene> FindScene(const pxr::SdfPath& primPath);
+    std::shared_ptr<PhysxScene> FindScene(const pxr::SdfPath &primPath);
 
-    physx::PxMaterial *CreateMaterial(pxr::SdfPath primPath, const pxr::HdContainerDataSourceHandle& dataSource);
-    physx::PxMaterial *FindMaterial(const pxr::SdfPath& primPath);
+    physx::PxMaterial *CreateMaterial(pxr::SdfPath primPath, const pxr::HdContainerDataSourceHandle &dataSource);
+    physx::PxMaterial *FindMaterial(const pxr::SdfPath &primPath);
+    physx::PxMaterial *DefaultMaterial();
 
     physx::PxRigidStatic *CreateStaticActor(const pxr::SdfPath &primPath, const pxr::GfMatrix4d &transform);
-    physx::PxRigidStatic *FindStaticActor(const pxr::SdfPath& primPath);
+    physx::PxRigidStatic *FindStaticActor(const pxr::SdfPath &primPath);
     physx::PxRigidDynamic *CreateDynamicActor(const pxr::SdfPath &primPath,
                                               const pxr::GfMatrix4d &transform,
                                               pxr::UsdPhysicsImagingRigidBodySchema schema);
     physx::PxRigidDynamic *FindDynamicsActor(pxr::SdfPath primPath);
     physx::PxRigidActor *FindActor(pxr::SdfPath primPath);
 
-    physx::PxBoxGeometry CreateBoxGeometry(pxr::HdContainerDataSourceHandle dataSource);
+    physx::PxShape *CreateShape(const pxr::SdfPath &primPath,
+                                const pxr::HdContainerDataSourceHandle& dataSource,
+                                physx::PxMaterial *material,
+                                physx::PxRigidActor *actor);
 
 private:
     ::physx::PxPhysics *mPxPhysics;
     ::physx::PxFoundation *mPxFoundation;
+    physx::PxMaterial *mDefaultMaterial;
     std::unordered_map<size_t, std::shared_ptr<PhysxScene>> mScenes;
     std::unordered_map<size_t, physx::PxMaterial *> mMaterials;
     std::unordered_map<size_t, physx::PxRigidStatic *> mStaticActors;
     std::unordered_map<size_t, physx::PxRigidDynamic *> mDynamicActors;
+    std::unordered_map<size_t, physx::PxShape *> mShapes;
     PhysxSceneConfig mConfig;
 };
 }  // namespace sim

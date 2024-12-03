@@ -88,6 +88,8 @@ PhysxEngine::PhysxEngine(float toleranceLength, float toleranceSpeed) {
     if (!PxInitExtensions(*mPxPhysics, nullptr)) {
         throw std::runtime_error("PhysX extension initialization failed");
     }
+
+    mDefaultMaterial = mPxPhysics->createMaterial(0.5, 0.5, 0.5);
 }
 
 PhysxEngine::~PhysxEngine() {
@@ -139,6 +141,8 @@ physx::PxMaterial* PhysxEngine::FindMaterial(const pxr::SdfPath& primPath) {
     }
     return nullptr;
 }
+
+physx::PxMaterial* PhysxEngine::DefaultMaterial() { return mDefaultMaterial; }
 
 physx::PxRigidStatic* PhysxEngine::CreateStaticActor(const pxr::SdfPath& primPath, const pxr::GfMatrix4d& transform) {
     auto actor = mPxPhysics->createRigidStatic(convert(transform));
@@ -193,12 +197,21 @@ physx::PxRigidActor* PhysxEngine::FindActor(pxr::SdfPath primPath) {
     return nullptr;
 }
 
-physx::PxBoxGeometry PhysxEngine::CreateBoxGeometry(pxr::HdContainerDataSourceHandle dataSource) {
+physx::PxShape* PhysxEngine::CreateShape(const pxr::SdfPath& primPath,
+                                         const pxr::HdContainerDataSourceHandle& dataSource,
+                                         physx::PxMaterial* material,
+                                         physx::PxRigidActor* actor) {
+    PxShape* shape{nullptr};
     HdCubeSchema cubeSchema = HdCubeSchema::GetFromParent(dataSource);
     if (cubeSchema) {
         auto size = cubeSchema.GetSize()->GetTypedValue(0);
-        return PxBoxGeometry(size, size, size);
+        auto geometry = PxBoxGeometry((float)size, (float)size, (float)size);
+        shape = mPxPhysics->createShape(geometry, *material);
     }
+
+    actor->attachShape(*shape);
+    mShapes.insert({primPath.GetHash(), shape});
+    return shape;
 }
 
 }  // namespace sim
