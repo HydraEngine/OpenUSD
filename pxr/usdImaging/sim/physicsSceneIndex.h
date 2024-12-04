@@ -29,6 +29,8 @@ public:
 
     std::shared_ptr<sim::PhysxEngine> GetSimulation();
 
+    void Update(float dt);
+
 protected:
     explicit UsdImagingPhysicsSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex);
 
@@ -40,8 +42,14 @@ protected:
     void _PrimsDirtied(const HdSceneIndexBase &sender,
                        const HdSceneIndexObserver::DirtiedPrimEntries &entries) override;
 
+    HdSceneIndexPrim& _WrapPrim(const SdfPath& primPath, const HdSceneIndexPrim& hdPrim) const;
+    SdfPathTable<HdSceneIndexPrim>::_IterBoolPair _IsPrimWrapped(const SdfPath& primPath) const;
+    void _DirtyHierarchy(const SdfPath& primPath, const HdDataSourceLocatorSet& locators, HdSceneIndexObserver::DirtiedPrimEntries* dirtyEntries);
+
 private:
     std::shared_ptr<sim::PhysxEngine> _simulationEngine;
+    mutable SdfPathTable<HdSceneIndexPrim> _wrappedPrims;
+    std::vector<pxr::SdfPath> _paths;
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE

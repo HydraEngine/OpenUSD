@@ -389,7 +389,7 @@ void UsdImagingGLEngine::Render(const UsdPrim &root, const UsdImagingGLRenderPar
 }
 
 void UsdImagingGLEngine::Update(float dt) {
-    _physicsSceneIndex->GetSimulation()->UpdateAll(dt);
+    _physicsSceneIndex->Update(dt);
 }
 
 bool UsdImagingGLEngine::IsConverged() const {

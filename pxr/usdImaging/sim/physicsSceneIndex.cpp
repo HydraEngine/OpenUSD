@@ -131,6 +131,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             if (rigidBodyEnabled && xformSchema) {
                 auto xform = xformSchema.GetMatrix()->GetTypedValue(0);
                 if (const auto actor = engine->CreateDynamicActor(entry.primPath, xform, rigidBodySchema)) {
+                    _paths.push_back(entry.primPath);
                     std::cout << entry.primPath << "\t" << actor->getConcreteTypeName() << "\t Created" << "\n";
                     engine->AddActor(simulator, actor);
                 }
@@ -201,6 +202,11 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
         if (xformSchema) {
             std::cout << entry.primPath << "\t" << entry.primType << "\n";
             std::cout << "Matrix: \t" << xformSchema.GetMatrix()->GetTypedValue(0) << "\n";
+
+            auto iterBoolPair = this->_IsPrimWrapped(entry.primPath);
+            if (!iterBoolPair.second) {
+                this->_WrapPrim(entry.primPath, prim);
+            }
         }
 
         HdDistanceJointSchema distanceJointSchema = HdDistanceJointSchema::GetFromParent(prim.dataSource);
@@ -236,21 +242,107 @@ void UsdImagingPhysicsSceneIndex::_PrimsDirtied(const HdSceneIndexBase &sender,
 }
 
 HdSceneIndexPrim UsdImagingPhysicsSceneIndex::GetPrim(const SdfPath &primPath) const {
+    // lookup the prim to see if we have wrapped it yet
+    auto iterBoolPair = this->_IsPrimWrapped(primPath);
+    if (iterBoolPair.second) {
+        // we have it wrapped already, so return the wrapped prim
+        return iterBoolPair.first->second;
+    }
+
     HdSceneIndexPrim sceneIndexPrim = this->_GetInputSceneIndex()->GetPrim(primPath);
     HdXformSchema xformSchema = HdXformSchema::GetFromParent(sceneIndexPrim.dataSource);
     if (xformSchema.IsDefined()) {
-        HdContainerDataSourceHandle wrappedDataSource = HdPhysXDataSource::New(primPath, sceneIndexPrim.dataSource);
-        return HdSceneIndexPrim{sceneIndexPrim.primType, std::move(wrappedDataSource)};
+        return this->_WrapPrim(primPath, sceneIndexPrim);
     }
 
     // otherwise we don't need to wrap it and can return it directly
     return sceneIndexPrim;
 }
 
+HdSceneIndexPrim &UsdImagingPhysicsSceneIndex::_WrapPrim(const SdfPath &primPath,
+                                                         const HdSceneIndexPrim &hdPrim) const {
+    HdContainerDataSourceHandle wrappedDataSource = HdPhysXDataSource::New(primPath, hdPrim.dataSource);
+    const auto it = _wrappedPrims.find(primPath);
+    if (it != _wrappedPrims.end()) {
+        // in this case, the entry is there, but it was auto-created
+        // by SdfPathTable, meaning it should have empty entries
+        TF_VERIFY(it->second.primType == TfToken());
+        TF_VERIFY(it->second.dataSource == nullptr);
+        it->second.primType = hdPrim.primType;
+        it->second.dataSource = std::move(wrappedDataSource);
+
+        return it->second;
+    } else {
+        auto iterBoolPair =
+                _wrappedPrims.insert({primPath, HdSceneIndexPrim{hdPrim.primType, std::move(wrappedDataSource)}});
+
+        return iterBoolPair.first->second;
+    }
+}
+
+SdfPathTable<HdSceneIndexPrim>::_IterBoolPair UsdImagingPhysicsSceneIndex::_IsPrimWrapped(
+        const SdfPath &primPath) const {
+    bool result = false;
+    const auto it = _wrappedPrims.find(primPath);
+    if (it != _wrappedPrims.end()) {
+        // because SdfPathTable inserts all parents
+        // when a path gets inserted, there may be an empty
+        // entry in our cache if a child path was visited first
+        // to verify we have to check the prim type and data source
+        if (it->second.primType != TfToken() || it->second.dataSource != nullptr) {
+            // not an auto-insertion of the parent
+            result = true;
+        }
+    }
+
+    return std::make_pair(it, result);
+}
+
 SdfPathVector UsdImagingPhysicsSceneIndex::GetChildPrimPaths(const SdfPath &primPath) const {
     return _GetInputSceneIndex()->GetChildPrimPaths(primPath);
 }
 
+void UsdImagingPhysicsSceneIndex::_DirtyHierarchy(const SdfPath &primPath,
+                                                  const HdDataSourceLocatorSet &locators,
+                                                  HdSceneIndexObserver::DirtiedPrimEntries *dirtyEntries) {
+    // find subtree range retrieves a start end pair of children
+    // in the subtree of the given prim path
+    auto startEndRangeIterator = _wrappedPrims.FindSubtreeRange(primPath);
+    for (auto it = startEndRangeIterator.first; it != startEndRangeIterator.second;) {
+        // if we have a valid wrapper for the prim, we need to check
+        // whether it needs to be dirtied - this involves checking the
+        // data sources to see if they have cached data and if so
+        // this indicates it needs to be updated
+        if (it->second.dataSource != nullptr) {
+            HdPhysXDataSourceHandle geospatialDataSource = HdPhysXDataSource::Cast(it->second.dataSource);
+            if (geospatialDataSource != nullptr) {
+                if (it->first != primPath) {
+                    dirtyEntries->emplace_back(it->first, locators);
+                }
+
+                it++;
+            } else {
+                it++;
+            }
+        } else {
+            it++;
+        }
+    }
+}
+
 std::shared_ptr<sim::PhysxEngine> UsdImagingPhysicsSceneIndex::GetSimulation() { return _simulationEngine; }
+
+void UsdImagingPhysicsSceneIndex::Update(float dt) {
+    _simulationEngine->UpdateAll(dt);
+
+    HdSceneIndexObserver::DirtiedPrimEntries dirtyEntries;
+    static HdDataSourceLocatorSet locators = {
+            pxr::HdXformSchema::GetDefaultLocator()
+    };
+    for (const auto& path :_paths) {
+        _DirtyHierarchy(path, locators, &dirtyEntries);
+    }
+    _SendPrimsDirtied(dirtyEntries);
+}
 
 PXR_NAMESPACE_CLOSE_SCOPE
