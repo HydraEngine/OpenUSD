@@ -33,6 +33,7 @@
 #include "pxr/imaging/hd/meshSchema.h"
 #include "pxr/imaging/hd/xformSchema.h"
 #include "utils.h"
+#include "physxDataSource.h"
 
 #include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/imaging/hd/primvarsSchema.h"
@@ -235,21 +236,15 @@ void UsdImagingPhysicsSceneIndex::_PrimsDirtied(const HdSceneIndexBase &sender,
 }
 
 HdSceneIndexPrim UsdImagingPhysicsSceneIndex::GetPrim(const SdfPath &primPath) const {
-    HdSceneIndexPrim prim = _GetInputSceneIndex()->GetPrim(primPath);
-    if (prim.dataSource) {
-        HdPrimvarsSchema depPrimVarsSchema = HdPrimvarsSchema::GetFromParent(prim.dataSource);
-        if (depPrimVarsSchema) {
-            HdPrimvarSchema depPrimVar = depPrimVarsSchema.GetPrimvar(HdTokens->points);
-            if (depPrimVar) {
-                HdSampledDataSourceHandle valueDataSource = depPrimVar.GetPrimvarValue();
-                auto pointsVt = valueDataSource->GetValue(0.f);
-                const auto &outVertices = pointsVt.UncheckedGet<VtArray<GfVec3f>>();
-                std::cout << "Mesh Vertex Count: " << outVertices.size() << "\n";
-            }
-        }
+    HdSceneIndexPrim sceneIndexPrim = this->_GetInputSceneIndex()->GetPrim(primPath);
+    HdXformSchema xformSchema = HdXformSchema::GetFromParent(sceneIndexPrim.dataSource);
+    if (xformSchema.IsDefined()) {
+        HdContainerDataSourceHandle wrappedDataSource = HdPhysXDataSource::New(primPath, sceneIndexPrim.dataSource);
+        return HdSceneIndexPrim{sceneIndexPrim.primType, std::move(wrappedDataSource)};
     }
 
-    return prim;
+    // otherwise we don't need to wrap it and can return it directly
+    return sceneIndexPrim;
 }
 
 SdfPathVector UsdImagingPhysicsSceneIndex::GetChildPrimPaths(const SdfPath &primPath) const {
