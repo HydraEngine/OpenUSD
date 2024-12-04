@@ -35,6 +35,7 @@
 #include "pxr/imaging/hd/meshSchema.h"
 
 #include "pxr/base/gf/transform.h"
+#include <iostream>
 
 using namespace physx;
 using namespace pxr;
@@ -224,7 +225,7 @@ physx::PxShape* PhysxEngine::CreateShape(const pxr::SdfPath& primPath,
     if (cubeSchema) {
         auto size = (float)cubeSchema.GetSize()->GetTypedValue(0);
         auto s = scale * size;
-        auto geometry = PxBoxGeometry(s.x, s.y, s.z);
+        auto geometry = PxBoxGeometry(s.x / 2, s.y / 2, s.z / 2);
         shape = mPxPhysics->createShape(geometry, *material);
     }
 

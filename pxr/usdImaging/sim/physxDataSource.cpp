@@ -51,7 +51,7 @@ HdDataSourceBaseHandle HdPhysXDataSource::Get(const TfToken& name) {
         auto actorMatrix = xformSchema.GetMatrix()->GetTypedValue(0);
 
         auto prim = _sceneIndex->GetPrim(_primPath);
-        xformSchema = HdXformSchema::GetFromParent(actorPrim.dataSource);
+        xformSchema = HdXformSchema::GetFromParent(prim.dataSource);
         auto shapeMatrix = xformSchema.GetMatrix()->GetTypedValue(0);
         shapeMatrix = shapeMatrix / actorMatrix;
 
