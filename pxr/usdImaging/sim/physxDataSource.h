@@ -26,7 +26,9 @@ class HdPhysXDataSource : public HdContainerDataSource {
 public:
     HD_DECLARE_DATASOURCE(HdPhysXDataSource);
 
-    HdPhysXDataSource(SdfPath  primPath, HdContainerDataSourceHandle wrappedDataSource);
+    HdPhysXDataSource(HdSceneIndexBaseRefPtr sceneIndex,
+                      SdfPath primPath,
+                      HdContainerDataSourceHandle wrappedDataSource);
 
     void UpdateWrappedDataSource(HdContainerDataSourceHandle wrappedDataSource);
 
@@ -35,6 +37,7 @@ public:
     HdDataSourceBaseHandle Get(const TfToken& name) override;
 
 private:
+    HdSceneIndexBaseRefPtr _sceneIndex;
     SdfPath _primPath;
     HdContainerDataSourceHandle _wrappedDataSource;
 };

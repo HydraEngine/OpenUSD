@@ -261,7 +261,8 @@ HdSceneIndexPrim UsdImagingPhysicsSceneIndex::GetPrim(const SdfPath &primPath) c
 
 HdSceneIndexPrim &UsdImagingPhysicsSceneIndex::_WrapPrim(const SdfPath &primPath,
                                                          const HdSceneIndexPrim &hdPrim) const {
-    HdContainerDataSourceHandle wrappedDataSource = HdPhysXDataSource::New(primPath, hdPrim.dataSource);
+    HdContainerDataSourceHandle wrappedDataSource =
+            HdPhysXDataSource::New(this->_GetInputSceneIndex(), primPath, hdPrim.dataSource);
     const auto it = _wrappedPrims.find(primPath);
     if (it != _wrappedPrims.end()) {
         // in this case, the entry is there, but it was auto-created
@@ -336,11 +337,10 @@ void UsdImagingPhysicsSceneIndex::Update(float dt) {
     _simulationEngine->UpdateAll(dt);
 
     HdSceneIndexObserver::DirtiedPrimEntries dirtyEntries;
-    static HdDataSourceLocatorSet locators = {
-            pxr::HdXformSchema::GetDefaultLocator()
-    };
-    for (const auto& path :_paths) {
+    static HdDataSourceLocatorSet locators = {pxr::HdXformSchema::GetDefaultLocator()};
+    for (const auto &path : _paths) {
         _DirtyHierarchy(path, locators, &dirtyEntries);
+        dirtyEntries.emplace_back(path, locators);
     }
     _SendPrimsDirtied(dirtyEntries);
 }

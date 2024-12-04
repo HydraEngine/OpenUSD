@@ -36,8 +36,6 @@
 
 #include "pxr/base/gf/transform.h"
 
-#include <iostream>
-
 using namespace physx;
 using namespace pxr;
 
@@ -128,11 +126,6 @@ std::shared_ptr<PhysxScene> PhysxEngine::FindScene(const pxr::SdfPath& primPath)
 void PhysxEngine::UpdateAll(float dt) {
     for (const auto& scene : mScenes) {
         scene.second->Update(dt);
-    }
-
-    for (const auto& actor : mDynamicActors) {
-        auto pose = actor.second->getGlobalPose();
-        std::cout << pose.p.x << "\t" << pose.p.y << "\t" << pose.p.z << "\n";
     }
 }
 
