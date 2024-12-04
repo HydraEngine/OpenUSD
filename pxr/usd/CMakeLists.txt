@@ -20,6 +20,7 @@ set(DIRS
     usdUI
     usdUtils
     usdPhysics
+        usdPhysX
     plugin
 )
 
