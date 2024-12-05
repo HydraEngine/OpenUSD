@@ -420,3 +420,77 @@ class "PhysxSchemaPhysxIsosurfaceAPI" (
     )
 }
 
+class "PhysxSchemaPhysxJointAPI" (
+    doc = "PhysX joint extended parameters."
+)
+{
+    float physxJoint:armature = 0 (
+        doc = """Armature can help stabilize an articulation by adding to the inertial response of a joint.
+        Conceptually, armature represents the inertia of an actuator driving the joint. Note that this parameter is used only when the joint belongs to an articulation. 
+        Range: [0, inf) Units: Linear joint - mass Angular joint - mass * (distance)^2
+        """
+    )
+    bool physxJoint:enableProjection = 0 (
+        doc = "Whether the actors should get projected for this constraint (the direction will be chosen by PhysX)."
+    )
+    float physxJoint:jointFriction = 0 (
+        doc = """Joint friction.
+        Only applies for joints that are parts of an articulation. Range: [0, inf) Units: dimensionless"""
+    )
+    float physxJoint:maxJointVelocity = 1000000 (
+        doc = """Maximum joint velocity.
+        Range: [0, inf) Units: Linear joint - distance / time Angular joint - degrees / time"""
+    )
+}
+
+class "PhysxSchemaPhysxMaterialAPI" (
+    doc = '''PhysX material extended parameters.
+    For any described attribute Fallback Value or Allowed Values below that are text/tokens, the actual token is published and defined in PhysxSchemaTokens. 
+    So to set an attribute to the value "rightHanded", use PhysxSchemaTokens->rightHanded as the value.
+    '''
+)
+{
+    bool physxMaterial:compliantContactAccelerationSpring = 0 (
+        doc = """If enabled, switches from force-based to acceleration-based compliant spring-damper contact effects.
+        An acceleration-based spring-damper directly influences the acceleration of (rather than the force on) the contacting bodies, 
+        which makes the sink-in depth independent of the mass. The setting has no effect if compliant contacts are disabled, i.e., if the compliant contact stiffness is zero.
+        """
+    )
+    float physxMaterial:compliantContactDamping = 0 (
+        doc = """Damping coefficient for a compliant contact model using implicit springs.
+
+        Ignored if compliant contacts are disabled (compliantContactStiffness is set to zero), in which case rigid contacts are active. 
+        Depending on the compliantContactAccelerationSpring setting, the damping is interpreted as a force or acceleration, respectively, per unit velocity. 
+        Range: [0, inf) Units (force spring): force / (distance / seconds) = mass / seconds Units (acceleration spring): acceleration / (distance / seconds) = 1 / seconds
+        """
+    )
+    float physxMaterial:compliantContactStiffness = 0 (
+        doc = """Spring stiffness for a compliant contact model using implicit springs.
+
+        A higher stiffness results in behavior closer to a rigid contact. The compliant contact model is only enabled if the stiffness is larger than 0. 
+        Depending on the compliantContactAccelerationSpring setting, the stiffness is interpreted as a force or acceleration, respectively, per unit distance. 
+        Range: [0, inf) Units (force spring): force/distance = mass / seconds / seconds Units (acceleration spring): acceleration/distance = 1 / seconds / seconds
+        """
+    )
+    uniform token physxMaterial:dampingCombineMode = "average" (
+        allowedTokens = ["average", "min", "multiply", "max"]
+        doc = """
+        Determines the way in which two material properties will be combined to yield a damping coefficient for a collision.
+
+        This value is only relevant for compliant contact interactions.
+        """
+    )
+    uniform token physxMaterial:frictionCombineMode = "average" (
+        allowedTokens = ["average", "min", "multiply", "max"]
+        doc = """
+        Determines the way in which two material properties will be combined to yield a friction coefficient for a collision.
+        """
+    )
+    uniform token physxMaterial:restitutionCombineMode = "average" (
+        allowedTokens = ["average", "min", "multiply", "max"]
+        doc = """
+        Determines the way in which two material properties will be combined to yield a restitution coefficient for a collision.
+        """
+    )
+}
+

@@ -19,12 +19,16 @@ void wrapUsdPhysXTokens()
         cls("Tokens", pxr_boost::python::no_init);
     _ADD_TOKEN(cls, acceleration);
     _ADD_TOKEN(cls, alwaysUpdateEnabled);
+    _ADD_TOKEN(cls, average);
     _ADD_TOKEN(cls, constrained);
     _ADD_TOKEN(cls, easy);
     _ADD_TOKEN(cls, force);
     _ADD_TOKEN(cls, jointState);
     _ADD_TOKEN(cls, jointState_MultipleApplyTemplate_PhysicsPosition);
     _ADD_TOKEN(cls, jointState_MultipleApplyTemplate_PhysicsVelocity);
+    _ADD_TOKEN(cls, max);
+    _ADD_TOKEN(cls, min);
+    _ADD_TOKEN(cls, multiply);
     _ADD_TOKEN(cls, physxArticulationArticulationEnabled);
     _ADD_TOKEN(cls, physxArticulationEnabledSelfCollisions);
     _ADD_TOKEN(cls, physxArticulationSleepThreshold);
@@ -114,6 +118,16 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxIsosurfaceMaxTriangles);
     _ADD_TOKEN(cls, physxIsosurfaceMaxVertices);
     _ADD_TOKEN(cls, physxIsosurfaceNumMeshSmoothingPasses);
+    _ADD_TOKEN(cls, physxJointArmature);
+    _ADD_TOKEN(cls, physxJointEnableProjection);
+    _ADD_TOKEN(cls, physxJointJointFriction);
+    _ADD_TOKEN(cls, physxJointMaxJointVelocity);
+    _ADD_TOKEN(cls, physxMaterialCompliantContactAccelerationSpring);
+    _ADD_TOKEN(cls, physxMaterialCompliantContactDamping);
+    _ADD_TOKEN(cls, physxMaterialCompliantContactStiffness);
+    _ADD_TOKEN(cls, physxMaterialDampingCombineMode);
+    _ADD_TOKEN(cls, physxMaterialFrictionCombineMode);
+    _ADD_TOKEN(cls, physxMaterialRestitutionCombineMode);
     _ADD_TOKEN(cls, preventClimbing);
     _ADD_TOKEN(cls, preventClimbingForceSliding);
     _ADD_TOKEN(cls, X);
@@ -134,4 +148,6 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, PhysxSchemaPhysxCookedDataAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxForceAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxIsosurfaceAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxJointAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxMaterialAPI);
 }

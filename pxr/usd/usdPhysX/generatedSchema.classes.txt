@@ -16,6 +16,8 @@ physxConvexHullCollisionAPI
 physxCookedDataAPI
 physxForceAPI
 physxIsosurfaceAPI
+physxJointAPI
+physxMaterialAPI
 tokens
 
 # Python Module Files
@@ -36,6 +38,8 @@ wrapphysxConvexHullCollisionAPI.cpp
 wrapphysxCookedDataAPI.cpp
 wrapphysxForceAPI.cpp
 wrapphysxIsosurfaceAPI.cpp
+wrapphysxJointAPI.cpp
+wrapphysxMaterialAPI.cpp
 
 # Resource Files
 generatedSchema.usda

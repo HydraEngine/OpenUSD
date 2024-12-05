@@ -53,6 +53,10 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXphysxCameraAPI
     const TfToken alwaysUpdateEnabled;
+    /// \brief "average"
+    /// 
+    /// Fallback value for UsdPhysXphysxMaterialAPI::GetDampingCombineModeAttr(), Fallback value for UsdPhysXphysxMaterialAPI::GetFrictionCombineModeAttr(), Fallback value for UsdPhysXphysxMaterialAPI::GetRestitutionCombineModeAttr()
+    const TfToken average;
     /// \brief "constrained"
     /// 
     /// Possible value for UsdPhysXphysxCharacterControllerAPI::GetClimbingModeAttr()
@@ -77,6 +81,18 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXJointStateAPI
     const TfToken jointState_MultipleApplyTemplate_PhysicsVelocity;
+    /// \brief "max"
+    /// 
+    /// Possible value for UsdPhysXphysxMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXphysxMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXphysxMaterialAPI::GetRestitutionCombineModeAttr()
+    const TfToken max;
+    /// \brief "min"
+    /// 
+    /// Possible value for UsdPhysXphysxMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXphysxMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXphysxMaterialAPI::GetRestitutionCombineModeAttr()
+    const TfToken min;
+    /// \brief "multiply"
+    /// 
+    /// Possible value for UsdPhysXphysxMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXphysxMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXphysxMaterialAPI::GetRestitutionCombineModeAttr()
+    const TfToken multiply;
     /// \brief "physxArticulation:articulationEnabled"
     /// 
     /// UsdPhysXphysxArticulationAPI
@@ -433,6 +449,46 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXphysxIsosurfaceAPI
     const TfToken physxIsosurfaceNumMeshSmoothingPasses;
+    /// \brief "physxJoint:armature"
+    /// 
+    /// UsdPhysXphysxJointAPI
+    const TfToken physxJointArmature;
+    /// \brief "physxJoint:enableProjection"
+    /// 
+    /// UsdPhysXphysxJointAPI
+    const TfToken physxJointEnableProjection;
+    /// \brief "physxJoint:jointFriction"
+    /// 
+    /// UsdPhysXphysxJointAPI
+    const TfToken physxJointJointFriction;
+    /// \brief "physxJoint:maxJointVelocity"
+    /// 
+    /// UsdPhysXphysxJointAPI
+    const TfToken physxJointMaxJointVelocity;
+    /// \brief "physxMaterial:compliantContactAccelerationSpring"
+    /// 
+    /// UsdPhysXphysxMaterialAPI
+    const TfToken physxMaterialCompliantContactAccelerationSpring;
+    /// \brief "physxMaterial:compliantContactDamping"
+    /// 
+    /// UsdPhysXphysxMaterialAPI
+    const TfToken physxMaterialCompliantContactDamping;
+    /// \brief "physxMaterial:compliantContactStiffness"
+    /// 
+    /// UsdPhysXphysxMaterialAPI
+    const TfToken physxMaterialCompliantContactStiffness;
+    /// \brief "physxMaterial:dampingCombineMode"
+    /// 
+    /// UsdPhysXphysxMaterialAPI
+    const TfToken physxMaterialDampingCombineMode;
+    /// \brief "physxMaterial:frictionCombineMode"
+    /// 
+    /// UsdPhysXphysxMaterialAPI
+    const TfToken physxMaterialFrictionCombineMode;
+    /// \brief "physxMaterial:restitutionCombineMode"
+    /// 
+    /// UsdPhysXphysxMaterialAPI
+    const TfToken physxMaterialRestitutionCombineMode;
     /// \brief "preventClimbing"
     /// 
     /// Fallback value for UsdPhysXphysxCharacterControllerAPI::GetNonWalkableModeAttr()
@@ -513,6 +569,14 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXphysxIsosurfaceAPI
     const TfToken PhysxSchemaPhysxIsosurfaceAPI;
+    /// \brief "PhysxSchemaPhysxJointAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXphysxJointAPI
+    const TfToken PhysxSchemaPhysxJointAPI;
+    /// \brief "PhysxSchemaPhysxMaterialAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXphysxMaterialAPI
+    const TfToken PhysxSchemaPhysxMaterialAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };
