@@ -27,5 +27,7 @@ TF_WRAP(UsdPhysXMeshMergeCollisionAPI);
 TF_WRAP(UsdPhysXMimicJointAPI);
 TF_WRAP(UsdPhysXPhysicsDistanceJointAPI);
 TF_WRAP(UsdPhysXPhysicsGearJoint);
+TF_WRAP(UsdPhysXPhysicsRackAndPinionJoint);
 TF_WRAP(UsdPhysXPhysicsInstancer);
+TF_WRAP(UsdPhysXPhysicsJointInstancer);
 TF_WRAP(UsdPhysXTokens);

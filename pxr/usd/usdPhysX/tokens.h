@@ -69,6 +69,18 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXForceAPI::GetModeAttr()
     const TfToken force;
+    /// \brief "hinge"
+    /// 
+    /// UsdPhysXPhysicsRackAndPinionJoint
+    const TfToken hinge;
+    /// \brief "hinge0"
+    /// 
+    /// UsdPhysXPhysicsGearJoint
+    const TfToken hinge0;
+    /// \brief "hinge1"
+    /// 
+    /// UsdPhysXPhysicsGearJoint
+    const TfToken hinge1;
     /// \brief "jointState"
     /// 
     /// Property namespace prefix for the UsdPhysXJointStateAPI schema.
@@ -93,14 +105,50 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
     const TfToken multiply;
+    /// \brief "physics:body0Indices"
+    /// 
+    /// UsdPhysXPhysicsJointInstancer
+    const TfToken physicsBody0Indices;
+    /// \brief "physicsBody0s"
+    /// 
+    /// UsdPhysXPhysicsJointInstancer
+    const TfToken physicsBody0s;
+    /// \brief "physics:body1Indices"
+    /// 
+    /// UsdPhysXPhysicsJointInstancer
+    const TfToken physicsBody1Indices;
+    /// \brief "physicsBody1s"
+    /// 
+    /// UsdPhysXPhysicsJointInstancer
+    const TfToken physicsBody1s;
     /// \brief "physics:gearRatio"
     /// 
     /// UsdPhysXPhysicsGearJoint
     const TfToken physicsGearRatio;
+    /// \brief "physics:localPos0s"
+    /// 
+    /// UsdPhysXPhysicsJointInstancer
+    const TfToken physicsLocalPos0s;
+    /// \brief "physics:localPos1s"
+    /// 
+    /// UsdPhysXPhysicsJointInstancer
+    const TfToken physicsLocalPos1s;
+    /// \brief "physics:localRot0s"
+    /// 
+    /// UsdPhysXPhysicsJointInstancer
+    const TfToken physicsLocalRot0s;
+    /// \brief "physics:localRot1s"
+    /// 
+    /// UsdPhysXPhysicsJointInstancer
+    const TfToken physicsLocalRot1s;
     /// \brief "physics:protoIndices"
     /// 
     /// UsdPhysXPhysicsInstancer
     const TfToken physicsProtoIndices;
+    /// \brief "physics:ratio"
+    /// 
+    /// UsdPhysXPhysicsRackAndPinionJoint
+    const TfToken physicsRatio;
     /// \brief "physxArticulation:articulationEnabled"
     /// 
     /// UsdPhysXArticulationAPI
@@ -533,6 +581,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXCharacterControllerAPI::GetNonWalkableModeAttr()
     const TfToken preventClimbingForceSliding;
+    /// \brief "prismatic"
+    /// 
+    /// UsdPhysXPhysicsRackAndPinionJoint
+    const TfToken prismatic;
     /// \brief "rotX"
     /// 
     /// Fallback value for UsdPhysXMimicJointAPI::GetReferenceJointAxisAttr()
@@ -645,6 +697,14 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXPhysicsInstancer
     const TfToken PhysxSchemaPhysxPhysicsInstancer;
+    /// \brief "PhysxSchemaPhysxPhysicsJointInstancer"
+    /// 
+    /// Schema identifer and family for UsdPhysXPhysicsJointInstancer
+    const TfToken PhysxSchemaPhysxPhysicsJointInstancer;
+    /// \brief "PhysxSchemaPhysxPhysicsRackAndPinionJoint"
+    /// 
+    /// Schema identifer and family for UsdPhysXPhysicsRackAndPinionJoint
+    const TfToken PhysxSchemaPhysxPhysicsRackAndPinionJoint;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };

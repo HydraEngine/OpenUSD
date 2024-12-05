@@ -4,10 +4,10 @@
 // Licensed under the terms set forth in the LICENSE.txt file available at
 // https://openusd.org/license.
 //
-#ifndef USDPHYSX_GENERATED_PHYSICSGEARJOINT_H
-#define USDPHYSX_GENERATED_PHYSICSGEARJOINT_H
+#ifndef USDPHYSX_GENERATED_PHYSICSRACKANDPINIONJOINT_H
+#define USDPHYSX_GENERATED_PHYSICSRACKANDPINIONJOINT_H
 
-/// \file usdPhysX/physicsGearJoint.h
+/// \file usdPhysX/physicsRackAndPinionJoint.h
 
 #include "pxr/pxr.h"
 #include "pxr/usd/usdPhysX/api.h"
@@ -30,14 +30,14 @@ PXR_NAMESPACE_OPEN_SCOPE
 class SdfAssetPath;
 
 // -------------------------------------------------------------------------- //
-// PHYSXSCHEMAPHYSXPHYSICSGEARJOINT                                           //
+// PHYSXSCHEMAPHYSXPHYSICSRACKANDPINIONJOINT                                  //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXPhysicsGearJoint
+/// \class UsdPhysXPhysicsRackAndPinionJoint
 ///
-/// Predefined gear joint type.
+/// Predefined rack & pinion joint type.
 ///
-class UsdPhysXPhysicsGearJoint : public UsdPhysicsJoint
+class UsdPhysXPhysicsRackAndPinionJoint : public UsdPhysicsJoint
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -45,26 +45,26 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::ConcreteTyped;
 
-    /// Construct a UsdPhysXPhysicsGearJoint on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXPhysicsGearJoint::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXPhysicsRackAndPinionJoint on UsdPrim \p prim .
+    /// Equivalent to UsdPhysXPhysicsRackAndPinionJoint::Get(prim.GetStage(), prim.GetPath())
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXPhysicsGearJoint(const UsdPrim& prim=UsdPrim())
+    explicit UsdPhysXPhysicsRackAndPinionJoint(const UsdPrim& prim=UsdPrim())
         : UsdPhysicsJoint(prim)
     {
     }
 
-    /// Construct a UsdPhysXPhysicsGearJoint on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXPhysicsGearJoint(schemaObj.GetPrim()),
+    /// Construct a UsdPhysXPhysicsRackAndPinionJoint on the prim held by \p schemaObj .
+    /// Should be preferred over UsdPhysXPhysicsRackAndPinionJoint(schemaObj.GetPrim()),
     /// as it preserves SchemaBase state.
-    explicit UsdPhysXPhysicsGearJoint(const UsdSchemaBase& schemaObj)
+    explicit UsdPhysXPhysicsRackAndPinionJoint(const UsdSchemaBase& schemaObj)
         : UsdPhysicsJoint(schemaObj)
     {
     }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXPhysicsGearJoint();
+    virtual ~UsdPhysXPhysicsRackAndPinionJoint();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -73,17 +73,17 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
-    /// Return a UsdPhysXPhysicsGearJoint holding the prim adhering to this
+    /// Return a UsdPhysXPhysicsRackAndPinionJoint holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXPhysicsGearJoint(stage->GetPrimAtPath(path));
+    /// UsdPhysXPhysicsRackAndPinionJoint(stage->GetPrimAtPath(path));
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXPhysicsGearJoint
+    static UsdPhysXPhysicsRackAndPinionJoint
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
     /// Attempt to ensure a \a UsdPrim adhering to this schema at \p path
@@ -109,7 +109,7 @@ public:
     /// the opinion at the current EditTarget.
     ///
     USDPHYSX_API
-    static UsdPhysXPhysicsGearJoint
+    static UsdPhysXPhysicsRackAndPinionJoint
     Define(const UsdStagePtr &stage, const SdfPath &path);
 
 protected:
@@ -133,53 +133,54 @@ private:
 
 public:
     // --------------------------------------------------------------------- //
-    // PHYSICSGEARRATIO 
+    // PHYSICSRATIO 
     // --------------------------------------------------------------------- //
-    /// Gear ratio Range: (-inf, inf) Units: dimensionless.
+    /// Ratio between angular and linear motion. 
+    /// Range: (-inf, inf) Units: degrees / distance
     ///
     /// | ||
     /// | -- | -- |
-    /// | Declaration | `float physics:gearRatio = 1` |
+    /// | Declaration | `float physics:ratio = 1` |
     /// | C++ Type | float |
     /// | \ref Usd_Datatypes "Usd Type" | SdfValueTypeNames->Float |
     USDPHYSX_API
-    UsdAttribute GetPhysicsGearRatioAttr() const;
+    UsdAttribute GetPhysicsRatioAttr() const;
 
-    /// See GetPhysicsGearRatioAttr(), and also 
+    /// See GetPhysicsRatioAttr(), and also 
     /// \ref Usd_Create_Or_Get_Property for when to use Get vs Create.
     /// If specified, author \p defaultValue as the attribute's default,
     /// sparsely (when it makes sense to do so) if \p writeSparsely is \c true -
     /// the default for \p writeSparsely is \c false.
     USDPHYSX_API
-    UsdAttribute CreatePhysicsGearRatioAttr(VtValue const &defaultValue = VtValue(), bool writeSparsely=false) const;
+    UsdAttribute CreatePhysicsRatioAttr(VtValue const &defaultValue = VtValue(), bool writeSparsely=false) const;
 
 public:
     // --------------------------------------------------------------------- //
-    // HINGE0 
+    // HINGE 
     // --------------------------------------------------------------------- //
-    /// Relationship to first revolute joint.
+    /// Relationship to revolute joint.
     ///
     USDPHYSX_API
-    UsdRelationship GetHinge0Rel() const;
+    UsdRelationship GetHingeRel() const;
 
-    /// See GetHinge0Rel(), and also 
+    /// See GetHingeRel(), and also 
     /// \ref Usd_Create_Or_Get_Property for when to use Get vs Create
     USDPHYSX_API
-    UsdRelationship CreateHinge0Rel() const;
+    UsdRelationship CreateHingeRel() const;
 
 public:
     // --------------------------------------------------------------------- //
-    // HINGE1 
+    // PRISMATIC 
     // --------------------------------------------------------------------- //
-    /// Relationship to second revolute joint.
+    /// Relationship to prismatic joint.
     ///
     USDPHYSX_API
-    UsdRelationship GetHinge1Rel() const;
+    UsdRelationship GetPrismaticRel() const;
 
-    /// See GetHinge1Rel(), and also 
+    /// See GetPrismaticRel(), and also 
     /// \ref Usd_Create_Or_Get_Property for when to use Get vs Create
     USDPHYSX_API
-    UsdRelationship CreateHinge1Rel() const;
+    UsdRelationship CreatePrismaticRel() const;
 
 public:
     // ===================================================================== //

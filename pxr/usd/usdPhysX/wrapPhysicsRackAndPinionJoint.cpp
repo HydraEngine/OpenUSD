@@ -4,7 +4,7 @@
 // Licensed under the terms set forth in the LICENSE.txt file available at
 // https://openusd.org/license.
 //
-#include "pxr/usd/usdPhysX/physicsGearJoint.h"
+#include "pxr/usd/usdPhysX/physicsRackAndPinionJoint.h"
 #include "pxr/usd/usd/schemaBase.h"
 
 #include "pxr/usd/sdf/primSpec.h"
@@ -33,29 +33,29 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreatePhysicsGearRatioAttr(UsdPhysXPhysicsGearJoint &self,
+_CreatePhysicsRatioAttr(UsdPhysXPhysicsRackAndPinionJoint &self,
                                       object defaultVal, bool writeSparsely) {
-    return self.CreatePhysicsGearRatioAttr(
+    return self.CreatePhysicsRatioAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXPhysicsGearJoint &self)
+_Repr(const UsdPhysXPhysicsRackAndPinionJoint &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.PhysicsGearJoint(%s)",
+        "UsdPhysX.PhysicsRackAndPinionJoint(%s)",
         primRepr.c_str());
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXPhysicsGearJoint()
+void wrapUsdPhysXPhysicsRackAndPinionJoint()
 {
-    typedef UsdPhysXPhysicsGearJoint This;
+    typedef UsdPhysXPhysicsRackAndPinionJoint This;
 
     class_<This, bases<UsdPhysicsJoint> >
-        cls("PhysicsGearJoint");
+        cls("PhysicsRackAndPinionJoint");
 
     cls
         .def(init<UsdPrim>(arg("prim")))
@@ -81,23 +81,23 @@ void wrapUsdPhysXPhysicsGearJoint()
         .def(!self)
 
         
-        .def("GetPhysicsGearRatioAttr",
-             &This::GetPhysicsGearRatioAttr)
-        .def("CreatePhysicsGearRatioAttr",
-             &_CreatePhysicsGearRatioAttr,
+        .def("GetPhysicsRatioAttr",
+             &This::GetPhysicsRatioAttr)
+        .def("CreatePhysicsRatioAttr",
+             &_CreatePhysicsRatioAttr,
              (arg("defaultValue")=object(),
               arg("writeSparsely")=false))
 
         
-        .def("GetHinge0Rel",
-             &This::GetHinge0Rel)
-        .def("CreateHinge0Rel",
-             &This::CreateHinge0Rel)
+        .def("GetHingeRel",
+             &This::GetHingeRel)
+        .def("CreateHingeRel",
+             &This::CreateHingeRel)
         
-        .def("GetHinge1Rel",
-             &This::GetHinge1Rel)
-        .def("CreateHinge1Rel",
-             &This::CreateHinge1Rel)
+        .def("GetPrismaticRel",
+             &This::GetPrismaticRel)
+        .def("CreatePrismaticRel",
+             &This::CreatePrismaticRel)
         .def("__repr__", ::_Repr)
     ;
 

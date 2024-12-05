@@ -23,14 +23,26 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, constrained);
     _ADD_TOKEN(cls, easy);
     _ADD_TOKEN(cls, force);
+    _ADD_TOKEN(cls, hinge);
+    _ADD_TOKEN(cls, hinge0);
+    _ADD_TOKEN(cls, hinge1);
     _ADD_TOKEN(cls, jointState);
     _ADD_TOKEN(cls, jointState_MultipleApplyTemplate_PhysicsPosition);
     _ADD_TOKEN(cls, jointState_MultipleApplyTemplate_PhysicsVelocity);
     _ADD_TOKEN(cls, max);
     _ADD_TOKEN(cls, min);
     _ADD_TOKEN(cls, multiply);
+    _ADD_TOKEN(cls, physicsBody0Indices);
+    _ADD_TOKEN(cls, physicsBody0s);
+    _ADD_TOKEN(cls, physicsBody1Indices);
+    _ADD_TOKEN(cls, physicsBody1s);
     _ADD_TOKEN(cls, physicsGearRatio);
+    _ADD_TOKEN(cls, physicsLocalPos0s);
+    _ADD_TOKEN(cls, physicsLocalPos1s);
+    _ADD_TOKEN(cls, physicsLocalRot0s);
+    _ADD_TOKEN(cls, physicsLocalRot1s);
     _ADD_TOKEN(cls, physicsProtoIndices);
+    _ADD_TOKEN(cls, physicsRatio);
     _ADD_TOKEN(cls, physxArticulationArticulationEnabled);
     _ADD_TOKEN(cls, physxArticulationEnabledSelfCollisions);
     _ADD_TOKEN(cls, physxArticulationSleepThreshold);
@@ -139,6 +151,7 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxPhysicsDistanceJointSpringStiffness);
     _ADD_TOKEN(cls, preventClimbing);
     _ADD_TOKEN(cls, preventClimbingForceSliding);
+    _ADD_TOKEN(cls, prismatic);
     _ADD_TOKEN(cls, rotX);
     _ADD_TOKEN(cls, rotY);
     _ADD_TOKEN(cls, rotZ);
@@ -167,4 +180,6 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, PhysxSchemaPhysxPhysicsDistanceJointAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxPhysicsGearJoint);
     _ADD_TOKEN(cls, PhysxSchemaPhysxPhysicsInstancer);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxPhysicsJointInstancer);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxPhysicsRackAndPinionJoint);
 }

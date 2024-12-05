@@ -1000,8 +1000,6 @@ class "PhysxSchemaPhysxPhysicsDistanceJointAPI" (
     )
 }
 
-
-
 class PhysxSchemaPhysxPhysicsGearJoint "PhysxSchemaPhysxPhysicsGearJoint" (
     doc = """Predefined gear joint type."""
     # Inherits from </SimplePrim> defined in simple.usda.
@@ -1012,6 +1010,32 @@ class PhysxSchemaPhysxPhysicsGearJoint "PhysxSchemaPhysxPhysicsGearJoint" (
 )  {
     float physics:gearRatio = 1 (
         doc = """Gear ratio Range: (-inf, inf) Units: dimensionless."""
+    )
+    rel hinge0 (
+        doc = "Relationship to first revolute joint."
+    )
+    rel hinge1 (
+        doc = "Relationship to second revolute joint."
+    )
+}
+
+class PhysxSchemaPhysxPhysicsRackAndPinionJoint "PhysxSchemaPhysxPhysicsRackAndPinionJoint" (
+    doc = """Predefined rack & pinion joint type."""
+    # Inherits from </SimplePrim> defined in simple.usda.
+    inherits = </PhysicsJoint>
+    customData = {
+        string className = "PhysicsRackAndPinionJoint"
+    }
+)  {
+    rel hinge (
+        doc = "Relationship to revolute joint."
+    )
+    rel prismatic (
+        doc = "Relationship to prismatic joint."
+    )
+    float physics:ratio = 1 (
+        doc = """Ratio between angular and linear motion. 
+        Range: (-inf, inf) Units: degrees / distance"""
     )
 }
 
@@ -1025,5 +1049,39 @@ class PhysxSchemaPhysxPhysicsInstancer "PhysxSchemaPhysxPhysicsInstancer" (
 )  {
     int[] physics:protoIndices (
         doc = "Per-instance index into prototypes relationship that identifies what physics prims are instanced. Topology attribute - can be animated, but at a potential performance impact for streaming."
+    )
+}
+
+class PhysxSchemaPhysxPhysicsJointInstancer "PhysxSchemaPhysxPhysicsJointInstancer" (
+    doc = """Physics joint instancer, the prototypes are expected to be UsdPhysicsJoint prim types."""
+    # Inherits from </SimplePrim> defined in simple.usda.
+    inherits = </PhysxSchemaPhysxPhysicsInstancer>
+    customData = {
+        string className = "PhysicsJointInstancer"
+    }
+)  {
+    int[] physics:body0Indices (
+        doc = "**Optional property.** Only applicable if body0s is a point instancer. An index specifies the per-instance body0 rel as the rigid body at the body0s-instancer's protoIndices[index]."
+    )
+    rel physicsBody0s (
+        doc = "**Required property.** The rel must contain either exactly one UsdGeomPointInstancer that instances rigid bodies; or one or more rigid-body prims in the stage. If the rel is to a point instancer, the body0Indices must be specified."
+    )
+    int[] physics:body1Indices (
+        doc = "**Optional property.** Only applicable if body1s is a point instancer. An index specifies the per-instance body1 rel as the rigid body at the body1s-instancer's protoIndices[index]."
+    )
+    rel physicsBody1s (
+        doc = "**Required property.** The rel must contain either exactly one UsdGeomPointInstancer that instances rigid bodies; or one or more rigid-body prims in the stage. If the rel is to a point instancer, the body0Indices must be specified."
+    )
+    point3f[] physics:localPos0s (
+        doc = "**Required property.** Per-instance localPos0. This transformation is added on top of the joint localPos0."
+    )
+    point3f[] physics:localPos1s (
+        doc = "**Required property.** Per-instance localPos1. This transformation is added on top of the joint localPos1."
+    )
+    quath[] physics:localRot0s (
+        doc = "**Required property.** Per-instance localRot0. This transformation is added on top of the joint localPos0."
+    )
+    quath[] physics:localRot1s (
+        doc = "**Required property.** Per-instance localRot1. This transformation is added on top of the joint localPos1."
     )
 }

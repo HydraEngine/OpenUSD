@@ -23,6 +23,8 @@ mimicJointAPI
 physicsDistanceJointAPI
 physicsGearJoint
 physicsInstancer
+physicsJointInstancer
+physicsRackAndPinionJoint
 tokens
 
 # Python Module Files
@@ -49,6 +51,8 @@ wrapMimicJointAPI.cpp
 wrapPhysicsDistanceJointAPI.cpp
 wrapPhysicsGearJoint.cpp
 wrapPhysicsInstancer.cpp
+wrapPhysicsJointInstancer.cpp
+wrapPhysicsRackAndPinionJoint.cpp
 wrapTokens.cpp
 
 # Resource Files

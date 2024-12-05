@@ -568,6 +568,12 @@ class PhysxSchemaPhysxPhysicsGearJoint "PhysxSchemaPhysxPhysicsGearJoint" (
     doc = "Predefined gear joint type."
 )
 {
+    rel hinge0 (
+        doc = "Relationship to first revolute joint."
+    )
+    rel hinge1 (
+        doc = "Relationship to second revolute joint."
+    )
     rel physics:body0 (
         displayName = "Body 0"
         doc = "Relationship to any UsdGeomXformable."
@@ -661,12 +667,189 @@ class PhysxSchemaPhysxPhysicsGearJoint "PhysxSchemaPhysxPhysicsGearJoint" (
     )
 }
 
+class PhysxSchemaPhysxPhysicsRackAndPinionJoint "PhysxSchemaPhysxPhysicsRackAndPinionJoint" (
+    doc = "Predefined rack & pinion joint type."
+)
+{
+    rel hinge (
+        doc = "Relationship to revolute joint."
+    )
+    rel physics:body0 (
+        displayName = "Body 0"
+        doc = "Relationship to any UsdGeomXformable."
+    )
+    rel physics:body1 (
+        displayName = "Body 1"
+        doc = "Relationship to any UsdGeomXformable."
+    )
+    float physics:breakForce = inf (
+        displayName = "Break Force"
+        doc = """Joint break force. If set, joint is to break when this force
+        limit is reached. (Used for linear DOFs.) 
+        Units: mass * distance / second / second"""
+    )
+    float physics:breakTorque = inf (
+        displayName = "Break Torque"
+        doc = """Joint break torque. If set, joint is to break when this torque
+        limit is reached. (Used for angular DOFs.) 
+        Units: mass * distance * distance / second / second"""
+    )
+    bool physics:collisionEnabled = 0 (
+        displayName = "Collision Enabled"
+        doc = "Determines if the jointed subtrees should collide or not."
+    )
+    uniform bool physics:excludeFromArticulation = 0 (
+        displayName = "Exclude From Articulation"
+        doc = "Determines if the joint can be included in an Articulation."
+    )
+    bool physics:jointEnabled = 1 (
+        displayName = "Joint Enabled"
+        doc = "Determines if the joint is enabled."
+    )
+    point3f physics:localPos0 = (0, 0, 0) (
+        displayName = "Local Position 0"
+        doc = "Relative position of the joint frame to body0's frame."
+    )
+    point3f physics:localPos1 = (0, 0, 0) (
+        displayName = "Local Position 1"
+        doc = "Relative position of the joint frame to body1's frame."
+    )
+    quatf physics:localRot0 = (1, 0, 0, 0) (
+        displayName = "Local Rotation 0"
+        doc = "Relative orientation of the joint frame to body0's frame."
+    )
+    quatf physics:localRot1 = (1, 0, 0, 0) (
+        displayName = "Local Rotation 1"
+        doc = "Relative orientation of the joint frame to body1's frame."
+    )
+    float physics:ratio = 1 (
+        doc = """Ratio between angular and linear motion. 
+        Range: (-inf, inf) Units: degrees / distance"""
+    )
+    rel prismatic (
+        doc = "Relationship to prismatic joint."
+    )
+    rel proxyPrim (
+        doc = '''The proxyPrim relationship allows us to link a
+        prim whose purpose is "render" to its (single target)
+        purpose="proxy" prim.  This is entirely optional, but can be
+        useful in several scenarios:
+        
+        - In a pipeline that does pruning (for complexity management)
+        by deactivating prims composed from asset references, when we
+        deactivate a purpose="render" prim, we will be able to discover
+        and additionally deactivate its associated purpose="proxy" prim,
+        so that preview renders reflect the pruning accurately.
+        
+        - DCC importers may be able to make more aggressive optimizations
+        for interactive processing and display if they can discover the proxy
+        for a given render prim.
+        
+        - With a little more work, a Hydra-based application will be able
+        to map a picked proxy prim back to its render geometry for selection.
+
+        \\note It is only valid to author the proxyPrim relationship on
+        prims whose purpose is "render".'''
+    )
+    uniform token purpose = "default" (
+        allowedTokens = ["default", "render", "proxy", "guide"]
+        doc = """Purpose is a classification of geometry into categories that 
+        can each be independently included or excluded from traversals of prims 
+        on a stage, such as rendering or bounding-box computation traversals.
+
+        See for more detail about how 
+        purpose is computed and used."""
+    )
+    token visibility = "inherited" (
+        allowedTokens = ["inherited", "invisible"]
+        doc = '''Visibility is meant to be the simplest form of "pruning" 
+        visibility that is supported by most DCC apps.  Visibility is 
+        animatable, allowing a sub-tree of geometry to be present for some 
+        segment of a shot, and absent from others; unlike the action of 
+        deactivating geometry prims, invisible geometry is still 
+        available for inspection, for positioning, for defining volumes, etc.'''
+    )
+}
+
 class PhysxSchemaPhysxPhysicsInstancer "PhysxSchemaPhysxPhysicsInstancer" (
     doc = "Core class for instancing physics prims."
 )
 {
     int[] physics:protoIndices (
         doc = "Per-instance index into prototypes relationship that identifies what physics prims are instanced. Topology attribute - can be animated, but at a potential performance impact for streaming."
+    )
+    rel proxyPrim (
+        doc = '''The proxyPrim relationship allows us to link a
+        prim whose purpose is "render" to its (single target)
+        purpose="proxy" prim.  This is entirely optional, but can be
+        useful in several scenarios:
+        
+        - In a pipeline that does pruning (for complexity management)
+        by deactivating prims composed from asset references, when we
+        deactivate a purpose="render" prim, we will be able to discover
+        and additionally deactivate its associated purpose="proxy" prim,
+        so that preview renders reflect the pruning accurately.
+        
+        - DCC importers may be able to make more aggressive optimizations
+        for interactive processing and display if they can discover the proxy
+        for a given render prim.
+        
+        - With a little more work, a Hydra-based application will be able
+        to map a picked proxy prim back to its render geometry for selection.
+
+        \\note It is only valid to author the proxyPrim relationship on
+        prims whose purpose is "render".'''
+    )
+    uniform token purpose = "default" (
+        allowedTokens = ["default", "render", "proxy", "guide"]
+        doc = """Purpose is a classification of geometry into categories that 
+        can each be independently included or excluded from traversals of prims 
+        on a stage, such as rendering or bounding-box computation traversals.
+
+        See for more detail about how 
+        purpose is computed and used."""
+    )
+    token visibility = "inherited" (
+        allowedTokens = ["inherited", "invisible"]
+        doc = '''Visibility is meant to be the simplest form of "pruning" 
+        visibility that is supported by most DCC apps.  Visibility is 
+        animatable, allowing a sub-tree of geometry to be present for some 
+        segment of a shot, and absent from others; unlike the action of 
+        deactivating geometry prims, invisible geometry is still 
+        available for inspection, for positioning, for defining volumes, etc.'''
+    )
+}
+
+class PhysxSchemaPhysxPhysicsJointInstancer "PhysxSchemaPhysxPhysicsJointInstancer" (
+    doc = "Physics joint instancer, the prototypes are expected to be UsdPhysicsJoint prim types."
+)
+{
+    int[] physics:body0Indices (
+        doc = "**Optional property.** Only applicable if body0s is a point instancer. An index specifies the per-instance body0 rel as the rigid body at the body0s-instancer's protoIndices[index]."
+    )
+    int[] physics:body1Indices (
+        doc = "**Optional property.** Only applicable if body1s is a point instancer. An index specifies the per-instance body1 rel as the rigid body at the body1s-instancer's protoIndices[index]."
+    )
+    point3f[] physics:localPos0s (
+        doc = "**Required property.** Per-instance localPos0. This transformation is added on top of the joint localPos0."
+    )
+    point3f[] physics:localPos1s (
+        doc = "**Required property.** Per-instance localPos1. This transformation is added on top of the joint localPos1."
+    )
+    quath[] physics:localRot0s (
+        doc = "**Required property.** Per-instance localRot0. This transformation is added on top of the joint localPos0."
+    )
+    quath[] physics:localRot1s (
+        doc = "**Required property.** Per-instance localRot1. This transformation is added on top of the joint localPos1."
+    )
+    int[] physics:protoIndices (
+        doc = "Per-instance index into prototypes relationship that identifies what physics prims are instanced. Topology attribute - can be animated, but at a potential performance impact for streaming."
+    )
+    rel physicsBody0s (
+        doc = "**Required property.** The rel must contain either exactly one UsdGeomPointInstancer that instances rigid bodies; or one or more rigid-body prims in the stage. If the rel is to a point instancer, the body0Indices must be specified."
+    )
+    rel physicsBody1s (
+        doc = "**Required property.** The rel must contain either exactly one UsdGeomPointInstancer that instances rigid bodies; or one or more rigid-body prims in the stage. If the rel is to a point instancer, the body0Indices must be specified."
     )
     rel proxyPrim (
         doc = '''The proxyPrim relationship allows us to link a

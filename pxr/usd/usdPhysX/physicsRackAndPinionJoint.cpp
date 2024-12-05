@@ -4,7 +4,7 @@
 // Licensed under the terms set forth in the LICENSE.txt file available at
 // https://openusd.org/license.
 //
-#include "pxr/usd/usdPhysX/physicsGearJoint.h"
+#include "pxr/usd/usdPhysX/physicsRackAndPinionJoint.h"
 #include "pxr/usd/usd/schemaRegistry.h"
 #include "pxr/usd/usd/typed.h"
 
@@ -16,64 +16,64 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXPhysicsGearJoint,
+    TfType::Define<UsdPhysXPhysicsRackAndPinionJoint,
         TfType::Bases< UsdPhysicsJoint > >();
     
     // Register the usd prim typename as an alias under UsdSchemaBase. This
     // enables one to call
-    // TfType::Find<UsdSchemaBase>().FindDerivedByName("PhysxSchemaPhysxPhysicsGearJoint")
-    // to find TfType<UsdPhysXPhysicsGearJoint>, which is how IsA queries are
+    // TfType::Find<UsdSchemaBase>().FindDerivedByName("PhysxSchemaPhysxPhysicsRackAndPinionJoint")
+    // to find TfType<UsdPhysXPhysicsRackAndPinionJoint>, which is how IsA queries are
     // answered.
-    TfType::AddAlias<UsdSchemaBase, UsdPhysXPhysicsGearJoint>("PhysxSchemaPhysxPhysicsGearJoint");
+    TfType::AddAlias<UsdSchemaBase, UsdPhysXPhysicsRackAndPinionJoint>("PhysxSchemaPhysxPhysicsRackAndPinionJoint");
 }
 
 /* virtual */
-UsdPhysXPhysicsGearJoint::~UsdPhysXPhysicsGearJoint()
+UsdPhysXPhysicsRackAndPinionJoint::~UsdPhysXPhysicsRackAndPinionJoint()
 {
 }
 
 /* static */
-UsdPhysXPhysicsGearJoint
-UsdPhysXPhysicsGearJoint::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysicsRackAndPinionJoint
+UsdPhysXPhysicsRackAndPinionJoint::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXPhysicsGearJoint();
+        return UsdPhysXPhysicsRackAndPinionJoint();
     }
-    return UsdPhysXPhysicsGearJoint(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysicsRackAndPinionJoint(stage->GetPrimAtPath(path));
 }
 
 /* static */
-UsdPhysXPhysicsGearJoint
-UsdPhysXPhysicsGearJoint::Define(
+UsdPhysXPhysicsRackAndPinionJoint
+UsdPhysXPhysicsRackAndPinionJoint::Define(
     const UsdStagePtr &stage, const SdfPath &path)
 {
-    static TfToken usdPrimTypeName("PhysxSchemaPhysxPhysicsGearJoint");
+    static TfToken usdPrimTypeName("PhysxSchemaPhysxPhysicsRackAndPinionJoint");
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXPhysicsGearJoint();
+        return UsdPhysXPhysicsRackAndPinionJoint();
     }
-    return UsdPhysXPhysicsGearJoint(
+    return UsdPhysXPhysicsRackAndPinionJoint(
         stage->DefinePrim(path, usdPrimTypeName));
 }
 
 /* virtual */
-UsdSchemaKind UsdPhysXPhysicsGearJoint::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysicsRackAndPinionJoint::_GetSchemaKind() const
 {
-    return UsdPhysXPhysicsGearJoint::schemaKind;
+    return UsdPhysXPhysicsRackAndPinionJoint::schemaKind;
 }
 
 /* static */
 const TfType &
-UsdPhysXPhysicsGearJoint::_GetStaticTfType()
+UsdPhysXPhysicsRackAndPinionJoint::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXPhysicsGearJoint>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysicsRackAndPinionJoint>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXPhysicsGearJoint::_IsTypedSchema()
+UsdPhysXPhysicsRackAndPinionJoint::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -81,21 +81,21 @@ UsdPhysXPhysicsGearJoint::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXPhysicsGearJoint::_GetTfType() const
+UsdPhysXPhysicsRackAndPinionJoint::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXPhysicsGearJoint::GetPhysicsGearRatioAttr() const
+UsdPhysXPhysicsRackAndPinionJoint::GetPhysicsRatioAttr() const
 {
-    return GetPrim().GetAttribute(UsdPhysXTokens->physicsGearRatio);
+    return GetPrim().GetAttribute(UsdPhysXTokens->physicsRatio);
 }
 
 UsdAttribute
-UsdPhysXPhysicsGearJoint::CreatePhysicsGearRatioAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysicsRackAndPinionJoint::CreatePhysicsRatioAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
-    return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physicsGearRatio,
+    return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physicsRatio,
                        SdfValueTypeNames->Float,
                        /* custom = */ false,
                        SdfVariabilityVarying,
@@ -104,28 +104,28 @@ UsdPhysXPhysicsGearJoint::CreatePhysicsGearRatioAttr(VtValue const &defaultValue
 }
 
 UsdRelationship
-UsdPhysXPhysicsGearJoint::GetHinge0Rel() const
+UsdPhysXPhysicsRackAndPinionJoint::GetHingeRel() const
 {
-    return GetPrim().GetRelationship(UsdPhysXTokens->hinge0);
+    return GetPrim().GetRelationship(UsdPhysXTokens->hinge);
 }
 
 UsdRelationship
-UsdPhysXPhysicsGearJoint::CreateHinge0Rel() const
+UsdPhysXPhysicsRackAndPinionJoint::CreateHingeRel() const
 {
-    return GetPrim().CreateRelationship(UsdPhysXTokens->hinge0,
+    return GetPrim().CreateRelationship(UsdPhysXTokens->hinge,
                        /* custom = */ false);
 }
 
 UsdRelationship
-UsdPhysXPhysicsGearJoint::GetHinge1Rel() const
+UsdPhysXPhysicsRackAndPinionJoint::GetPrismaticRel() const
 {
-    return GetPrim().GetRelationship(UsdPhysXTokens->hinge1);
+    return GetPrim().GetRelationship(UsdPhysXTokens->prismatic);
 }
 
 UsdRelationship
-UsdPhysXPhysicsGearJoint::CreateHinge1Rel() const
+UsdPhysXPhysicsRackAndPinionJoint::CreatePrismaticRel() const
 {
-    return GetPrim().CreateRelationship(UsdPhysXTokens->hinge1,
+    return GetPrim().CreateRelationship(UsdPhysXTokens->prismatic,
                        /* custom = */ false);
 }
 
@@ -143,10 +143,10 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXPhysicsGearJoint::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysicsRackAndPinionJoint::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
-        UsdPhysXTokens->physicsGearRatio,
+        UsdPhysXTokens->physicsRatio,
     };
     static TfTokenVector allNames =
         _ConcatenateAttributeNames(
