@@ -35,7 +35,12 @@ class SdfAssetPath;
 
 /// \class UsdPhysXJointStateAPI
 ///
-/// Joint state pos
+/// The PhysicsJointStateAPI is applied to a joint primitive (i.e. any PhysicsJoint-derived type)
+/// and provides read/write access to the joint position and velocity for a specific joint axis.
+/// The PhysicsJointStateAPI is a multipleApply schema, and its instance name TfToken defines the joint axis:
+/// The name can be "transX", "transY", "transZ", "rotX", "rotY", "rotZ"
+/// or its "linear" for prismatic joint or "angular" for revolute joints, respectively.
+/// 
 ///
 class UsdPhysXJointStateAPI : public UsdAPISchemaBase
 {

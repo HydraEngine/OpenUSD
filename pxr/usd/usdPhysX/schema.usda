@@ -21,7 +21,12 @@ class "PhysxSchemaJointStateAPI" (
         token apiSchemaType = "multipleApply"
         token propertyNamespacePrefix = "jointState"
     }
-    doc = """Joint state pos"""
+    doc = """The PhysicsJointStateAPI is applied to a joint primitive (i.e. any PhysicsJoint-derived type)
+    and provides read/write access to the joint position and velocity for a specific joint axis.
+    The PhysicsJointStateAPI is a multipleApply schema, and its instance name TfToken defines the joint axis:
+    The name can be "transX", "transY", "transZ", "rotX", "rotY", "rotZ"
+    or its "linear" for prismatic joint or "angular" for revolute joints, respectively.
+"""
 )
 {
     float physics:position (
@@ -37,5 +42,283 @@ class "PhysxSchemaJointStateAPI" (
         }
         doc = """Joint state velocity defines the relative velocity between joint body0 and joint body1.
                Range: (-inf, inf) Units: linear - distance / seconds angular - degrees / seconds"""
+    )
+}
+
+class "PhysxSchemaPhysxArticulationAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "physxArticulationAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """PhysX articulation extended parameters."""
+)
+{
+    bool physxArticulation:articulationEnabled = 1 (
+        customData = {
+            string apiName = "articulationEnabled"
+        }
+        doc = """Boolean defining whether articulation is enabled or disabled."""
+    )
+    bool physxArticulation:enabledSelfCollisions = 1 (
+        customData = {
+            string apiName = "enabledSelfCollisions"
+        }
+        doc = """Boolean defining whether self collisions should be enabled or disabled."""
+    )
+    float physxArticulation:sleepThreshold = 0.00005 (
+        customData = {
+            string apiName = "sleepThreshold"
+        }
+        doc = """Mass-normalized kinetic energy threshold below which the articulation may go to sleep.
+            Range: [0, inf) Default: 0.00005 * tolerancesSpeed * tolerancesSpeed Units: distance * distance / seconds / seconds"""
+    )
+    int physxArticulation:solverPositionIterationCount = 32 (
+        customData = {
+            string apiName = "solverPositionIterationCount"
+        }
+        doc = """Solver position iteration counts for the body.
+            Allowed range [1, 255]."""
+    )
+    int physxArticulation:solverVelocityIterationCount = 1 (
+        customData = {
+            string apiName = "solverVelocityIterationCount"
+        }
+        doc = """Solver velocity iteration counts for the body.
+            Allowed range [0, 255]."""
+    )
+    float physxArticulation:stabilizationThreshold = 0.00001 (
+        customData = {
+            string apiName = "stabilizationThreshold"
+        }
+        doc = """The mass-normalized kinetic energy threshold below which the articulation may participate in stabilization.
+            Range: [0, inf) Default: 0.00001 * tolerancesSpeed * tolerancesSpeed Units: distance * distance / seconds / seconds"""
+    )
+}
+
+class "PhysxSchemaPhysxCameraAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "physxCameraAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """PhysX camera."""
+)
+{
+    bool alwaysUpdateEnabled = 1 (
+        customData = {
+            string apiName = "alwaysUpdateEnabled"
+        }
+        doc = """When enabled, always update this camera whether it is the active camera or not.
+            This prevents cameras from slewing into position when switching to a new active camera. When disabled, only the active camera is updated, saving time."""
+    )
+}
+
+class "PhysxSchemaPhysxCameraDroneAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "physxCameraDroneAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """PhysX drone camera that follows its subject from the air as it drives."""
+)
+{
+    float physxDroneCamera:feedForwardVelocityGain (
+        customData = {
+            string apiName = "feedForwardVelocityGain"
+        }
+        doc = """The higher the gain, the more closely the drone will match the velocity of the subject and the more connected it will appear. e.g. 0.1"""
+    )
+    float physxDroneCamera:followDistance (
+        customData = {
+            string apiName = "followDistance"
+        }
+        doc = """The distance from the subject that the drone attempts to maintain. e.g. 30 meters"""
+    )
+    float physxDroneCamera:followHeight (
+        customData = {
+            string apiName = "followHeight"
+        }
+        doc = """The height above the subject that the drone attmepts to maintain. e.g. 15 meters"""
+    )
+    float physxDroneCamera:horizontalVelocityGain (
+        customData = {
+            string apiName = "horizontalVelocityGain"
+        }
+        doc = """The higher the gain, the faster the drone will accelerate towards the target position. e.g. 1.0"""
+    )
+    float physxDroneCamera:maxDistance (
+        customData = {
+            string apiName = "maxDistance"
+        }
+        doc = """The maximum distance allowed from the subject before the drone resets to the target position. e.g. 100 meters"""
+    )
+    float physxDroneCamera:maxSpeed (
+        customData = {
+            string apiName = "maxSpeed"
+        }
+        doc = """The maximum speed the drone is allowed to move. e.g. 20.0 meters/second"""
+    )
+    float3 physxDroneCamera:positionOffset (
+        customData = {
+            string apiName = "positionOffset"
+        }
+        doc = """An offset vector from the subject origin at which the drone looks. e.g. (0.0 m, 0.0 m, 0.0 m)"""
+    )
+    float physxDroneCamera:rotationFilterTimeConstant (
+        customData = {
+            string apiName = "rotationFilterTimeConstant"
+        }
+        doc = """The angular velocity of the drone is filtered to make it appear as if it is accelerating. e.g. 0.2 seconds"""
+    )
+    float physxDroneCamera:velocityFilterTimeConstant (
+        customData = {
+            string apiName = "velocityFilterTimeConstant"
+        }
+        doc = """The velocity of the drone is filtered to make it appear as if it is accelerating. e.g. 1.0 seconds"""
+    )
+    float physxDroneCamera:verticalVelocityGain (
+        customData = {
+            string apiName = "verticalVelocityGain"
+        }
+        doc = """The higher the gain, the higher the climb or descent rate of the drone to get to the target altitude. e.g. 1.0"""
+    )
+}
+
+class "PhysxSchemaPhysxCameraFollowAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "physxCameraFollowAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """PhysX camera that follows behind the subject as it moves."""
+)
+{
+    float3 physxFollowCamera:cameraPositionTimeConstant (
+        customData = {
+            string apiName = "cameraPositionTimeConstant"
+        }
+        doc = """Filter time constant for the position of the camera for each axis, in seconds. e.g. (0.5 sec, 0.1 sec, 0.5 sec)"""
+    )
+    float physxFollowCamera:followMaxDistance (
+        customData = {
+            string apiName = "followMaxDistance"
+        }
+        doc = """The maximum distance used for a linear interpolation to compute the follow distance of the camera. e.g. 1000.0 cm"""
+    )
+    float physxFollowCamera:followMaxSpeed (
+        customData = {
+            string apiName = "followMaxSpeed"
+        }
+        doc = """The maximum speed used for a linear interpolation to compute the follow distance of the camera. e.g. 3000.0 cm/sec"""
+    )
+    float physxFollowCamera:followMinDistance (
+        customData = {
+            string apiName = "followMinDistance"
+        }
+        doc = """The minimum distance used for a linear interpolation to compute the follow distance of the camera. e.g. 1500.0 cm"""
+    )
+    float physxFollowCamera:followMinSpeed (
+        customData = {
+            string apiName = "followMinSpeed"
+        }
+        doc = """The minimum speed used for a linear interpolation to compute the follow distance of the camera. e.g. 300.0 cm/sec"""
+    )
+    float physxFollowCamera:followTurnRateGain (
+        customData = {
+            string apiName = "followTurnRateGain"
+        }
+        doc = """A scale factor that multiplies the filtered yaw rate to yaw the camera position behind the subject.
+            Can be any positive or negative number. e.g. 0.2"""
+    )
+    float physxFollowFollowCamera:lookAheadMaxDistance (
+        customData = {
+            string apiName = "lookAheadMaxDistance"
+        }
+        doc = """The maximum distance used for a linear interpolation to compute the look ahead distance of the camera look point. e.g. 500.0 cm"""
+    )
+    float physxFollowCamera:lookAheadMaxSpeed (
+        customData = {
+            string apiName = "lookAheadMaxSpeed"
+        }
+        doc = """The maximum speed used for a linear interpolation to compute the look ahead distance of the camera look point. e.g. 2000.0 cm"""
+    )
+    float physxFollowCamera:lookAheadMinDistance (
+        customData = {
+            string apiName = "lookAheadMinDistance"
+        }
+        doc = """The minimum distance used for a linear interpolation to compute the look ahead distance of the camera look point. e.g. 0.0 cm"""
+    )
+    float physxFollowCamera:lookAheadMinSpeed (
+        customData = {
+            string apiName = "lookAheadMinSpeed"
+        }
+        doc = """The minimum speed used for a linear interpolation to compute the look ahead distance of the camera look point. e.g. 0.0 cm/sec"""
+    )
+    float physxFollowCamera:lookAheadTurnRateGain (
+        customData = {
+            string apiName = "lookAheadTurnRateGain"
+        }
+        doc = """A scale factor that multiplies the filtered yaw rate to yaw the camera look point left or right. Can be any positive or negative number. e.g. 0.2"""
+    )
+    float physxFollowCamera:lookPositionHeight (
+        customData = {
+            string apiName = "lookPositionHeight"
+        }
+        doc = """Distance to elevate the camera look point. e.g. 50.0 cm"""
+    )
+    float3 physxFollowCamera:lookPositionTimeConstant (
+        customData = {
+            string apiName = "lookPositionTimeConstant"
+        }
+        doc = """Filter time constant for the camera look point, in seconds. e.g. (0.2 sec, 0.5 sec, 0.2 sec)"""
+    )
+    float physxFollowCamera:pitchAngle (
+        customData = {
+            string apiName = "pitchAngle"
+        }
+        doc = """The pitch angle of the follow vector around the subject. Zero is directly behind the subject. e.g. 15 degrees"""
+    )
+    float physxFollowCamera:pitchAngleTimeConstant (
+        customData = {
+            string apiName = "pitchAngleTimeConstant"
+        }
+        doc = """Time constant to filter the pitch angle, in seconds. Used to pitch the camera up and down when driving up or down hills. e.g. 0.2 seconds"""
+    )
+    float3 physxFollowCamera:positionOffset (
+        customData = {
+            string apiName = "positionOffset"
+        }
+        doc = """Position offset from the subject center of mass from which the camera follow vector and look vector are computed. e.g. (0.0 cm, 10.0 cm, 0.0 cm)"""
+    )
+    float physxFollowCamera:slowPitchAngleSpeed (
+        customData = {
+            string apiName = "slowPitchAngleSpeed"
+        }
+        doc = """Scale of the camera pitch angle at slow speed. This lowers the camera behind the subject at slow speeds. e.g. 1000 cm/sec"""
+    )
+    float physxFollowCamera:slowSpeedPitchAngleScale (
+        customData = {
+            string apiName = "slowSpeedPitchAngleScale"
+        }
+        doc = """Scale of the camera pitch angle at slow speed. This lowers the camera behind the subject at slow speeds. e.g. 0.5"""
+    )
+    float physxFollowCamera:velocityNormalMinSpeed (
+        customData = {
+            string apiName = "velocityNormalMinSpeed"
+        }
+        doc = """The minimum speed, below which, the subject look vector must be used because the normalized velocity vector is too erratic. e.g. 600.0 cm/sec"""
+    )
+    float physxFollowCamera:yawAngle (
+        customData = {
+            string apiName = "yawAngle"
+        }
+        doc = """The yaw angle of the follow vector around the subject. Zero is directly behind the subject. e.g. 0 degrees"""
+    )
+    float physxFollowCamera:yawRateTimeConstant (
+        customData = {
+            string apiName = "yawRateTimeConstant"
+        }
+        doc = """Time constant to filter the subject yaw rate, in seconds. Use to look into turns. e.g. 0.2 sec"""
     )
 }

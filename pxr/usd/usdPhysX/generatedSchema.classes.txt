@@ -2,12 +2,20 @@
 
 # Public Classes
 jointStateAPI
+physxArticulationAPI
+physxCameraAPI
+physxCameraDroneAPI
+physxCameraFollowAPI
 tokens
 
 # Python Module Files
 module.cpp
 wrapJointStateAPI.cpp
 wrapTokens.cpp
+wrapphysxArticulationAPI.cpp
+wrapphysxCameraAPI.cpp
+wrapphysxCameraDroneAPI.cpp
+wrapphysxCameraFollowAPI.cpp
 
 # Resource Files
 generatedSchema.usda
