@@ -34,47 +34,47 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateAlwaysUpdateEnabledAttr(UsdPhysXphysxCameraAPI &self,
+_CreateAlwaysUpdateEnabledAttr(UsdPhysXPhysxCameraAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateAlwaysUpdateEnabledAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Bool), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxCameraAPI &self)
+_Repr(const UsdPhysXPhysxCameraAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxCameraAPI(%s)",
+        "UsdPhysX.PhysxCameraAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxCameraAPI_CanApplyResult : 
+struct UsdPhysXPhysxCameraAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxCameraAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxCameraAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxCameraAPI_CanApplyResult
+static UsdPhysXPhysxCameraAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxCameraAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxCameraAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxCameraAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxCameraAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxCameraAPI()
+void wrapUsdPhysXPhysxCameraAPI()
 {
-    typedef UsdPhysXphysxCameraAPI This;
+    typedef UsdPhysXPhysxCameraAPI This;
 
-    UsdPhysXphysxCameraAPI_CanApplyResult::Wrap<UsdPhysXphysxCameraAPI_CanApplyResult>(
+    UsdPhysXPhysxCameraAPI_CanApplyResult::Wrap<UsdPhysXPhysxCameraAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxCameraAPI");
+        cls("PhysxCameraAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

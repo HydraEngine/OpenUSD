@@ -494,3 +494,219 @@ class "PhysxSchemaPhysxMaterialAPI" (
     )
 }
 
+class "PhysxSchemaPhysxMeshMergeCollisionAPI" (
+    doc = """PhysxMeshMergeCollisionAPI enables implicit mesh merging of given meshes with respect to physics collision geometry representation.
+
+    It is expected that this API extends the UsdPhysics.CollisionAPI definition, the UsdPhysics.CollisionAPI is still required to be present together with this API to define the collision properties. All meshes that belong to the collisionmeshes collection will be merged into one mesh that will be used for collision representation. Note that the collection can also define what meshes should be excluded from the selection.
+
+    This means that for example all meshes that belong to the collection will be represented as one convexHull rather than dozens of convexHulls per mesh.
+
+    It is possible to collect meshes through the collection that do not belong to the same hierarchy. This is allowed, however if the collisions are part of a rigid body, the meshes that do not belong to the rigid body hierarchy wont move. As defined in the rigid body specification, only rigid body transformation is updated.
+
+    Note that any changes to the meshes during runtime will get ignored.
+    """
+)
+{
+}
+
+class "PhysxSchemaPhysxMimicJointAPI" (
+    doc = '''Applied to a Physics Joint that must be part of an articulation.
+
+    Supported joint types are: PhysicsRevoluteJoint (with a limit set), PhysicsPrismaticJoint as well as the more generic PhysicsJoint if all linear degrees of freedom are locked.
+
+    This schema allows to interconnect the degrees of freedom of two joints according to the relationship: jointPosition + (gearing * referenceJointPosition) + offset = 0. This can be used to have, for example, one joint mimic the motion of another joint. The term "position" does not necessarily mean a translational unit, in the case of an angular degree of freedom it is an angle. The mimic joint operates on a single degree of freedom which is specified through the instance name of this multiple apply schema. The allowed instance name tokens are "rotX", "rotY" and "rotZ". See the documentation of the attribute referenceJointAxis for more info related to specifying the degree of freedom to operate on. Notes: 1) the two joints have to be part of the same articulation. 2) once the simulation has started, a significant performance penalty will be incurred if a mimic joint is added or removed, if the referenceJoint relationship is changed or if the referenceJointAxis attributes is modified. 3) the mimic joint relationship is interpreted as a two-way interaction and an impulse will get applied to the reference joint as well.
+
+    For any described attribute Fallback Value or Allowed Values below that are text/tokens, the actual token is published and defined in PhysxSchemaTokens. So to set an attribute to the value "rightHanded", use PhysxSchemaTokens->rightHanded as the value.
+    '''
+)
+{
+    float physxMimicJoint:__INSTANCE_NAME__:gearing = 1 (
+        doc = """The gearing coefficient (see relationship formulation in the documentation part of PhysxMimicJointAPI).
+        Range: (-inf, inf) Units: unitless or degrees/distance or distance/degrees (the last two refer to scenarios where a linear degree of freedom is connected to an angular one or vice versa)
+        """
+    )
+    float physxMimicJoint:__INSTANCE_NAME__:offset = 0 (
+        doc = """The offset coefficient (see relationship formulation in the documentation part of PhysxMimicJointAPI).
+        Range: (-inf, inf) Units: distance or degrees (depending on whether the mimic joint's degree of freedom is linear or angular)
+        """
+    )
+    uniform token physxMimicJoint:__INSTANCE_NAME__:referenceJointAxis = "rotX" (
+        allowedTokens = ["rotX", "rotY", "rotZ"]
+        doc = """
+        The axis that marks the degree of freedom of the reference joint to mimic.
+
+        Has to be a valid degree of freedom on the reference joint. For joint types with a single degree of freedom (like PhysicsRevoluteJoint or PhysicsPrismaticJoint), 
+        this attribute will be ignored since the axis is defined implicitly. 
+        The mimic joint connects <targetJoint, targetJointAxis> to <referenceJoint, referenceJointAxis> with targetJoint being the prim that has PhysxMimicJointAPI applied 
+        and targetJointAxis being defined through the instance name token of PhysxMimicJointAPI.
+        """
+    )
+}
+
+class "PhysxSchemaPhysxPhysicsDistanceJointAPI" (
+    doc = "PhysX distance joint extended parameters."
+)
+{
+    float physxPhysicsDistanceJoint:springDamping = 0 (
+        doc = """Spring damping.
+        Range: [0, inf) Units: force * seconds / distance = mass / seconds
+        """
+    )
+    bool physxPhysicsDistanceJoint:springEnabled = 0 (
+        doc = """Whether spring should be enabled.
+        (default off)
+        """
+    )
+    float physxPhysicsDistanceJoint:springStiffness = 0 (
+        doc = """Spring stiffness.
+        Range: [0, inf) Units: force / distance = mass / seconds^2
+        """
+    )
+}
+
+class PhysxSchemaPhysxPhysicsGearJoint "PhysxSchemaPhysxPhysicsGearJoint" (
+    doc = "Predefined gear joint type."
+)
+{
+    rel physics:body0 (
+        displayName = "Body 0"
+        doc = "Relationship to any UsdGeomXformable."
+    )
+    rel physics:body1 (
+        displayName = "Body 1"
+        doc = "Relationship to any UsdGeomXformable."
+    )
+    float physics:breakForce = inf (
+        displayName = "Break Force"
+        doc = """Joint break force. If set, joint is to break when this force
+        limit is reached. (Used for linear DOFs.) 
+        Units: mass * distance / second / second"""
+    )
+    float physics:breakTorque = inf (
+        displayName = "Break Torque"
+        doc = """Joint break torque. If set, joint is to break when this torque
+        limit is reached. (Used for angular DOFs.) 
+        Units: mass * distance * distance / second / second"""
+    )
+    bool physics:collisionEnabled = 0 (
+        displayName = "Collision Enabled"
+        doc = "Determines if the jointed subtrees should collide or not."
+    )
+    uniform bool physics:excludeFromArticulation = 0 (
+        displayName = "Exclude From Articulation"
+        doc = "Determines if the joint can be included in an Articulation."
+    )
+    float physics:gearRatio = 1 (
+        doc = "Gear ratio Range: (-inf, inf) Units: dimensionless."
+    )
+    bool physics:jointEnabled = 1 (
+        displayName = "Joint Enabled"
+        doc = "Determines if the joint is enabled."
+    )
+    point3f physics:localPos0 = (0, 0, 0) (
+        displayName = "Local Position 0"
+        doc = "Relative position of the joint frame to body0's frame."
+    )
+    point3f physics:localPos1 = (0, 0, 0) (
+        displayName = "Local Position 1"
+        doc = "Relative position of the joint frame to body1's frame."
+    )
+    quatf physics:localRot0 = (1, 0, 0, 0) (
+        displayName = "Local Rotation 0"
+        doc = "Relative orientation of the joint frame to body0's frame."
+    )
+    quatf physics:localRot1 = (1, 0, 0, 0) (
+        displayName = "Local Rotation 1"
+        doc = "Relative orientation of the joint frame to body1's frame."
+    )
+    rel proxyPrim (
+        doc = '''The proxyPrim relationship allows us to link a
+        prim whose purpose is "render" to its (single target)
+        purpose="proxy" prim.  This is entirely optional, but can be
+        useful in several scenarios:
+        
+        - In a pipeline that does pruning (for complexity management)
+        by deactivating prims composed from asset references, when we
+        deactivate a purpose="render" prim, we will be able to discover
+        and additionally deactivate its associated purpose="proxy" prim,
+        so that preview renders reflect the pruning accurately.
+        
+        - DCC importers may be able to make more aggressive optimizations
+        for interactive processing and display if they can discover the proxy
+        for a given render prim.
+        
+        - With a little more work, a Hydra-based application will be able
+        to map a picked proxy prim back to its render geometry for selection.
+
+        \\note It is only valid to author the proxyPrim relationship on
+        prims whose purpose is "render".'''
+    )
+    uniform token purpose = "default" (
+        allowedTokens = ["default", "render", "proxy", "guide"]
+        doc = """Purpose is a classification of geometry into categories that 
+        can each be independently included or excluded from traversals of prims 
+        on a stage, such as rendering or bounding-box computation traversals.
+
+        See for more detail about how 
+        purpose is computed and used."""
+    )
+    token visibility = "inherited" (
+        allowedTokens = ["inherited", "invisible"]
+        doc = '''Visibility is meant to be the simplest form of "pruning" 
+        visibility that is supported by most DCC apps.  Visibility is 
+        animatable, allowing a sub-tree of geometry to be present for some 
+        segment of a shot, and absent from others; unlike the action of 
+        deactivating geometry prims, invisible geometry is still 
+        available for inspection, for positioning, for defining volumes, etc.'''
+    )
+}
+
+class PhysxSchemaPhysxPhysicsInstancer "PhysxSchemaPhysxPhysicsInstancer" (
+    doc = "Core class for instancing physics prims."
+)
+{
+    int[] physics:protoIndices (
+        doc = "Per-instance index into prototypes relationship that identifies what physics prims are instanced. Topology attribute - can be animated, but at a potential performance impact for streaming."
+    )
+    rel proxyPrim (
+        doc = '''The proxyPrim relationship allows us to link a
+        prim whose purpose is "render" to its (single target)
+        purpose="proxy" prim.  This is entirely optional, but can be
+        useful in several scenarios:
+        
+        - In a pipeline that does pruning (for complexity management)
+        by deactivating prims composed from asset references, when we
+        deactivate a purpose="render" prim, we will be able to discover
+        and additionally deactivate its associated purpose="proxy" prim,
+        so that preview renders reflect the pruning accurately.
+        
+        - DCC importers may be able to make more aggressive optimizations
+        for interactive processing and display if they can discover the proxy
+        for a given render prim.
+        
+        - With a little more work, a Hydra-based application will be able
+        to map a picked proxy prim back to its render geometry for selection.
+
+        \\note It is only valid to author the proxyPrim relationship on
+        prims whose purpose is "render".'''
+    )
+    uniform token purpose = "default" (
+        allowedTokens = ["default", "render", "proxy", "guide"]
+        doc = """Purpose is a classification of geometry into categories that 
+        can each be independently included or excluded from traversals of prims 
+        on a stage, such as rendering or bounding-box computation traversals.
+
+        See for more detail about how 
+        purpose is computed and used."""
+    )
+    token visibility = "inherited" (
+        allowedTokens = ["inherited", "invisible"]
+        doc = '''Visibility is meant to be the simplest form of "pruning" 
+        visibility that is supported by most DCC apps.  Visibility is 
+        animatable, allowing a sub-tree of geometry to be present for some 
+        segment of a shot, and absent from others; unlike the action of 
+        deactivating geometry prims, invisible geometry is still 
+        available for inspection, for positioning, for defining volumes, etc.'''
+    )
+}
+

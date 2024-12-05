@@ -47,27 +47,27 @@ struct UsdPhysXTokensType {
     USDPHYSX_API UsdPhysXTokensType();
     /// \brief "acceleration"
     /// 
-    /// Fallback value for UsdPhysXphysxForceAPI::GetModeAttr()
+    /// Fallback value for UsdPhysXForceAPI::GetModeAttr()
     const TfToken acceleration;
     /// \brief "alwaysUpdateEnabled"
     /// 
-    /// UsdPhysXphysxCameraAPI
+    /// UsdPhysXCameraAPI
     const TfToken alwaysUpdateEnabled;
     /// \brief "average"
     /// 
-    /// Fallback value for UsdPhysXphysxMaterialAPI::GetDampingCombineModeAttr(), Fallback value for UsdPhysXphysxMaterialAPI::GetFrictionCombineModeAttr(), Fallback value for UsdPhysXphysxMaterialAPI::GetRestitutionCombineModeAttr()
+    /// Fallback value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Fallback value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Fallback value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
     const TfToken average;
     /// \brief "constrained"
     /// 
-    /// Possible value for UsdPhysXphysxCharacterControllerAPI::GetClimbingModeAttr()
+    /// Possible value for UsdPhysXCharacterControllerAPI::GetClimbingModeAttr()
     const TfToken constrained;
     /// \brief "easy"
     /// 
-    /// Fallback value for UsdPhysXphysxCharacterControllerAPI::GetClimbingModeAttr()
+    /// Fallback value for UsdPhysXCharacterControllerAPI::GetClimbingModeAttr()
     const TfToken easy;
     /// \brief "force"
     /// 
-    /// Possible value for UsdPhysXphysxForceAPI::GetModeAttr()
+    /// Possible value for UsdPhysXForceAPI::GetModeAttr()
     const TfToken force;
     /// \brief "jointState"
     /// 
@@ -83,431 +83,479 @@ struct UsdPhysXTokensType {
     const TfToken jointState_MultipleApplyTemplate_PhysicsVelocity;
     /// \brief "max"
     /// 
-    /// Possible value for UsdPhysXphysxMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXphysxMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXphysxMaterialAPI::GetRestitutionCombineModeAttr()
+    /// Possible value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
     const TfToken max;
     /// \brief "min"
     /// 
-    /// Possible value for UsdPhysXphysxMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXphysxMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXphysxMaterialAPI::GetRestitutionCombineModeAttr()
+    /// Possible value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
     const TfToken min;
     /// \brief "multiply"
     /// 
-    /// Possible value for UsdPhysXphysxMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXphysxMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXphysxMaterialAPI::GetRestitutionCombineModeAttr()
+    /// Possible value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
     const TfToken multiply;
+    /// \brief "physics:gearRatio"
+    /// 
+    /// UsdPhysXPhysicsGearJoint
+    const TfToken physicsGearRatio;
+    /// \brief "physics:protoIndices"
+    /// 
+    /// UsdPhysXPhysicsInstancer
+    const TfToken physicsProtoIndices;
     /// \brief "physxArticulation:articulationEnabled"
     /// 
-    /// UsdPhysXphysxArticulationAPI
+    /// UsdPhysXArticulationAPI
     const TfToken physxArticulationArticulationEnabled;
     /// \brief "physxArticulation:enabledSelfCollisions"
     /// 
-    /// UsdPhysXphysxArticulationAPI
+    /// UsdPhysXArticulationAPI
     const TfToken physxArticulationEnabledSelfCollisions;
     /// \brief "physxArticulation:sleepThreshold"
     /// 
-    /// UsdPhysXphysxArticulationAPI
+    /// UsdPhysXArticulationAPI
     const TfToken physxArticulationSleepThreshold;
     /// \brief "physxArticulation:solverPositionIterationCount"
     /// 
-    /// UsdPhysXphysxArticulationAPI
+    /// UsdPhysXArticulationAPI
     const TfToken physxArticulationSolverPositionIterationCount;
     /// \brief "physxArticulation:solverVelocityIterationCount"
     /// 
-    /// UsdPhysXphysxArticulationAPI
+    /// UsdPhysXArticulationAPI
     const TfToken physxArticulationSolverVelocityIterationCount;
     /// \brief "physxArticulation:stabilizationThreshold"
     /// 
-    /// UsdPhysXphysxArticulationAPI
+    /// UsdPhysXArticulationAPI
     const TfToken physxArticulationStabilizationThreshold;
     /// \brief "physxCharacterController:climbingMode"
     /// 
-    /// UsdPhysXphysxCharacterControllerAPI
+    /// UsdPhysXCharacterControllerAPI
     const TfToken physxCharacterControllerClimbingMode;
     /// \brief "physxCharacterController:contactOffset"
     /// 
-    /// UsdPhysXphysxCharacterControllerAPI
+    /// UsdPhysXCharacterControllerAPI
     const TfToken physxCharacterControllerContactOffset;
     /// \brief "physxCharacterController:invisibleWallHeight"
     /// 
-    /// UsdPhysXphysxCharacterControllerAPI
+    /// UsdPhysXCharacterControllerAPI
     const TfToken physxCharacterControllerInvisibleWallHeight;
     /// \brief "physxCharacterController:maxJumpHeight"
     /// 
-    /// UsdPhysXphysxCharacterControllerAPI
+    /// UsdPhysXCharacterControllerAPI
     const TfToken physxCharacterControllerMaxJumpHeight;
     /// \brief "physxCharacterController:moveTarget"
     /// 
-    /// UsdPhysXphysxCharacterControllerAPI
+    /// UsdPhysXCharacterControllerAPI
     const TfToken physxCharacterControllerMoveTarget;
     /// \brief "physxCharacterController:nonWalkableMode"
     /// 
-    /// UsdPhysXphysxCharacterControllerAPI
+    /// UsdPhysXCharacterControllerAPI
     const TfToken physxCharacterControllerNonWalkableMode;
     /// \brief "physxCharacterController:scaleCoeff"
     /// 
-    /// UsdPhysXphysxCharacterControllerAPI
+    /// UsdPhysXCharacterControllerAPI
     const TfToken physxCharacterControllerScaleCoeff;
     /// \brief "physxCharacterController:slopeLimit"
     /// 
-    /// UsdPhysXphysxCharacterControllerAPI
+    /// UsdPhysXCharacterControllerAPI
     const TfToken physxCharacterControllerSlopeLimit;
     /// \brief "physxCharacterController:stepOffset"
     /// 
-    /// UsdPhysXphysxCharacterControllerAPI
+    /// UsdPhysXCharacterControllerAPI
     const TfToken physxCharacterControllerStepOffset;
     /// \brief "physxCharacterController:upAxis"
     /// 
-    /// UsdPhysXphysxCharacterControllerAPI
+    /// UsdPhysXCharacterControllerAPI
     const TfToken physxCharacterControllerUpAxis;
     /// \brief "physxCharacterController:volumeGrowth"
     /// 
-    /// UsdPhysXphysxCharacterControllerAPI
+    /// UsdPhysXCharacterControllerAPI
     const TfToken physxCharacterControllerVolumeGrowth;
     /// \brief "physxCollision:contactOffset"
     /// 
-    /// UsdPhysXphysxCollisionAPI
+    /// UsdPhysXCollisionAPI
     const TfToken physxCollisionContactOffset;
     /// \brief "physxCollision:minTorsionalPatchRadius"
     /// 
-    /// UsdPhysXphysxCollisionAPI
+    /// UsdPhysXCollisionAPI
     const TfToken physxCollisionMinTorsionalPatchRadius;
     /// \brief "physxCollision:restOffset"
     /// 
-    /// UsdPhysXphysxCollisionAPI
+    /// UsdPhysXCollisionAPI
     const TfToken physxCollisionRestOffset;
     /// \brief "physxCollision:torsionalPatchRadius"
     /// 
-    /// UsdPhysXphysxCollisionAPI
+    /// UsdPhysXCollisionAPI
     const TfToken physxCollisionTorsionalPatchRadius;
     /// \brief "physxContactReport:threshold"
     /// 
-    /// UsdPhysXphysxContactReportAPI
+    /// UsdPhysXContactReportAPI
     const TfToken physxContactReportThreshold;
     /// \brief "physxConvexDecompositionCollision:errorPercentage"
     /// 
-    /// UsdPhysXphysxConvexDecompositionCollisionAPI
+    /// UsdPhysXConvexDecompositionCollisionAPI
     const TfToken physxConvexDecompositionCollisionErrorPercentage;
     /// \brief "physxConvexDecompositionCollision:hullVertexLimit"
     /// 
-    /// UsdPhysXphysxConvexDecompositionCollisionAPI
+    /// UsdPhysXConvexDecompositionCollisionAPI
     const TfToken physxConvexDecompositionCollisionHullVertexLimit;
     /// \brief "physxConvexDecompositionCollision:maxConvexHulls"
     /// 
-    /// UsdPhysXphysxConvexDecompositionCollisionAPI
+    /// UsdPhysXConvexDecompositionCollisionAPI
     const TfToken physxConvexDecompositionCollisionMaxConvexHulls;
     /// \brief "physxConvexDecompositionCollision:minThickness"
     /// 
-    /// UsdPhysXphysxConvexDecompositionCollisionAPI
+    /// UsdPhysXConvexDecompositionCollisionAPI
     const TfToken physxConvexDecompositionCollisionMinThickness;
     /// \brief "physxConvexDecompositionCollision:shrinkWrap"
     /// 
-    /// UsdPhysXphysxConvexDecompositionCollisionAPI
+    /// UsdPhysXConvexDecompositionCollisionAPI
     const TfToken physxConvexDecompositionCollisionShrinkWrap;
     /// \brief "physxConvexDecompositionCollision:voxelResolution"
     /// 
-    /// UsdPhysXphysxConvexDecompositionCollisionAPI
+    /// UsdPhysXConvexDecompositionCollisionAPI
     const TfToken physxConvexDecompositionCollisionVoxelResolution;
     /// \brief "physxConvexHullCollision:hullVertexLimit"
     /// 
-    /// UsdPhysXphysxConvexHullCollisionAPI
+    /// UsdPhysXConvexHullCollisionAPI
     const TfToken physxConvexHullCollisionHullVertexLimit;
     /// \brief "physxConvexHullCollision:minThickness"
     /// 
-    /// UsdPhysXphysxConvexHullCollisionAPI
+    /// UsdPhysXConvexHullCollisionAPI
     const TfToken physxConvexHullCollisionMinThickness;
     /// \brief "physxCookedData"
     /// 
-    /// Property namespace prefix for the UsdPhysXphysxCookedDataAPI schema.
+    /// Property namespace prefix for the UsdPhysXCookedDataAPI schema.
     const TfToken physxCookedData;
     /// \brief "physxCookedData:__INSTANCE_NAME__:buffer"
     /// 
-    /// UsdPhysXphysxCookedDataAPI
+    /// UsdPhysXCookedDataAPI
     const TfToken physxCookedData_MultipleApplyTemplate_Buffer;
     /// \brief "physxDroneCamera:feedForwardVelocityGain"
     /// 
-    /// UsdPhysXphysxCameraDroneAPI
+    /// UsdPhysXCameraDroneAPI
     const TfToken physxDroneCameraFeedForwardVelocityGain;
     /// \brief "physxDroneCamera:followDistance"
     /// 
-    /// UsdPhysXphysxCameraDroneAPI
+    /// UsdPhysXCameraDroneAPI
     const TfToken physxDroneCameraFollowDistance;
     /// \brief "physxDroneCamera:followHeight"
     /// 
-    /// UsdPhysXphysxCameraDroneAPI
+    /// UsdPhysXCameraDroneAPI
     const TfToken physxDroneCameraFollowHeight;
     /// \brief "physxDroneCamera:horizontalVelocityGain"
     /// 
-    /// UsdPhysXphysxCameraDroneAPI
+    /// UsdPhysXCameraDroneAPI
     const TfToken physxDroneCameraHorizontalVelocityGain;
     /// \brief "physxDroneCamera:maxDistance"
     /// 
-    /// UsdPhysXphysxCameraDroneAPI
+    /// UsdPhysXCameraDroneAPI
     const TfToken physxDroneCameraMaxDistance;
     /// \brief "physxDroneCamera:maxSpeed"
     /// 
-    /// UsdPhysXphysxCameraDroneAPI
+    /// UsdPhysXCameraDroneAPI
     const TfToken physxDroneCameraMaxSpeed;
     /// \brief "physxDroneCamera:positionOffset"
     /// 
-    /// UsdPhysXphysxCameraDroneAPI
+    /// UsdPhysXCameraDroneAPI
     const TfToken physxDroneCameraPositionOffset;
     /// \brief "physxDroneCamera:rotationFilterTimeConstant"
     /// 
-    /// UsdPhysXphysxCameraDroneAPI
+    /// UsdPhysXCameraDroneAPI
     const TfToken physxDroneCameraRotationFilterTimeConstant;
     /// \brief "physxDroneCamera:velocityFilterTimeConstant"
     /// 
-    /// UsdPhysXphysxCameraDroneAPI
+    /// UsdPhysXCameraDroneAPI
     const TfToken physxDroneCameraVelocityFilterTimeConstant;
     /// \brief "physxDroneCamera:verticalVelocityGain"
     /// 
-    /// UsdPhysXphysxCameraDroneAPI
+    /// UsdPhysXCameraDroneAPI
     const TfToken physxDroneCameraVerticalVelocityGain;
     /// \brief "physxFollowCamera:cameraPositionTimeConstant"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraCameraPositionTimeConstant;
     /// \brief "physxFollowCamera:followMaxDistance"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraFollowMaxDistance;
     /// \brief "physxFollowCamera:followMaxSpeed"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraFollowMaxSpeed;
     /// \brief "physxFollowCamera:followMinDistance"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraFollowMinDistance;
     /// \brief "physxFollowCamera:followMinSpeed"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraFollowMinSpeed;
     /// \brief "physxFollowCamera:followTurnRateGain"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraFollowTurnRateGain;
     /// \brief "physxFollowCamera:lookAheadMaxSpeed"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraLookAheadMaxSpeed;
     /// \brief "physxFollowCamera:lookAheadMinDistance"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraLookAheadMinDistance;
     /// \brief "physxFollowCamera:lookAheadMinSpeed"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraLookAheadMinSpeed;
     /// \brief "physxFollowCamera:lookAheadTurnRateGain"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraLookAheadTurnRateGain;
     /// \brief "physxFollowCamera:lookPositionHeight"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraLookPositionHeight;
     /// \brief "physxFollowCamera:lookPositionTimeConstant"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraLookPositionTimeConstant;
     /// \brief "physxFollowCamera:pitchAngle"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraPitchAngle;
     /// \brief "physxFollowCamera:pitchAngleTimeConstant"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraPitchAngleTimeConstant;
     /// \brief "physxFollowCamera:positionOffset"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraPositionOffset;
     /// \brief "physxFollowCamera:slowPitchAngleSpeed"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraSlowPitchAngleSpeed;
     /// \brief "physxFollowCamera:slowSpeedPitchAngleScale"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraSlowSpeedPitchAngleScale;
     /// \brief "physxFollowCamera:velocityNormalMinSpeed"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraVelocityNormalMinSpeed;
     /// \brief "physxFollowCamera:yawAngle"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraYawAngle;
     /// \brief "physxFollowCamera:yawRateTimeConstant"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowCameraYawRateTimeConstant;
     /// \brief "physxFollowFollowCamera:lookAheadMaxDistance"
     /// 
-    /// UsdPhysXphysxCameraFollowAPI
+    /// UsdPhysXCameraFollowAPI
     const TfToken physxFollowFollowCameraLookAheadMaxDistance;
     /// \brief "physxFollowLookCamera:downHillGroundAngle"
     /// 
-    /// UsdPhysXphysxCameraFollowLookAPI
+    /// UsdPhysXCameraFollowLookAPI
     const TfToken physxFollowLookCameraDownHillGroundAngle;
     /// \brief "physxFollowLookCamera:downHillGroundPitch"
     /// 
-    /// UsdPhysXphysxCameraFollowLookAPI
+    /// UsdPhysXCameraFollowLookAPI
     const TfToken physxFollowLookCameraDownHillGroundPitch;
     /// \brief "physxFollowLookCamera:followReverseDistance"
     /// 
-    /// UsdPhysXphysxCameraFollowLookAPI
+    /// UsdPhysXCameraFollowLookAPI
     const TfToken physxFollowLookCameraFollowReverseDistance;
     /// \brief "physxFollowLookCamera:followReverseSpeed"
     /// 
-    /// UsdPhysXphysxCameraFollowLookAPI
+    /// UsdPhysXCameraFollowLookAPI
     const TfToken physxFollowLookCameraFollowReverseSpeed;
     /// \brief "physxFollowLookCamera:upHillGroundAngle"
     /// 
-    /// UsdPhysXphysxCameraFollowLookAPI
+    /// UsdPhysXCameraFollowLookAPI
     const TfToken physxFollowLookCameraUpHillGroundAngle;
     /// \brief "physxFollowLookCamera:upHillGroundPitch"
     /// 
-    /// UsdPhysXphysxCameraFollowLookAPI
+    /// UsdPhysXCameraFollowLookAPI
     const TfToken physxFollowLookCameraUpHillGroundPitch;
     /// \brief "physxFollowLookCamera:velocityBlendTimeConstant"
     /// 
-    /// UsdPhysXphysxCameraFollowLookAPI
+    /// UsdPhysXCameraFollowLookAPI
     const TfToken physxFollowLookCameraVelocityBlendTimeConstant;
     /// \brief "physxForce:force"
     /// 
-    /// UsdPhysXphysxForceAPI
+    /// UsdPhysXForceAPI
     const TfToken physxForceForce;
     /// \brief "physxForce:forceEnabled"
     /// 
-    /// UsdPhysXphysxForceAPI
+    /// UsdPhysXForceAPI
     const TfToken physxForceForceEnabled;
     /// \brief "physxForce:mode"
     /// 
-    /// UsdPhysXphysxForceAPI
+    /// UsdPhysXForceAPI
     const TfToken physxForceMode;
     /// \brief "physxForce:torque"
     /// 
-    /// UsdPhysXphysxForceAPI
+    /// UsdPhysXForceAPI
     const TfToken physxForceTorque;
     /// \brief "physxForce:worldFrameEnabled"
     /// 
-    /// UsdPhysXphysxForceAPI
+    /// UsdPhysXForceAPI
     const TfToken physxForceWorldFrameEnabled;
     /// \brief "physxIsosurface:anisotropyMax"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceAnisotropyMax;
     /// \brief "physxIsosurface:anisotropyMin"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceAnisotropyMin;
     /// \brief "physxIsosurface:anisotropyRadius"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceAnisotropyRadius;
     /// \brief "physxIsosurface:enableAnisotropy"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceEnableAnisotropy;
     /// \brief "physxIsosurface:gridFilteringPasses"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceGridFilteringPasses;
     /// \brief "physxIsosurface:gridSmoothingRadiusRelativeToCellSize"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceGridSmoothingRadiusRelativeToCellSize;
     /// \brief "physxIsosurface:gridSpacing"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceGridSpacing;
     /// \brief "physxIsosurface:isoSurfaceEnabled"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceIsoSurfaceEnabled;
     /// \brief "physxIsosurface:isosurfaceLevel"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceIsosurfaceLevel;
     /// \brief "physxIsosurface:kernelRadius"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceKernelRadius;
     /// \brief "physxIsosurface:maxSubgrids"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceMaxSubgrids;
     /// \brief "physxIsosurface:maxTriangles"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceMaxTriangles;
     /// \brief "physxIsosurface:maxVertices"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceMaxVertices;
     /// \brief "physxIsosurface:numMeshSmoothingPasses"
     /// 
-    /// UsdPhysXphysxIsosurfaceAPI
+    /// UsdPhysXIsosurfaceAPI
     const TfToken physxIsosurfaceNumMeshSmoothingPasses;
     /// \brief "physxJoint:armature"
     /// 
-    /// UsdPhysXphysxJointAPI
+    /// UsdPhysXJointAPI
     const TfToken physxJointArmature;
     /// \brief "physxJoint:enableProjection"
     /// 
-    /// UsdPhysXphysxJointAPI
+    /// UsdPhysXJointAPI
     const TfToken physxJointEnableProjection;
     /// \brief "physxJoint:jointFriction"
     /// 
-    /// UsdPhysXphysxJointAPI
+    /// UsdPhysXJointAPI
     const TfToken physxJointJointFriction;
     /// \brief "physxJoint:maxJointVelocity"
     /// 
-    /// UsdPhysXphysxJointAPI
+    /// UsdPhysXJointAPI
     const TfToken physxJointMaxJointVelocity;
     /// \brief "physxMaterial:compliantContactAccelerationSpring"
     /// 
-    /// UsdPhysXphysxMaterialAPI
+    /// UsdPhysXMaterialAPI
     const TfToken physxMaterialCompliantContactAccelerationSpring;
     /// \brief "physxMaterial:compliantContactDamping"
     /// 
-    /// UsdPhysXphysxMaterialAPI
+    /// UsdPhysXMaterialAPI
     const TfToken physxMaterialCompliantContactDamping;
     /// \brief "physxMaterial:compliantContactStiffness"
     /// 
-    /// UsdPhysXphysxMaterialAPI
+    /// UsdPhysXMaterialAPI
     const TfToken physxMaterialCompliantContactStiffness;
     /// \brief "physxMaterial:dampingCombineMode"
     /// 
-    /// UsdPhysXphysxMaterialAPI
+    /// UsdPhysXMaterialAPI
     const TfToken physxMaterialDampingCombineMode;
     /// \brief "physxMaterial:frictionCombineMode"
     /// 
-    /// UsdPhysXphysxMaterialAPI
+    /// UsdPhysXMaterialAPI
     const TfToken physxMaterialFrictionCombineMode;
     /// \brief "physxMaterial:restitutionCombineMode"
     /// 
-    /// UsdPhysXphysxMaterialAPI
+    /// UsdPhysXMaterialAPI
     const TfToken physxMaterialRestitutionCombineMode;
+    /// \brief "physxMimicJoint"
+    /// 
+    /// Property namespace prefix for the UsdPhysXMimicJointAPI schema.
+    const TfToken physxMimicJoint;
+    /// \brief "physxMimicJoint:__INSTANCE_NAME__:gearing"
+    /// 
+    /// UsdPhysXMimicJointAPI
+    const TfToken physxMimicJoint_MultipleApplyTemplate_Gearing;
+    /// \brief "physxMimicJoint:__INSTANCE_NAME__:offset"
+    /// 
+    /// UsdPhysXMimicJointAPI
+    const TfToken physxMimicJoint_MultipleApplyTemplate_Offset;
+    /// \brief "physxMimicJoint:__INSTANCE_NAME__:referenceJointAxis"
+    /// 
+    /// UsdPhysXMimicJointAPI
+    const TfToken physxMimicJoint_MultipleApplyTemplate_ReferenceJointAxis;
+    /// \brief "physxPhysicsDistanceJoint:springDamping"
+    /// 
+    /// UsdPhysXPhysicsDistanceJointAPI
+    const TfToken physxPhysicsDistanceJointSpringDamping;
+    /// \brief "physxPhysicsDistanceJoint:springEnabled"
+    /// 
+    /// UsdPhysXPhysicsDistanceJointAPI
+    const TfToken physxPhysicsDistanceJointSpringEnabled;
+    /// \brief "physxPhysicsDistanceJoint:springStiffness"
+    /// 
+    /// UsdPhysXPhysicsDistanceJointAPI
+    const TfToken physxPhysicsDistanceJointSpringStiffness;
     /// \brief "preventClimbing"
     /// 
-    /// Fallback value for UsdPhysXphysxCharacterControllerAPI::GetNonWalkableModeAttr()
+    /// Fallback value for UsdPhysXCharacterControllerAPI::GetNonWalkableModeAttr()
     const TfToken preventClimbing;
     /// \brief "preventClimbingForceSliding"
     /// 
-    /// Possible value for UsdPhysXphysxCharacterControllerAPI::GetNonWalkableModeAttr()
+    /// Possible value for UsdPhysXCharacterControllerAPI::GetNonWalkableModeAttr()
     const TfToken preventClimbingForceSliding;
+    /// \brief "rotX"
+    /// 
+    /// Fallback value for UsdPhysXMimicJointAPI::GetReferenceJointAxisAttr()
+    const TfToken rotX;
+    /// \brief "rotY"
+    /// 
+    /// Possible value for UsdPhysXMimicJointAPI::GetReferenceJointAxisAttr()
+    const TfToken rotY;
+    /// \brief "rotZ"
+    /// 
+    /// Possible value for UsdPhysXMimicJointAPI::GetReferenceJointAxisAttr()
+    const TfToken rotZ;
     /// \brief "X"
     /// 
-    /// Possible value for UsdPhysXphysxCharacterControllerAPI::GetUpAxisAttr()
+    /// Possible value for UsdPhysXCharacterControllerAPI::GetUpAxisAttr()
     const TfToken X;
     /// \brief "Y"
     /// 
-    /// Possible value for UsdPhysXphysxCharacterControllerAPI::GetUpAxisAttr()
+    /// Possible value for UsdPhysXCharacterControllerAPI::GetUpAxisAttr()
     const TfToken Y;
     /// \brief "Z"
     /// 
-    /// Fallback value for UsdPhysXphysxCharacterControllerAPI::GetUpAxisAttr()
+    /// Fallback value for UsdPhysXCharacterControllerAPI::GetUpAxisAttr()
     const TfToken Z;
     /// \brief "PhysxSchemaJointStateAPI"
     /// 
@@ -515,68 +563,88 @@ struct UsdPhysXTokensType {
     const TfToken PhysxSchemaJointStateAPI;
     /// \brief "PhysxSchemaPhysxArticulationAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxArticulationAPI
+    /// Schema identifer and family for UsdPhysXArticulationAPI
     const TfToken PhysxSchemaPhysxArticulationAPI;
     /// \brief "PhysxSchemaPhysxCameraAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxCameraAPI
+    /// Schema identifer and family for UsdPhysXCameraAPI
     const TfToken PhysxSchemaPhysxCameraAPI;
     /// \brief "PhysxSchemaPhysxCameraDroneAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxCameraDroneAPI
+    /// Schema identifer and family for UsdPhysXCameraDroneAPI
     const TfToken PhysxSchemaPhysxCameraDroneAPI;
     /// \brief "PhysxSchemaPhysxCameraFollowAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxCameraFollowAPI
+    /// Schema identifer and family for UsdPhysXCameraFollowAPI
     const TfToken PhysxSchemaPhysxCameraFollowAPI;
     /// \brief "PhysxSchemaPhysxCameraFollowLookAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxCameraFollowLookAPI
+    /// Schema identifer and family for UsdPhysXCameraFollowLookAPI
     const TfToken PhysxSchemaPhysxCameraFollowLookAPI;
     /// \brief "PhysxSchemaPhysxCameraFollowVelocityAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxCameraFollowVelocityAPI
+    /// Schema identifer and family for UsdPhysXCameraFollowVelocityAPI
     const TfToken PhysxSchemaPhysxCameraFollowVelocityAPI;
     /// \brief "PhysxSchemaPhysxCharacterControllerAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxCharacterControllerAPI
+    /// Schema identifer and family for UsdPhysXCharacterControllerAPI
     const TfToken PhysxSchemaPhysxCharacterControllerAPI;
     /// \brief "PhysxSchemaPhysxCollisionAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxCollisionAPI
+    /// Schema identifer and family for UsdPhysXCollisionAPI
     const TfToken PhysxSchemaPhysxCollisionAPI;
     /// \brief "PhysxSchemaPhysxContactReportAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxContactReportAPI
+    /// Schema identifer and family for UsdPhysXContactReportAPI
     const TfToken PhysxSchemaPhysxContactReportAPI;
     /// \brief "PhysxSchemaPhysxConvexDecompositionCollisionAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxConvexDecompositionCollisionAPI
+    /// Schema identifer and family for UsdPhysXConvexDecompositionCollisionAPI
     const TfToken PhysxSchemaPhysxConvexDecompositionCollisionAPI;
     /// \brief "PhysxSchemaPhysxConvexHullCollisionAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxConvexHullCollisionAPI
+    /// Schema identifer and family for UsdPhysXConvexHullCollisionAPI
     const TfToken PhysxSchemaPhysxConvexHullCollisionAPI;
     /// \brief "PhysxSchemaPhysxCookedDataAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxCookedDataAPI
+    /// Schema identifer and family for UsdPhysXCookedDataAPI
     const TfToken PhysxSchemaPhysxCookedDataAPI;
     /// \brief "PhysxSchemaPhysxForceAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxForceAPI
+    /// Schema identifer and family for UsdPhysXForceAPI
     const TfToken PhysxSchemaPhysxForceAPI;
     /// \brief "PhysxSchemaPhysxIsosurfaceAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxIsosurfaceAPI
+    /// Schema identifer and family for UsdPhysXIsosurfaceAPI
     const TfToken PhysxSchemaPhysxIsosurfaceAPI;
     /// \brief "PhysxSchemaPhysxJointAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxJointAPI
+    /// Schema identifer and family for UsdPhysXJointAPI
     const TfToken PhysxSchemaPhysxJointAPI;
     /// \brief "PhysxSchemaPhysxMaterialAPI"
     /// 
-    /// Schema identifer and family for UsdPhysXphysxMaterialAPI
+    /// Schema identifer and family for UsdPhysXMaterialAPI
     const TfToken PhysxSchemaPhysxMaterialAPI;
+    /// \brief "PhysxSchemaPhysxMeshMergeCollisionAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXMeshMergeCollisionAPI
+    const TfToken PhysxSchemaPhysxMeshMergeCollisionAPI;
+    /// \brief "PhysxSchemaPhysxMimicJointAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXMimicJointAPI
+    const TfToken PhysxSchemaPhysxMimicJointAPI;
+    /// \brief "PhysxSchemaPhysxPhysicsDistanceJointAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXPhysicsDistanceJointAPI
+    const TfToken PhysxSchemaPhysxPhysicsDistanceJointAPI;
+    /// \brief "PhysxSchemaPhysxPhysicsGearJoint"
+    /// 
+    /// Schema identifer and family for UsdPhysXPhysicsGearJoint
+    const TfToken PhysxSchemaPhysxPhysicsGearJoint;
+    /// \brief "PhysxSchemaPhysxPhysicsInstancer"
+    /// 
+    /// Schema identifer and family for UsdPhysXPhysicsInstancer
+    const TfToken PhysxSchemaPhysxPhysicsInstancer;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };

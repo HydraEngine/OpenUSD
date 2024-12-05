@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxMaterialAPI,
+    TfType::Define<UsdPhysXPhysxMaterialAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxMaterialAPI::~UsdPhysXphysxMaterialAPI()
+UsdPhysXPhysxMaterialAPI::~UsdPhysXPhysxMaterialAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxMaterialAPI
-UsdPhysXphysxMaterialAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxMaterialAPI
+UsdPhysXPhysxMaterialAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxMaterialAPI();
+        return UsdPhysXPhysxMaterialAPI();
     }
-    return UsdPhysXphysxMaterialAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxMaterialAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxMaterialAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxMaterialAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxMaterialAPI::schemaKind;
+    return UsdPhysXPhysxMaterialAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxMaterialAPI::CanApply(
+UsdPhysXPhysxMaterialAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxMaterialAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxMaterialAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxMaterialAPI
-UsdPhysXphysxMaterialAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxMaterialAPI
+UsdPhysXPhysxMaterialAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxMaterialAPI>()) {
-        return UsdPhysXphysxMaterialAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxMaterialAPI>()) {
+        return UsdPhysXPhysxMaterialAPI(prim);
     }
-    return UsdPhysXphysxMaterialAPI();
+    return UsdPhysXPhysxMaterialAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxMaterialAPI::_GetStaticTfType()
+UsdPhysXPhysxMaterialAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxMaterialAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxMaterialAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxMaterialAPI::_IsTypedSchema()
+UsdPhysXPhysxMaterialAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxMaterialAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxMaterialAPI::_GetTfType() const
+UsdPhysXPhysxMaterialAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxMaterialAPI::GetCompliantContactAccelerationSpringAttr() const
+UsdPhysXPhysxMaterialAPI::GetCompliantContactAccelerationSpringAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxMaterialCompliantContactAccelerationSpring);
 }
 
 UsdAttribute
-UsdPhysXphysxMaterialAPI::CreateCompliantContactAccelerationSpringAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxMaterialAPI::CreateCompliantContactAccelerationSpringAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxMaterialCompliantContactAccelerationSpring,
                        SdfValueTypeNames->Bool,
@@ -103,13 +103,13 @@ UsdPhysXphysxMaterialAPI::CreateCompliantContactAccelerationSpringAttr(VtValue c
 }
 
 UsdAttribute
-UsdPhysXphysxMaterialAPI::GetCompliantContactDampingAttr() const
+UsdPhysXPhysxMaterialAPI::GetCompliantContactDampingAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxMaterialCompliantContactDamping);
 }
 
 UsdAttribute
-UsdPhysXphysxMaterialAPI::CreateCompliantContactDampingAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxMaterialAPI::CreateCompliantContactDampingAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxMaterialCompliantContactDamping,
                        SdfValueTypeNames->Float,
@@ -120,13 +120,13 @@ UsdPhysXphysxMaterialAPI::CreateCompliantContactDampingAttr(VtValue const &defau
 }
 
 UsdAttribute
-UsdPhysXphysxMaterialAPI::GetCompliantContactStiffnessAttr() const
+UsdPhysXPhysxMaterialAPI::GetCompliantContactStiffnessAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxMaterialCompliantContactStiffness);
 }
 
 UsdAttribute
-UsdPhysXphysxMaterialAPI::CreateCompliantContactStiffnessAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxMaterialAPI::CreateCompliantContactStiffnessAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxMaterialCompliantContactStiffness,
                        SdfValueTypeNames->Float,
@@ -137,13 +137,13 @@ UsdPhysXphysxMaterialAPI::CreateCompliantContactStiffnessAttr(VtValue const &def
 }
 
 UsdAttribute
-UsdPhysXphysxMaterialAPI::GetDampingCombineModeAttr() const
+UsdPhysXPhysxMaterialAPI::GetDampingCombineModeAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxMaterialDampingCombineMode);
 }
 
 UsdAttribute
-UsdPhysXphysxMaterialAPI::CreateDampingCombineModeAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxMaterialAPI::CreateDampingCombineModeAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxMaterialDampingCombineMode,
                        SdfValueTypeNames->Token,
@@ -154,13 +154,13 @@ UsdPhysXphysxMaterialAPI::CreateDampingCombineModeAttr(VtValue const &defaultVal
 }
 
 UsdAttribute
-UsdPhysXphysxMaterialAPI::GetFrictionCombineModeAttr() const
+UsdPhysXPhysxMaterialAPI::GetFrictionCombineModeAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxMaterialFrictionCombineMode);
 }
 
 UsdAttribute
-UsdPhysXphysxMaterialAPI::CreateFrictionCombineModeAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxMaterialAPI::CreateFrictionCombineModeAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxMaterialFrictionCombineMode,
                        SdfValueTypeNames->Token,
@@ -171,13 +171,13 @@ UsdPhysXphysxMaterialAPI::CreateFrictionCombineModeAttr(VtValue const &defaultVa
 }
 
 UsdAttribute
-UsdPhysXphysxMaterialAPI::GetRestitutionCombineModeAttr() const
+UsdPhysXPhysxMaterialAPI::GetRestitutionCombineModeAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxMaterialRestitutionCombineMode);
 }
 
 UsdAttribute
-UsdPhysXphysxMaterialAPI::CreateRestitutionCombineModeAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxMaterialAPI::CreateRestitutionCombineModeAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxMaterialRestitutionCombineMode,
                        SdfValueTypeNames->Token,
@@ -201,7 +201,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxMaterialAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxMaterialAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxMaterialCompliantContactAccelerationSpring,

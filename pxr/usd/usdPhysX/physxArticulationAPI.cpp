@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxArticulationAPI,
+    TfType::Define<UsdPhysXPhysxArticulationAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxArticulationAPI::~UsdPhysXphysxArticulationAPI()
+UsdPhysXPhysxArticulationAPI::~UsdPhysXPhysxArticulationAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxArticulationAPI
-UsdPhysXphysxArticulationAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxArticulationAPI
+UsdPhysXPhysxArticulationAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxArticulationAPI();
+        return UsdPhysXPhysxArticulationAPI();
     }
-    return UsdPhysXphysxArticulationAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxArticulationAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxArticulationAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxArticulationAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxArticulationAPI::schemaKind;
+    return UsdPhysXPhysxArticulationAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxArticulationAPI::CanApply(
+UsdPhysXPhysxArticulationAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxArticulationAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxArticulationAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxArticulationAPI
-UsdPhysXphysxArticulationAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxArticulationAPI
+UsdPhysXPhysxArticulationAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxArticulationAPI>()) {
-        return UsdPhysXphysxArticulationAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxArticulationAPI>()) {
+        return UsdPhysXPhysxArticulationAPI(prim);
     }
-    return UsdPhysXphysxArticulationAPI();
+    return UsdPhysXPhysxArticulationAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxArticulationAPI::_GetStaticTfType()
+UsdPhysXPhysxArticulationAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxArticulationAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxArticulationAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxArticulationAPI::_IsTypedSchema()
+UsdPhysXPhysxArticulationAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxArticulationAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxArticulationAPI::_GetTfType() const
+UsdPhysXPhysxArticulationAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxArticulationAPI::GetArticulationEnabledAttr() const
+UsdPhysXPhysxArticulationAPI::GetArticulationEnabledAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxArticulationArticulationEnabled);
 }
 
 UsdAttribute
-UsdPhysXphysxArticulationAPI::CreateArticulationEnabledAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxArticulationAPI::CreateArticulationEnabledAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxArticulationArticulationEnabled,
                        SdfValueTypeNames->Bool,
@@ -103,13 +103,13 @@ UsdPhysXphysxArticulationAPI::CreateArticulationEnabledAttr(VtValue const &defau
 }
 
 UsdAttribute
-UsdPhysXphysxArticulationAPI::GetEnabledSelfCollisionsAttr() const
+UsdPhysXPhysxArticulationAPI::GetEnabledSelfCollisionsAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxArticulationEnabledSelfCollisions);
 }
 
 UsdAttribute
-UsdPhysXphysxArticulationAPI::CreateEnabledSelfCollisionsAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxArticulationAPI::CreateEnabledSelfCollisionsAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxArticulationEnabledSelfCollisions,
                        SdfValueTypeNames->Bool,
@@ -120,13 +120,13 @@ UsdPhysXphysxArticulationAPI::CreateEnabledSelfCollisionsAttr(VtValue const &def
 }
 
 UsdAttribute
-UsdPhysXphysxArticulationAPI::GetSleepThresholdAttr() const
+UsdPhysXPhysxArticulationAPI::GetSleepThresholdAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxArticulationSleepThreshold);
 }
 
 UsdAttribute
-UsdPhysXphysxArticulationAPI::CreateSleepThresholdAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxArticulationAPI::CreateSleepThresholdAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxArticulationSleepThreshold,
                        SdfValueTypeNames->Float,
@@ -137,13 +137,13 @@ UsdPhysXphysxArticulationAPI::CreateSleepThresholdAttr(VtValue const &defaultVal
 }
 
 UsdAttribute
-UsdPhysXphysxArticulationAPI::GetSolverPositionIterationCountAttr() const
+UsdPhysXPhysxArticulationAPI::GetSolverPositionIterationCountAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxArticulationSolverPositionIterationCount);
 }
 
 UsdAttribute
-UsdPhysXphysxArticulationAPI::CreateSolverPositionIterationCountAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxArticulationAPI::CreateSolverPositionIterationCountAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxArticulationSolverPositionIterationCount,
                        SdfValueTypeNames->Int,
@@ -154,13 +154,13 @@ UsdPhysXphysxArticulationAPI::CreateSolverPositionIterationCountAttr(VtValue con
 }
 
 UsdAttribute
-UsdPhysXphysxArticulationAPI::GetSolverVelocityIterationCountAttr() const
+UsdPhysXPhysxArticulationAPI::GetSolverVelocityIterationCountAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxArticulationSolverVelocityIterationCount);
 }
 
 UsdAttribute
-UsdPhysXphysxArticulationAPI::CreateSolverVelocityIterationCountAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxArticulationAPI::CreateSolverVelocityIterationCountAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxArticulationSolverVelocityIterationCount,
                        SdfValueTypeNames->Int,
@@ -171,13 +171,13 @@ UsdPhysXphysxArticulationAPI::CreateSolverVelocityIterationCountAttr(VtValue con
 }
 
 UsdAttribute
-UsdPhysXphysxArticulationAPI::GetStabilizationThresholdAttr() const
+UsdPhysXPhysxArticulationAPI::GetStabilizationThresholdAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxArticulationStabilizationThreshold);
 }
 
 UsdAttribute
-UsdPhysXphysxArticulationAPI::CreateStabilizationThresholdAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxArticulationAPI::CreateStabilizationThresholdAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxArticulationStabilizationThreshold,
                        SdfValueTypeNames->Float,
@@ -201,7 +201,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxArticulationAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxArticulationAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxArticulationArticulationEnabled,

@@ -34,75 +34,75 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateForceAttr(UsdPhysXphysxForceAPI &self,
+_CreateForceAttr(UsdPhysXPhysxForceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateForceAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Vector3f), writeSparsely);
 }
         
 static UsdAttribute
-_CreateForceEnabledAttr(UsdPhysXphysxForceAPI &self,
+_CreateForceEnabledAttr(UsdPhysXPhysxForceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateForceEnabledAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Bool), writeSparsely);
 }
         
 static UsdAttribute
-_CreateModeAttr(UsdPhysXphysxForceAPI &self,
+_CreateModeAttr(UsdPhysXPhysxForceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateModeAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Token), writeSparsely);
 }
         
 static UsdAttribute
-_CreateTorqueAttr(UsdPhysXphysxForceAPI &self,
+_CreateTorqueAttr(UsdPhysXPhysxForceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateTorqueAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Vector3f), writeSparsely);
 }
         
 static UsdAttribute
-_CreateWorldFrameEnabledAttr(UsdPhysXphysxForceAPI &self,
+_CreateWorldFrameEnabledAttr(UsdPhysXPhysxForceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateWorldFrameEnabledAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Bool), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxForceAPI &self)
+_Repr(const UsdPhysXPhysxForceAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxForceAPI(%s)",
+        "UsdPhysX.PhysxForceAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxForceAPI_CanApplyResult : 
+struct UsdPhysXPhysxForceAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxForceAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxForceAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxForceAPI_CanApplyResult
+static UsdPhysXPhysxForceAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxForceAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxForceAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxForceAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxForceAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxForceAPI()
+void wrapUsdPhysXPhysxForceAPI()
 {
-    typedef UsdPhysXphysxForceAPI This;
+    typedef UsdPhysXPhysxForceAPI This;
 
-    UsdPhysXphysxForceAPI_CanApplyResult::Wrap<UsdPhysXphysxForceAPI_CanApplyResult>(
+    UsdPhysXPhysxForceAPI_CanApplyResult::Wrap<UsdPhysXPhysxForceAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxForceAPI");
+        cls("PhysxForceAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

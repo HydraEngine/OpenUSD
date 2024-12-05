@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxIsosurfaceAPI,
+    TfType::Define<UsdPhysXPhysxIsosurfaceAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxIsosurfaceAPI::~UsdPhysXphysxIsosurfaceAPI()
+UsdPhysXPhysxIsosurfaceAPI::~UsdPhysXPhysxIsosurfaceAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxIsosurfaceAPI
-UsdPhysXphysxIsosurfaceAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxIsosurfaceAPI
+UsdPhysXPhysxIsosurfaceAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxIsosurfaceAPI();
+        return UsdPhysXPhysxIsosurfaceAPI();
     }
-    return UsdPhysXphysxIsosurfaceAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxIsosurfaceAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxIsosurfaceAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxIsosurfaceAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxIsosurfaceAPI::schemaKind;
+    return UsdPhysXPhysxIsosurfaceAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxIsosurfaceAPI::CanApply(
+UsdPhysXPhysxIsosurfaceAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxIsosurfaceAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxIsosurfaceAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxIsosurfaceAPI
-UsdPhysXphysxIsosurfaceAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxIsosurfaceAPI
+UsdPhysXPhysxIsosurfaceAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxIsosurfaceAPI>()) {
-        return UsdPhysXphysxIsosurfaceAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxIsosurfaceAPI>()) {
+        return UsdPhysXPhysxIsosurfaceAPI(prim);
     }
-    return UsdPhysXphysxIsosurfaceAPI();
+    return UsdPhysXPhysxIsosurfaceAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxIsosurfaceAPI::_GetStaticTfType()
+UsdPhysXPhysxIsosurfaceAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxIsosurfaceAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxIsosurfaceAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxIsosurfaceAPI::_IsTypedSchema()
+UsdPhysXPhysxIsosurfaceAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxIsosurfaceAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxIsosurfaceAPI::_GetTfType() const
+UsdPhysXPhysxIsosurfaceAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetAnisotropyMaxAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetAnisotropyMaxAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceAnisotropyMax);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateAnisotropyMaxAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateAnisotropyMaxAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceAnisotropyMax,
                        SdfValueTypeNames->Float,
@@ -103,13 +103,13 @@ UsdPhysXphysxIsosurfaceAPI::CreateAnisotropyMaxAttr(VtValue const &defaultValue,
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetAnisotropyMinAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetAnisotropyMinAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceAnisotropyMin);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateAnisotropyMinAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateAnisotropyMinAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceAnisotropyMin,
                        SdfValueTypeNames->Float,
@@ -120,13 +120,13 @@ UsdPhysXphysxIsosurfaceAPI::CreateAnisotropyMinAttr(VtValue const &defaultValue,
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetAnisotropyRadiusAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetAnisotropyRadiusAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceAnisotropyRadius);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateAnisotropyRadiusAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateAnisotropyRadiusAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceAnisotropyRadius,
                        SdfValueTypeNames->Float,
@@ -137,13 +137,13 @@ UsdPhysXphysxIsosurfaceAPI::CreateAnisotropyRadiusAttr(VtValue const &defaultVal
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetEnableAnisotropyAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetEnableAnisotropyAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceEnableAnisotropy);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateEnableAnisotropyAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateEnableAnisotropyAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceEnableAnisotropy,
                        SdfValueTypeNames->Bool,
@@ -154,13 +154,13 @@ UsdPhysXphysxIsosurfaceAPI::CreateEnableAnisotropyAttr(VtValue const &defaultVal
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetGridFilteringPassesAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetGridFilteringPassesAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceGridFilteringPasses);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateGridFilteringPassesAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateGridFilteringPassesAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceGridFilteringPasses,
                        SdfValueTypeNames->String,
@@ -171,13 +171,13 @@ UsdPhysXphysxIsosurfaceAPI::CreateGridFilteringPassesAttr(VtValue const &default
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetGridSmoothingRadiusRelativeToCellSizeAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetGridSmoothingRadiusRelativeToCellSizeAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceGridSmoothingRadiusRelativeToCellSize);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateGridSmoothingRadiusRelativeToCellSizeAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateGridSmoothingRadiusRelativeToCellSizeAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceGridSmoothingRadiusRelativeToCellSize,
                        SdfValueTypeNames->Float,
@@ -188,13 +188,13 @@ UsdPhysXphysxIsosurfaceAPI::CreateGridSmoothingRadiusRelativeToCellSizeAttr(VtVa
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetGridSpacingAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetGridSpacingAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceGridSpacing);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateGridSpacingAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateGridSpacingAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceGridSpacing,
                        SdfValueTypeNames->Float,
@@ -205,13 +205,13 @@ UsdPhysXphysxIsosurfaceAPI::CreateGridSpacingAttr(VtValue const &defaultValue, b
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetIsoSurfaceEnabledAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetIsoSurfaceEnabledAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceIsoSurfaceEnabled);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateIsoSurfaceEnabledAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateIsoSurfaceEnabledAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceIsoSurfaceEnabled,
                        SdfValueTypeNames->Bool,
@@ -222,13 +222,13 @@ UsdPhysXphysxIsosurfaceAPI::CreateIsoSurfaceEnabledAttr(VtValue const &defaultVa
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetIsosurfaceLevelAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetIsosurfaceLevelAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceIsosurfaceLevel);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateIsosurfaceLevelAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateIsosurfaceLevelAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceIsosurfaceLevel,
                        SdfValueTypeNames->Float,
@@ -239,13 +239,13 @@ UsdPhysXphysxIsosurfaceAPI::CreateIsosurfaceLevelAttr(VtValue const &defaultValu
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetKernelRadiusAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetKernelRadiusAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceKernelRadius);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateKernelRadiusAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateKernelRadiusAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceKernelRadius,
                        SdfValueTypeNames->Float,
@@ -256,13 +256,13 @@ UsdPhysXphysxIsosurfaceAPI::CreateKernelRadiusAttr(VtValue const &defaultValue, 
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetMaxSubgridsAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetMaxSubgridsAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceMaxSubgrids);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateMaxSubgridsAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateMaxSubgridsAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceMaxSubgrids,
                        SdfValueTypeNames->Int,
@@ -273,13 +273,13 @@ UsdPhysXphysxIsosurfaceAPI::CreateMaxSubgridsAttr(VtValue const &defaultValue, b
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetMaxTrianglesAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetMaxTrianglesAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceMaxTriangles);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateMaxTrianglesAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateMaxTrianglesAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceMaxTriangles,
                        SdfValueTypeNames->Int,
@@ -290,13 +290,13 @@ UsdPhysXphysxIsosurfaceAPI::CreateMaxTrianglesAttr(VtValue const &defaultValue, 
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetMaxVerticesAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetMaxVerticesAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceMaxVertices);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateMaxVerticesAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateMaxVerticesAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceMaxVertices,
                        SdfValueTypeNames->Int,
@@ -307,13 +307,13 @@ UsdPhysXphysxIsosurfaceAPI::CreateMaxVerticesAttr(VtValue const &defaultValue, b
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::GetNumMeshSmoothingPassesAttr() const
+UsdPhysXPhysxIsosurfaceAPI::GetNumMeshSmoothingPassesAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxIsosurfaceNumMeshSmoothingPasses);
 }
 
 UsdAttribute
-UsdPhysXphysxIsosurfaceAPI::CreateNumMeshSmoothingPassesAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxIsosurfaceAPI::CreateNumMeshSmoothingPassesAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxIsosurfaceNumMeshSmoothingPasses,
                        SdfValueTypeNames->Int,
@@ -337,7 +337,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxIsosurfaceAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxIsosurfaceAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxIsosurfaceAnisotropyMax,

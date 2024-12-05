@@ -34,110 +34,110 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateFeedForwardVelocityGainAttr(UsdPhysXphysxCameraDroneAPI &self,
+_CreateFeedForwardVelocityGainAttr(UsdPhysXPhysxCameraDroneAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateFeedForwardVelocityGainAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateFollowDistanceAttr(UsdPhysXphysxCameraDroneAPI &self,
+_CreateFollowDistanceAttr(UsdPhysXPhysxCameraDroneAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateFollowDistanceAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateFollowHeightAttr(UsdPhysXphysxCameraDroneAPI &self,
+_CreateFollowHeightAttr(UsdPhysXPhysxCameraDroneAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateFollowHeightAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateHorizontalVelocityGainAttr(UsdPhysXphysxCameraDroneAPI &self,
+_CreateHorizontalVelocityGainAttr(UsdPhysXPhysxCameraDroneAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateHorizontalVelocityGainAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateMaxDistanceAttr(UsdPhysXphysxCameraDroneAPI &self,
+_CreateMaxDistanceAttr(UsdPhysXPhysxCameraDroneAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateMaxDistanceAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateMaxSpeedAttr(UsdPhysXphysxCameraDroneAPI &self,
+_CreateMaxSpeedAttr(UsdPhysXPhysxCameraDroneAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateMaxSpeedAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreatePositionOffsetAttr(UsdPhysXphysxCameraDroneAPI &self,
+_CreatePositionOffsetAttr(UsdPhysXPhysxCameraDroneAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreatePositionOffsetAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float3), writeSparsely);
 }
         
 static UsdAttribute
-_CreateRotationFilterTimeConstantAttr(UsdPhysXphysxCameraDroneAPI &self,
+_CreateRotationFilterTimeConstantAttr(UsdPhysXPhysxCameraDroneAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateRotationFilterTimeConstantAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateVelocityFilterTimeConstantAttr(UsdPhysXphysxCameraDroneAPI &self,
+_CreateVelocityFilterTimeConstantAttr(UsdPhysXPhysxCameraDroneAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateVelocityFilterTimeConstantAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateVerticalVelocityGainAttr(UsdPhysXphysxCameraDroneAPI &self,
+_CreateVerticalVelocityGainAttr(UsdPhysXPhysxCameraDroneAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateVerticalVelocityGainAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxCameraDroneAPI &self)
+_Repr(const UsdPhysXPhysxCameraDroneAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxCameraDroneAPI(%s)",
+        "UsdPhysX.PhysxCameraDroneAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxCameraDroneAPI_CanApplyResult : 
+struct UsdPhysXPhysxCameraDroneAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxCameraDroneAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxCameraDroneAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxCameraDroneAPI_CanApplyResult
+static UsdPhysXPhysxCameraDroneAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxCameraDroneAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxCameraDroneAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxCameraDroneAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxCameraDroneAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxCameraDroneAPI()
+void wrapUsdPhysXPhysxCameraDroneAPI()
 {
-    typedef UsdPhysXphysxCameraDroneAPI This;
+    typedef UsdPhysXPhysxCameraDroneAPI This;
 
-    UsdPhysXphysxCameraDroneAPI_CanApplyResult::Wrap<UsdPhysXphysxCameraDroneAPI_CanApplyResult>(
+    UsdPhysXPhysxCameraDroneAPI_CanApplyResult::Wrap<UsdPhysXPhysxCameraDroneAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxCameraDroneAPI");
+        cls("PhysxCameraDroneAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

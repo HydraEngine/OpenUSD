@@ -33,7 +33,7 @@ class SdfAssetPath;
 // PHYSXSCHEMAPHYSXCHARACTERCONTROLLERAPI                                     //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXphysxCharacterControllerAPI
+/// \class UsdPhysXPhysxCharacterControllerAPI
 ///
 /// PhysxCharacterControllerAPI can be applied to a capsuleGeom.
 /// It will turn the capsule into a character controller.
@@ -46,7 +46,7 @@ class SdfAssetPath;
 /// So to set an attribute to the value "rightHanded", use UsdPhysXTokens->rightHanded
 /// as the value.
 ///
-class UsdPhysXphysxCharacterControllerAPI : public UsdAPISchemaBase
+class UsdPhysXPhysxCharacterControllerAPI : public UsdAPISchemaBase
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -54,26 +54,26 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::SingleApplyAPI;
 
-    /// Construct a UsdPhysXphysxCharacterControllerAPI on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXphysxCharacterControllerAPI::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXPhysxCharacterControllerAPI on UsdPrim \p prim .
+    /// Equivalent to UsdPhysXPhysxCharacterControllerAPI::Get(prim.GetStage(), prim.GetPath())
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXphysxCharacterControllerAPI(const UsdPrim& prim=UsdPrim())
+    explicit UsdPhysXPhysxCharacterControllerAPI(const UsdPrim& prim=UsdPrim())
         : UsdAPISchemaBase(prim)
     {
     }
 
-    /// Construct a UsdPhysXphysxCharacterControllerAPI on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXphysxCharacterControllerAPI(schemaObj.GetPrim()),
+    /// Construct a UsdPhysXPhysxCharacterControllerAPI on the prim held by \p schemaObj .
+    /// Should be preferred over UsdPhysXPhysxCharacterControllerAPI(schemaObj.GetPrim()),
     /// as it preserves SchemaBase state.
-    explicit UsdPhysXphysxCharacterControllerAPI(const UsdSchemaBase& schemaObj)
+    explicit UsdPhysXPhysxCharacterControllerAPI(const UsdSchemaBase& schemaObj)
         : UsdAPISchemaBase(schemaObj)
     {
     }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXphysxCharacterControllerAPI();
+    virtual ~UsdPhysXPhysxCharacterControllerAPI();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -82,17 +82,17 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
-    /// Return a UsdPhysXphysxCharacterControllerAPI holding the prim adhering to this
+    /// Return a UsdPhysXPhysxCharacterControllerAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXphysxCharacterControllerAPI(stage->GetPrimAtPath(path));
+    /// UsdPhysXPhysxCharacterControllerAPI(stage->GetPrimAtPath(path));
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXphysxCharacterControllerAPI
+    static UsdPhysXPhysxCharacterControllerAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
 
@@ -120,8 +120,8 @@ public:
     /// This information is stored by adding "PhysxSchemaPhysxCharacterControllerAPI" to the 
     /// token-valued, listOp metadata \em apiSchemas on the prim.
     /// 
-    /// \return A valid UsdPhysXphysxCharacterControllerAPI object is returned upon success. 
-    /// An invalid (or empty) UsdPhysXphysxCharacterControllerAPI object is returned upon 
+    /// \return A valid UsdPhysXPhysxCharacterControllerAPI object is returned upon success. 
+    /// An invalid (or empty) UsdPhysXPhysxCharacterControllerAPI object is returned upon 
     /// failure. See \ref UsdPrim::ApplyAPI() for conditions 
     /// resulting in failure. 
     /// 
@@ -132,7 +132,7 @@ public:
     /// \sa UsdPrim::RemoveAPI()
     ///
     USDPHYSX_API
-    static UsdPhysXphysxCharacterControllerAPI 
+    static UsdPhysXPhysxCharacterControllerAPI 
     Apply(const UsdPrim &prim);
 
 protected:

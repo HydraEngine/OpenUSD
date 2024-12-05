@@ -34,40 +34,40 @@ WRAP_CUSTOM;
 
 
 static std::string
-_Repr(const UsdPhysXphysxCameraFollowVelocityAPI &self)
+_Repr(const UsdPhysXPhysxCameraFollowVelocityAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxCameraFollowVelocityAPI(%s)",
+        "UsdPhysX.PhysxCameraFollowVelocityAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxCameraFollowVelocityAPI_CanApplyResult : 
+struct UsdPhysXPhysxCameraFollowVelocityAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxCameraFollowVelocityAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxCameraFollowVelocityAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxCameraFollowVelocityAPI_CanApplyResult
+static UsdPhysXPhysxCameraFollowVelocityAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxCameraFollowVelocityAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxCameraFollowVelocityAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxCameraFollowVelocityAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxCameraFollowVelocityAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxCameraFollowVelocityAPI()
+void wrapUsdPhysXPhysxCameraFollowVelocityAPI()
 {
-    typedef UsdPhysXphysxCameraFollowVelocityAPI This;
+    typedef UsdPhysXPhysxCameraFollowVelocityAPI This;
 
-    UsdPhysXphysxCameraFollowVelocityAPI_CanApplyResult::Wrap<UsdPhysXphysxCameraFollowVelocityAPI_CanApplyResult>(
+    UsdPhysXPhysxCameraFollowVelocityAPI_CanApplyResult::Wrap<UsdPhysXPhysxCameraFollowVelocityAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxCameraFollowVelocityAPI");
+        cls("PhysxCameraFollowVelocityAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

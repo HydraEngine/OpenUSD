@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxForceAPI,
+    TfType::Define<UsdPhysXPhysxForceAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxForceAPI::~UsdPhysXphysxForceAPI()
+UsdPhysXPhysxForceAPI::~UsdPhysXPhysxForceAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxForceAPI
-UsdPhysXphysxForceAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxForceAPI
+UsdPhysXPhysxForceAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxForceAPI();
+        return UsdPhysXPhysxForceAPI();
     }
-    return UsdPhysXphysxForceAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxForceAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxForceAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxForceAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxForceAPI::schemaKind;
+    return UsdPhysXPhysxForceAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxForceAPI::CanApply(
+UsdPhysXPhysxForceAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxForceAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxForceAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxForceAPI
-UsdPhysXphysxForceAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxForceAPI
+UsdPhysXPhysxForceAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxForceAPI>()) {
-        return UsdPhysXphysxForceAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxForceAPI>()) {
+        return UsdPhysXPhysxForceAPI(prim);
     }
-    return UsdPhysXphysxForceAPI();
+    return UsdPhysXPhysxForceAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxForceAPI::_GetStaticTfType()
+UsdPhysXPhysxForceAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxForceAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxForceAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxForceAPI::_IsTypedSchema()
+UsdPhysXPhysxForceAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxForceAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxForceAPI::_GetTfType() const
+UsdPhysXPhysxForceAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxForceAPI::GetForceAttr() const
+UsdPhysXPhysxForceAPI::GetForceAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxForceForce);
 }
 
 UsdAttribute
-UsdPhysXphysxForceAPI::CreateForceAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxForceAPI::CreateForceAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxForceForce,
                        SdfValueTypeNames->Vector3f,
@@ -103,13 +103,13 @@ UsdPhysXphysxForceAPI::CreateForceAttr(VtValue const &defaultValue, bool writeSp
 }
 
 UsdAttribute
-UsdPhysXphysxForceAPI::GetForceEnabledAttr() const
+UsdPhysXPhysxForceAPI::GetForceEnabledAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxForceForceEnabled);
 }
 
 UsdAttribute
-UsdPhysXphysxForceAPI::CreateForceEnabledAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxForceAPI::CreateForceEnabledAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxForceForceEnabled,
                        SdfValueTypeNames->Bool,
@@ -120,13 +120,13 @@ UsdPhysXphysxForceAPI::CreateForceEnabledAttr(VtValue const &defaultValue, bool 
 }
 
 UsdAttribute
-UsdPhysXphysxForceAPI::GetModeAttr() const
+UsdPhysXPhysxForceAPI::GetModeAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxForceMode);
 }
 
 UsdAttribute
-UsdPhysXphysxForceAPI::CreateModeAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxForceAPI::CreateModeAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxForceMode,
                        SdfValueTypeNames->Token,
@@ -137,13 +137,13 @@ UsdPhysXphysxForceAPI::CreateModeAttr(VtValue const &defaultValue, bool writeSpa
 }
 
 UsdAttribute
-UsdPhysXphysxForceAPI::GetTorqueAttr() const
+UsdPhysXPhysxForceAPI::GetTorqueAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxForceTorque);
 }
 
 UsdAttribute
-UsdPhysXphysxForceAPI::CreateTorqueAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxForceAPI::CreateTorqueAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxForceTorque,
                        SdfValueTypeNames->Vector3f,
@@ -154,13 +154,13 @@ UsdPhysXphysxForceAPI::CreateTorqueAttr(VtValue const &defaultValue, bool writeS
 }
 
 UsdAttribute
-UsdPhysXphysxForceAPI::GetWorldFrameEnabledAttr() const
+UsdPhysXPhysxForceAPI::GetWorldFrameEnabledAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxForceWorldFrameEnabled);
 }
 
 UsdAttribute
-UsdPhysXphysxForceAPI::CreateWorldFrameEnabledAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxForceAPI::CreateWorldFrameEnabledAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxForceWorldFrameEnabled,
                        SdfValueTypeNames->Bool,
@@ -184,7 +184,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxForceAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxForceAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxForceForce,

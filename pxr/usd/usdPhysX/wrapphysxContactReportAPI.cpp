@@ -34,47 +34,47 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateThresholdAttr(UsdPhysXphysxContactReportAPI &self,
+_CreateThresholdAttr(UsdPhysXPhysxContactReportAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateThresholdAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxContactReportAPI &self)
+_Repr(const UsdPhysXPhysxContactReportAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxContactReportAPI(%s)",
+        "UsdPhysX.PhysxContactReportAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxContactReportAPI_CanApplyResult : 
+struct UsdPhysXPhysxContactReportAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxContactReportAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxContactReportAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxContactReportAPI_CanApplyResult
+static UsdPhysXPhysxContactReportAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxContactReportAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxContactReportAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxContactReportAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxContactReportAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxContactReportAPI()
+void wrapUsdPhysXPhysxContactReportAPI()
 {
-    typedef UsdPhysXphysxContactReportAPI This;
+    typedef UsdPhysXPhysxContactReportAPI This;
 
-    UsdPhysXphysxContactReportAPI_CanApplyResult::Wrap<UsdPhysXphysxContactReportAPI_CanApplyResult>(
+    UsdPhysXPhysxContactReportAPI_CanApplyResult::Wrap<UsdPhysXPhysxContactReportAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxContactReportAPI");
+        cls("PhysxContactReportAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

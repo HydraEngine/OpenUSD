@@ -34,7 +34,7 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateBufferAttr(UsdPhysXphysxCookedDataAPI &self,
+_CreateBufferAttr(UsdPhysXPhysxCookedDataAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateBufferAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->UCharArray), writeSparsely);
@@ -42,46 +42,46 @@ _CreateBufferAttr(UsdPhysXphysxCookedDataAPI &self,
 
 static bool _WrapIsPhysxSchemaPhysxCookedDataAPIPath(const SdfPath &path) {
     TfToken collectionName;
-    return UsdPhysXphysxCookedDataAPI::IsPhysxSchemaPhysxCookedDataAPIPath(
+    return UsdPhysXPhysxCookedDataAPI::IsPhysxSchemaPhysxCookedDataAPIPath(
         path, &collectionName);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxCookedDataAPI &self)
+_Repr(const UsdPhysXPhysxCookedDataAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     std::string instanceName = TfPyRepr(self.GetName());
     return TfStringPrintf(
-        "UsdPhysX.physxCookedDataAPI(%s, '%s')",
+        "UsdPhysX.PhysxCookedDataAPI(%s, '%s')",
         primRepr.c_str(), instanceName.c_str());
 }
 
-struct UsdPhysXphysxCookedDataAPI_CanApplyResult : 
+struct UsdPhysXPhysxCookedDataAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxCookedDataAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxCookedDataAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxCookedDataAPI_CanApplyResult
+static UsdPhysXPhysxCookedDataAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim, const TfToken& name)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxCookedDataAPI::CanApply(prim, name, &whyNot);
-    return UsdPhysXphysxCookedDataAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxCookedDataAPI::CanApply(prim, name, &whyNot);
+    return UsdPhysXPhysxCookedDataAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxCookedDataAPI()
+void wrapUsdPhysXPhysxCookedDataAPI()
 {
-    typedef UsdPhysXphysxCookedDataAPI This;
+    typedef UsdPhysXPhysxCookedDataAPI This;
 
-    UsdPhysXphysxCookedDataAPI_CanApplyResult::Wrap<UsdPhysXphysxCookedDataAPI_CanApplyResult>(
+    UsdPhysXPhysxCookedDataAPI_CanApplyResult::Wrap<UsdPhysXPhysxCookedDataAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxCookedDataAPI");
+        cls("PhysxCookedDataAPI");
 
     cls
         .def(init<UsdPrim, TfToken>((arg("prim"), arg("name"))))
@@ -89,19 +89,19 @@ void wrapUsdPhysXphysxCookedDataAPI()
         .def(TfTypePythonClass())
 
         .def("Get",
-            (UsdPhysXphysxCookedDataAPI(*)(const UsdStagePtr &stage, 
+            (UsdPhysXPhysxCookedDataAPI(*)(const UsdStagePtr &stage, 
                                        const SdfPath &path))
                &This::Get,
             (arg("stage"), arg("path")))
         .def("Get",
-            (UsdPhysXphysxCookedDataAPI(*)(const UsdPrim &prim,
+            (UsdPhysXPhysxCookedDataAPI(*)(const UsdPrim &prim,
                                        const TfToken &name))
                &This::Get,
             (arg("prim"), arg("name")))
         .staticmethod("Get")
 
         .def("GetAll",
-            (std::vector<UsdPhysXphysxCookedDataAPI>(*)(const UsdPrim &prim))
+            (std::vector<UsdPhysXPhysxCookedDataAPI>(*)(const UsdPrim &prim))
                 &This::GetAll,
             arg("prim"),
             return_value_policy<TfPySequenceToList>())

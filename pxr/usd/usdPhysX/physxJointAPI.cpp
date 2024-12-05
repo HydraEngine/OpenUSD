@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxJointAPI,
+    TfType::Define<UsdPhysXPhysxJointAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxJointAPI::~UsdPhysXphysxJointAPI()
+UsdPhysXPhysxJointAPI::~UsdPhysXPhysxJointAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxJointAPI
-UsdPhysXphysxJointAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxJointAPI
+UsdPhysXPhysxJointAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxJointAPI();
+        return UsdPhysXPhysxJointAPI();
     }
-    return UsdPhysXphysxJointAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxJointAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxJointAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxJointAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxJointAPI::schemaKind;
+    return UsdPhysXPhysxJointAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxJointAPI::CanApply(
+UsdPhysXPhysxJointAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxJointAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxJointAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxJointAPI
-UsdPhysXphysxJointAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxJointAPI
+UsdPhysXPhysxJointAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxJointAPI>()) {
-        return UsdPhysXphysxJointAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxJointAPI>()) {
+        return UsdPhysXPhysxJointAPI(prim);
     }
-    return UsdPhysXphysxJointAPI();
+    return UsdPhysXPhysxJointAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxJointAPI::_GetStaticTfType()
+UsdPhysXPhysxJointAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxJointAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxJointAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxJointAPI::_IsTypedSchema()
+UsdPhysXPhysxJointAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxJointAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxJointAPI::_GetTfType() const
+UsdPhysXPhysxJointAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxJointAPI::GetArmatureAttr() const
+UsdPhysXPhysxJointAPI::GetArmatureAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxJointArmature);
 }
 
 UsdAttribute
-UsdPhysXphysxJointAPI::CreateArmatureAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxJointAPI::CreateArmatureAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxJointArmature,
                        SdfValueTypeNames->Float,
@@ -103,13 +103,13 @@ UsdPhysXphysxJointAPI::CreateArmatureAttr(VtValue const &defaultValue, bool writ
 }
 
 UsdAttribute
-UsdPhysXphysxJointAPI::GetEnableProjectionAttr() const
+UsdPhysXPhysxJointAPI::GetEnableProjectionAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxJointEnableProjection);
 }
 
 UsdAttribute
-UsdPhysXphysxJointAPI::CreateEnableProjectionAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxJointAPI::CreateEnableProjectionAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxJointEnableProjection,
                        SdfValueTypeNames->Bool,
@@ -120,13 +120,13 @@ UsdPhysXphysxJointAPI::CreateEnableProjectionAttr(VtValue const &defaultValue, b
 }
 
 UsdAttribute
-UsdPhysXphysxJointAPI::GetJointFrictionAttr() const
+UsdPhysXPhysxJointAPI::GetJointFrictionAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxJointJointFriction);
 }
 
 UsdAttribute
-UsdPhysXphysxJointAPI::CreateJointFrictionAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxJointAPI::CreateJointFrictionAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxJointJointFriction,
                        SdfValueTypeNames->Float,
@@ -137,13 +137,13 @@ UsdPhysXphysxJointAPI::CreateJointFrictionAttr(VtValue const &defaultValue, bool
 }
 
 UsdAttribute
-UsdPhysXphysxJointAPI::GetMaxJointVelocityAttr() const
+UsdPhysXPhysxJointAPI::GetMaxJointVelocityAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxJointMaxJointVelocity);
 }
 
 UsdAttribute
-UsdPhysXphysxJointAPI::CreateMaxJointVelocityAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxJointAPI::CreateMaxJointVelocityAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxJointMaxJointVelocity,
                        SdfValueTypeNames->Float,
@@ -167,7 +167,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxJointAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxJointAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxJointArmature,

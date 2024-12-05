@@ -33,11 +33,11 @@ class SdfAssetPath;
 // PHYSXSCHEMAPHYSXCOOKEDDATAAPI                                              //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXphysxCookedDataAPI
+/// \class UsdPhysXPhysxCookedDataAPI
 ///
 /// PhysX cooked data storage.
 ///
-class UsdPhysXphysxCookedDataAPI : public UsdAPISchemaBase
+class UsdPhysXPhysxCookedDataAPI : public UsdAPISchemaBase
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -45,32 +45,32 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::MultipleApplyAPI;
 
-    /// Construct a UsdPhysXphysxCookedDataAPI on UsdPrim \p prim with
+    /// Construct a UsdPhysXPhysxCookedDataAPI on UsdPrim \p prim with
     /// name \p name . Equivalent to
-    /// UsdPhysXphysxCookedDataAPI::Get(
+    /// UsdPhysXPhysxCookedDataAPI::Get(
     ///    prim.GetStage(),
     ///    prim.GetPath().AppendProperty(
     ///        "physxCookedData:name"));
     ///
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXphysxCookedDataAPI(
+    explicit UsdPhysXPhysxCookedDataAPI(
         const UsdPrim& prim=UsdPrim(), const TfToken &name=TfToken())
         : UsdAPISchemaBase(prim, /*instanceName*/ name)
     { }
 
-    /// Construct a UsdPhysXphysxCookedDataAPI on the prim held by \p schemaObj with
+    /// Construct a UsdPhysXPhysxCookedDataAPI on the prim held by \p schemaObj with
     /// name \p name.  Should be preferred over
-    /// UsdPhysXphysxCookedDataAPI(schemaObj.GetPrim(), name), as it preserves
+    /// UsdPhysXPhysxCookedDataAPI(schemaObj.GetPrim(), name), as it preserves
     /// SchemaBase state.
-    explicit UsdPhysXphysxCookedDataAPI(
+    explicit UsdPhysXPhysxCookedDataAPI(
         const UsdSchemaBase& schemaObj, const TfToken &name)
         : UsdAPISchemaBase(schemaObj, /*instanceName*/ name)
     { }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXphysxCookedDataAPI();
+    virtual ~UsdPhysXPhysxCookedDataAPI();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -93,7 +93,7 @@ public:
         return _GetInstanceName();
     }
 
-    /// Return a UsdPhysXphysxCookedDataAPI holding the prim adhering to this
+    /// Return a UsdPhysXPhysxCookedDataAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  \p path must be of the format
@@ -103,24 +103,24 @@ public:
     ///
     /// \code
     /// TfToken name = SdfPath::StripNamespace(path.GetToken());
-    /// UsdPhysXphysxCookedDataAPI(
+    /// UsdPhysXPhysxCookedDataAPI(
     ///     stage->GetPrimAtPath(path.GetPrimPath()), name);
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXphysxCookedDataAPI
+    static UsdPhysXPhysxCookedDataAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
-    /// Return a UsdPhysXphysxCookedDataAPI with name \p name holding the
-    /// prim \p prim. Shorthand for UsdPhysXphysxCookedDataAPI(prim, name);
+    /// Return a UsdPhysXPhysxCookedDataAPI with name \p name holding the
+    /// prim \p prim. Shorthand for UsdPhysXPhysxCookedDataAPI(prim, name);
     USDPHYSX_API
-    static UsdPhysXphysxCookedDataAPI
+    static UsdPhysXPhysxCookedDataAPI
     Get(const UsdPrim &prim, const TfToken &name);
 
-    /// Return a vector of all named instances of UsdPhysXphysxCookedDataAPI on the 
+    /// Return a vector of all named instances of UsdPhysXPhysxCookedDataAPI on the 
     /// given \p prim.
     USDPHYSX_API
-    static std::vector<UsdPhysXphysxCookedDataAPI>
+    static std::vector<UsdPhysXPhysxCookedDataAPI>
     GetAll(const UsdPrim &prim);
 
     /// Checks if the given name \p baseName is the base name of a property
@@ -165,8 +165,8 @@ public:
     /// For example, if \p name is 'instance1', the token 
     /// 'PhysxSchemaPhysxCookedDataAPI:instance1' is added to 'apiSchemas'.
     /// 
-    /// \return A valid UsdPhysXphysxCookedDataAPI object is returned upon success. 
-    /// An invalid (or empty) UsdPhysXphysxCookedDataAPI object is returned upon 
+    /// \return A valid UsdPhysXPhysxCookedDataAPI object is returned upon success. 
+    /// An invalid (or empty) UsdPhysXPhysxCookedDataAPI object is returned upon 
     /// failure. See \ref UsdPrim::ApplyAPI() for 
     /// conditions resulting in failure. 
     /// 
@@ -177,7 +177,7 @@ public:
     /// \sa UsdPrim::RemoveAPI()
     ///
     USDPHYSX_API
-    static UsdPhysXphysxCookedDataAPI 
+    static UsdPhysXPhysxCookedDataAPI 
     Apply(const UsdPrim &prim, const TfToken &name);
 
 protected:

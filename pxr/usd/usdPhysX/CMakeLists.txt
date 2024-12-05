@@ -13,6 +13,7 @@ pxr_library(usdPhysX
         usd
         usdGeom
         usdShade
+        usdPhysics
         work
         ${TBB_tbb_LIBRARY}
 

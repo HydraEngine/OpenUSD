@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxConvexDecompositionCollisionAPI,
+    TfType::Define<UsdPhysXPhysxConvexDecompositionCollisionAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxConvexDecompositionCollisionAPI::~UsdPhysXphysxConvexDecompositionCollisionAPI()
+UsdPhysXPhysxConvexDecompositionCollisionAPI::~UsdPhysXPhysxConvexDecompositionCollisionAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxConvexDecompositionCollisionAPI
-UsdPhysXphysxConvexDecompositionCollisionAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxConvexDecompositionCollisionAPI
+UsdPhysXPhysxConvexDecompositionCollisionAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxConvexDecompositionCollisionAPI();
+        return UsdPhysXPhysxConvexDecompositionCollisionAPI();
     }
-    return UsdPhysXphysxConvexDecompositionCollisionAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxConvexDecompositionCollisionAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxConvexDecompositionCollisionAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxConvexDecompositionCollisionAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxConvexDecompositionCollisionAPI::schemaKind;
+    return UsdPhysXPhysxConvexDecompositionCollisionAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxConvexDecompositionCollisionAPI::CanApply(
+UsdPhysXPhysxConvexDecompositionCollisionAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxConvexDecompositionCollisionAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxConvexDecompositionCollisionAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxConvexDecompositionCollisionAPI
-UsdPhysXphysxConvexDecompositionCollisionAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxConvexDecompositionCollisionAPI
+UsdPhysXPhysxConvexDecompositionCollisionAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxConvexDecompositionCollisionAPI>()) {
-        return UsdPhysXphysxConvexDecompositionCollisionAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxConvexDecompositionCollisionAPI>()) {
+        return UsdPhysXPhysxConvexDecompositionCollisionAPI(prim);
     }
-    return UsdPhysXphysxConvexDecompositionCollisionAPI();
+    return UsdPhysXPhysxConvexDecompositionCollisionAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxConvexDecompositionCollisionAPI::_GetStaticTfType()
+UsdPhysXPhysxConvexDecompositionCollisionAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxConvexDecompositionCollisionAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxConvexDecompositionCollisionAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxConvexDecompositionCollisionAPI::_IsTypedSchema()
+UsdPhysXPhysxConvexDecompositionCollisionAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxConvexDecompositionCollisionAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxConvexDecompositionCollisionAPI::_GetTfType() const
+UsdPhysXPhysxConvexDecompositionCollisionAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxConvexDecompositionCollisionAPI::GetErrorPercentageAttr() const
+UsdPhysXPhysxConvexDecompositionCollisionAPI::GetErrorPercentageAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxConvexDecompositionCollisionErrorPercentage);
 }
 
 UsdAttribute
-UsdPhysXphysxConvexDecompositionCollisionAPI::CreateErrorPercentageAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxConvexDecompositionCollisionAPI::CreateErrorPercentageAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxConvexDecompositionCollisionErrorPercentage,
                        SdfValueTypeNames->Float,
@@ -103,13 +103,13 @@ UsdPhysXphysxConvexDecompositionCollisionAPI::CreateErrorPercentageAttr(VtValue 
 }
 
 UsdAttribute
-UsdPhysXphysxConvexDecompositionCollisionAPI::GetHullVertexLimitAttr() const
+UsdPhysXPhysxConvexDecompositionCollisionAPI::GetHullVertexLimitAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxConvexDecompositionCollisionHullVertexLimit);
 }
 
 UsdAttribute
-UsdPhysXphysxConvexDecompositionCollisionAPI::CreateHullVertexLimitAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxConvexDecompositionCollisionAPI::CreateHullVertexLimitAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxConvexDecompositionCollisionHullVertexLimit,
                        SdfValueTypeNames->Int,
@@ -120,13 +120,13 @@ UsdPhysXphysxConvexDecompositionCollisionAPI::CreateHullVertexLimitAttr(VtValue 
 }
 
 UsdAttribute
-UsdPhysXphysxConvexDecompositionCollisionAPI::GetMaxConvexHullsAttr() const
+UsdPhysXPhysxConvexDecompositionCollisionAPI::GetMaxConvexHullsAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxConvexDecompositionCollisionMaxConvexHulls);
 }
 
 UsdAttribute
-UsdPhysXphysxConvexDecompositionCollisionAPI::CreateMaxConvexHullsAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxConvexDecompositionCollisionAPI::CreateMaxConvexHullsAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxConvexDecompositionCollisionMaxConvexHulls,
                        SdfValueTypeNames->Int,
@@ -137,13 +137,13 @@ UsdPhysXphysxConvexDecompositionCollisionAPI::CreateMaxConvexHullsAttr(VtValue c
 }
 
 UsdAttribute
-UsdPhysXphysxConvexDecompositionCollisionAPI::GetMinThicknessAttr() const
+UsdPhysXPhysxConvexDecompositionCollisionAPI::GetMinThicknessAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxConvexDecompositionCollisionMinThickness);
 }
 
 UsdAttribute
-UsdPhysXphysxConvexDecompositionCollisionAPI::CreateMinThicknessAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxConvexDecompositionCollisionAPI::CreateMinThicknessAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxConvexDecompositionCollisionMinThickness,
                        SdfValueTypeNames->Float,
@@ -154,13 +154,13 @@ UsdPhysXphysxConvexDecompositionCollisionAPI::CreateMinThicknessAttr(VtValue con
 }
 
 UsdAttribute
-UsdPhysXphysxConvexDecompositionCollisionAPI::GetShrinkWrapAttr() const
+UsdPhysXPhysxConvexDecompositionCollisionAPI::GetShrinkWrapAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxConvexDecompositionCollisionShrinkWrap);
 }
 
 UsdAttribute
-UsdPhysXphysxConvexDecompositionCollisionAPI::CreateShrinkWrapAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxConvexDecompositionCollisionAPI::CreateShrinkWrapAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxConvexDecompositionCollisionShrinkWrap,
                        SdfValueTypeNames->Bool,
@@ -171,13 +171,13 @@ UsdPhysXphysxConvexDecompositionCollisionAPI::CreateShrinkWrapAttr(VtValue const
 }
 
 UsdAttribute
-UsdPhysXphysxConvexDecompositionCollisionAPI::GetVoxelResolutionAttr() const
+UsdPhysXPhysxConvexDecompositionCollisionAPI::GetVoxelResolutionAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxConvexDecompositionCollisionVoxelResolution);
 }
 
 UsdAttribute
-UsdPhysXphysxConvexDecompositionCollisionAPI::CreateVoxelResolutionAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxConvexDecompositionCollisionAPI::CreateVoxelResolutionAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxConvexDecompositionCollisionVoxelResolution,
                        SdfValueTypeNames->Int,
@@ -201,7 +201,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxConvexDecompositionCollisionAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxConvexDecompositionCollisionAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxConvexDecompositionCollisionErrorPercentage,

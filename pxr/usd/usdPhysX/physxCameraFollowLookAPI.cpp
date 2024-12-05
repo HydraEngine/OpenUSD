@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxCameraFollowLookAPI,
+    TfType::Define<UsdPhysXPhysxCameraFollowLookAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxCameraFollowLookAPI::~UsdPhysXphysxCameraFollowLookAPI()
+UsdPhysXPhysxCameraFollowLookAPI::~UsdPhysXPhysxCameraFollowLookAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxCameraFollowLookAPI
-UsdPhysXphysxCameraFollowLookAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxCameraFollowLookAPI
+UsdPhysXPhysxCameraFollowLookAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxCameraFollowLookAPI();
+        return UsdPhysXPhysxCameraFollowLookAPI();
     }
-    return UsdPhysXphysxCameraFollowLookAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxCameraFollowLookAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxCameraFollowLookAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxCameraFollowLookAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxCameraFollowLookAPI::schemaKind;
+    return UsdPhysXPhysxCameraFollowLookAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxCameraFollowLookAPI::CanApply(
+UsdPhysXPhysxCameraFollowLookAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxCameraFollowLookAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxCameraFollowLookAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxCameraFollowLookAPI
-UsdPhysXphysxCameraFollowLookAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxCameraFollowLookAPI
+UsdPhysXPhysxCameraFollowLookAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxCameraFollowLookAPI>()) {
-        return UsdPhysXphysxCameraFollowLookAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxCameraFollowLookAPI>()) {
+        return UsdPhysXPhysxCameraFollowLookAPI(prim);
     }
-    return UsdPhysXphysxCameraFollowLookAPI();
+    return UsdPhysXPhysxCameraFollowLookAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxCameraFollowLookAPI::_GetStaticTfType()
+UsdPhysXPhysxCameraFollowLookAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxCameraFollowLookAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxCameraFollowLookAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxCameraFollowLookAPI::_IsTypedSchema()
+UsdPhysXPhysxCameraFollowLookAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxCameraFollowLookAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxCameraFollowLookAPI::_GetTfType() const
+UsdPhysXPhysxCameraFollowLookAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::GetDownHillGroundAngleAttr() const
+UsdPhysXPhysxCameraFollowLookAPI::GetDownHillGroundAngleAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowLookCameraDownHillGroundAngle);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::CreateDownHillGroundAngleAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowLookAPI::CreateDownHillGroundAngleAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowLookCameraDownHillGroundAngle,
                        SdfValueTypeNames->Float,
@@ -103,13 +103,13 @@ UsdPhysXphysxCameraFollowLookAPI::CreateDownHillGroundAngleAttr(VtValue const &d
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::GetDownHillGroundPitchAttr() const
+UsdPhysXPhysxCameraFollowLookAPI::GetDownHillGroundPitchAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowLookCameraDownHillGroundPitch);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::CreateDownHillGroundPitchAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowLookAPI::CreateDownHillGroundPitchAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowLookCameraDownHillGroundPitch,
                        SdfValueTypeNames->Float,
@@ -120,13 +120,13 @@ UsdPhysXphysxCameraFollowLookAPI::CreateDownHillGroundPitchAttr(VtValue const &d
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::GetFollowReverseDistanceAttr() const
+UsdPhysXPhysxCameraFollowLookAPI::GetFollowReverseDistanceAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowLookCameraFollowReverseDistance);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::CreateFollowReverseDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowLookAPI::CreateFollowReverseDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowLookCameraFollowReverseDistance,
                        SdfValueTypeNames->Float,
@@ -137,13 +137,13 @@ UsdPhysXphysxCameraFollowLookAPI::CreateFollowReverseDistanceAttr(VtValue const 
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::GetFollowReverseSpeedAttr() const
+UsdPhysXPhysxCameraFollowLookAPI::GetFollowReverseSpeedAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowLookCameraFollowReverseSpeed);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::CreateFollowReverseSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowLookAPI::CreateFollowReverseSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowLookCameraFollowReverseSpeed,
                        SdfValueTypeNames->Float,
@@ -154,13 +154,13 @@ UsdPhysXphysxCameraFollowLookAPI::CreateFollowReverseSpeedAttr(VtValue const &de
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::GetUpHillGroundAngleAttr() const
+UsdPhysXPhysxCameraFollowLookAPI::GetUpHillGroundAngleAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowLookCameraUpHillGroundAngle);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::CreateUpHillGroundAngleAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowLookAPI::CreateUpHillGroundAngleAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowLookCameraUpHillGroundAngle,
                        SdfValueTypeNames->Float,
@@ -171,13 +171,13 @@ UsdPhysXphysxCameraFollowLookAPI::CreateUpHillGroundAngleAttr(VtValue const &def
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::GetUpHillGroundPitchAttr() const
+UsdPhysXPhysxCameraFollowLookAPI::GetUpHillGroundPitchAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowLookCameraUpHillGroundPitch);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::CreateUpHillGroundPitchAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowLookAPI::CreateUpHillGroundPitchAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowLookCameraUpHillGroundPitch,
                        SdfValueTypeNames->Float,
@@ -188,13 +188,13 @@ UsdPhysXphysxCameraFollowLookAPI::CreateUpHillGroundPitchAttr(VtValue const &def
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::GetVelocityBlendTimeConstantAttr() const
+UsdPhysXPhysxCameraFollowLookAPI::GetVelocityBlendTimeConstantAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowLookCameraVelocityBlendTimeConstant);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowLookAPI::CreateVelocityBlendTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowLookAPI::CreateVelocityBlendTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowLookCameraVelocityBlendTimeConstant,
                        SdfValueTypeNames->Float,
@@ -218,7 +218,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxCameraFollowLookAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxCameraFollowLookAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxFollowLookCameraDownHillGroundAngle,

@@ -33,11 +33,11 @@ class SdfAssetPath;
 // PHYSXSCHEMAPHYSXCOLLISIONAPI                                               //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXphysxCollisionAPI
+/// \class UsdPhysXPhysxCollisionAPI
 ///
 /// PhysX collision extended parameters.
 ///
-class UsdPhysXphysxCollisionAPI : public UsdAPISchemaBase
+class UsdPhysXPhysxCollisionAPI : public UsdAPISchemaBase
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -45,26 +45,26 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::SingleApplyAPI;
 
-    /// Construct a UsdPhysXphysxCollisionAPI on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXphysxCollisionAPI::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXPhysxCollisionAPI on UsdPrim \p prim .
+    /// Equivalent to UsdPhysXPhysxCollisionAPI::Get(prim.GetStage(), prim.GetPath())
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXphysxCollisionAPI(const UsdPrim& prim=UsdPrim())
+    explicit UsdPhysXPhysxCollisionAPI(const UsdPrim& prim=UsdPrim())
         : UsdAPISchemaBase(prim)
     {
     }
 
-    /// Construct a UsdPhysXphysxCollisionAPI on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXphysxCollisionAPI(schemaObj.GetPrim()),
+    /// Construct a UsdPhysXPhysxCollisionAPI on the prim held by \p schemaObj .
+    /// Should be preferred over UsdPhysXPhysxCollisionAPI(schemaObj.GetPrim()),
     /// as it preserves SchemaBase state.
-    explicit UsdPhysXphysxCollisionAPI(const UsdSchemaBase& schemaObj)
+    explicit UsdPhysXPhysxCollisionAPI(const UsdSchemaBase& schemaObj)
         : UsdAPISchemaBase(schemaObj)
     {
     }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXphysxCollisionAPI();
+    virtual ~UsdPhysXPhysxCollisionAPI();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -73,17 +73,17 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
-    /// Return a UsdPhysXphysxCollisionAPI holding the prim adhering to this
+    /// Return a UsdPhysXPhysxCollisionAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXphysxCollisionAPI(stage->GetPrimAtPath(path));
+    /// UsdPhysXPhysxCollisionAPI(stage->GetPrimAtPath(path));
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXphysxCollisionAPI
+    static UsdPhysXPhysxCollisionAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
 
@@ -111,8 +111,8 @@ public:
     /// This information is stored by adding "PhysxSchemaPhysxCollisionAPI" to the 
     /// token-valued, listOp metadata \em apiSchemas on the prim.
     /// 
-    /// \return A valid UsdPhysXphysxCollisionAPI object is returned upon success. 
-    /// An invalid (or empty) UsdPhysXphysxCollisionAPI object is returned upon 
+    /// \return A valid UsdPhysXPhysxCollisionAPI object is returned upon success. 
+    /// An invalid (or empty) UsdPhysXPhysxCollisionAPI object is returned upon 
     /// failure. See \ref UsdPrim::ApplyAPI() for conditions 
     /// resulting in failure. 
     /// 
@@ -123,7 +123,7 @@ public:
     /// \sa UsdPrim::RemoveAPI()
     ///
     USDPHYSX_API
-    static UsdPhysXphysxCollisionAPI 
+    static UsdPhysXPhysxCollisionAPI 
     Apply(const UsdPrim &prim);
 
 protected:

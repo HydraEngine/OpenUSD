@@ -16,43 +16,43 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxCookedDataAPI,
+    TfType::Define<UsdPhysXPhysxCookedDataAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxCookedDataAPI::~UsdPhysXphysxCookedDataAPI()
+UsdPhysXPhysxCookedDataAPI::~UsdPhysXPhysxCookedDataAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxCookedDataAPI
-UsdPhysXphysxCookedDataAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxCookedDataAPI
+UsdPhysXPhysxCookedDataAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxCookedDataAPI();
+        return UsdPhysXPhysxCookedDataAPI();
     }
     TfToken name;
     if (!IsPhysxSchemaPhysxCookedDataAPIPath(path, &name)) {
         TF_CODING_ERROR("Invalid physxCookedData path <%s>.", path.GetText());
-        return UsdPhysXphysxCookedDataAPI();
+        return UsdPhysXPhysxCookedDataAPI();
     }
-    return UsdPhysXphysxCookedDataAPI(stage->GetPrimAtPath(path.GetPrimPath()), name);
+    return UsdPhysXPhysxCookedDataAPI(stage->GetPrimAtPath(path.GetPrimPath()), name);
 }
 
-UsdPhysXphysxCookedDataAPI
-UsdPhysXphysxCookedDataAPI::Get(const UsdPrim &prim, const TfToken &name)
+UsdPhysXPhysxCookedDataAPI
+UsdPhysXPhysxCookedDataAPI::Get(const UsdPrim &prim, const TfToken &name)
 {
-    return UsdPhysXphysxCookedDataAPI(prim, name);
+    return UsdPhysXPhysxCookedDataAPI(prim, name);
 }
 
 /* static */
-std::vector<UsdPhysXphysxCookedDataAPI>
-UsdPhysXphysxCookedDataAPI::GetAll(const UsdPrim &prim)
+std::vector<UsdPhysXPhysxCookedDataAPI>
+UsdPhysXPhysxCookedDataAPI::GetAll(const UsdPrim &prim)
 {
-    std::vector<UsdPhysXphysxCookedDataAPI> schemas;
+    std::vector<UsdPhysXPhysxCookedDataAPI> schemas;
     
     for (const auto &schemaName :
          UsdAPISchemaBase::_GetMultipleApplyInstanceNames(prim, _GetStaticTfType())) {
@@ -65,7 +65,7 @@ UsdPhysXphysxCookedDataAPI::GetAll(const UsdPrim &prim)
 
 /* static */
 bool 
-UsdPhysXphysxCookedDataAPI::IsSchemaPropertyBaseName(const TfToken &baseName)
+UsdPhysXPhysxCookedDataAPI::IsSchemaPropertyBaseName(const TfToken &baseName)
 {
     static TfTokenVector attrsAndRels = {
         UsdSchemaRegistry::GetMultipleApplyNameTemplateBaseName(
@@ -78,7 +78,7 @@ UsdPhysXphysxCookedDataAPI::IsSchemaPropertyBaseName(const TfToken &baseName)
 
 /* static */
 bool
-UsdPhysXphysxCookedDataAPI::IsPhysxSchemaPhysxCookedDataAPIPath(
+UsdPhysXPhysxCookedDataAPI::IsPhysxSchemaPhysxCookedDataAPIPath(
     const SdfPath &path, TfToken *name)
 {
     if (!path.IsPropertyPath()) {
@@ -107,40 +107,40 @@ UsdPhysXphysxCookedDataAPI::IsPhysxSchemaPhysxCookedDataAPIPath(
 }
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxCookedDataAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxCookedDataAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxCookedDataAPI::schemaKind;
+    return UsdPhysXPhysxCookedDataAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxCookedDataAPI::CanApply(
+UsdPhysXPhysxCookedDataAPI::CanApply(
     const UsdPrim &prim, const TfToken &name, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxCookedDataAPI>(name, whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxCookedDataAPI>(name, whyNot);
 }
 
 /* static */
-UsdPhysXphysxCookedDataAPI
-UsdPhysXphysxCookedDataAPI::Apply(const UsdPrim &prim, const TfToken &name)
+UsdPhysXPhysxCookedDataAPI
+UsdPhysXPhysxCookedDataAPI::Apply(const UsdPrim &prim, const TfToken &name)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxCookedDataAPI>(name)) {
-        return UsdPhysXphysxCookedDataAPI(prim, name);
+    if (prim.ApplyAPI<UsdPhysXPhysxCookedDataAPI>(name)) {
+        return UsdPhysXPhysxCookedDataAPI(prim, name);
     }
-    return UsdPhysXphysxCookedDataAPI();
+    return UsdPhysXPhysxCookedDataAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxCookedDataAPI::_GetStaticTfType()
+UsdPhysXPhysxCookedDataAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxCookedDataAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxCookedDataAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxCookedDataAPI::_IsTypedSchema()
+UsdPhysXPhysxCookedDataAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -148,7 +148,7 @@ UsdPhysXphysxCookedDataAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxCookedDataAPI::_GetTfType() const
+UsdPhysXPhysxCookedDataAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
@@ -164,7 +164,7 @@ _GetNamespacedPropertyName(const TfToken instanceName, const TfToken propName)
 }
 
 UsdAttribute
-UsdPhysXphysxCookedDataAPI::GetBufferAttr() const
+UsdPhysXPhysxCookedDataAPI::GetBufferAttr() const
 {
     return GetPrim().GetAttribute(
         _GetNamespacedPropertyName(
@@ -173,7 +173,7 @@ UsdPhysXphysxCookedDataAPI::GetBufferAttr() const
 }
 
 UsdAttribute
-UsdPhysXphysxCookedDataAPI::CreateBufferAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCookedDataAPI::CreateBufferAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(
                        _GetNamespacedPropertyName(
@@ -200,7 +200,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxCookedDataAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxCookedDataAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxCookedData_MultipleApplyTemplate_Buffer,
@@ -218,7 +218,7 @@ UsdPhysXphysxCookedDataAPI::GetSchemaAttributeNames(bool includeInherited)
 
 /*static*/
 TfTokenVector
-UsdPhysXphysxCookedDataAPI::GetSchemaAttributeNames(
+UsdPhysXPhysxCookedDataAPI::GetSchemaAttributeNames(
     bool includeInherited, const TfToken &instanceName)
 {
     const TfTokenVector &attrNames = GetSchemaAttributeNames(includeInherited);

@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxCharacterControllerAPI,
+    TfType::Define<UsdPhysXPhysxCharacterControllerAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxCharacterControllerAPI::~UsdPhysXphysxCharacterControllerAPI()
+UsdPhysXPhysxCharacterControllerAPI::~UsdPhysXPhysxCharacterControllerAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxCharacterControllerAPI
-UsdPhysXphysxCharacterControllerAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxCharacterControllerAPI
+UsdPhysXPhysxCharacterControllerAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxCharacterControllerAPI();
+        return UsdPhysXPhysxCharacterControllerAPI();
     }
-    return UsdPhysXphysxCharacterControllerAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxCharacterControllerAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxCharacterControllerAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxCharacterControllerAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxCharacterControllerAPI::schemaKind;
+    return UsdPhysXPhysxCharacterControllerAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxCharacterControllerAPI::CanApply(
+UsdPhysXPhysxCharacterControllerAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxCharacterControllerAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxCharacterControllerAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxCharacterControllerAPI
-UsdPhysXphysxCharacterControllerAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxCharacterControllerAPI
+UsdPhysXPhysxCharacterControllerAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxCharacterControllerAPI>()) {
-        return UsdPhysXphysxCharacterControllerAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxCharacterControllerAPI>()) {
+        return UsdPhysXPhysxCharacterControllerAPI(prim);
     }
-    return UsdPhysXphysxCharacterControllerAPI();
+    return UsdPhysXPhysxCharacterControllerAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxCharacterControllerAPI::_GetStaticTfType()
+UsdPhysXPhysxCharacterControllerAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxCharacterControllerAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxCharacterControllerAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxCharacterControllerAPI::_IsTypedSchema()
+UsdPhysXPhysxCharacterControllerAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxCharacterControllerAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxCharacterControllerAPI::_GetTfType() const
+UsdPhysXPhysxCharacterControllerAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::GetClimbingModeAttr() const
+UsdPhysXPhysxCharacterControllerAPI::GetClimbingModeAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCharacterControllerClimbingMode);
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::CreateClimbingModeAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCharacterControllerAPI::CreateClimbingModeAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCharacterControllerClimbingMode,
                        SdfValueTypeNames->Token,
@@ -103,13 +103,13 @@ UsdPhysXphysxCharacterControllerAPI::CreateClimbingModeAttr(VtValue const &defau
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::GetContactOffsetAttr() const
+UsdPhysXPhysxCharacterControllerAPI::GetContactOffsetAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCharacterControllerContactOffset);
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::CreateContactOffsetAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCharacterControllerAPI::CreateContactOffsetAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCharacterControllerContactOffset,
                        SdfValueTypeNames->Float,
@@ -120,13 +120,13 @@ UsdPhysXphysxCharacterControllerAPI::CreateContactOffsetAttr(VtValue const &defa
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::GetInvisibleWallHeightAttr() const
+UsdPhysXPhysxCharacterControllerAPI::GetInvisibleWallHeightAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCharacterControllerInvisibleWallHeight);
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::CreateInvisibleWallHeightAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCharacterControllerAPI::CreateInvisibleWallHeightAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCharacterControllerInvisibleWallHeight,
                        SdfValueTypeNames->Float,
@@ -137,13 +137,13 @@ UsdPhysXphysxCharacterControllerAPI::CreateInvisibleWallHeightAttr(VtValue const
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::GetMaxJumpHeightAttr() const
+UsdPhysXPhysxCharacterControllerAPI::GetMaxJumpHeightAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCharacterControllerMaxJumpHeight);
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::CreateMaxJumpHeightAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCharacterControllerAPI::CreateMaxJumpHeightAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCharacterControllerMaxJumpHeight,
                        SdfValueTypeNames->Float,
@@ -154,13 +154,13 @@ UsdPhysXphysxCharacterControllerAPI::CreateMaxJumpHeightAttr(VtValue const &defa
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::GetMoveTargetAttr() const
+UsdPhysXPhysxCharacterControllerAPI::GetMoveTargetAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCharacterControllerMoveTarget);
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::CreateMoveTargetAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCharacterControllerAPI::CreateMoveTargetAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCharacterControllerMoveTarget,
                        SdfValueTypeNames->Vector3f,
@@ -171,13 +171,13 @@ UsdPhysXphysxCharacterControllerAPI::CreateMoveTargetAttr(VtValue const &default
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::GetNonWalkableModeAttr() const
+UsdPhysXPhysxCharacterControllerAPI::GetNonWalkableModeAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCharacterControllerNonWalkableMode);
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::CreateNonWalkableModeAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCharacterControllerAPI::CreateNonWalkableModeAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCharacterControllerNonWalkableMode,
                        SdfValueTypeNames->Token,
@@ -188,13 +188,13 @@ UsdPhysXphysxCharacterControllerAPI::CreateNonWalkableModeAttr(VtValue const &de
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::GetScaleCoeffAttr() const
+UsdPhysXPhysxCharacterControllerAPI::GetScaleCoeffAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCharacterControllerScaleCoeff);
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::CreateScaleCoeffAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCharacterControllerAPI::CreateScaleCoeffAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCharacterControllerScaleCoeff,
                        SdfValueTypeNames->Float,
@@ -205,13 +205,13 @@ UsdPhysXphysxCharacterControllerAPI::CreateScaleCoeffAttr(VtValue const &default
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::GetSlopeLimitAttr() const
+UsdPhysXPhysxCharacterControllerAPI::GetSlopeLimitAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCharacterControllerSlopeLimit);
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::CreateSlopeLimitAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCharacterControllerAPI::CreateSlopeLimitAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCharacterControllerSlopeLimit,
                        SdfValueTypeNames->Float,
@@ -222,13 +222,13 @@ UsdPhysXphysxCharacterControllerAPI::CreateSlopeLimitAttr(VtValue const &default
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::GetStepOffsetAttr() const
+UsdPhysXPhysxCharacterControllerAPI::GetStepOffsetAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCharacterControllerStepOffset);
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::CreateStepOffsetAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCharacterControllerAPI::CreateStepOffsetAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCharacterControllerStepOffset,
                        SdfValueTypeNames->Float,
@@ -239,13 +239,13 @@ UsdPhysXphysxCharacterControllerAPI::CreateStepOffsetAttr(VtValue const &default
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::GetUpAxisAttr() const
+UsdPhysXPhysxCharacterControllerAPI::GetUpAxisAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCharacterControllerUpAxis);
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::CreateUpAxisAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCharacterControllerAPI::CreateUpAxisAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCharacterControllerUpAxis,
                        SdfValueTypeNames->Token,
@@ -256,13 +256,13 @@ UsdPhysXphysxCharacterControllerAPI::CreateUpAxisAttr(VtValue const &defaultValu
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::GetVolumeGrowthAttr() const
+UsdPhysXPhysxCharacterControllerAPI::GetVolumeGrowthAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCharacterControllerVolumeGrowth);
 }
 
 UsdAttribute
-UsdPhysXphysxCharacterControllerAPI::CreateVolumeGrowthAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCharacterControllerAPI::CreateVolumeGrowthAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCharacterControllerVolumeGrowth,
                        SdfValueTypeNames->Float,
@@ -286,7 +286,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxCharacterControllerAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxCharacterControllerAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxCharacterControllerClimbingMode,

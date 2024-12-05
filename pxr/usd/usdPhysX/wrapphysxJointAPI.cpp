@@ -34,68 +34,68 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateArmatureAttr(UsdPhysXphysxJointAPI &self,
+_CreateArmatureAttr(UsdPhysXPhysxJointAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateArmatureAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateEnableProjectionAttr(UsdPhysXphysxJointAPI &self,
+_CreateEnableProjectionAttr(UsdPhysXPhysxJointAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateEnableProjectionAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Bool), writeSparsely);
 }
         
 static UsdAttribute
-_CreateJointFrictionAttr(UsdPhysXphysxJointAPI &self,
+_CreateJointFrictionAttr(UsdPhysXPhysxJointAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateJointFrictionAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateMaxJointVelocityAttr(UsdPhysXphysxJointAPI &self,
+_CreateMaxJointVelocityAttr(UsdPhysXPhysxJointAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateMaxJointVelocityAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxJointAPI &self)
+_Repr(const UsdPhysXPhysxJointAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxJointAPI(%s)",
+        "UsdPhysX.PhysxJointAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxJointAPI_CanApplyResult : 
+struct UsdPhysXPhysxJointAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxJointAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxJointAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxJointAPI_CanApplyResult
+static UsdPhysXPhysxJointAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxJointAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxJointAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxJointAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxJointAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxJointAPI()
+void wrapUsdPhysXPhysxJointAPI()
 {
-    typedef UsdPhysXphysxJointAPI This;
+    typedef UsdPhysXPhysxJointAPI This;
 
-    UsdPhysXphysxJointAPI_CanApplyResult::Wrap<UsdPhysXphysxJointAPI_CanApplyResult>(
+    UsdPhysXPhysxJointAPI_CanApplyResult::Wrap<UsdPhysXPhysxJointAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxJointAPI");
+        cls("PhysxJointAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

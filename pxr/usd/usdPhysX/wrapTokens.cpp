@@ -29,6 +29,8 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, max);
     _ADD_TOKEN(cls, min);
     _ADD_TOKEN(cls, multiply);
+    _ADD_TOKEN(cls, physicsGearRatio);
+    _ADD_TOKEN(cls, physicsProtoIndices);
     _ADD_TOKEN(cls, physxArticulationArticulationEnabled);
     _ADD_TOKEN(cls, physxArticulationEnabledSelfCollisions);
     _ADD_TOKEN(cls, physxArticulationSleepThreshold);
@@ -128,8 +130,18 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxMaterialDampingCombineMode);
     _ADD_TOKEN(cls, physxMaterialFrictionCombineMode);
     _ADD_TOKEN(cls, physxMaterialRestitutionCombineMode);
+    _ADD_TOKEN(cls, physxMimicJoint);
+    _ADD_TOKEN(cls, physxMimicJoint_MultipleApplyTemplate_Gearing);
+    _ADD_TOKEN(cls, physxMimicJoint_MultipleApplyTemplate_Offset);
+    _ADD_TOKEN(cls, physxMimicJoint_MultipleApplyTemplate_ReferenceJointAxis);
+    _ADD_TOKEN(cls, physxPhysicsDistanceJointSpringDamping);
+    _ADD_TOKEN(cls, physxPhysicsDistanceJointSpringEnabled);
+    _ADD_TOKEN(cls, physxPhysicsDistanceJointSpringStiffness);
     _ADD_TOKEN(cls, preventClimbing);
     _ADD_TOKEN(cls, preventClimbingForceSliding);
+    _ADD_TOKEN(cls, rotX);
+    _ADD_TOKEN(cls, rotY);
+    _ADD_TOKEN(cls, rotZ);
     _ADD_TOKEN(cls, X);
     _ADD_TOKEN(cls, Y);
     _ADD_TOKEN(cls, Z);
@@ -150,4 +162,9 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, PhysxSchemaPhysxIsosurfaceAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxJointAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxMaterialAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxMeshMergeCollisionAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxMimicJointAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxPhysicsDistanceJointAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxPhysicsGearJoint);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxPhysicsInstancer);
 }

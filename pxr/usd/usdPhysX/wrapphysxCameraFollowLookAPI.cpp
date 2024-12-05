@@ -34,89 +34,89 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateDownHillGroundAngleAttr(UsdPhysXphysxCameraFollowLookAPI &self,
+_CreateDownHillGroundAngleAttr(UsdPhysXPhysxCameraFollowLookAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateDownHillGroundAngleAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateDownHillGroundPitchAttr(UsdPhysXphysxCameraFollowLookAPI &self,
+_CreateDownHillGroundPitchAttr(UsdPhysXPhysxCameraFollowLookAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateDownHillGroundPitchAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateFollowReverseDistanceAttr(UsdPhysXphysxCameraFollowLookAPI &self,
+_CreateFollowReverseDistanceAttr(UsdPhysXPhysxCameraFollowLookAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateFollowReverseDistanceAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateFollowReverseSpeedAttr(UsdPhysXphysxCameraFollowLookAPI &self,
+_CreateFollowReverseSpeedAttr(UsdPhysXPhysxCameraFollowLookAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateFollowReverseSpeedAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateUpHillGroundAngleAttr(UsdPhysXphysxCameraFollowLookAPI &self,
+_CreateUpHillGroundAngleAttr(UsdPhysXPhysxCameraFollowLookAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateUpHillGroundAngleAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateUpHillGroundPitchAttr(UsdPhysXphysxCameraFollowLookAPI &self,
+_CreateUpHillGroundPitchAttr(UsdPhysXPhysxCameraFollowLookAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateUpHillGroundPitchAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateVelocityBlendTimeConstantAttr(UsdPhysXphysxCameraFollowLookAPI &self,
+_CreateVelocityBlendTimeConstantAttr(UsdPhysXPhysxCameraFollowLookAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateVelocityBlendTimeConstantAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxCameraFollowLookAPI &self)
+_Repr(const UsdPhysXPhysxCameraFollowLookAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxCameraFollowLookAPI(%s)",
+        "UsdPhysX.PhysxCameraFollowLookAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxCameraFollowLookAPI_CanApplyResult : 
+struct UsdPhysXPhysxCameraFollowLookAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxCameraFollowLookAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxCameraFollowLookAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxCameraFollowLookAPI_CanApplyResult
+static UsdPhysXPhysxCameraFollowLookAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxCameraFollowLookAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxCameraFollowLookAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxCameraFollowLookAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxCameraFollowLookAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxCameraFollowLookAPI()
+void wrapUsdPhysXPhysxCameraFollowLookAPI()
 {
-    typedef UsdPhysXphysxCameraFollowLookAPI This;
+    typedef UsdPhysXPhysxCameraFollowLookAPI This;
 
-    UsdPhysXphysxCameraFollowLookAPI_CanApplyResult::Wrap<UsdPhysXphysxCameraFollowLookAPI_CanApplyResult>(
+    UsdPhysXPhysxCameraFollowLookAPI_CanApplyResult::Wrap<UsdPhysXPhysxCameraFollowLookAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxCameraFollowLookAPI");
+        cls("PhysxCameraFollowLookAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

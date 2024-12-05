@@ -34,82 +34,82 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateArticulationEnabledAttr(UsdPhysXphysxArticulationAPI &self,
+_CreateArticulationEnabledAttr(UsdPhysXPhysxArticulationAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateArticulationEnabledAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Bool), writeSparsely);
 }
         
 static UsdAttribute
-_CreateEnabledSelfCollisionsAttr(UsdPhysXphysxArticulationAPI &self,
+_CreateEnabledSelfCollisionsAttr(UsdPhysXPhysxArticulationAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateEnabledSelfCollisionsAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Bool), writeSparsely);
 }
         
 static UsdAttribute
-_CreateSleepThresholdAttr(UsdPhysXphysxArticulationAPI &self,
+_CreateSleepThresholdAttr(UsdPhysXPhysxArticulationAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateSleepThresholdAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateSolverPositionIterationCountAttr(UsdPhysXphysxArticulationAPI &self,
+_CreateSolverPositionIterationCountAttr(UsdPhysXPhysxArticulationAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateSolverPositionIterationCountAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Int), writeSparsely);
 }
         
 static UsdAttribute
-_CreateSolverVelocityIterationCountAttr(UsdPhysXphysxArticulationAPI &self,
+_CreateSolverVelocityIterationCountAttr(UsdPhysXPhysxArticulationAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateSolverVelocityIterationCountAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Int), writeSparsely);
 }
         
 static UsdAttribute
-_CreateStabilizationThresholdAttr(UsdPhysXphysxArticulationAPI &self,
+_CreateStabilizationThresholdAttr(UsdPhysXPhysxArticulationAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateStabilizationThresholdAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxArticulationAPI &self)
+_Repr(const UsdPhysXPhysxArticulationAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxArticulationAPI(%s)",
+        "UsdPhysX.PhysxArticulationAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxArticulationAPI_CanApplyResult : 
+struct UsdPhysXPhysxArticulationAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxArticulationAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxArticulationAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxArticulationAPI_CanApplyResult
+static UsdPhysXPhysxArticulationAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxArticulationAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxArticulationAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxArticulationAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxArticulationAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxArticulationAPI()
+void wrapUsdPhysXPhysxArticulationAPI()
 {
-    typedef UsdPhysXphysxArticulationAPI This;
+    typedef UsdPhysXPhysxArticulationAPI This;
 
-    UsdPhysXphysxArticulationAPI_CanApplyResult::Wrap<UsdPhysXphysxArticulationAPI_CanApplyResult>(
+    UsdPhysXPhysxArticulationAPI_CanApplyResult::Wrap<UsdPhysXPhysxArticulationAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxArticulationAPI");
+        cls("PhysxArticulationAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

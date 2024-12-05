@@ -1,7 +1,8 @@
 #usda 1.0
 (
     subLayers = [
-        @usdGeom/schema.usda@
+        @usdGeom/schema.usda@,
+        @usdPhysics/schema.usda@
     ]
 )
 
@@ -48,7 +49,7 @@ class "PhysxSchemaJointStateAPI" (
 class "PhysxSchemaPhysxArticulationAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxArticulationAPI"
+        string className = "ArticulationAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """PhysX articulation extended parameters."""
@@ -99,7 +100,7 @@ class "PhysxSchemaPhysxArticulationAPI" (
 class "PhysxSchemaPhysxCameraAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxCameraAPI"
+        string className = "CameraAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """PhysX camera."""
@@ -117,7 +118,7 @@ class "PhysxSchemaPhysxCameraAPI" (
 class "PhysxSchemaPhysxCameraDroneAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxCameraDroneAPI"
+        string className = "CameraDroneAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """PhysX drone camera that follows its subject from the air as it drives."""
@@ -188,7 +189,7 @@ class "PhysxSchemaPhysxCameraDroneAPI" (
 class "PhysxSchemaPhysxCameraFollowAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxCameraFollowAPI"
+        string className = "CameraFollowAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """PhysX camera that follows behind the subject as it moves."""
@@ -326,7 +327,7 @@ class "PhysxSchemaPhysxCameraFollowAPI" (
 class "PhysxSchemaPhysxCameraFollowLookAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxCameraFollowLookAPI"
+        string className = "CameraFollowLookAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """PhysX camera that follows behind the subject's forward vector as it moves.
@@ -380,7 +381,7 @@ class "PhysxSchemaPhysxCameraFollowLookAPI" (
 class "PhysxSchemaPhysxCameraFollowVelocityAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxCameraFollowVelocityAPI"
+        string className = "CameraFollowVelocityAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """PhysX camera that follows behind the subject's velocity vector as it moves, which allows the subject to roll and tumble."""
@@ -391,7 +392,7 @@ class "PhysxSchemaPhysxCameraFollowVelocityAPI" (
 class "PhysxSchemaPhysxCharacterControllerAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxCharacterControllerAPI"
+        string className = "CharacterControllerAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """PhysxCharacterControllerAPI can be applied to a capsuleGeom.
@@ -475,7 +476,7 @@ class "PhysxSchemaPhysxCharacterControllerAPI" (
 class "PhysxSchemaPhysxCollisionAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxCollisionAPI"
+        string className = "CollisionAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """PhysX collision extended parameters."""
@@ -510,7 +511,7 @@ class "PhysxSchemaPhysxCollisionAPI" (
 class "PhysxSchemaPhysxContactReportAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxContactReportAPI"
+        string className = "ContactReportAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """Enables contact reporting for a rigid body or articulation."""
@@ -527,7 +528,7 @@ class "PhysxSchemaPhysxContactReportAPI" (
 class "PhysxSchemaPhysxConvexDecompositionCollisionAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxConvexDecompositionCollisionAPI"
+        string className = "ConvexDecompositionCollisionAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """PhysX convex decomposition(VHACD) extended parameters."""
@@ -574,7 +575,7 @@ class "PhysxSchemaPhysxConvexDecompositionCollisionAPI" (
 class "PhysxSchemaPhysxConvexHullCollisionAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxConvexHullCollisionAPI"
+        string className = "ConvexHullCollisionAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """PhysX convex hull collision extended parameters."""
@@ -597,7 +598,7 @@ class "PhysxSchemaPhysxConvexHullCollisionAPI" (
 class "PhysxSchemaPhysxCookedDataAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxCookedDataAPI"
+        string className = "CookedDataAPI"
         token apiSchemaType = "multipleApply"
         token propertyNamespacePrefix = "physxCookedData"
     }
@@ -615,7 +616,7 @@ class "PhysxSchemaPhysxCookedDataAPI" (
 class "PhysxSchemaPhysxForceAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxForceAPI"
+        string className = "ForceAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """
@@ -676,7 +677,7 @@ class "PhysxSchemaPhysxForceAPI" (
 class "PhysxSchemaPhysxIsosurfaceAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxIsosurfaceAPI"
+        string className = "IsosurfaceAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """Applied to a PhysxParticleSystem.
@@ -784,7 +785,7 @@ class "PhysxSchemaPhysxIsosurfaceAPI" (
 class "PhysxSchemaPhysxJointAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxJointAPI"
+        string className = "JointAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """PhysX joint extended parameters."""
@@ -824,7 +825,7 @@ class "PhysxSchemaPhysxJointAPI" (
 class "PhysxSchemaPhysxMaterialAPI" (
     inherits = </APISchemaBase>
     customData = {
-        string className = "physxMaterialAPI"
+        string className = "MaterialAPI"
         token apiSchemaType = "singleApply"
     }
     doc = """PhysX material extended parameters.
@@ -892,5 +893,137 @@ class "PhysxSchemaPhysxMaterialAPI" (
         doc = """
         Determines the way in which two material properties will be combined to yield a restitution coefficient for a collision.
         """
+    )
+}
+
+class "PhysxSchemaPhysxMeshMergeCollisionAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "MeshMergeCollisionAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """PhysxMeshMergeCollisionAPI enables implicit mesh merging of given meshes with respect to physics collision geometry representation.
+
+    It is expected that this API extends the UsdPhysics.CollisionAPI definition, the UsdPhysics.CollisionAPI is still required to be present together with this API to define the collision properties. All meshes that belong to the collisionmeshes collection will be merged into one mesh that will be used for collision representation. Note that the collection can also define what meshes should be excluded from the selection.
+
+    This means that for example all meshes that belong to the collection will be represented as one convexHull rather than dozens of convexHulls per mesh.
+
+    It is possible to collect meshes through the collection that do not belong to the same hierarchy. This is allowed, however if the collisions are part of a rigid body, the meshes that do not belong to the rigid body hierarchy wont move. As defined in the rigid body specification, only rigid body transformation is updated.
+
+    Note that any changes to the meshes during runtime will get ignored.
+    """
+)
+{
+}
+
+class "PhysxSchemaPhysxMimicJointAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "MimicJointAPI"
+        token apiSchemaType = "multipleApply"
+        token propertyNamespacePrefix = "physxMimicJoint"
+    }
+    doc = """Applied to a Physics Joint that must be part of an articulation.
+
+    Supported joint types are: PhysicsRevoluteJoint (with a limit set), PhysicsPrismaticJoint as well as the more generic PhysicsJoint if all linear degrees of freedom are locked.
+
+    This schema allows to interconnect the degrees of freedom of two joints according to the relationship: jointPosition + (gearing * referenceJointPosition) + offset = 0. This can be used to have, for example, one joint mimic the motion of another joint. The term "position" does not necessarily mean a translational unit, in the case of an angular degree of freedom it is an angle. The mimic joint operates on a single degree of freedom which is specified through the instance name of this multiple apply schema. The allowed instance name tokens are "rotX", "rotY" and "rotZ". See the documentation of the attribute referenceJointAxis for more info related to specifying the degree of freedom to operate on. Notes: 1) the two joints have to be part of the same articulation. 2) once the simulation has started, a significant performance penalty will be incurred if a mimic joint is added or removed, if the referenceJoint relationship is changed or if the referenceJointAxis attributes is modified. 3) the mimic joint relationship is interpreted as a two-way interaction and an impulse will get applied to the reference joint as well.
+
+    For any described attribute Fallback Value or Allowed Values below that are text/tokens, the actual token is published and defined in PhysxSchemaTokens. So to set an attribute to the value "rightHanded", use PhysxSchemaTokens->rightHanded as the value.
+    """
+)
+{
+    float gearing = 1 (
+        customData = {
+            string apiName = "gearing"
+        }
+        doc = """The gearing coefficient (see relationship formulation in the documentation part of PhysxMimicJointAPI).
+        Range: (-inf, inf) Units: unitless or degrees/distance or distance/degrees (the last two refer to scenarios where a linear degree of freedom is connected to an angular one or vice versa)
+        """
+    )
+    float offset = 0 (
+        customData = {
+            string apiName = "offset"
+        }
+        doc = """The offset coefficient (see relationship formulation in the documentation part of PhysxMimicJointAPI).
+        Range: (-inf, inf) Units: distance or degrees (depending on whether the mimic joint's degree of freedom is linear or angular)
+        """
+    )
+    uniform token referenceJointAxis = "rotX" (
+        customData = {
+            string apiName = "referenceJointAxis"
+        }
+        allowedTokens = ["rotX", "rotY", "rotZ"]
+        doc = """
+        The axis that marks the degree of freedom of the reference joint to mimic.
+
+        Has to be a valid degree of freedom on the reference joint. For joint types with a single degree of freedom (like PhysicsRevoluteJoint or PhysicsPrismaticJoint), 
+        this attribute will be ignored since the axis is defined implicitly. 
+        The mimic joint connects <targetJoint, targetJointAxis> to <referenceJoint, referenceJointAxis> with targetJoint being the prim that has PhysxMimicJointAPI applied 
+        and targetJointAxis being defined through the instance name token of PhysxMimicJointAPI.
+        """
+    )
+}
+
+class "PhysxSchemaPhysxPhysicsDistanceJointAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "PhysicsDistanceJointAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """PhysX distance joint extended parameters."""
+)
+{
+    float physxPhysicsDistanceJoint:springDamping = 0 (
+        customData = {
+            string apiName = "springDamping"
+        }
+        doc = """Spring damping.
+        Range: [0, inf) Units: force * seconds / distance = mass / seconds
+        """
+    )
+    bool physxPhysicsDistanceJoint:springEnabled = 0 (
+        customData = {
+            string apiName = "springEnabled"
+        }
+        doc = """Whether spring should be enabled.
+        (default off)
+        """
+    )
+    float physxPhysicsDistanceJoint:springStiffness = 0 (
+        customData = {
+            string apiName = "springStiffness"
+        }
+        doc = """Spring stiffness.
+        Range: [0, inf) Units: force / distance = mass / seconds^2
+        """
+    )
+}
+
+
+
+class PhysxSchemaPhysxPhysicsGearJoint "PhysxSchemaPhysxPhysicsGearJoint" (
+    doc = """Predefined gear joint type."""
+    # Inherits from </SimplePrim> defined in simple.usda.
+    inherits = </PhysicsJoint>
+    customData = {
+        string className = "PhysicsGearJoint"
+    }
+)  {
+    float physics:gearRatio = 1 (
+        doc = """Gear ratio Range: (-inf, inf) Units: dimensionless."""
+    )
+}
+
+class PhysxSchemaPhysxPhysicsInstancer "PhysxSchemaPhysxPhysicsInstancer" (
+    doc = """Core class for instancing physics prims."""
+    # Inherits from </SimplePrim> defined in simple.usda.
+    inherits = </Imageable>
+    customData = {
+        string className = "PhysicsInstancer"
+    }
+)  {
+    int[] physics:protoIndices (
+        doc = "Per-instance index into prototypes relationship that identifies what physics prims are instanced. Topology attribute - can be animated, but at a potential performance impact for streaming."
     )
 }

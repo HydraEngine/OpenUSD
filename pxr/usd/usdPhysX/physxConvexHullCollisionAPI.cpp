@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxConvexHullCollisionAPI,
+    TfType::Define<UsdPhysXPhysxConvexHullCollisionAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxConvexHullCollisionAPI::~UsdPhysXphysxConvexHullCollisionAPI()
+UsdPhysXPhysxConvexHullCollisionAPI::~UsdPhysXPhysxConvexHullCollisionAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxConvexHullCollisionAPI
-UsdPhysXphysxConvexHullCollisionAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxConvexHullCollisionAPI
+UsdPhysXPhysxConvexHullCollisionAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxConvexHullCollisionAPI();
+        return UsdPhysXPhysxConvexHullCollisionAPI();
     }
-    return UsdPhysXphysxConvexHullCollisionAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxConvexHullCollisionAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxConvexHullCollisionAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxConvexHullCollisionAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxConvexHullCollisionAPI::schemaKind;
+    return UsdPhysXPhysxConvexHullCollisionAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxConvexHullCollisionAPI::CanApply(
+UsdPhysXPhysxConvexHullCollisionAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxConvexHullCollisionAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxConvexHullCollisionAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxConvexHullCollisionAPI
-UsdPhysXphysxConvexHullCollisionAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxConvexHullCollisionAPI
+UsdPhysXPhysxConvexHullCollisionAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxConvexHullCollisionAPI>()) {
-        return UsdPhysXphysxConvexHullCollisionAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxConvexHullCollisionAPI>()) {
+        return UsdPhysXPhysxConvexHullCollisionAPI(prim);
     }
-    return UsdPhysXphysxConvexHullCollisionAPI();
+    return UsdPhysXPhysxConvexHullCollisionAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxConvexHullCollisionAPI::_GetStaticTfType()
+UsdPhysXPhysxConvexHullCollisionAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxConvexHullCollisionAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxConvexHullCollisionAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxConvexHullCollisionAPI::_IsTypedSchema()
+UsdPhysXPhysxConvexHullCollisionAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxConvexHullCollisionAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxConvexHullCollisionAPI::_GetTfType() const
+UsdPhysXPhysxConvexHullCollisionAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxConvexHullCollisionAPI::GetHullVertexLimitAttr() const
+UsdPhysXPhysxConvexHullCollisionAPI::GetHullVertexLimitAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxConvexHullCollisionHullVertexLimit);
 }
 
 UsdAttribute
-UsdPhysXphysxConvexHullCollisionAPI::CreateHullVertexLimitAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxConvexHullCollisionAPI::CreateHullVertexLimitAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxConvexHullCollisionHullVertexLimit,
                        SdfValueTypeNames->Int,
@@ -103,13 +103,13 @@ UsdPhysXphysxConvexHullCollisionAPI::CreateHullVertexLimitAttr(VtValue const &de
 }
 
 UsdAttribute
-UsdPhysXphysxConvexHullCollisionAPI::GetMinThicknessAttr() const
+UsdPhysXPhysxConvexHullCollisionAPI::GetMinThicknessAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxConvexHullCollisionMinThickness);
 }
 
 UsdAttribute
-UsdPhysXphysxConvexHullCollisionAPI::CreateMinThicknessAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxConvexHullCollisionAPI::CreateMinThicknessAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxConvexHullCollisionMinThickness,
                        SdfValueTypeNames->Float,
@@ -133,7 +133,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxConvexHullCollisionAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxConvexHullCollisionAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxConvexHullCollisionHullVertexLimit,

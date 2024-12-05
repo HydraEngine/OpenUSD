@@ -33,7 +33,7 @@ class SdfAssetPath;
 // PHYSXSCHEMAPHYSXMATERIALAPI                                                //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXphysxMaterialAPI
+/// \class UsdPhysXPhysxMaterialAPI
 ///
 /// PhysX material extended parameters.
 /// For any described attribute Fallback Value or Allowed Values below that are text/tokens, the actual token is published and defined in PhysxSchemaTokens. 
@@ -45,7 +45,7 @@ class SdfAssetPath;
 /// So to set an attribute to the value "rightHanded", use UsdPhysXTokens->rightHanded
 /// as the value.
 ///
-class UsdPhysXphysxMaterialAPI : public UsdAPISchemaBase
+class UsdPhysXPhysxMaterialAPI : public UsdAPISchemaBase
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -53,26 +53,26 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::SingleApplyAPI;
 
-    /// Construct a UsdPhysXphysxMaterialAPI on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXphysxMaterialAPI::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXPhysxMaterialAPI on UsdPrim \p prim .
+    /// Equivalent to UsdPhysXPhysxMaterialAPI::Get(prim.GetStage(), prim.GetPath())
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXphysxMaterialAPI(const UsdPrim& prim=UsdPrim())
+    explicit UsdPhysXPhysxMaterialAPI(const UsdPrim& prim=UsdPrim())
         : UsdAPISchemaBase(prim)
     {
     }
 
-    /// Construct a UsdPhysXphysxMaterialAPI on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXphysxMaterialAPI(schemaObj.GetPrim()),
+    /// Construct a UsdPhysXPhysxMaterialAPI on the prim held by \p schemaObj .
+    /// Should be preferred over UsdPhysXPhysxMaterialAPI(schemaObj.GetPrim()),
     /// as it preserves SchemaBase state.
-    explicit UsdPhysXphysxMaterialAPI(const UsdSchemaBase& schemaObj)
+    explicit UsdPhysXPhysxMaterialAPI(const UsdSchemaBase& schemaObj)
         : UsdAPISchemaBase(schemaObj)
     {
     }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXphysxMaterialAPI();
+    virtual ~UsdPhysXPhysxMaterialAPI();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -81,17 +81,17 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
-    /// Return a UsdPhysXphysxMaterialAPI holding the prim adhering to this
+    /// Return a UsdPhysXPhysxMaterialAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXphysxMaterialAPI(stage->GetPrimAtPath(path));
+    /// UsdPhysXPhysxMaterialAPI(stage->GetPrimAtPath(path));
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXphysxMaterialAPI
+    static UsdPhysXPhysxMaterialAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
 
@@ -119,8 +119,8 @@ public:
     /// This information is stored by adding "PhysxSchemaPhysxMaterialAPI" to the 
     /// token-valued, listOp metadata \em apiSchemas on the prim.
     /// 
-    /// \return A valid UsdPhysXphysxMaterialAPI object is returned upon success. 
-    /// An invalid (or empty) UsdPhysXphysxMaterialAPI object is returned upon 
+    /// \return A valid UsdPhysXPhysxMaterialAPI object is returned upon success. 
+    /// An invalid (or empty) UsdPhysXPhysxMaterialAPI object is returned upon 
     /// failure. See \ref UsdPrim::ApplyAPI() for conditions 
     /// resulting in failure. 
     /// 
@@ -131,7 +131,7 @@ public:
     /// \sa UsdPrim::RemoveAPI()
     ///
     USDPHYSX_API
-    static UsdPhysXphysxMaterialAPI 
+    static UsdPhysXPhysxMaterialAPI 
     Apply(const UsdPrim &prim);
 
 protected:

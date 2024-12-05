@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxCollisionAPI,
+    TfType::Define<UsdPhysXPhysxCollisionAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxCollisionAPI::~UsdPhysXphysxCollisionAPI()
+UsdPhysXPhysxCollisionAPI::~UsdPhysXPhysxCollisionAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxCollisionAPI
-UsdPhysXphysxCollisionAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxCollisionAPI
+UsdPhysXPhysxCollisionAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxCollisionAPI();
+        return UsdPhysXPhysxCollisionAPI();
     }
-    return UsdPhysXphysxCollisionAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxCollisionAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxCollisionAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxCollisionAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxCollisionAPI::schemaKind;
+    return UsdPhysXPhysxCollisionAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxCollisionAPI::CanApply(
+UsdPhysXPhysxCollisionAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxCollisionAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxCollisionAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxCollisionAPI
-UsdPhysXphysxCollisionAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxCollisionAPI
+UsdPhysXPhysxCollisionAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxCollisionAPI>()) {
-        return UsdPhysXphysxCollisionAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxCollisionAPI>()) {
+        return UsdPhysXPhysxCollisionAPI(prim);
     }
-    return UsdPhysXphysxCollisionAPI();
+    return UsdPhysXPhysxCollisionAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxCollisionAPI::_GetStaticTfType()
+UsdPhysXPhysxCollisionAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxCollisionAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxCollisionAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxCollisionAPI::_IsTypedSchema()
+UsdPhysXPhysxCollisionAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxCollisionAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxCollisionAPI::_GetTfType() const
+UsdPhysXPhysxCollisionAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxCollisionAPI::GetContactOffsetAttr() const
+UsdPhysXPhysxCollisionAPI::GetContactOffsetAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCollisionContactOffset);
 }
 
 UsdAttribute
-UsdPhysXphysxCollisionAPI::CreateContactOffsetAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCollisionAPI::CreateContactOffsetAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCollisionContactOffset,
                        SdfValueTypeNames->Float,
@@ -103,13 +103,13 @@ UsdPhysXphysxCollisionAPI::CreateContactOffsetAttr(VtValue const &defaultValue, 
 }
 
 UsdAttribute
-UsdPhysXphysxCollisionAPI::GetMinTorsionalPatchRadiusAttr() const
+UsdPhysXPhysxCollisionAPI::GetMinTorsionalPatchRadiusAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCollisionMinTorsionalPatchRadius);
 }
 
 UsdAttribute
-UsdPhysXphysxCollisionAPI::CreateMinTorsionalPatchRadiusAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCollisionAPI::CreateMinTorsionalPatchRadiusAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCollisionMinTorsionalPatchRadius,
                        SdfValueTypeNames->Float,
@@ -120,13 +120,13 @@ UsdPhysXphysxCollisionAPI::CreateMinTorsionalPatchRadiusAttr(VtValue const &defa
 }
 
 UsdAttribute
-UsdPhysXphysxCollisionAPI::GetRestOffsetAttr() const
+UsdPhysXPhysxCollisionAPI::GetRestOffsetAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCollisionRestOffset);
 }
 
 UsdAttribute
-UsdPhysXphysxCollisionAPI::CreateRestOffsetAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCollisionAPI::CreateRestOffsetAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCollisionRestOffset,
                        SdfValueTypeNames->Float,
@@ -137,13 +137,13 @@ UsdPhysXphysxCollisionAPI::CreateRestOffsetAttr(VtValue const &defaultValue, boo
 }
 
 UsdAttribute
-UsdPhysXphysxCollisionAPI::GetTorsionalPatchRadiusAttr() const
+UsdPhysXPhysxCollisionAPI::GetTorsionalPatchRadiusAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxCollisionTorsionalPatchRadius);
 }
 
 UsdAttribute
-UsdPhysXphysxCollisionAPI::CreateTorsionalPatchRadiusAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCollisionAPI::CreateTorsionalPatchRadiusAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxCollisionTorsionalPatchRadius,
                        SdfValueTypeNames->Float,
@@ -167,7 +167,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxCollisionAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxCollisionAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxCollisionContactOffset,

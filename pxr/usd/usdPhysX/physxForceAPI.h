@@ -33,7 +33,7 @@ class SdfAssetPath;
 // PHYSXSCHEMAPHYSXFORCEAPI                                                   //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXphysxForceAPI
+/// \class UsdPhysXPhysxForceAPI
 ///
 /// 
 /// PhysX schema API that applies a force and torque to a rigid body (UsdGeom.Xformable with UsdPhysicsRigidBodyAPI).
@@ -52,7 +52,7 @@ class SdfAssetPath;
 /// So to set an attribute to the value "rightHanded", use UsdPhysXTokens->rightHanded
 /// as the value.
 ///
-class UsdPhysXphysxForceAPI : public UsdAPISchemaBase
+class UsdPhysXPhysxForceAPI : public UsdAPISchemaBase
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -60,26 +60,26 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::SingleApplyAPI;
 
-    /// Construct a UsdPhysXphysxForceAPI on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXphysxForceAPI::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXPhysxForceAPI on UsdPrim \p prim .
+    /// Equivalent to UsdPhysXPhysxForceAPI::Get(prim.GetStage(), prim.GetPath())
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXphysxForceAPI(const UsdPrim& prim=UsdPrim())
+    explicit UsdPhysXPhysxForceAPI(const UsdPrim& prim=UsdPrim())
         : UsdAPISchemaBase(prim)
     {
     }
 
-    /// Construct a UsdPhysXphysxForceAPI on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXphysxForceAPI(schemaObj.GetPrim()),
+    /// Construct a UsdPhysXPhysxForceAPI on the prim held by \p schemaObj .
+    /// Should be preferred over UsdPhysXPhysxForceAPI(schemaObj.GetPrim()),
     /// as it preserves SchemaBase state.
-    explicit UsdPhysXphysxForceAPI(const UsdSchemaBase& schemaObj)
+    explicit UsdPhysXPhysxForceAPI(const UsdSchemaBase& schemaObj)
         : UsdAPISchemaBase(schemaObj)
     {
     }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXphysxForceAPI();
+    virtual ~UsdPhysXPhysxForceAPI();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -88,17 +88,17 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
-    /// Return a UsdPhysXphysxForceAPI holding the prim adhering to this
+    /// Return a UsdPhysXPhysxForceAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXphysxForceAPI(stage->GetPrimAtPath(path));
+    /// UsdPhysXPhysxForceAPI(stage->GetPrimAtPath(path));
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXphysxForceAPI
+    static UsdPhysXPhysxForceAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
 
@@ -126,8 +126,8 @@ public:
     /// This information is stored by adding "PhysxSchemaPhysxForceAPI" to the 
     /// token-valued, listOp metadata \em apiSchemas on the prim.
     /// 
-    /// \return A valid UsdPhysXphysxForceAPI object is returned upon success. 
-    /// An invalid (or empty) UsdPhysXphysxForceAPI object is returned upon 
+    /// \return A valid UsdPhysXPhysxForceAPI object is returned upon success. 
+    /// An invalid (or empty) UsdPhysXPhysxForceAPI object is returned upon 
     /// failure. See \ref UsdPrim::ApplyAPI() for conditions 
     /// resulting in failure. 
     /// 
@@ -138,7 +138,7 @@ public:
     /// \sa UsdPrim::RemoveAPI()
     ///
     USDPHYSX_API
-    static UsdPhysXphysxForceAPI 
+    static UsdPhysXPhysxForceAPI 
     Apply(const UsdPrim &prim);
 
 protected:

@@ -33,11 +33,11 @@ class SdfAssetPath;
 // PHYSXSCHEMAPHYSXCONVEXHULLCOLLISIONAPI                                     //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXphysxConvexHullCollisionAPI
+/// \class UsdPhysXPhysxConvexHullCollisionAPI
 ///
 /// PhysX convex hull collision extended parameters.
 ///
-class UsdPhysXphysxConvexHullCollisionAPI : public UsdAPISchemaBase
+class UsdPhysXPhysxConvexHullCollisionAPI : public UsdAPISchemaBase
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -45,26 +45,26 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::SingleApplyAPI;
 
-    /// Construct a UsdPhysXphysxConvexHullCollisionAPI on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXphysxConvexHullCollisionAPI::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXPhysxConvexHullCollisionAPI on UsdPrim \p prim .
+    /// Equivalent to UsdPhysXPhysxConvexHullCollisionAPI::Get(prim.GetStage(), prim.GetPath())
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXphysxConvexHullCollisionAPI(const UsdPrim& prim=UsdPrim())
+    explicit UsdPhysXPhysxConvexHullCollisionAPI(const UsdPrim& prim=UsdPrim())
         : UsdAPISchemaBase(prim)
     {
     }
 
-    /// Construct a UsdPhysXphysxConvexHullCollisionAPI on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXphysxConvexHullCollisionAPI(schemaObj.GetPrim()),
+    /// Construct a UsdPhysXPhysxConvexHullCollisionAPI on the prim held by \p schemaObj .
+    /// Should be preferred over UsdPhysXPhysxConvexHullCollisionAPI(schemaObj.GetPrim()),
     /// as it preserves SchemaBase state.
-    explicit UsdPhysXphysxConvexHullCollisionAPI(const UsdSchemaBase& schemaObj)
+    explicit UsdPhysXPhysxConvexHullCollisionAPI(const UsdSchemaBase& schemaObj)
         : UsdAPISchemaBase(schemaObj)
     {
     }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXphysxConvexHullCollisionAPI();
+    virtual ~UsdPhysXPhysxConvexHullCollisionAPI();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -73,17 +73,17 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
-    /// Return a UsdPhysXphysxConvexHullCollisionAPI holding the prim adhering to this
+    /// Return a UsdPhysXPhysxConvexHullCollisionAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXphysxConvexHullCollisionAPI(stage->GetPrimAtPath(path));
+    /// UsdPhysXPhysxConvexHullCollisionAPI(stage->GetPrimAtPath(path));
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXphysxConvexHullCollisionAPI
+    static UsdPhysXPhysxConvexHullCollisionAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
 
@@ -111,8 +111,8 @@ public:
     /// This information is stored by adding "PhysxSchemaPhysxConvexHullCollisionAPI" to the 
     /// token-valued, listOp metadata \em apiSchemas on the prim.
     /// 
-    /// \return A valid UsdPhysXphysxConvexHullCollisionAPI object is returned upon success. 
-    /// An invalid (or empty) UsdPhysXphysxConvexHullCollisionAPI object is returned upon 
+    /// \return A valid UsdPhysXPhysxConvexHullCollisionAPI object is returned upon success. 
+    /// An invalid (or empty) UsdPhysXPhysxConvexHullCollisionAPI object is returned upon 
     /// failure. See \ref UsdPrim::ApplyAPI() for conditions 
     /// resulting in failure. 
     /// 
@@ -123,7 +123,7 @@ public:
     /// \sa UsdPrim::RemoveAPI()
     ///
     USDPHYSX_API
-    static UsdPhysXphysxConvexHullCollisionAPI 
+    static UsdPhysXPhysxConvexHullCollisionAPI 
     Apply(const UsdPrim &prim);
 
 protected:

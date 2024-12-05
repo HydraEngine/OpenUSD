@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxCameraDroneAPI,
+    TfType::Define<UsdPhysXPhysxCameraDroneAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxCameraDroneAPI::~UsdPhysXphysxCameraDroneAPI()
+UsdPhysXPhysxCameraDroneAPI::~UsdPhysXPhysxCameraDroneAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxCameraDroneAPI
-UsdPhysXphysxCameraDroneAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxCameraDroneAPI
+UsdPhysXPhysxCameraDroneAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxCameraDroneAPI();
+        return UsdPhysXPhysxCameraDroneAPI();
     }
-    return UsdPhysXphysxCameraDroneAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxCameraDroneAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxCameraDroneAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxCameraDroneAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxCameraDroneAPI::schemaKind;
+    return UsdPhysXPhysxCameraDroneAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxCameraDroneAPI::CanApply(
+UsdPhysXPhysxCameraDroneAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxCameraDroneAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxCameraDroneAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxCameraDroneAPI
-UsdPhysXphysxCameraDroneAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxCameraDroneAPI
+UsdPhysXPhysxCameraDroneAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxCameraDroneAPI>()) {
-        return UsdPhysXphysxCameraDroneAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxCameraDroneAPI>()) {
+        return UsdPhysXPhysxCameraDroneAPI(prim);
     }
-    return UsdPhysXphysxCameraDroneAPI();
+    return UsdPhysXPhysxCameraDroneAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxCameraDroneAPI::_GetStaticTfType()
+UsdPhysXPhysxCameraDroneAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxCameraDroneAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxCameraDroneAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxCameraDroneAPI::_IsTypedSchema()
+UsdPhysXPhysxCameraDroneAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxCameraDroneAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxCameraDroneAPI::_GetTfType() const
+UsdPhysXPhysxCameraDroneAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::GetFeedForwardVelocityGainAttr() const
+UsdPhysXPhysxCameraDroneAPI::GetFeedForwardVelocityGainAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxDroneCameraFeedForwardVelocityGain);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::CreateFeedForwardVelocityGainAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraDroneAPI::CreateFeedForwardVelocityGainAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxDroneCameraFeedForwardVelocityGain,
                        SdfValueTypeNames->Float,
@@ -103,13 +103,13 @@ UsdPhysXphysxCameraDroneAPI::CreateFeedForwardVelocityGainAttr(VtValue const &de
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::GetFollowDistanceAttr() const
+UsdPhysXPhysxCameraDroneAPI::GetFollowDistanceAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxDroneCameraFollowDistance);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::CreateFollowDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraDroneAPI::CreateFollowDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxDroneCameraFollowDistance,
                        SdfValueTypeNames->Float,
@@ -120,13 +120,13 @@ UsdPhysXphysxCameraDroneAPI::CreateFollowDistanceAttr(VtValue const &defaultValu
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::GetFollowHeightAttr() const
+UsdPhysXPhysxCameraDroneAPI::GetFollowHeightAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxDroneCameraFollowHeight);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::CreateFollowHeightAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraDroneAPI::CreateFollowHeightAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxDroneCameraFollowHeight,
                        SdfValueTypeNames->Float,
@@ -137,13 +137,13 @@ UsdPhysXphysxCameraDroneAPI::CreateFollowHeightAttr(VtValue const &defaultValue,
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::GetHorizontalVelocityGainAttr() const
+UsdPhysXPhysxCameraDroneAPI::GetHorizontalVelocityGainAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxDroneCameraHorizontalVelocityGain);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::CreateHorizontalVelocityGainAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraDroneAPI::CreateHorizontalVelocityGainAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxDroneCameraHorizontalVelocityGain,
                        SdfValueTypeNames->Float,
@@ -154,13 +154,13 @@ UsdPhysXphysxCameraDroneAPI::CreateHorizontalVelocityGainAttr(VtValue const &def
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::GetMaxDistanceAttr() const
+UsdPhysXPhysxCameraDroneAPI::GetMaxDistanceAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxDroneCameraMaxDistance);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::CreateMaxDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraDroneAPI::CreateMaxDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxDroneCameraMaxDistance,
                        SdfValueTypeNames->Float,
@@ -171,13 +171,13 @@ UsdPhysXphysxCameraDroneAPI::CreateMaxDistanceAttr(VtValue const &defaultValue, 
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::GetMaxSpeedAttr() const
+UsdPhysXPhysxCameraDroneAPI::GetMaxSpeedAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxDroneCameraMaxSpeed);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::CreateMaxSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraDroneAPI::CreateMaxSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxDroneCameraMaxSpeed,
                        SdfValueTypeNames->Float,
@@ -188,13 +188,13 @@ UsdPhysXphysxCameraDroneAPI::CreateMaxSpeedAttr(VtValue const &defaultValue, boo
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::GetPositionOffsetAttr() const
+UsdPhysXPhysxCameraDroneAPI::GetPositionOffsetAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxDroneCameraPositionOffset);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::CreatePositionOffsetAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraDroneAPI::CreatePositionOffsetAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxDroneCameraPositionOffset,
                        SdfValueTypeNames->Float3,
@@ -205,13 +205,13 @@ UsdPhysXphysxCameraDroneAPI::CreatePositionOffsetAttr(VtValue const &defaultValu
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::GetRotationFilterTimeConstantAttr() const
+UsdPhysXPhysxCameraDroneAPI::GetRotationFilterTimeConstantAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxDroneCameraRotationFilterTimeConstant);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::CreateRotationFilterTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraDroneAPI::CreateRotationFilterTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxDroneCameraRotationFilterTimeConstant,
                        SdfValueTypeNames->Float,
@@ -222,13 +222,13 @@ UsdPhysXphysxCameraDroneAPI::CreateRotationFilterTimeConstantAttr(VtValue const 
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::GetVelocityFilterTimeConstantAttr() const
+UsdPhysXPhysxCameraDroneAPI::GetVelocityFilterTimeConstantAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxDroneCameraVelocityFilterTimeConstant);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::CreateVelocityFilterTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraDroneAPI::CreateVelocityFilterTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxDroneCameraVelocityFilterTimeConstant,
                        SdfValueTypeNames->Float,
@@ -239,13 +239,13 @@ UsdPhysXphysxCameraDroneAPI::CreateVelocityFilterTimeConstantAttr(VtValue const 
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::GetVerticalVelocityGainAttr() const
+UsdPhysXPhysxCameraDroneAPI::GetVerticalVelocityGainAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxDroneCameraVerticalVelocityGain);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraDroneAPI::CreateVerticalVelocityGainAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraDroneAPI::CreateVerticalVelocityGainAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxDroneCameraVerticalVelocityGain,
                        SdfValueTypeNames->Float,
@@ -269,7 +269,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxCameraDroneAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxCameraDroneAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxDroneCameraFeedForwardVelocityGain,

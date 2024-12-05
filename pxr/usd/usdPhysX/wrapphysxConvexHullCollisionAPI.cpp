@@ -34,54 +34,54 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateHullVertexLimitAttr(UsdPhysXphysxConvexHullCollisionAPI &self,
+_CreateHullVertexLimitAttr(UsdPhysXPhysxConvexHullCollisionAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateHullVertexLimitAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Int), writeSparsely);
 }
         
 static UsdAttribute
-_CreateMinThicknessAttr(UsdPhysXphysxConvexHullCollisionAPI &self,
+_CreateMinThicknessAttr(UsdPhysXPhysxConvexHullCollisionAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateMinThicknessAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxConvexHullCollisionAPI &self)
+_Repr(const UsdPhysXPhysxConvexHullCollisionAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxConvexHullCollisionAPI(%s)",
+        "UsdPhysX.PhysxConvexHullCollisionAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxConvexHullCollisionAPI_CanApplyResult : 
+struct UsdPhysXPhysxConvexHullCollisionAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxConvexHullCollisionAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxConvexHullCollisionAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxConvexHullCollisionAPI_CanApplyResult
+static UsdPhysXPhysxConvexHullCollisionAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxConvexHullCollisionAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxConvexHullCollisionAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxConvexHullCollisionAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxConvexHullCollisionAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxConvexHullCollisionAPI()
+void wrapUsdPhysXPhysxConvexHullCollisionAPI()
 {
-    typedef UsdPhysXphysxConvexHullCollisionAPI This;
+    typedef UsdPhysXPhysxConvexHullCollisionAPI This;
 
-    UsdPhysXphysxConvexHullCollisionAPI_CanApplyResult::Wrap<UsdPhysXphysxConvexHullCollisionAPI_CanApplyResult>(
+    UsdPhysXPhysxConvexHullCollisionAPI_CanApplyResult::Wrap<UsdPhysXPhysxConvexHullCollisionAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxConvexHullCollisionAPI");
+        cls("PhysxConvexHullCollisionAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

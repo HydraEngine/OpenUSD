@@ -34,187 +34,187 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateCameraPositionTimeConstantAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateCameraPositionTimeConstantAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateCameraPositionTimeConstantAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float3), writeSparsely);
 }
         
 static UsdAttribute
-_CreateFollowMaxDistanceAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateFollowMaxDistanceAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateFollowMaxDistanceAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateFollowMaxSpeedAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateFollowMaxSpeedAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateFollowMaxSpeedAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateFollowMinDistanceAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateFollowMinDistanceAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateFollowMinDistanceAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateFollowMinSpeedAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateFollowMinSpeedAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateFollowMinSpeedAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateFollowTurnRateGainAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateFollowTurnRateGainAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateFollowTurnRateGainAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateLookAheadMaxDistanceAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateLookAheadMaxDistanceAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateLookAheadMaxDistanceAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateLookAheadMaxSpeedAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateLookAheadMaxSpeedAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateLookAheadMaxSpeedAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateLookAheadMinDistanceAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateLookAheadMinDistanceAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateLookAheadMinDistanceAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateLookAheadMinSpeedAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateLookAheadMinSpeedAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateLookAheadMinSpeedAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateLookAheadTurnRateGainAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateLookAheadTurnRateGainAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateLookAheadTurnRateGainAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateLookPositionHeightAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateLookPositionHeightAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateLookPositionHeightAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateLookPositionTimeConstantAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateLookPositionTimeConstantAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateLookPositionTimeConstantAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float3), writeSparsely);
 }
         
 static UsdAttribute
-_CreatePitchAngleAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreatePitchAngleAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreatePitchAngleAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreatePitchAngleTimeConstantAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreatePitchAngleTimeConstantAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreatePitchAngleTimeConstantAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreatePositionOffsetAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreatePositionOffsetAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreatePositionOffsetAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float3), writeSparsely);
 }
         
 static UsdAttribute
-_CreateSlowPitchAngleSpeedAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateSlowPitchAngleSpeedAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateSlowPitchAngleSpeedAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateSlowSpeedPitchAngleScaleAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateSlowSpeedPitchAngleScaleAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateSlowSpeedPitchAngleScaleAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateVelocityNormalMinSpeedAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateVelocityNormalMinSpeedAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateVelocityNormalMinSpeedAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateYawAngleAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateYawAngleAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateYawAngleAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateYawRateTimeConstantAttr(UsdPhysXphysxCameraFollowAPI &self,
+_CreateYawRateTimeConstantAttr(UsdPhysXPhysxCameraFollowAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateYawRateTimeConstantAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxCameraFollowAPI &self)
+_Repr(const UsdPhysXPhysxCameraFollowAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxCameraFollowAPI(%s)",
+        "UsdPhysX.PhysxCameraFollowAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxCameraFollowAPI_CanApplyResult : 
+struct UsdPhysXPhysxCameraFollowAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxCameraFollowAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxCameraFollowAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxCameraFollowAPI_CanApplyResult
+static UsdPhysXPhysxCameraFollowAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxCameraFollowAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxCameraFollowAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxCameraFollowAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxCameraFollowAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxCameraFollowAPI()
+void wrapUsdPhysXPhysxCameraFollowAPI()
 {
-    typedef UsdPhysXphysxCameraFollowAPI This;
+    typedef UsdPhysXPhysxCameraFollowAPI This;
 
-    UsdPhysXphysxCameraFollowAPI_CanApplyResult::Wrap<UsdPhysXphysxCameraFollowAPI_CanApplyResult>(
+    UsdPhysXPhysxCameraFollowAPI_CanApplyResult::Wrap<UsdPhysXPhysxCameraFollowAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxCameraFollowAPI");
+        cls("PhysxCameraFollowAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

@@ -33,11 +33,11 @@ class SdfAssetPath;
 // PHYSXSCHEMAPHYSXARTICULATIONAPI                                            //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXphysxArticulationAPI
+/// \class UsdPhysXPhysxArticulationAPI
 ///
 /// PhysX articulation extended parameters.
 ///
-class UsdPhysXphysxArticulationAPI : public UsdAPISchemaBase
+class UsdPhysXPhysxArticulationAPI : public UsdAPISchemaBase
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -45,26 +45,26 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::SingleApplyAPI;
 
-    /// Construct a UsdPhysXphysxArticulationAPI on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXphysxArticulationAPI::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXPhysxArticulationAPI on UsdPrim \p prim .
+    /// Equivalent to UsdPhysXPhysxArticulationAPI::Get(prim.GetStage(), prim.GetPath())
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXphysxArticulationAPI(const UsdPrim& prim=UsdPrim())
+    explicit UsdPhysXPhysxArticulationAPI(const UsdPrim& prim=UsdPrim())
         : UsdAPISchemaBase(prim)
     {
     }
 
-    /// Construct a UsdPhysXphysxArticulationAPI on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXphysxArticulationAPI(schemaObj.GetPrim()),
+    /// Construct a UsdPhysXPhysxArticulationAPI on the prim held by \p schemaObj .
+    /// Should be preferred over UsdPhysXPhysxArticulationAPI(schemaObj.GetPrim()),
     /// as it preserves SchemaBase state.
-    explicit UsdPhysXphysxArticulationAPI(const UsdSchemaBase& schemaObj)
+    explicit UsdPhysXPhysxArticulationAPI(const UsdSchemaBase& schemaObj)
         : UsdAPISchemaBase(schemaObj)
     {
     }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXphysxArticulationAPI();
+    virtual ~UsdPhysXPhysxArticulationAPI();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -73,17 +73,17 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
-    /// Return a UsdPhysXphysxArticulationAPI holding the prim adhering to this
+    /// Return a UsdPhysXPhysxArticulationAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXphysxArticulationAPI(stage->GetPrimAtPath(path));
+    /// UsdPhysXPhysxArticulationAPI(stage->GetPrimAtPath(path));
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXphysxArticulationAPI
+    static UsdPhysXPhysxArticulationAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
 
@@ -111,8 +111,8 @@ public:
     /// This information is stored by adding "PhysxSchemaPhysxArticulationAPI" to the 
     /// token-valued, listOp metadata \em apiSchemas on the prim.
     /// 
-    /// \return A valid UsdPhysXphysxArticulationAPI object is returned upon success. 
-    /// An invalid (or empty) UsdPhysXphysxArticulationAPI object is returned upon 
+    /// \return A valid UsdPhysXPhysxArticulationAPI object is returned upon success. 
+    /// An invalid (or empty) UsdPhysXPhysxArticulationAPI object is returned upon 
     /// failure. See \ref UsdPrim::ApplyAPI() for conditions 
     /// resulting in failure. 
     /// 
@@ -123,7 +123,7 @@ public:
     /// \sa UsdPrim::RemoveAPI()
     ///
     USDPHYSX_API
-    static UsdPhysXphysxArticulationAPI 
+    static UsdPhysXPhysxArticulationAPI 
     Apply(const UsdPrim &prim);
 
 protected:

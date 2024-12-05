@@ -34,68 +34,68 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateContactOffsetAttr(UsdPhysXphysxCollisionAPI &self,
+_CreateContactOffsetAttr(UsdPhysXPhysxCollisionAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateContactOffsetAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateMinTorsionalPatchRadiusAttr(UsdPhysXphysxCollisionAPI &self,
+_CreateMinTorsionalPatchRadiusAttr(UsdPhysXPhysxCollisionAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateMinTorsionalPatchRadiusAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateRestOffsetAttr(UsdPhysXphysxCollisionAPI &self,
+_CreateRestOffsetAttr(UsdPhysXPhysxCollisionAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateRestOffsetAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateTorsionalPatchRadiusAttr(UsdPhysXphysxCollisionAPI &self,
+_CreateTorsionalPatchRadiusAttr(UsdPhysXPhysxCollisionAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateTorsionalPatchRadiusAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxCollisionAPI &self)
+_Repr(const UsdPhysXPhysxCollisionAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxCollisionAPI(%s)",
+        "UsdPhysX.PhysxCollisionAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxCollisionAPI_CanApplyResult : 
+struct UsdPhysXPhysxCollisionAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxCollisionAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxCollisionAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxCollisionAPI_CanApplyResult
+static UsdPhysXPhysxCollisionAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxCollisionAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxCollisionAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxCollisionAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxCollisionAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxCollisionAPI()
+void wrapUsdPhysXPhysxCollisionAPI()
 {
-    typedef UsdPhysXphysxCollisionAPI This;
+    typedef UsdPhysXPhysxCollisionAPI This;
 
-    UsdPhysXphysxCollisionAPI_CanApplyResult::Wrap<UsdPhysXphysxCollisionAPI_CanApplyResult>(
+    UsdPhysXPhysxCollisionAPI_CanApplyResult::Wrap<UsdPhysXPhysxCollisionAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxCollisionAPI");
+        cls("PhysxCollisionAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

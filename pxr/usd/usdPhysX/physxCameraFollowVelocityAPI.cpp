@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxCameraFollowVelocityAPI,
+    TfType::Define<UsdPhysXPhysxCameraFollowVelocityAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxCameraFollowVelocityAPI::~UsdPhysXphysxCameraFollowVelocityAPI()
+UsdPhysXPhysxCameraFollowVelocityAPI::~UsdPhysXPhysxCameraFollowVelocityAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxCameraFollowVelocityAPI
-UsdPhysXphysxCameraFollowVelocityAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxCameraFollowVelocityAPI
+UsdPhysXPhysxCameraFollowVelocityAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxCameraFollowVelocityAPI();
+        return UsdPhysXPhysxCameraFollowVelocityAPI();
     }
-    return UsdPhysXphysxCameraFollowVelocityAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxCameraFollowVelocityAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxCameraFollowVelocityAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxCameraFollowVelocityAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxCameraFollowVelocityAPI::schemaKind;
+    return UsdPhysXPhysxCameraFollowVelocityAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxCameraFollowVelocityAPI::CanApply(
+UsdPhysXPhysxCameraFollowVelocityAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxCameraFollowVelocityAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxCameraFollowVelocityAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxCameraFollowVelocityAPI
-UsdPhysXphysxCameraFollowVelocityAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxCameraFollowVelocityAPI
+UsdPhysXPhysxCameraFollowVelocityAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxCameraFollowVelocityAPI>()) {
-        return UsdPhysXphysxCameraFollowVelocityAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxCameraFollowVelocityAPI>()) {
+        return UsdPhysXPhysxCameraFollowVelocityAPI(prim);
     }
-    return UsdPhysXphysxCameraFollowVelocityAPI();
+    return UsdPhysXPhysxCameraFollowVelocityAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxCameraFollowVelocityAPI::_GetStaticTfType()
+UsdPhysXPhysxCameraFollowVelocityAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxCameraFollowVelocityAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxCameraFollowVelocityAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxCameraFollowVelocityAPI::_IsTypedSchema()
+UsdPhysXPhysxCameraFollowVelocityAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,14 +80,14 @@ UsdPhysXphysxCameraFollowVelocityAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxCameraFollowVelocityAPI::_GetTfType() const
+UsdPhysXPhysxCameraFollowVelocityAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxCameraFollowVelocityAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxCameraFollowVelocityAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames;
     static TfTokenVector allNames =

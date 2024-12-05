@@ -34,138 +34,138 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateAnisotropyMaxAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateAnisotropyMaxAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateAnisotropyMaxAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateAnisotropyMinAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateAnisotropyMinAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateAnisotropyMinAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateAnisotropyRadiusAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateAnisotropyRadiusAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateAnisotropyRadiusAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateEnableAnisotropyAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateEnableAnisotropyAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateEnableAnisotropyAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Bool), writeSparsely);
 }
         
 static UsdAttribute
-_CreateGridFilteringPassesAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateGridFilteringPassesAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateGridFilteringPassesAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->String), writeSparsely);
 }
         
 static UsdAttribute
-_CreateGridSmoothingRadiusRelativeToCellSizeAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateGridSmoothingRadiusRelativeToCellSizeAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateGridSmoothingRadiusRelativeToCellSizeAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateGridSpacingAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateGridSpacingAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateGridSpacingAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateIsoSurfaceEnabledAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateIsoSurfaceEnabledAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateIsoSurfaceEnabledAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Bool), writeSparsely);
 }
         
 static UsdAttribute
-_CreateIsosurfaceLevelAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateIsosurfaceLevelAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateIsosurfaceLevelAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateKernelRadiusAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateKernelRadiusAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateKernelRadiusAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateMaxSubgridsAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateMaxSubgridsAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateMaxSubgridsAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Int), writeSparsely);
 }
         
 static UsdAttribute
-_CreateMaxTrianglesAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateMaxTrianglesAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateMaxTrianglesAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Int), writeSparsely);
 }
         
 static UsdAttribute
-_CreateMaxVerticesAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateMaxVerticesAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateMaxVerticesAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Int), writeSparsely);
 }
         
 static UsdAttribute
-_CreateNumMeshSmoothingPassesAttr(UsdPhysXphysxIsosurfaceAPI &self,
+_CreateNumMeshSmoothingPassesAttr(UsdPhysXPhysxIsosurfaceAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateNumMeshSmoothingPassesAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Int), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxIsosurfaceAPI &self)
+_Repr(const UsdPhysXPhysxIsosurfaceAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxIsosurfaceAPI(%s)",
+        "UsdPhysX.PhysxIsosurfaceAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxIsosurfaceAPI_CanApplyResult : 
+struct UsdPhysXPhysxIsosurfaceAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxIsosurfaceAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxIsosurfaceAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxIsosurfaceAPI_CanApplyResult
+static UsdPhysXPhysxIsosurfaceAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxIsosurfaceAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxIsosurfaceAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxIsosurfaceAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxIsosurfaceAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxIsosurfaceAPI()
+void wrapUsdPhysXPhysxIsosurfaceAPI()
 {
-    typedef UsdPhysXphysxIsosurfaceAPI This;
+    typedef UsdPhysXPhysxIsosurfaceAPI This;
 
-    UsdPhysXphysxIsosurfaceAPI_CanApplyResult::Wrap<UsdPhysXphysxIsosurfaceAPI_CanApplyResult>(
+    UsdPhysXPhysxIsosurfaceAPI_CanApplyResult::Wrap<UsdPhysXPhysxIsosurfaceAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxIsosurfaceAPI");
+        cls("PhysxIsosurfaceAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

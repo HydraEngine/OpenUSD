@@ -34,82 +34,82 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateCompliantContactAccelerationSpringAttr(UsdPhysXphysxMaterialAPI &self,
+_CreateCompliantContactAccelerationSpringAttr(UsdPhysXPhysxMaterialAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateCompliantContactAccelerationSpringAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Bool), writeSparsely);
 }
         
 static UsdAttribute
-_CreateCompliantContactDampingAttr(UsdPhysXphysxMaterialAPI &self,
+_CreateCompliantContactDampingAttr(UsdPhysXPhysxMaterialAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateCompliantContactDampingAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateCompliantContactStiffnessAttr(UsdPhysXphysxMaterialAPI &self,
+_CreateCompliantContactStiffnessAttr(UsdPhysXPhysxMaterialAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateCompliantContactStiffnessAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateDampingCombineModeAttr(UsdPhysXphysxMaterialAPI &self,
+_CreateDampingCombineModeAttr(UsdPhysXPhysxMaterialAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateDampingCombineModeAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Token), writeSparsely);
 }
         
 static UsdAttribute
-_CreateFrictionCombineModeAttr(UsdPhysXphysxMaterialAPI &self,
+_CreateFrictionCombineModeAttr(UsdPhysXPhysxMaterialAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateFrictionCombineModeAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Token), writeSparsely);
 }
         
 static UsdAttribute
-_CreateRestitutionCombineModeAttr(UsdPhysXphysxMaterialAPI &self,
+_CreateRestitutionCombineModeAttr(UsdPhysXPhysxMaterialAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateRestitutionCombineModeAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Token), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxMaterialAPI &self)
+_Repr(const UsdPhysXPhysxMaterialAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxMaterialAPI(%s)",
+        "UsdPhysX.PhysxMaterialAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxMaterialAPI_CanApplyResult : 
+struct UsdPhysXPhysxMaterialAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxMaterialAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxMaterialAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxMaterialAPI_CanApplyResult
+static UsdPhysXPhysxMaterialAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxMaterialAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxMaterialAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxMaterialAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxMaterialAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxMaterialAPI()
+void wrapUsdPhysXPhysxMaterialAPI()
 {
-    typedef UsdPhysXphysxMaterialAPI This;
+    typedef UsdPhysXPhysxMaterialAPI This;
 
-    UsdPhysXphysxMaterialAPI_CanApplyResult::Wrap<UsdPhysXphysxMaterialAPI_CanApplyResult>(
+    UsdPhysXPhysxMaterialAPI_CanApplyResult::Wrap<UsdPhysXPhysxMaterialAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxMaterialAPI");
+        cls("PhysxMaterialAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

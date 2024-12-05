@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxCameraFollowAPI,
+    TfType::Define<UsdPhysXPhysxCameraFollowAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxCameraFollowAPI::~UsdPhysXphysxCameraFollowAPI()
+UsdPhysXPhysxCameraFollowAPI::~UsdPhysXPhysxCameraFollowAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxCameraFollowAPI
-UsdPhysXphysxCameraFollowAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxCameraFollowAPI
+UsdPhysXPhysxCameraFollowAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxCameraFollowAPI();
+        return UsdPhysXPhysxCameraFollowAPI();
     }
-    return UsdPhysXphysxCameraFollowAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxCameraFollowAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxCameraFollowAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxCameraFollowAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxCameraFollowAPI::schemaKind;
+    return UsdPhysXPhysxCameraFollowAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxCameraFollowAPI::CanApply(
+UsdPhysXPhysxCameraFollowAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxCameraFollowAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxCameraFollowAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxCameraFollowAPI
-UsdPhysXphysxCameraFollowAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxCameraFollowAPI
+UsdPhysXPhysxCameraFollowAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxCameraFollowAPI>()) {
-        return UsdPhysXphysxCameraFollowAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxCameraFollowAPI>()) {
+        return UsdPhysXPhysxCameraFollowAPI(prim);
     }
-    return UsdPhysXphysxCameraFollowAPI();
+    return UsdPhysXPhysxCameraFollowAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxCameraFollowAPI::_GetStaticTfType()
+UsdPhysXPhysxCameraFollowAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxCameraFollowAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxCameraFollowAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxCameraFollowAPI::_IsTypedSchema()
+UsdPhysXPhysxCameraFollowAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxCameraFollowAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxCameraFollowAPI::_GetTfType() const
+UsdPhysXPhysxCameraFollowAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetCameraPositionTimeConstantAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetCameraPositionTimeConstantAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraCameraPositionTimeConstant);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateCameraPositionTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateCameraPositionTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraCameraPositionTimeConstant,
                        SdfValueTypeNames->Float3,
@@ -103,13 +103,13 @@ UsdPhysXphysxCameraFollowAPI::CreateCameraPositionTimeConstantAttr(VtValue const
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetFollowMaxDistanceAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetFollowMaxDistanceAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraFollowMaxDistance);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateFollowMaxDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateFollowMaxDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraFollowMaxDistance,
                        SdfValueTypeNames->Float,
@@ -120,13 +120,13 @@ UsdPhysXphysxCameraFollowAPI::CreateFollowMaxDistanceAttr(VtValue const &default
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetFollowMaxSpeedAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetFollowMaxSpeedAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraFollowMaxSpeed);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateFollowMaxSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateFollowMaxSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraFollowMaxSpeed,
                        SdfValueTypeNames->Float,
@@ -137,13 +137,13 @@ UsdPhysXphysxCameraFollowAPI::CreateFollowMaxSpeedAttr(VtValue const &defaultVal
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetFollowMinDistanceAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetFollowMinDistanceAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraFollowMinDistance);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateFollowMinDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateFollowMinDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraFollowMinDistance,
                        SdfValueTypeNames->Float,
@@ -154,13 +154,13 @@ UsdPhysXphysxCameraFollowAPI::CreateFollowMinDistanceAttr(VtValue const &default
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetFollowMinSpeedAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetFollowMinSpeedAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraFollowMinSpeed);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateFollowMinSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateFollowMinSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraFollowMinSpeed,
                        SdfValueTypeNames->Float,
@@ -171,13 +171,13 @@ UsdPhysXphysxCameraFollowAPI::CreateFollowMinSpeedAttr(VtValue const &defaultVal
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetFollowTurnRateGainAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetFollowTurnRateGainAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraFollowTurnRateGain);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateFollowTurnRateGainAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateFollowTurnRateGainAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraFollowTurnRateGain,
                        SdfValueTypeNames->Float,
@@ -188,13 +188,13 @@ UsdPhysXphysxCameraFollowAPI::CreateFollowTurnRateGainAttr(VtValue const &defaul
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetLookAheadMaxDistanceAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetLookAheadMaxDistanceAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowFollowCameraLookAheadMaxDistance);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateLookAheadMaxDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateLookAheadMaxDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowFollowCameraLookAheadMaxDistance,
                        SdfValueTypeNames->Float,
@@ -205,13 +205,13 @@ UsdPhysXphysxCameraFollowAPI::CreateLookAheadMaxDistanceAttr(VtValue const &defa
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetLookAheadMaxSpeedAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetLookAheadMaxSpeedAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraLookAheadMaxSpeed);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateLookAheadMaxSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateLookAheadMaxSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraLookAheadMaxSpeed,
                        SdfValueTypeNames->Float,
@@ -222,13 +222,13 @@ UsdPhysXphysxCameraFollowAPI::CreateLookAheadMaxSpeedAttr(VtValue const &default
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetLookAheadMinDistanceAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetLookAheadMinDistanceAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraLookAheadMinDistance);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateLookAheadMinDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateLookAheadMinDistanceAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraLookAheadMinDistance,
                        SdfValueTypeNames->Float,
@@ -239,13 +239,13 @@ UsdPhysXphysxCameraFollowAPI::CreateLookAheadMinDistanceAttr(VtValue const &defa
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetLookAheadMinSpeedAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetLookAheadMinSpeedAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraLookAheadMinSpeed);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateLookAheadMinSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateLookAheadMinSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraLookAheadMinSpeed,
                        SdfValueTypeNames->Float,
@@ -256,13 +256,13 @@ UsdPhysXphysxCameraFollowAPI::CreateLookAheadMinSpeedAttr(VtValue const &default
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetLookAheadTurnRateGainAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetLookAheadTurnRateGainAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraLookAheadTurnRateGain);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateLookAheadTurnRateGainAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateLookAheadTurnRateGainAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraLookAheadTurnRateGain,
                        SdfValueTypeNames->Float,
@@ -273,13 +273,13 @@ UsdPhysXphysxCameraFollowAPI::CreateLookAheadTurnRateGainAttr(VtValue const &def
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetLookPositionHeightAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetLookPositionHeightAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraLookPositionHeight);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateLookPositionHeightAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateLookPositionHeightAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraLookPositionHeight,
                        SdfValueTypeNames->Float,
@@ -290,13 +290,13 @@ UsdPhysXphysxCameraFollowAPI::CreateLookPositionHeightAttr(VtValue const &defaul
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetLookPositionTimeConstantAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetLookPositionTimeConstantAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraLookPositionTimeConstant);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateLookPositionTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateLookPositionTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraLookPositionTimeConstant,
                        SdfValueTypeNames->Float3,
@@ -307,13 +307,13 @@ UsdPhysXphysxCameraFollowAPI::CreateLookPositionTimeConstantAttr(VtValue const &
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetPitchAngleAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetPitchAngleAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraPitchAngle);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreatePitchAngleAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreatePitchAngleAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraPitchAngle,
                        SdfValueTypeNames->Float,
@@ -324,13 +324,13 @@ UsdPhysXphysxCameraFollowAPI::CreatePitchAngleAttr(VtValue const &defaultValue, 
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetPitchAngleTimeConstantAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetPitchAngleTimeConstantAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraPitchAngleTimeConstant);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreatePitchAngleTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreatePitchAngleTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraPitchAngleTimeConstant,
                        SdfValueTypeNames->Float,
@@ -341,13 +341,13 @@ UsdPhysXphysxCameraFollowAPI::CreatePitchAngleTimeConstantAttr(VtValue const &de
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetPositionOffsetAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetPositionOffsetAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraPositionOffset);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreatePositionOffsetAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreatePositionOffsetAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraPositionOffset,
                        SdfValueTypeNames->Float3,
@@ -358,13 +358,13 @@ UsdPhysXphysxCameraFollowAPI::CreatePositionOffsetAttr(VtValue const &defaultVal
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetSlowPitchAngleSpeedAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetSlowPitchAngleSpeedAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraSlowPitchAngleSpeed);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateSlowPitchAngleSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateSlowPitchAngleSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraSlowPitchAngleSpeed,
                        SdfValueTypeNames->Float,
@@ -375,13 +375,13 @@ UsdPhysXphysxCameraFollowAPI::CreateSlowPitchAngleSpeedAttr(VtValue const &defau
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetSlowSpeedPitchAngleScaleAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetSlowSpeedPitchAngleScaleAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraSlowSpeedPitchAngleScale);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateSlowSpeedPitchAngleScaleAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateSlowSpeedPitchAngleScaleAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraSlowSpeedPitchAngleScale,
                        SdfValueTypeNames->Float,
@@ -392,13 +392,13 @@ UsdPhysXphysxCameraFollowAPI::CreateSlowSpeedPitchAngleScaleAttr(VtValue const &
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetVelocityNormalMinSpeedAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetVelocityNormalMinSpeedAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraVelocityNormalMinSpeed);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateVelocityNormalMinSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateVelocityNormalMinSpeedAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraVelocityNormalMinSpeed,
                        SdfValueTypeNames->Float,
@@ -409,13 +409,13 @@ UsdPhysXphysxCameraFollowAPI::CreateVelocityNormalMinSpeedAttr(VtValue const &de
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetYawAngleAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetYawAngleAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraYawAngle);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateYawAngleAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateYawAngleAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraYawAngle,
                        SdfValueTypeNames->Float,
@@ -426,13 +426,13 @@ UsdPhysXphysxCameraFollowAPI::CreateYawAngleAttr(VtValue const &defaultValue, bo
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::GetYawRateTimeConstantAttr() const
+UsdPhysXPhysxCameraFollowAPI::GetYawRateTimeConstantAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxFollowCameraYawRateTimeConstant);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraFollowAPI::CreateYawRateTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraFollowAPI::CreateYawRateTimeConstantAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxFollowCameraYawRateTimeConstant,
                        SdfValueTypeNames->Float,
@@ -456,7 +456,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxCameraFollowAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxCameraFollowAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxFollowCameraCameraPositionTimeConstant,

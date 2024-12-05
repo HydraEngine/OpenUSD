@@ -34,117 +34,117 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateClimbingModeAttr(UsdPhysXphysxCharacterControllerAPI &self,
+_CreateClimbingModeAttr(UsdPhysXPhysxCharacterControllerAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateClimbingModeAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Token), writeSparsely);
 }
         
 static UsdAttribute
-_CreateContactOffsetAttr(UsdPhysXphysxCharacterControllerAPI &self,
+_CreateContactOffsetAttr(UsdPhysXPhysxCharacterControllerAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateContactOffsetAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateInvisibleWallHeightAttr(UsdPhysXphysxCharacterControllerAPI &self,
+_CreateInvisibleWallHeightAttr(UsdPhysXPhysxCharacterControllerAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateInvisibleWallHeightAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateMaxJumpHeightAttr(UsdPhysXphysxCharacterControllerAPI &self,
+_CreateMaxJumpHeightAttr(UsdPhysXPhysxCharacterControllerAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateMaxJumpHeightAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateMoveTargetAttr(UsdPhysXphysxCharacterControllerAPI &self,
+_CreateMoveTargetAttr(UsdPhysXPhysxCharacterControllerAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateMoveTargetAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Vector3f), writeSparsely);
 }
         
 static UsdAttribute
-_CreateNonWalkableModeAttr(UsdPhysXphysxCharacterControllerAPI &self,
+_CreateNonWalkableModeAttr(UsdPhysXPhysxCharacterControllerAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateNonWalkableModeAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Token), writeSparsely);
 }
         
 static UsdAttribute
-_CreateScaleCoeffAttr(UsdPhysXphysxCharacterControllerAPI &self,
+_CreateScaleCoeffAttr(UsdPhysXPhysxCharacterControllerAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateScaleCoeffAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateSlopeLimitAttr(UsdPhysXphysxCharacterControllerAPI &self,
+_CreateSlopeLimitAttr(UsdPhysXPhysxCharacterControllerAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateSlopeLimitAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateStepOffsetAttr(UsdPhysXphysxCharacterControllerAPI &self,
+_CreateStepOffsetAttr(UsdPhysXPhysxCharacterControllerAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateStepOffsetAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateUpAxisAttr(UsdPhysXphysxCharacterControllerAPI &self,
+_CreateUpAxisAttr(UsdPhysXPhysxCharacterControllerAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateUpAxisAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Token), writeSparsely);
 }
         
 static UsdAttribute
-_CreateVolumeGrowthAttr(UsdPhysXphysxCharacterControllerAPI &self,
+_CreateVolumeGrowthAttr(UsdPhysXPhysxCharacterControllerAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateVolumeGrowthAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxCharacterControllerAPI &self)
+_Repr(const UsdPhysXPhysxCharacterControllerAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxCharacterControllerAPI(%s)",
+        "UsdPhysX.PhysxCharacterControllerAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxCharacterControllerAPI_CanApplyResult : 
+struct UsdPhysXPhysxCharacterControllerAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxCharacterControllerAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxCharacterControllerAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxCharacterControllerAPI_CanApplyResult
+static UsdPhysXPhysxCharacterControllerAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxCharacterControllerAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxCharacterControllerAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxCharacterControllerAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxCharacterControllerAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxCharacterControllerAPI()
+void wrapUsdPhysXPhysxCharacterControllerAPI()
 {
-    typedef UsdPhysXphysxCharacterControllerAPI This;
+    typedef UsdPhysXPhysxCharacterControllerAPI This;
 
-    UsdPhysXphysxCharacterControllerAPI_CanApplyResult::Wrap<UsdPhysXphysxCharacterControllerAPI_CanApplyResult>(
+    UsdPhysXPhysxCharacterControllerAPI_CanApplyResult::Wrap<UsdPhysXPhysxCharacterControllerAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxCharacterControllerAPI");
+        cls("PhysxCharacterControllerAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

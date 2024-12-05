@@ -32,11 +32,11 @@ class SdfAssetPath;
 // PHYSXSCHEMAPHYSXCAMERAFOLLOWVELOCITYAPI                                    //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXphysxCameraFollowVelocityAPI
+/// \class UsdPhysXPhysxCameraFollowVelocityAPI
 ///
 /// PhysX camera that follows behind the subject's velocity vector as it moves, which allows the subject to roll and tumble.
 ///
-class UsdPhysXphysxCameraFollowVelocityAPI : public UsdAPISchemaBase
+class UsdPhysXPhysxCameraFollowVelocityAPI : public UsdAPISchemaBase
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -44,26 +44,26 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::SingleApplyAPI;
 
-    /// Construct a UsdPhysXphysxCameraFollowVelocityAPI on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXphysxCameraFollowVelocityAPI::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXPhysxCameraFollowVelocityAPI on UsdPrim \p prim .
+    /// Equivalent to UsdPhysXPhysxCameraFollowVelocityAPI::Get(prim.GetStage(), prim.GetPath())
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXphysxCameraFollowVelocityAPI(const UsdPrim& prim=UsdPrim())
+    explicit UsdPhysXPhysxCameraFollowVelocityAPI(const UsdPrim& prim=UsdPrim())
         : UsdAPISchemaBase(prim)
     {
     }
 
-    /// Construct a UsdPhysXphysxCameraFollowVelocityAPI on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXphysxCameraFollowVelocityAPI(schemaObj.GetPrim()),
+    /// Construct a UsdPhysXPhysxCameraFollowVelocityAPI on the prim held by \p schemaObj .
+    /// Should be preferred over UsdPhysXPhysxCameraFollowVelocityAPI(schemaObj.GetPrim()),
     /// as it preserves SchemaBase state.
-    explicit UsdPhysXphysxCameraFollowVelocityAPI(const UsdSchemaBase& schemaObj)
+    explicit UsdPhysXPhysxCameraFollowVelocityAPI(const UsdSchemaBase& schemaObj)
         : UsdAPISchemaBase(schemaObj)
     {
     }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXphysxCameraFollowVelocityAPI();
+    virtual ~UsdPhysXPhysxCameraFollowVelocityAPI();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -72,17 +72,17 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
-    /// Return a UsdPhysXphysxCameraFollowVelocityAPI holding the prim adhering to this
+    /// Return a UsdPhysXPhysxCameraFollowVelocityAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXphysxCameraFollowVelocityAPI(stage->GetPrimAtPath(path));
+    /// UsdPhysXPhysxCameraFollowVelocityAPI(stage->GetPrimAtPath(path));
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXphysxCameraFollowVelocityAPI
+    static UsdPhysXPhysxCameraFollowVelocityAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
 
@@ -110,8 +110,8 @@ public:
     /// This information is stored by adding "PhysxSchemaPhysxCameraFollowVelocityAPI" to the 
     /// token-valued, listOp metadata \em apiSchemas on the prim.
     /// 
-    /// \return A valid UsdPhysXphysxCameraFollowVelocityAPI object is returned upon success. 
-    /// An invalid (or empty) UsdPhysXphysxCameraFollowVelocityAPI object is returned upon 
+    /// \return A valid UsdPhysXPhysxCameraFollowVelocityAPI object is returned upon success. 
+    /// An invalid (or empty) UsdPhysXPhysxCameraFollowVelocityAPI object is returned upon 
     /// failure. See \ref UsdPrim::ApplyAPI() for conditions 
     /// resulting in failure. 
     /// 
@@ -122,7 +122,7 @@ public:
     /// \sa UsdPrim::RemoveAPI()
     ///
     USDPHYSX_API
-    static UsdPhysXphysxCameraFollowVelocityAPI 
+    static UsdPhysXPhysxCameraFollowVelocityAPI 
     Apply(const UsdPrim &prim);
 
 protected:

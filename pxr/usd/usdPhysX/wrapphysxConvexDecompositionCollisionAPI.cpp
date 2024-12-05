@@ -34,82 +34,82 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateErrorPercentageAttr(UsdPhysXphysxConvexDecompositionCollisionAPI &self,
+_CreateErrorPercentageAttr(UsdPhysXPhysxConvexDecompositionCollisionAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateErrorPercentageAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateHullVertexLimitAttr(UsdPhysXphysxConvexDecompositionCollisionAPI &self,
+_CreateHullVertexLimitAttr(UsdPhysXPhysxConvexDecompositionCollisionAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateHullVertexLimitAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Int), writeSparsely);
 }
         
 static UsdAttribute
-_CreateMaxConvexHullsAttr(UsdPhysXphysxConvexDecompositionCollisionAPI &self,
+_CreateMaxConvexHullsAttr(UsdPhysXPhysxConvexDecompositionCollisionAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateMaxConvexHullsAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Int), writeSparsely);
 }
         
 static UsdAttribute
-_CreateMinThicknessAttr(UsdPhysXphysxConvexDecompositionCollisionAPI &self,
+_CreateMinThicknessAttr(UsdPhysXPhysxConvexDecompositionCollisionAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateMinThicknessAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
         
 static UsdAttribute
-_CreateShrinkWrapAttr(UsdPhysXphysxConvexDecompositionCollisionAPI &self,
+_CreateShrinkWrapAttr(UsdPhysXPhysxConvexDecompositionCollisionAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateShrinkWrapAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Bool), writeSparsely);
 }
         
 static UsdAttribute
-_CreateVoxelResolutionAttr(UsdPhysXphysxConvexDecompositionCollisionAPI &self,
+_CreateVoxelResolutionAttr(UsdPhysXPhysxConvexDecompositionCollisionAPI &self,
                                       object defaultVal, bool writeSparsely) {
     return self.CreateVoxelResolutionAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Int), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXphysxConvexDecompositionCollisionAPI &self)
+_Repr(const UsdPhysXPhysxConvexDecompositionCollisionAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.physxConvexDecompositionCollisionAPI(%s)",
+        "UsdPhysX.PhysxConvexDecompositionCollisionAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXphysxConvexDecompositionCollisionAPI_CanApplyResult : 
+struct UsdPhysXPhysxConvexDecompositionCollisionAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXphysxConvexDecompositionCollisionAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXPhysxConvexDecompositionCollisionAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXphysxConvexDecompositionCollisionAPI_CanApplyResult
+static UsdPhysXPhysxConvexDecompositionCollisionAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXphysxConvexDecompositionCollisionAPI::CanApply(prim, &whyNot);
-    return UsdPhysXphysxConvexDecompositionCollisionAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXPhysxConvexDecompositionCollisionAPI::CanApply(prim, &whyNot);
+    return UsdPhysXPhysxConvexDecompositionCollisionAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXphysxConvexDecompositionCollisionAPI()
+void wrapUsdPhysXPhysxConvexDecompositionCollisionAPI()
 {
-    typedef UsdPhysXphysxConvexDecompositionCollisionAPI This;
+    typedef UsdPhysXPhysxConvexDecompositionCollisionAPI This;
 
-    UsdPhysXphysxConvexDecompositionCollisionAPI_CanApplyResult::Wrap<UsdPhysXphysxConvexDecompositionCollisionAPI_CanApplyResult>(
+    UsdPhysXPhysxConvexDecompositionCollisionAPI_CanApplyResult::Wrap<UsdPhysXPhysxConvexDecompositionCollisionAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("physxConvexDecompositionCollisionAPI");
+        cls("PhysxConvexDecompositionCollisionAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))

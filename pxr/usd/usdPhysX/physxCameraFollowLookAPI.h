@@ -33,12 +33,12 @@ class SdfAssetPath;
 // PHYSXSCHEMAPHYSXCAMERAFOLLOWLOOKAPI                                        //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXphysxCameraFollowLookAPI
+/// \class UsdPhysXPhysxCameraFollowLookAPI
 ///
 /// PhysX camera that follows behind the subject's forward vector as it moves.
 /// Assumes the subject is always upright and does not roll.
 ///
-class UsdPhysXphysxCameraFollowLookAPI : public UsdAPISchemaBase
+class UsdPhysXPhysxCameraFollowLookAPI : public UsdAPISchemaBase
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -46,26 +46,26 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::SingleApplyAPI;
 
-    /// Construct a UsdPhysXphysxCameraFollowLookAPI on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXphysxCameraFollowLookAPI::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXPhysxCameraFollowLookAPI on UsdPrim \p prim .
+    /// Equivalent to UsdPhysXPhysxCameraFollowLookAPI::Get(prim.GetStage(), prim.GetPath())
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXphysxCameraFollowLookAPI(const UsdPrim& prim=UsdPrim())
+    explicit UsdPhysXPhysxCameraFollowLookAPI(const UsdPrim& prim=UsdPrim())
         : UsdAPISchemaBase(prim)
     {
     }
 
-    /// Construct a UsdPhysXphysxCameraFollowLookAPI on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXphysxCameraFollowLookAPI(schemaObj.GetPrim()),
+    /// Construct a UsdPhysXPhysxCameraFollowLookAPI on the prim held by \p schemaObj .
+    /// Should be preferred over UsdPhysXPhysxCameraFollowLookAPI(schemaObj.GetPrim()),
     /// as it preserves SchemaBase state.
-    explicit UsdPhysXphysxCameraFollowLookAPI(const UsdSchemaBase& schemaObj)
+    explicit UsdPhysXPhysxCameraFollowLookAPI(const UsdSchemaBase& schemaObj)
         : UsdAPISchemaBase(schemaObj)
     {
     }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXphysxCameraFollowLookAPI();
+    virtual ~UsdPhysXPhysxCameraFollowLookAPI();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -74,17 +74,17 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
-    /// Return a UsdPhysXphysxCameraFollowLookAPI holding the prim adhering to this
+    /// Return a UsdPhysXPhysxCameraFollowLookAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXphysxCameraFollowLookAPI(stage->GetPrimAtPath(path));
+    /// UsdPhysXPhysxCameraFollowLookAPI(stage->GetPrimAtPath(path));
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXphysxCameraFollowLookAPI
+    static UsdPhysXPhysxCameraFollowLookAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
 
@@ -112,8 +112,8 @@ public:
     /// This information is stored by adding "PhysxSchemaPhysxCameraFollowLookAPI" to the 
     /// token-valued, listOp metadata \em apiSchemas on the prim.
     /// 
-    /// \return A valid UsdPhysXphysxCameraFollowLookAPI object is returned upon success. 
-    /// An invalid (or empty) UsdPhysXphysxCameraFollowLookAPI object is returned upon 
+    /// \return A valid UsdPhysXPhysxCameraFollowLookAPI object is returned upon success. 
+    /// An invalid (or empty) UsdPhysXPhysxCameraFollowLookAPI object is returned upon 
     /// failure. See \ref UsdPrim::ApplyAPI() for conditions 
     /// resulting in failure. 
     /// 
@@ -124,7 +124,7 @@ public:
     /// \sa UsdPrim::RemoveAPI()
     ///
     USDPHYSX_API
-    static UsdPhysXphysxCameraFollowLookAPI 
+    static UsdPhysXPhysxCameraFollowLookAPI 
     Apply(const UsdPrim &prim);
 
 protected:

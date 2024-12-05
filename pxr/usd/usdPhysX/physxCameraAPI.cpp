@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxCameraAPI,
+    TfType::Define<UsdPhysXPhysxCameraAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxCameraAPI::~UsdPhysXphysxCameraAPI()
+UsdPhysXPhysxCameraAPI::~UsdPhysXPhysxCameraAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxCameraAPI
-UsdPhysXphysxCameraAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxCameraAPI
+UsdPhysXPhysxCameraAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxCameraAPI();
+        return UsdPhysXPhysxCameraAPI();
     }
-    return UsdPhysXphysxCameraAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxCameraAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxCameraAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxCameraAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxCameraAPI::schemaKind;
+    return UsdPhysXPhysxCameraAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxCameraAPI::CanApply(
+UsdPhysXPhysxCameraAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxCameraAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxCameraAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxCameraAPI
-UsdPhysXphysxCameraAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxCameraAPI
+UsdPhysXPhysxCameraAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxCameraAPI>()) {
-        return UsdPhysXphysxCameraAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxCameraAPI>()) {
+        return UsdPhysXPhysxCameraAPI(prim);
     }
-    return UsdPhysXphysxCameraAPI();
+    return UsdPhysXPhysxCameraAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxCameraAPI::_GetStaticTfType()
+UsdPhysXPhysxCameraAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxCameraAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxCameraAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxCameraAPI::_IsTypedSchema()
+UsdPhysXPhysxCameraAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxCameraAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxCameraAPI::_GetTfType() const
+UsdPhysXPhysxCameraAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxCameraAPI::GetAlwaysUpdateEnabledAttr() const
+UsdPhysXPhysxCameraAPI::GetAlwaysUpdateEnabledAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->alwaysUpdateEnabled);
 }
 
 UsdAttribute
-UsdPhysXphysxCameraAPI::CreateAlwaysUpdateEnabledAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxCameraAPI::CreateAlwaysUpdateEnabledAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->alwaysUpdateEnabled,
                        SdfValueTypeNames->Bool,
@@ -116,7 +116,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxCameraAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxCameraAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->alwaysUpdateEnabled,

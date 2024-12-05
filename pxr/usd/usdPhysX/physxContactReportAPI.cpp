@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXphysxContactReportAPI,
+    TfType::Define<UsdPhysXPhysxContactReportAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXphysxContactReportAPI::~UsdPhysXphysxContactReportAPI()
+UsdPhysXPhysxContactReportAPI::~UsdPhysXPhysxContactReportAPI()
 {
 }
 
 /* static */
-UsdPhysXphysxContactReportAPI
-UsdPhysXphysxContactReportAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXPhysxContactReportAPI
+UsdPhysXPhysxContactReportAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXphysxContactReportAPI();
+        return UsdPhysXPhysxContactReportAPI();
     }
-    return UsdPhysXphysxContactReportAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXPhysxContactReportAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXphysxContactReportAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXPhysxContactReportAPI::_GetSchemaKind() const
 {
-    return UsdPhysXphysxContactReportAPI::schemaKind;
+    return UsdPhysXPhysxContactReportAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXphysxContactReportAPI::CanApply(
+UsdPhysXPhysxContactReportAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXphysxContactReportAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXPhysxContactReportAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXphysxContactReportAPI
-UsdPhysXphysxContactReportAPI::Apply(const UsdPrim &prim)
+UsdPhysXPhysxContactReportAPI
+UsdPhysXPhysxContactReportAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXphysxContactReportAPI>()) {
-        return UsdPhysXphysxContactReportAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXPhysxContactReportAPI>()) {
+        return UsdPhysXPhysxContactReportAPI(prim);
     }
-    return UsdPhysXphysxContactReportAPI();
+    return UsdPhysXPhysxContactReportAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXphysxContactReportAPI::_GetStaticTfType()
+UsdPhysXPhysxContactReportAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXphysxContactReportAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXPhysxContactReportAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXphysxContactReportAPI::_IsTypedSchema()
+UsdPhysXPhysxContactReportAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,19 +80,19 @@ UsdPhysXphysxContactReportAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXphysxContactReportAPI::_GetTfType() const
+UsdPhysXPhysxContactReportAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXphysxContactReportAPI::GetThresholdAttr() const
+UsdPhysXPhysxContactReportAPI::GetThresholdAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->physxContactReportThreshold);
 }
 
 UsdAttribute
-UsdPhysXphysxContactReportAPI::CreateThresholdAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXPhysxContactReportAPI::CreateThresholdAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxContactReportThreshold,
                        SdfValueTypeNames->Float,
@@ -116,7 +116,7 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXphysxContactReportAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXPhysxContactReportAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
         UsdPhysXTokens->physxContactReportThreshold,

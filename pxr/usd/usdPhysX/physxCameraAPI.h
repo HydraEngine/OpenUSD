@@ -33,11 +33,11 @@ class SdfAssetPath;
 // PHYSXSCHEMAPHYSXCAMERAAPI                                                  //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXphysxCameraAPI
+/// \class UsdPhysXPhysxCameraAPI
 ///
 /// PhysX camera.
 ///
-class UsdPhysXphysxCameraAPI : public UsdAPISchemaBase
+class UsdPhysXPhysxCameraAPI : public UsdAPISchemaBase
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -45,26 +45,26 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::SingleApplyAPI;
 
-    /// Construct a UsdPhysXphysxCameraAPI on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXphysxCameraAPI::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXPhysxCameraAPI on UsdPrim \p prim .
+    /// Equivalent to UsdPhysXPhysxCameraAPI::Get(prim.GetStage(), prim.GetPath())
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXphysxCameraAPI(const UsdPrim& prim=UsdPrim())
+    explicit UsdPhysXPhysxCameraAPI(const UsdPrim& prim=UsdPrim())
         : UsdAPISchemaBase(prim)
     {
     }
 
-    /// Construct a UsdPhysXphysxCameraAPI on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXphysxCameraAPI(schemaObj.GetPrim()),
+    /// Construct a UsdPhysXPhysxCameraAPI on the prim held by \p schemaObj .
+    /// Should be preferred over UsdPhysXPhysxCameraAPI(schemaObj.GetPrim()),
     /// as it preserves SchemaBase state.
-    explicit UsdPhysXphysxCameraAPI(const UsdSchemaBase& schemaObj)
+    explicit UsdPhysXPhysxCameraAPI(const UsdSchemaBase& schemaObj)
         : UsdAPISchemaBase(schemaObj)
     {
     }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXphysxCameraAPI();
+    virtual ~UsdPhysXPhysxCameraAPI();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -73,17 +73,17 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
-    /// Return a UsdPhysXphysxCameraAPI holding the prim adhering to this
+    /// Return a UsdPhysXPhysxCameraAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXphysxCameraAPI(stage->GetPrimAtPath(path));
+    /// UsdPhysXPhysxCameraAPI(stage->GetPrimAtPath(path));
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXphysxCameraAPI
+    static UsdPhysXPhysxCameraAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
 
@@ -111,8 +111,8 @@ public:
     /// This information is stored by adding "PhysxSchemaPhysxCameraAPI" to the 
     /// token-valued, listOp metadata \em apiSchemas on the prim.
     /// 
-    /// \return A valid UsdPhysXphysxCameraAPI object is returned upon success. 
-    /// An invalid (or empty) UsdPhysXphysxCameraAPI object is returned upon 
+    /// \return A valid UsdPhysXPhysxCameraAPI object is returned upon success. 
+    /// An invalid (or empty) UsdPhysXPhysxCameraAPI object is returned upon 
     /// failure. See \ref UsdPrim::ApplyAPI() for conditions 
     /// resulting in failure. 
     /// 
@@ -123,7 +123,7 @@ public:
     /// \sa UsdPrim::RemoveAPI()
     ///
     USDPHYSX_API
-    static UsdPhysXphysxCameraAPI 
+    static UsdPhysXPhysxCameraAPI 
     Apply(const UsdPrim &prim);
 
 protected:
