@@ -44,6 +44,15 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxCollisionMinTorsionalPatchRadius);
     _ADD_TOKEN(cls, physxCollisionRestOffset);
     _ADD_TOKEN(cls, physxCollisionTorsionalPatchRadius);
+    _ADD_TOKEN(cls, physxContactReportThreshold);
+    _ADD_TOKEN(cls, physxConvexDecompositionCollisionErrorPercentage);
+    _ADD_TOKEN(cls, physxConvexDecompositionCollisionHullVertexLimit);
+    _ADD_TOKEN(cls, physxConvexDecompositionCollisionMaxConvexHulls);
+    _ADD_TOKEN(cls, physxConvexDecompositionCollisionMinThickness);
+    _ADD_TOKEN(cls, physxConvexDecompositionCollisionShrinkWrap);
+    _ADD_TOKEN(cls, physxConvexDecompositionCollisionVoxelResolution);
+    _ADD_TOKEN(cls, physxConvexHullCollisionHullVertexLimit);
+    _ADD_TOKEN(cls, physxConvexHullCollisionMinThickness);
     _ADD_TOKEN(cls, physxDroneCameraFeedForwardVelocityGain);
     _ADD_TOKEN(cls, physxDroneCameraFollowDistance);
     _ADD_TOKEN(cls, physxDroneCameraFollowHeight);
@@ -96,4 +105,7 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, PhysxSchemaPhysxCameraFollowVelocityAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxCharacterControllerAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxCollisionAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxContactReportAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxConvexDecompositionCollisionAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxConvexHullCollisionAPI);
 }

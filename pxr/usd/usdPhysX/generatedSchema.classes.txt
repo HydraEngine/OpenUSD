@@ -10,6 +10,9 @@ physxCameraFollowLookAPI
 physxCameraFollowVelocityAPI
 physxCharacterControllerAPI
 physxCollisionAPI
+physxContactReportAPI
+physxConvexDecompositionCollisionAPI
+physxConvexHullCollisionAPI
 tokens
 
 # Python Module Files
@@ -24,6 +27,9 @@ wrapphysxCameraFollowLookAPI.cpp
 wrapphysxCameraFollowVelocityAPI.cpp
 wrapphysxCharacterControllerAPI.cpp
 wrapphysxCollisionAPI.cpp
+wrapphysxContactReportAPI.cpp
+wrapphysxConvexDecompositionCollisionAPI.cpp
+wrapphysxConvexHullCollisionAPI.cpp
 
 # Resource Files
 generatedSchema.usda

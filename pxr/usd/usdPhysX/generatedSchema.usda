@@ -264,3 +264,48 @@ class "PhysxSchemaPhysxCollisionAPI" (
     )
 }
 
+class "PhysxSchemaPhysxContactReportAPI" (
+    doc = "Enables contact reporting for a rigid body or articulation."
+)
+{
+    float physxContactReport:threshold = 1 (
+        doc = "Sets the force threshold for contact reports. Range: [0, inf] Units: force = mass * distance / seconds^2"
+    )
+}
+
+class "PhysxSchemaPhysxConvexDecompositionCollisionAPI" (
+    doc = "PhysX convex decomposition(VHACD) extended parameters."
+)
+{
+    float physxConvexDecompositionCollision:errorPercentage = 10 (
+        doc = "Convex decomposition errorPercentage parameter."
+    )
+    int physxConvexDecompositionCollision:hullVertexLimit = 64 (
+        doc = "Convex hull vertex limit used for convex hull cooking."
+    )
+    int physxConvexDecompositionCollision:maxConvexHulls = 32 (
+        doc = "Maximum of convex hulls created during convex decomposition."
+    )
+    float physxConvexDecompositionCollision:minThickness = 0.001 (
+        doc = "Convex hull min thickness. Range: [0, inf) Units: distance"
+    )
+    bool physxConvexDecompositionCollision:shrinkWrap = 0 (
+        doc = "Attempts to adjust the convex hull points so that they are projected onto the surface of the original graphics mesh."
+    )
+    int physxConvexDecompositionCollision:voxelResolution = 500000 (
+        doc = "Voxel resolution used for convex decomposition."
+    )
+}
+
+class "PhysxSchemaPhysxConvexHullCollisionAPI" (
+    doc = "PhysX convex hull collision extended parameters."
+)
+{
+    int physxConvexHullCollision:hullVertexLimit = 64 (
+        doc = "Convex hull vertex limit used for convex hull cooking."
+    )
+    float physxConvexHullCollision:minThickness = 0.001 (
+        doc = "Convex hull minimum thickness. Range: [0, inf) Units: distance"
+    )
+}
+

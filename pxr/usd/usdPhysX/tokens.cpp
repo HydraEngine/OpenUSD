@@ -36,6 +36,15 @@ UsdPhysXTokensType::UsdPhysXTokensType() :
     physxCollisionMinTorsionalPatchRadius("physxCollision:minTorsionalPatchRadius", TfToken::Immortal),
     physxCollisionRestOffset("physxCollision:restOffset", TfToken::Immortal),
     physxCollisionTorsionalPatchRadius("physxCollision:torsionalPatchRadius", TfToken::Immortal),
+    physxContactReportThreshold("physxContactReport:threshold", TfToken::Immortal),
+    physxConvexDecompositionCollisionErrorPercentage("physxConvexDecompositionCollision:errorPercentage", TfToken::Immortal),
+    physxConvexDecompositionCollisionHullVertexLimit("physxConvexDecompositionCollision:hullVertexLimit", TfToken::Immortal),
+    physxConvexDecompositionCollisionMaxConvexHulls("physxConvexDecompositionCollision:maxConvexHulls", TfToken::Immortal),
+    physxConvexDecompositionCollisionMinThickness("physxConvexDecompositionCollision:minThickness", TfToken::Immortal),
+    physxConvexDecompositionCollisionShrinkWrap("physxConvexDecompositionCollision:shrinkWrap", TfToken::Immortal),
+    physxConvexDecompositionCollisionVoxelResolution("physxConvexDecompositionCollision:voxelResolution", TfToken::Immortal),
+    physxConvexHullCollisionHullVertexLimit("physxConvexHullCollision:hullVertexLimit", TfToken::Immortal),
+    physxConvexHullCollisionMinThickness("physxConvexHullCollision:minThickness", TfToken::Immortal),
     physxDroneCameraFeedForwardVelocityGain("physxDroneCamera:feedForwardVelocityGain", TfToken::Immortal),
     physxDroneCameraFollowDistance("physxDroneCamera:followDistance", TfToken::Immortal),
     physxDroneCameraFollowHeight("physxDroneCamera:followHeight", TfToken::Immortal),
@@ -88,6 +97,9 @@ UsdPhysXTokensType::UsdPhysXTokensType() :
     PhysxSchemaPhysxCameraFollowVelocityAPI("PhysxSchemaPhysxCameraFollowVelocityAPI", TfToken::Immortal),
     PhysxSchemaPhysxCharacterControllerAPI("PhysxSchemaPhysxCharacterControllerAPI", TfToken::Immortal),
     PhysxSchemaPhysxCollisionAPI("PhysxSchemaPhysxCollisionAPI", TfToken::Immortal),
+    PhysxSchemaPhysxContactReportAPI("PhysxSchemaPhysxContactReportAPI", TfToken::Immortal),
+    PhysxSchemaPhysxConvexDecompositionCollisionAPI("PhysxSchemaPhysxConvexDecompositionCollisionAPI", TfToken::Immortal),
+    PhysxSchemaPhysxConvexHullCollisionAPI("PhysxSchemaPhysxConvexHullCollisionAPI", TfToken::Immortal),
     allTokens({
         alwaysUpdateEnabled,
         constrained,
@@ -116,6 +128,15 @@ UsdPhysXTokensType::UsdPhysXTokensType() :
         physxCollisionMinTorsionalPatchRadius,
         physxCollisionRestOffset,
         physxCollisionTorsionalPatchRadius,
+        physxContactReportThreshold,
+        physxConvexDecompositionCollisionErrorPercentage,
+        physxConvexDecompositionCollisionHullVertexLimit,
+        physxConvexDecompositionCollisionMaxConvexHulls,
+        physxConvexDecompositionCollisionMinThickness,
+        physxConvexDecompositionCollisionShrinkWrap,
+        physxConvexDecompositionCollisionVoxelResolution,
+        physxConvexHullCollisionHullVertexLimit,
+        physxConvexHullCollisionMinThickness,
         physxDroneCameraFeedForwardVelocityGain,
         physxDroneCameraFollowDistance,
         physxDroneCameraFollowHeight,
@@ -167,7 +188,10 @@ UsdPhysXTokensType::UsdPhysXTokensType() :
         PhysxSchemaPhysxCameraFollowLookAPI,
         PhysxSchemaPhysxCameraFollowVelocityAPI,
         PhysxSchemaPhysxCharacterControllerAPI,
-        PhysxSchemaPhysxCollisionAPI
+        PhysxSchemaPhysxCollisionAPI,
+        PhysxSchemaPhysxContactReportAPI,
+        PhysxSchemaPhysxConvexDecompositionCollisionAPI,
+        PhysxSchemaPhysxConvexHullCollisionAPI
     })
 {
 }

@@ -153,6 +153,42 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXphysxCollisionAPI
     const TfToken physxCollisionTorsionalPatchRadius;
+    /// \brief "physxContactReport:threshold"
+    /// 
+    /// UsdPhysXphysxContactReportAPI
+    const TfToken physxContactReportThreshold;
+    /// \brief "physxConvexDecompositionCollision:errorPercentage"
+    /// 
+    /// UsdPhysXphysxConvexDecompositionCollisionAPI
+    const TfToken physxConvexDecompositionCollisionErrorPercentage;
+    /// \brief "physxConvexDecompositionCollision:hullVertexLimit"
+    /// 
+    /// UsdPhysXphysxConvexDecompositionCollisionAPI
+    const TfToken physxConvexDecompositionCollisionHullVertexLimit;
+    /// \brief "physxConvexDecompositionCollision:maxConvexHulls"
+    /// 
+    /// UsdPhysXphysxConvexDecompositionCollisionAPI
+    const TfToken physxConvexDecompositionCollisionMaxConvexHulls;
+    /// \brief "physxConvexDecompositionCollision:minThickness"
+    /// 
+    /// UsdPhysXphysxConvexDecompositionCollisionAPI
+    const TfToken physxConvexDecompositionCollisionMinThickness;
+    /// \brief "physxConvexDecompositionCollision:shrinkWrap"
+    /// 
+    /// UsdPhysXphysxConvexDecompositionCollisionAPI
+    const TfToken physxConvexDecompositionCollisionShrinkWrap;
+    /// \brief "physxConvexDecompositionCollision:voxelResolution"
+    /// 
+    /// UsdPhysXphysxConvexDecompositionCollisionAPI
+    const TfToken physxConvexDecompositionCollisionVoxelResolution;
+    /// \brief "physxConvexHullCollision:hullVertexLimit"
+    /// 
+    /// UsdPhysXphysxConvexHullCollisionAPI
+    const TfToken physxConvexHullCollisionHullVertexLimit;
+    /// \brief "physxConvexHullCollision:minThickness"
+    /// 
+    /// UsdPhysXphysxConvexHullCollisionAPI
+    const TfToken physxConvexHullCollisionMinThickness;
     /// \brief "physxDroneCamera:feedForwardVelocityGain"
     /// 
     /// UsdPhysXphysxCameraDroneAPI
@@ -361,6 +397,18 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXphysxCollisionAPI
     const TfToken PhysxSchemaPhysxCollisionAPI;
+    /// \brief "PhysxSchemaPhysxContactReportAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXphysxContactReportAPI
+    const TfToken PhysxSchemaPhysxContactReportAPI;
+    /// \brief "PhysxSchemaPhysxConvexDecompositionCollisionAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXphysxConvexDecompositionCollisionAPI
+    const TfToken PhysxSchemaPhysxConvexDecompositionCollisionAPI;
+    /// \brief "PhysxSchemaPhysxConvexHullCollisionAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXphysxConvexHullCollisionAPI
+    const TfToken PhysxSchemaPhysxConvexHullCollisionAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };

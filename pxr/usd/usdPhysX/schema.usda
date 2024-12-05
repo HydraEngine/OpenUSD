@@ -506,3 +506,90 @@ class "PhysxSchemaPhysxCollisionAPI" (
         doc = """Defines the radius of the contact patch used to apply torsional friction. Range: [0, inf) Units: distance"""
     )
 }
+
+class "PhysxSchemaPhysxContactReportAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "physxContactReportAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """Enables contact reporting for a rigid body or articulation."""
+)
+{
+    float physxContactReport:threshold = 1 (
+        customData = {
+            string apiName = "threshold"
+        }
+        doc = """Sets the force threshold for contact reports. Range: [0, inf] Units: force = mass * distance / seconds^2"""
+    )
+}
+
+class "PhysxSchemaPhysxConvexDecompositionCollisionAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "physxConvexDecompositionCollisionAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """PhysX convex decomposition(VHACD) extended parameters."""
+)
+{
+    float physxConvexDecompositionCollision:errorPercentage = 10 (
+        customData = {
+            string apiName = "errorPercentage"
+        }
+        doc = """Convex decomposition errorPercentage parameter."""
+    )
+    int physxConvexDecompositionCollision:hullVertexLimit = 64 (
+        customData = {
+            string apiName = "hullVertexLimit"
+        }
+        doc = """Convex hull vertex limit used for convex hull cooking."""
+    )
+    int physxConvexDecompositionCollision:maxConvexHulls = 32 (
+        customData = {
+            string apiName = "maxConvexHulls"
+        }
+        doc = """Maximum of convex hulls created during convex decomposition."""
+    )
+    float physxConvexDecompositionCollision:minThickness = 0.001 (
+        customData = {
+            string apiName = "minThickness"
+        }
+        doc = """Convex hull min thickness. Range: [0, inf) Units: distance"""
+    )
+    bool physxConvexDecompositionCollision:shrinkWrap = 0 (
+        customData = {
+            string apiName = "shrinkWrap"
+        }
+        doc = """Attempts to adjust the convex hull points so that they are projected onto the surface of the original graphics mesh."""
+    )
+    int physxConvexDecompositionCollision:voxelResolution = 500000 (
+        customData = {
+            string apiName = "voxelResolution"
+        }
+        doc = """Voxel resolution used for convex decomposition."""
+    )
+}
+
+class "PhysxSchemaPhysxConvexHullCollisionAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "physxConvexHullCollisionAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """PhysX convex hull collision extended parameters."""
+)
+{
+    int physxConvexHullCollision:hullVertexLimit = 64 (
+        customData = {
+            string apiName = "hullVertexLimit"
+        }
+        doc = """Convex hull vertex limit used for convex hull cooking."""
+    )
+    float physxConvexHullCollision:minThickness = 0.001 (
+        customData = {
+            string apiName = "minThickness"
+        }
+        doc = """Convex hull minimum thickness. Range: [0, inf) Units: distance"""
+    )
+}

@@ -15,4 +15,7 @@ TF_WRAP(UsdPhysXphysxCameraFollowLookAPI);
 TF_WRAP(UsdPhysXphysxCameraFollowVelocityAPI);
 TF_WRAP(UsdPhysXphysxCharacterControllerAPI);
 TF_WRAP(UsdPhysXphysxCollisionAPI);
+TF_WRAP(UsdPhysXphysxContactReportAPI);
+TF_WRAP(UsdPhysXphysxConvexDecompositionCollisionAPI);
+TF_WRAP(UsdPhysXphysxConvexHullCollisionAPI);
 TF_WRAP(UsdPhysXTokens);
