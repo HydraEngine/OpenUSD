@@ -49,6 +49,14 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXphysxCameraAPI
     const TfToken alwaysUpdateEnabled;
+    /// \brief "constrained"
+    /// 
+    /// Possible value for UsdPhysXphysxCharacterControllerAPI::GetClimbingModeAttr()
+    const TfToken constrained;
+    /// \brief "easy"
+    /// 
+    /// Fallback value for UsdPhysXphysxCharacterControllerAPI::GetClimbingModeAttr()
+    const TfToken easy;
     /// \brief "jointState"
     /// 
     /// Property namespace prefix for the UsdPhysXJointStateAPI schema.
@@ -85,6 +93,66 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXphysxArticulationAPI
     const TfToken physxArticulationStabilizationThreshold;
+    /// \brief "physxCharacterController:climbingMode"
+    /// 
+    /// UsdPhysXphysxCharacterControllerAPI
+    const TfToken physxCharacterControllerClimbingMode;
+    /// \brief "physxCharacterController:contactOffset"
+    /// 
+    /// UsdPhysXphysxCharacterControllerAPI
+    const TfToken physxCharacterControllerContactOffset;
+    /// \brief "physxCharacterController:invisibleWallHeight"
+    /// 
+    /// UsdPhysXphysxCharacterControllerAPI
+    const TfToken physxCharacterControllerInvisibleWallHeight;
+    /// \brief "physxCharacterController:maxJumpHeight"
+    /// 
+    /// UsdPhysXphysxCharacterControllerAPI
+    const TfToken physxCharacterControllerMaxJumpHeight;
+    /// \brief "physxCharacterController:moveTarget"
+    /// 
+    /// UsdPhysXphysxCharacterControllerAPI
+    const TfToken physxCharacterControllerMoveTarget;
+    /// \brief "physxCharacterController:nonWalkableMode"
+    /// 
+    /// UsdPhysXphysxCharacterControllerAPI
+    const TfToken physxCharacterControllerNonWalkableMode;
+    /// \brief "physxCharacterController:scaleCoeff"
+    /// 
+    /// UsdPhysXphysxCharacterControllerAPI
+    const TfToken physxCharacterControllerScaleCoeff;
+    /// \brief "physxCharacterController:slopeLimit"
+    /// 
+    /// UsdPhysXphysxCharacterControllerAPI
+    const TfToken physxCharacterControllerSlopeLimit;
+    /// \brief "physxCharacterController:stepOffset"
+    /// 
+    /// UsdPhysXphysxCharacterControllerAPI
+    const TfToken physxCharacterControllerStepOffset;
+    /// \brief "physxCharacterController:upAxis"
+    /// 
+    /// UsdPhysXphysxCharacterControllerAPI
+    const TfToken physxCharacterControllerUpAxis;
+    /// \brief "physxCharacterController:volumeGrowth"
+    /// 
+    /// UsdPhysXphysxCharacterControllerAPI
+    const TfToken physxCharacterControllerVolumeGrowth;
+    /// \brief "physxCollision:contactOffset"
+    /// 
+    /// UsdPhysXphysxCollisionAPI
+    const TfToken physxCollisionContactOffset;
+    /// \brief "physxCollision:minTorsionalPatchRadius"
+    /// 
+    /// UsdPhysXphysxCollisionAPI
+    const TfToken physxCollisionMinTorsionalPatchRadius;
+    /// \brief "physxCollision:restOffset"
+    /// 
+    /// UsdPhysXphysxCollisionAPI
+    const TfToken physxCollisionRestOffset;
+    /// \brief "physxCollision:torsionalPatchRadius"
+    /// 
+    /// UsdPhysXphysxCollisionAPI
+    const TfToken physxCollisionTorsionalPatchRadius;
     /// \brief "physxDroneCamera:feedForwardVelocityGain"
     /// 
     /// UsdPhysXphysxCameraDroneAPI
@@ -237,6 +305,26 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXphysxCameraFollowLookAPI
     const TfToken physxFollowLookCameraVelocityBlendTimeConstant;
+    /// \brief "preventClimbing"
+    /// 
+    /// Fallback value for UsdPhysXphysxCharacterControllerAPI::GetNonWalkableModeAttr()
+    const TfToken preventClimbing;
+    /// \brief "preventClimbingForceSliding"
+    /// 
+    /// Possible value for UsdPhysXphysxCharacterControllerAPI::GetNonWalkableModeAttr()
+    const TfToken preventClimbingForceSliding;
+    /// \brief "X"
+    /// 
+    /// Possible value for UsdPhysXphysxCharacterControllerAPI::GetUpAxisAttr()
+    const TfToken X;
+    /// \brief "Y"
+    /// 
+    /// Possible value for UsdPhysXphysxCharacterControllerAPI::GetUpAxisAttr()
+    const TfToken Y;
+    /// \brief "Z"
+    /// 
+    /// Fallback value for UsdPhysXphysxCharacterControllerAPI::GetUpAxisAttr()
+    const TfToken Z;
     /// \brief "PhysxSchemaJointStateAPI"
     /// 
     /// Schema identifer and family for UsdPhysXJointStateAPI
@@ -265,6 +353,14 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXphysxCameraFollowVelocityAPI
     const TfToken PhysxSchemaPhysxCameraFollowVelocityAPI;
+    /// \brief "PhysxSchemaPhysxCharacterControllerAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXphysxCharacterControllerAPI
+    const TfToken PhysxSchemaPhysxCharacterControllerAPI;
+    /// \brief "PhysxSchemaPhysxCollisionAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXphysxCollisionAPI
+    const TfToken PhysxSchemaPhysxCollisionAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };

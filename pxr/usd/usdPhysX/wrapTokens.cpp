@@ -18,6 +18,8 @@ void wrapUsdPhysXTokens()
     pxr_boost::python::class_<UsdPhysXTokensType, pxr_boost::python::noncopyable>
         cls("Tokens", pxr_boost::python::no_init);
     _ADD_TOKEN(cls, alwaysUpdateEnabled);
+    _ADD_TOKEN(cls, constrained);
+    _ADD_TOKEN(cls, easy);
     _ADD_TOKEN(cls, jointState);
     _ADD_TOKEN(cls, jointState_MultipleApplyTemplate_PhysicsPosition);
     _ADD_TOKEN(cls, jointState_MultipleApplyTemplate_PhysicsVelocity);
@@ -27,6 +29,21 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxArticulationSolverPositionIterationCount);
     _ADD_TOKEN(cls, physxArticulationSolverVelocityIterationCount);
     _ADD_TOKEN(cls, physxArticulationStabilizationThreshold);
+    _ADD_TOKEN(cls, physxCharacterControllerClimbingMode);
+    _ADD_TOKEN(cls, physxCharacterControllerContactOffset);
+    _ADD_TOKEN(cls, physxCharacterControllerInvisibleWallHeight);
+    _ADD_TOKEN(cls, physxCharacterControllerMaxJumpHeight);
+    _ADD_TOKEN(cls, physxCharacterControllerMoveTarget);
+    _ADD_TOKEN(cls, physxCharacterControllerNonWalkableMode);
+    _ADD_TOKEN(cls, physxCharacterControllerScaleCoeff);
+    _ADD_TOKEN(cls, physxCharacterControllerSlopeLimit);
+    _ADD_TOKEN(cls, physxCharacterControllerStepOffset);
+    _ADD_TOKEN(cls, physxCharacterControllerUpAxis);
+    _ADD_TOKEN(cls, physxCharacterControllerVolumeGrowth);
+    _ADD_TOKEN(cls, physxCollisionContactOffset);
+    _ADD_TOKEN(cls, physxCollisionMinTorsionalPatchRadius);
+    _ADD_TOKEN(cls, physxCollisionRestOffset);
+    _ADD_TOKEN(cls, physxCollisionTorsionalPatchRadius);
     _ADD_TOKEN(cls, physxDroneCameraFeedForwardVelocityGain);
     _ADD_TOKEN(cls, physxDroneCameraFollowDistance);
     _ADD_TOKEN(cls, physxDroneCameraFollowHeight);
@@ -65,6 +82,11 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxFollowLookCameraUpHillGroundAngle);
     _ADD_TOKEN(cls, physxFollowLookCameraUpHillGroundPitch);
     _ADD_TOKEN(cls, physxFollowLookCameraVelocityBlendTimeConstant);
+    _ADD_TOKEN(cls, preventClimbing);
+    _ADD_TOKEN(cls, preventClimbingForceSliding);
+    _ADD_TOKEN(cls, X);
+    _ADD_TOKEN(cls, Y);
+    _ADD_TOKEN(cls, Z);
     _ADD_TOKEN(cls, PhysxSchemaJointStateAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxArticulationAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxCameraAPI);
@@ -72,4 +94,6 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, PhysxSchemaPhysxCameraFollowAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxCameraFollowLookAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxCameraFollowVelocityAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxCharacterControllerAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxCollisionAPI);
 }

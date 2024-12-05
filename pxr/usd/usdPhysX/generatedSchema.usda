@@ -200,3 +200,67 @@ class "PhysxSchemaPhysxCameraFollowVelocityAPI" (
 {
 }
 
+class "PhysxSchemaPhysxCharacterControllerAPI" (
+    doc = '''PhysxCharacterControllerAPI can be applied to a capsuleGeom.
+        It will turn the capsule into a character controller.
+        For any described attribute Fallback Value or Allowed Values below that are text/tokens, 
+        the actual token is published and defined in PhysxSchemaTokens. 
+        So to set an attribute to the value "rightHanded", use PhysxSchemaTokens->rightHanded as the value.'''
+)
+{
+    uniform token physxCharacterController:climbingMode = "easy" (
+        allowedTokens = ["easy", "constrained"]
+        doc = "The climbing mode."
+    )
+    float physxCharacterController:contactOffset = 0.1 (
+        doc = "The contact offset used by the controller. Range: [0, inf) Units: distance"
+    )
+    float physxCharacterController:invisibleWallHeight = 0 (
+        doc = "Height of invisible walls created around non-walkable triangles. Range: [0, inf) Units: distance"
+    )
+    float physxCharacterController:maxJumpHeight = 0 (
+        doc = "Maximum height a jumping character can reach. Range: [0, inf) Units: distance"
+    )
+    vector3f physxCharacterController:moveTarget = (0, 0, 0) (
+        doc = "Desired target position that CCT should try to reach."
+    )
+    uniform token physxCharacterController:nonWalkableMode = "preventClimbing" (
+        allowedTokens = ["preventClimbing", "preventClimbingForceSliding"]
+        doc = "The non-walkable mode controls if a character controller slides or not on a non-walkable part."
+    )
+    float physxCharacterController:scaleCoeff = 0.8 (
+        doc = "Scale coefficient for underlying kinematic actor. Range: [0, inf) Units: dimensionless"
+    )
+    float physxCharacterController:slopeLimit = 0.3 (
+        doc = "Slope limit which the CCT can climb. The limit is expressed as the cosine of the desired limit angle. A value of 0 disables this feature."
+    )
+    float physxCharacterController:stepOffset = 0.5 (
+        doc = "Defines the maximum height of an obstacle which the character can climb. Range: [0, inf) Units: distance"
+    )
+    uniform token physxCharacterController:upAxis = "Z" (
+        allowedTokens = ["X", "Y", "Z"]
+        doc = "Up axis for stepping functionality."
+    )
+    float physxCharacterController:volumeGrowth = 1.5 (
+        doc = "Cached volume growth. Range: [0, inf) Units: dimensionless"
+    )
+}
+
+class "PhysxSchemaPhysxCollisionAPI" (
+    doc = "PhysX collision extended parameters."
+)
+{
+    float physxCollision:contactOffset = -inf (
+        doc = "Contact offset of a collision shape. Default value -inf means default is picked by the simulation based on the shape extent. Range: [maximum(0, restOffset), inf) Units: distance"
+    )
+    float physxCollision:minTorsionalPatchRadius = 0 (
+        doc = "Defines the minimum radius of the contact patch used to apply torsional friction. Range: [0, inf) Units: distance"
+    )
+    float physxCollision:restOffset = -inf (
+        doc = "Rest offset of a collision shape. Default value -inf means that the simulation sets a suitable value. For rigid bodies, this value is zero. Range: [0, contactOffset] Units: distance"
+    )
+    float physxCollision:torsionalPatchRadius = 0 (
+        doc = "Defines the radius of the contact patch used to apply torsional friction. Range: [0, inf) Units: distance"
+    )
+}
+
