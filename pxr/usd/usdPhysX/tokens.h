@@ -953,6 +953,90 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXTriggerAPI
     const TfToken physxTriggerOnLeaveScript;
+    /// \brief "physxVehicleAckermannSteering:maxSteerAngle"
+    /// 
+    /// UsdPhysXVehicleAckermannSteeringAPI
+    const TfToken physxVehicleAckermannSteeringMaxSteerAngle;
+    /// \brief "physxVehicleAckermannSteering:strength"
+    /// 
+    /// UsdPhysXVehicleAckermannSteeringAPI
+    const TfToken physxVehicleAckermannSteeringStrength;
+    /// \brief "physxVehicleAckermannSteering:trackWidth"
+    /// 
+    /// UsdPhysXVehicleAckermannSteeringAPI
+    const TfToken physxVehicleAckermannSteeringTrackWidth;
+    /// \brief "physxVehicleAckermannSteering:wheel0"
+    /// 
+    /// UsdPhysXVehicleAckermannSteeringAPI
+    const TfToken physxVehicleAckermannSteeringWheel0;
+    /// \brief "physxVehicleAckermannSteering:wheel1"
+    /// 
+    /// UsdPhysXVehicleAckermannSteeringAPI
+    const TfToken physxVehicleAckermannSteeringWheel1;
+    /// \brief "physxVehicleAckermannSteering:wheelBase"
+    /// 
+    /// UsdPhysXVehicleAckermannSteeringAPI
+    const TfToken physxVehicleAckermannSteeringWheelBase;
+    /// \brief "physxVehicle:highForwardSpeedSubStepCount"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleHighForwardSpeedSubStepCount;
+    /// \brief "physxVehicle:lateralStickyTireDamping"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleLateralStickyTireDamping;
+    /// \brief "physxVehicle:lateralStickyTireThresholdSpeed"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleLateralStickyTireThresholdSpeed;
+    /// \brief "physxVehicle:lateralStickyTireThresholdTime"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleLateralStickyTireThresholdTime;
+    /// \brief "physxVehicle:limitSuspensionExpansionVelocity"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleLimitSuspensionExpansionVelocity;
+    /// \brief "physxVehicle:longitudinalStickyTireDamping"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleLongitudinalStickyTireDamping;
+    /// \brief "physxVehicle:longitudinalStickyTireThresholdSpeed"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleLongitudinalStickyTireThresholdSpeed;
+    /// \brief "physxVehicle:longitudinalStickyTireThresholdTime"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleLongitudinalStickyTireThresholdTime;
+    /// \brief "physxVehicle:lowForwardSpeedSubStepCount"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleLowForwardSpeedSubStepCount;
+    /// \brief "physxVehicle:minActiveLongitudinalSlipDenominator"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleMinActiveLongitudinalSlipDenominator;
+    /// \brief "physxVehicle:minLateralSlipDenominator"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleMinLateralSlipDenominator;
+    /// \brief "physxVehicle:minPassiveLongitudinalSlipDenominator"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleMinPassiveLongitudinalSlipDenominator;
+    /// \brief "physxVehicle:subStepThresholdLongitudinalSpeed"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleSubStepThresholdLongitudinalSpeed;
+    /// \brief "physxVehicle:suspensionLineQueryType"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleSuspensionLineQueryType;
+    /// \brief "physxVehicle:vehicleEnabled"
+    /// 
+    /// UsdPhysXVehicleAPI
+    const TfToken physxVehicleVehicleEnabled;
     /// \brief "preventClimbing"
     /// 
     /// Fallback value for UsdPhysXCharacterControllerAPI::GetNonWalkableModeAttr()
@@ -967,7 +1051,7 @@ struct UsdPhysXTokensType {
     const TfToken prismatic;
     /// \brief "raycast"
     /// 
-    /// Possible value for UsdPhysXSphereFillCollisionAPI::GetFillModeAttr()
+    /// Possible value for UsdPhysXSphereFillCollisionAPI::GetFillModeAttr(), Fallback value for UsdPhysXVehicleAPI::GetSuspensionLineQueryTypeAttr()
     const TfToken raycast;
     /// \brief "reportPairs"
     /// 
@@ -1001,6 +1085,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXSphereFillCollisionAPI::GetFillModeAttr()
     const TfToken surface;
+    /// \brief "sweep"
+    /// 
+    /// Possible value for UsdPhysXVehicleAPI::GetSuspensionLineQueryTypeAttr()
+    const TfToken sweep;
     /// \brief "Synchronous"
     /// 
     /// Fallback value for UsdPhysXSceneAPI::GetUpdateTypeAttr()
@@ -1165,6 +1253,14 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXTriggerStateAPI
     const TfToken PhysxSchemaPhysxTriggerStateAPI;
+    /// \brief "PhysxSchemaPhysxVehicleAckermannSteeringAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleAckermannSteeringAPI
+    const TfToken PhysxSchemaPhysxVehicleAckermannSteeringAPI;
+    /// \brief "PhysxSchemaPhysxVehicleAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleAPI
+    const TfToken PhysxSchemaPhysxVehicleAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };

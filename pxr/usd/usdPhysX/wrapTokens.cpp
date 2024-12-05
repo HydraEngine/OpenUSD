@@ -244,6 +244,27 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxTriggerLeaveScriptType);
     _ADD_TOKEN(cls, physxTriggerOnEnterScript);
     _ADD_TOKEN(cls, physxTriggerOnLeaveScript);
+    _ADD_TOKEN(cls, physxVehicleAckermannSteeringMaxSteerAngle);
+    _ADD_TOKEN(cls, physxVehicleAckermannSteeringStrength);
+    _ADD_TOKEN(cls, physxVehicleAckermannSteeringTrackWidth);
+    _ADD_TOKEN(cls, physxVehicleAckermannSteeringWheel0);
+    _ADD_TOKEN(cls, physxVehicleAckermannSteeringWheel1);
+    _ADD_TOKEN(cls, physxVehicleAckermannSteeringWheelBase);
+    _ADD_TOKEN(cls, physxVehicleHighForwardSpeedSubStepCount);
+    _ADD_TOKEN(cls, physxVehicleLateralStickyTireDamping);
+    _ADD_TOKEN(cls, physxVehicleLateralStickyTireThresholdSpeed);
+    _ADD_TOKEN(cls, physxVehicleLateralStickyTireThresholdTime);
+    _ADD_TOKEN(cls, physxVehicleLimitSuspensionExpansionVelocity);
+    _ADD_TOKEN(cls, physxVehicleLongitudinalStickyTireDamping);
+    _ADD_TOKEN(cls, physxVehicleLongitudinalStickyTireThresholdSpeed);
+    _ADD_TOKEN(cls, physxVehicleLongitudinalStickyTireThresholdTime);
+    _ADD_TOKEN(cls, physxVehicleLowForwardSpeedSubStepCount);
+    _ADD_TOKEN(cls, physxVehicleMinActiveLongitudinalSlipDenominator);
+    _ADD_TOKEN(cls, physxVehicleMinLateralSlipDenominator);
+    _ADD_TOKEN(cls, physxVehicleMinPassiveLongitudinalSlipDenominator);
+    _ADD_TOKEN(cls, physxVehicleSubStepThresholdLongitudinalSpeed);
+    _ADD_TOKEN(cls, physxVehicleSuspensionLineQueryType);
+    _ADD_TOKEN(cls, physxVehicleVehicleEnabled);
     _ADD_TOKEN(cls, preventClimbing);
     _ADD_TOKEN(cls, preventClimbingForceSliding);
     _ADD_TOKEN(cls, prismatic);
@@ -256,6 +277,7 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, SAT);
     _ADD_TOKEN(cls, scriptFile);
     _ADD_TOKEN(cls, surface);
+    _ADD_TOKEN(cls, sweep);
     _ADD_TOKEN(cls, Synchronous);
     _ADD_TOKEN(cls, TGS);
     _ADD_TOKEN(cls, triggeredCollisions);
@@ -297,4 +319,6 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, PhysxSchemaPhysxTriangleMeshSimplificationCollisionAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxTriggerAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxTriggerStateAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleAckermannSteeringAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleAPI);
 }

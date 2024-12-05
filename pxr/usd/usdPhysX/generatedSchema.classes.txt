@@ -37,6 +37,8 @@ triangleMeshCollisionAPI
 triangleMeshSimplificationCollisionAPI
 triggerAPI
 triggerStateAPI
+vehicleAPI
+vehicleAckermannSteeringAPI
 
 # Python Module Files
 module.cpp
@@ -76,6 +78,8 @@ wrapTriangleMeshCollisionAPI.cpp
 wrapTriangleMeshSimplificationCollisionAPI.cpp
 wrapTriggerAPI.cpp
 wrapTriggerStateAPI.cpp
+wrapVehicleAPI.cpp
+wrapVehicleAckermannSteeringAPI.cpp
 
 # Resource Files
 generatedSchema.usda

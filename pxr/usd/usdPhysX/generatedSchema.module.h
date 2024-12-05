@@ -41,4 +41,6 @@ TF_WRAP(UsdPhysXTriangleMeshCollisionAPI);
 TF_WRAP(UsdPhysXTriangleMeshSimplificationCollisionAPI);
 TF_WRAP(UsdPhysXTriggerAPI);
 TF_WRAP(UsdPhysXTriggerStateAPI);
+TF_WRAP(UsdPhysXVehicleAckermannSteeringAPI);
+TF_WRAP(UsdPhysXVehicleAPI);
 TF_WRAP(UsdPhysXTokens);
