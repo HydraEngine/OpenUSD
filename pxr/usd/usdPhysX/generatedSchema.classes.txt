@@ -25,6 +25,9 @@ physicsGearJoint
 physicsInstancer
 physicsJointInstancer
 physicsRackAndPinionJoint
+residualReportingAPI
+rigidBodyAPI
+sceneAPI
 tokens
 
 # Python Module Files
@@ -53,6 +56,9 @@ wrapPhysicsGearJoint.cpp
 wrapPhysicsInstancer.cpp
 wrapPhysicsJointInstancer.cpp
 wrapPhysicsRackAndPinionJoint.cpp
+wrapResidualReportingAPI.cpp
+wrapRigidBodyAPI.cpp
+wrapSceneAPI.cpp
 wrapTokens.cpp
 
 # Resource Files

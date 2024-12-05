@@ -30,4 +30,7 @@ TF_WRAP(UsdPhysXPhysicsGearJoint);
 TF_WRAP(UsdPhysXPhysicsRackAndPinionJoint);
 TF_WRAP(UsdPhysXPhysicsInstancer);
 TF_WRAP(UsdPhysXPhysicsJointInstancer);
+TF_WRAP(UsdPhysXResidualReportingAPI);
+TF_WRAP(UsdPhysXRigidBodyAPI);
+TF_WRAP(UsdPhysXSceneAPI);
 TF_WRAP(UsdPhysXTokens);

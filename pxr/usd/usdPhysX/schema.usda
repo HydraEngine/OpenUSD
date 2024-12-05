@@ -1085,3 +1085,513 @@ class PhysxSchemaPhysxPhysicsJointInstancer "PhysxSchemaPhysxPhysicsJointInstanc
         doc = "**Required property.** Per-instance localRot1. This transformation is added on top of the joint localPos1."
     )
 }
+
+class "PhysxSchemaPhysxResidualReportingAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "ResidualReportingAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        Gives access to residual values that inform about the remaining physics solver error present during the last position and during the last velocity iteration.
+
+        The residual reporting must be enabled on the Physics Scene, otherwise the reported values will be zero. The API can be applied to either:
+
+        Joints. The joint residual will be reported.
+        Articulation Roots. The RMS (root mean squared) and max value over all articulation joint residuals will be reported.
+        Physics Scene. The RMS and max value over all error/residual sources (including contacts) will be reported.
+    """
+)
+{
+    float physxResidualReporting:maxResidualPositionIteration = 0 (
+        customData = {
+            string apiName = "maxResidualPositionIteration"
+        }
+        doc = """The maximal magnitude of the physics solver error during the last position iteration.
+        Range: [0, inf) Units: dimensionless
+        """
+    )
+    float physxResidualReporting:maxResidualVelocityIteration = 0 (
+        customData = {
+            string apiName = "maxResidualVelocityIteration"
+        }
+        doc = """The maximal magnitude of the physics solver error during the last velocity iteration.
+        Range: [0, inf) Units: dimensionless
+        """
+    )
+    float physxResidualReporting:rmsResidualPositionIteration = 0 (
+        customData = {
+            string apiName = "rmsResidualPositionIteration"
+        }
+        doc = """The RMS (root mean squared) magnitude of the physics solver error during the last position iteration.
+        Range: [0, inf) Units: dimensionless
+        """
+    )
+    float physxResidualReporting:rmsResidualVelocityIteration = 0 (
+        customData = {
+            string apiName = "rmsResidualVelocityIteration"
+        }
+        doc = """The RMS (root mean squared) magnitude of the physics solver error during the last velocity iteration.
+        Range: [0, inf) Units: dimensionless
+        """
+    )
+}
+
+class "PhysxSchemaPhysxRigidBodyAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "RigidBodyAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        PhysX rigid body extended parameters.
+    """
+)
+{
+    float physxRigidBody:angularDamping = 0.05 (
+        customData = {
+            string apiName = "angularDamping"
+        }
+        doc = """Angular damping coefficient.
+        Range: [0, inf) Units: dimensionless
+        """
+    )
+    float physxRigidBody:cfmScale = 0.025 (
+        customData = {
+            string apiName = "cfmScale"
+        }
+        doc = """The cfm scale term can help stabilize an articulation by weakening the constraint's response.
+        Use small values close to the default and typically in the range [0, 0.1] for best results. 
+        Note that this parameter is currently used only if rigid body is part of an articulation. Range: [0, 1] Units: unitless
+        """
+    )
+    float physxRigidBody:contactSlopCoefficient = 0 (
+        customData = {
+            string apiName = "contactSlopCoefficient"
+        }
+        doc = """Tolerance on the angular influence of a contact that can help improve the behavior of rolling approximate collision shapes.
+        Specifically, the angular component of a normal constraint in a contact is zeroed if normal.cross(offset) falls below this tolerance. 
+        The tolerance is scaled such that the behavior improvement persists through a range of angular velocities of a rolling shape. Range: [0, inf) Units: distance
+        """
+    )
+    bool physxRigidBody:disableGravity = 0 (
+        customData = {
+            string apiName = "disableGravity"
+        }
+        doc = """Disable gravity for the actor.
+        """
+    )
+    bool physxRigidBody:enableCCD = 0 (
+        customData = {
+            string apiName = "enableCCD"
+        }
+        doc = """Enables swept integration for the actor.
+        """
+    )
+    bool physxRigidBody:enableGyroscopicForces = 1 (
+        customData = {
+            string apiName = "enableGyroscopicForces"
+        }
+        doc = """Enables computation of gyroscopic forces on the rigid body.
+        """
+    )
+    bool physxRigidBody:enableSpeculativeCCD = 0 (
+        customData = {
+            string apiName = "enableSpeculativeCCD"
+        }
+        doc = """Register a rigid body to dynamically adjust contact offset based on velocity.
+        This can be used to achieve a CCD effect.
+        """
+    )
+    float physxRigidBody:linearDamping = 0 (
+        customData = {
+            string apiName = "linearDamping"
+        }
+        doc = """Linear damping coefficient.
+        Range: [0, inf) Units: dimensionless
+        """
+    )
+    int physxRigidBody:lockedPosAxis = 0 (
+        customData = {
+            string apiName = "lockedPosAxis"
+        }
+        doc = """Collection of flags providing a mechanism to lock motion along/around a specific axis (1 << 0, 1 << 1, 1 << 2).
+        """
+    )
+    int physxRigidBody:lockedRotAxis = 0 (
+        customData = {
+            string apiName = "lockedRotAxis"
+        }
+        doc = """Collection of flags providing a mechanism to lock motion along/around a specific axis (1 << 0, 1 << 1, 1 << 2).
+        """
+    )
+    float physxRigidBody:maxAngularVelocity = 5729.58 (
+        customData = {
+            string apiName = "maxAngularVelocity"
+        }
+        doc = """Maximum allowable angular velocity for rigid body.
+        Range: [0, inf) Units: degrees / seconds
+        """
+    )
+    float physxRigidBody:maxContactImpulse = inf (
+        customData = {
+            string apiName = "maxContactImpulse"
+        }
+        doc = """Sets a limit on the impulse that may be applied at a contact.
+        The maximum impulse at a contact between two dynamic or kinematic bodies will be the minimum of the two limit values. 
+        For a collision between a static and a dynamic body, the impulse is limited by the value for the dynamic body. Range: [0, inf) Units: force * seconds = mass * distance / seconds
+        """
+    )
+    float physxRigidBody:maxDepenetrationVelocity = 3 (
+        customData = {
+            string apiName = "maxDepenetrationVelocity"
+        }
+        doc = """The maximum depenetration velocity permitted to be introduced by the solver.
+        Range: [0, inf) Default: 5.0 * tolerancesLength Units: distance / seconds
+        """
+    )
+    float physxRigidBody:maxLinearVelocity = inf (
+        customData = {
+            string apiName = "maxLinearVelocity"
+        }
+        doc = """Maximum allowable linear velocity for the rigid body.
+        Range: [0, inf) Units: distance / seconds
+        """
+    )
+    bool physxRigidBody:retainAccelerations = 0 (
+        customData = {
+            string apiName = "retainAccelerations"
+        }
+        doc = """Carries over forces/accelerations between frames, rather than clearing them.
+        """
+    )
+    float physxRigidBody:sleepThreshold = 0.00005 (
+        customData = {
+            string apiName = "sleepThreshold"
+        }
+        doc = """Mass-normalized kinetic energy threshold below which an actor may go to sleep.
+        Range: [0, inf) Default: 0.00005 * tolerancesSpeed * tolerancesSpeed Units: distance * distance / seconds / seconds
+        """
+    )
+    bool physxRigidBody:solveContact = 1 (
+        customData = {
+            string apiName = "solveContact"
+        }
+        doc = """Process the contacts of this rigid body in the dynamics solver.
+        """
+    )
+    int physxRigidBody:solverPositionIterationCount = 16 (
+        customData = {
+            string apiName = "solverPositionIterationCount"
+        }
+        doc = """Solver position iteration counts for the body.
+        Allowed range [1, 255].
+        """
+    )
+    int physxRigidBody:solverVelocityIterationCount = 1 (
+        customData = {
+            string apiName = "solverVelocityIterationCount"
+        }
+        doc = """Solver velocity iteration counts for the body.
+        Allowed range [0, 255].
+        """
+    )
+    float physxRigidBody:stabilizationThreshold = 0.00001 (
+        customData = {
+            string apiName = "stabilizationThreshold"
+        }
+        doc = """Mass-normalized kinetic energy threshold below which an actor may participate in stabilization.
+        Range: [0, inf) Default: 0.00001 * tolerancesSpeed * tolerancesSpeed Units: distance * distance / seconds / seconds
+        """
+    )
+}
+
+class "PhysxSchemaPhysxSceneAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "SceneAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        PhysX scene extended parameters.
+
+        Default PhysX material for the scene can be set by using material bind with purpose physics onto the PhysicsScene prim.
+
+        For any described attribute Fallback Value or Allowed Values below that are text/tokens, the actual token is published and defined in PhysxSchemaTokens. 
+        So to set an attribute to the value "rightHanded", use PhysxSchemaTokens->rightHanded as the value.
+    """
+)
+{
+    float physxScene:bounceThreshold = 0 (
+        customData = {
+            string apiName = "bounceThreshold"
+        }
+        doc = """A contact with a relative velocity below this will not bounce.
+        Range: [0, inf) Default: 0 Units: distance / seconds
+        """
+    )
+    uniform token physxScene:broadphaseType = "GPU" (
+        customData = {
+            string apiName = "broadphaseType"
+        }
+        allowedTokens = ["GPU", "MBP", "SAP"]
+        doc = """Broad phase algorithm used in the simulation."""
+    )
+    uniform token physxScene:collisionSystem = "PCM" (
+        customData = {
+            string apiName = "collisionSystem"
+        }
+        allowedTokens = ["PCM", "SAT"]
+        doc = """Collision detection system."""
+    )
+    bool physxScene:enableCCD = 0 (
+        customData = {
+            string apiName = "enableCCD"
+        }
+        doc = """Enables a second broad phase check after integration that makes it possible to prevent objects from tunneling through each other.
+        """
+    )
+    bool physxScene:enableEnhancedDeterminism = 0 (
+        customData = {
+            string apiName = "enableEnhancedDeterminism"
+        }
+        doc = """Provides improved determinism at the expense of performance.
+        """
+    )
+    bool physxScene:enableExternalForcesEveryIteration = 0 (
+        customData = {
+            string apiName = "enableExternalForcesEveryIteration"
+        }
+        doc = """Enables greater TGS solver stability.
+        """
+    )
+    bool physxScene:enableGPUDynamics = 1 (
+        customData = {
+            string apiName = "enableGPUDynamics"
+        }
+        doc = """Enables the GPU dynamics pipeline.
+
+        Required for GPU only features like deformables.
+        """
+    )
+    bool physxScene:enableResidualReporting = 0 (
+        customData = {
+            string apiName = "enableResidualReporting"
+        }
+        doc = """Calculates solver residuals and reports them through optional Residual Report APIs at a slight expense of performance.
+        """
+    )
+    bool physxScene:enableSceneQuerySupport = 1 (
+        customData = {
+            string apiName = "enableSceneQuerySupport"
+        }
+        doc = """Enables scene query support for collision shapes.
+        """
+    )
+    bool physxScene:enableStabilization = 0 (
+        customData = {
+            string apiName = "enableStabilization"
+        }
+        doc = """Enables additional stabilization pass in solver.
+        """
+    )
+    float physxScene:frictionCorrelationDistance = 0.025 (
+        customData = {
+            string apiName = "frictionCorrelationDistance"
+        }
+        doc = """Friction correlation distance used to decide whether contacts are close enough to be merged into a single friction anchor point or not.
+        Range: [0, inf) Default: 0.025 * tolerancesLength Units: distance
+        """
+    )
+    float physxScene:frictionOffsetThreshold = 0.04 (
+        customData = {
+            string apiName = "frictionOffsetThreshold"
+        }
+        doc = """A threshold of contact separation distance used to decide if a contact point will experience friction forces.
+        Range: [0, inf) Default: 0.04 * tolerancesLength Units: distance
+        """
+    )
+    uniform token physxScene:frictionType = "patch" (
+        customData = {
+            string apiName = "frictionType"
+        }
+        allowedTokens = ["patch"]
+        doc = """Friction type used in simulation."""
+    )
+    uint physxScene:gpuCollisionStackSize = 67108864 (
+        customData = {
+            string apiName = "gpuCollisionStackSize"
+        }
+        doc = """Gpu collision stack size.
+        """
+    )
+    uint physxScene:gpuFoundLostAggregatePairsCapacity = 1024 (
+        customData = {
+            string apiName = "gpuFoundLostAggregatePairsCapacity"
+        }
+        doc = """Gpu found lost aggregate pairs capacity.
+        """
+    )
+    uint physxScene:gpuFoundLostPairsCapacity = 262144 (
+        customData = {
+            string apiName = "gpuFoundLostPairsCapacity"
+        }
+        doc = """Gpu found lost pairs capacity.
+        """
+    )
+    uint physxScene:gpuHeapCapacity = 67108864 (
+        customData = {
+            string apiName = "gpuHeapCapacity"
+        }
+        doc = """Gpu heap capacity.
+        """
+    )
+    uint physxScene:gpuMaxDeformableSurfaceContacts = 1048576 (
+        customData = {
+            string apiName = "gpuMaxDeformableSurfaceContacts"
+        }
+        doc = """Gpu max deformable surface contacts.
+        """
+    )
+    uint physxScene:gpuMaxHairContacts = 1048576 (
+        customData = {
+            string apiName = "gpuMaxHairContacts"
+        }
+        doc = """Gpu max hair contacts.
+        """
+    )
+    uint physxScene:gpuMaxNumPartitions = 8 (
+        customData = {
+            string apiName = "gpuMaxNumPartitions"
+        }
+        doc = """Limitation for the partitions in the GPU dynamics pipeline.
+        This variable must be a power of 2. A value greater than 32 is currently not supported.
+        """
+    )
+    uint physxScene:gpuMaxParticleContacts = 1048576 (
+        customData = {
+            string apiName = "gpuMaxParticleContacts"
+        }
+        doc = """Gpu max particle contacts.
+        """
+    )
+    uint physxScene:gpuMaxRigidContactCount = 524288 (
+        customData = {
+            string apiName = "gpuMaxRigidContactCount"
+        }
+        doc = """Gpu max rigid contact count.
+        """
+    )
+    uint physxScene:gpuMaxRigidPatchCount = 81920 (
+        customData = {
+            string apiName = "gpuMaxRigidPatchCount"
+        }
+        doc = """Gpu max rigid patch count.
+        """
+    )
+    uint physxScene:gpuMaxSoftBodyContacts = 1048576 (
+        customData = {
+            string apiName = "gpuMaxSoftBodyContacts"
+        }
+        doc = """Gpu max soft body contacts.
+        """
+    )
+    uint64 physxScene:gpuTempBufferCapacity = 16777216 (
+        customData = {
+            string apiName = "gpuTempBufferCapacity"
+        }
+        doc = """Gpu temp buffer capacity.
+        """
+    )
+    uint physxScene:gpuTotalAggregatePairsCapacity = 1024 (
+        customData = {
+            string apiName = "gpuTotalAggregatePairsCapacity"
+        }
+        doc = """Gpu total aggregate pairs capacity.
+        """
+    )
+    bool physxScene:invertCollisionGroupFilter = 0 (
+        customData = {
+            string apiName = "invertCollisionGroupFilter"
+        }
+        doc = """Boolean attribute indicating whether inverted collision group filtering should be used.
+
+        By default two collisions, that do have a collisionGroup set, collide with each other. 
+        Adding a collisionGroup into a collisionGroup filtering will mean that the collision between those groups will be disabled. 
+        This boolean attribute does invert the default behavior. Hence two collisions with defined collisionGroups will not collide with each other by default 
+        and one does enable the collisions between the groups through the "CollisionGroup" filtering.
+        """
+    )
+    float physxScene:maxBiasCoefficient = inf (
+        customData = {
+            string apiName = "maxBiasCoefficient"
+        }
+        doc = """The maximum bias coefficient used in the constraint solver.
+        Range: [0, inf) Units: dimensionless
+        """
+    )
+    uniform uint physxScene:maxPositionIterationCount = 255 (
+        customData = {
+            string apiName = "maxPositionIterationCount"
+        }
+        doc = """Maximum position iteration count for all actors (rigid bodies, cloth, particles etc).
+        Note that this setting will override solver iteration settings of individual actors that have requested more iterations. Range: [1, 255]"""
+    )
+    uniform uint physxScene:maxVelocityIterationCount = 255 (
+        customData = {
+            string apiName = "maxVelocityIterationCount"
+        }
+        doc = """Maximum velocity iteration count for all actors (rigid bodies, cloth, particles etc).
+        Note that this setting will override solver iteration settings of individual actors that have requested more iterations. Range: [0, 255]"""
+    )
+    uniform uint physxScene:minPositionIterationCount = 1 (
+        customData = {
+            string apiName = "minPositionIterationCount"
+        }
+        doc = """Minimum position iteration count for all actors (rigid bodies, cloth, particles etc).
+        Range: [1, 255]"""
+    )
+    uniform uint physxScene:minVelocityIterationCount = 0 (
+        customData = {
+            string apiName = "minVelocityIterationCount"
+        }
+        doc = """Minimum velocity iteration count for all actors (rigid bodies, cloth, particles etc).
+        Range: [0, 255]"""
+    )
+    bool physxScene:reportKinematicKinematicPairs = 0 (
+        customData = {
+            string apiName = "reportKinematicKinematicPairs"
+        }
+        doc = """Boolean attribute indicating whether kinematic vs kinematic pairs generate contact reports.
+        """
+    )
+    bool physxScene:reportKinematicStaticPairs = 0 (
+        customData = {
+            string apiName = "reportKinematicStaticPairs"
+        }
+        doc = """Boolean attribute indicating whether kinematic vs static pairs generate contact reports.
+        """
+    )
+    uniform token physxScene:solverType = "TGS" (
+        customData = {
+            string apiName = "solverType"
+        }
+        allowedTokens = ["TGS", "PGS"]
+        doc = """Solver used for the simulation."""
+    )
+    uint physxScene:timeStepsPerSecond = 60 (
+        customData = {
+            string apiName = "timeStepsPerSecond"
+        }
+        doc = """Simulation scene step defined as number of steps per second.
+        Note that application might cap the number of simulation steps to avoid running more simulations steps with a low frame rate.
+        """
+    )
+    uniform token physxScene:updateType = "Synchronous" (
+        customData = {
+            string apiName = "updateType"
+        }
+        allowedTokens = ["Synchronous", "Asynchronous", "Disabled"]
+        doc = """Type of update for a PhysX scene."""
+    )
+}

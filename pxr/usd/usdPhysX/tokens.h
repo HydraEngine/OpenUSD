@@ -53,6 +53,10 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXCameraAPI
     const TfToken alwaysUpdateEnabled;
+    /// \brief "Asynchronous"
+    /// 
+    /// Possible value for UsdPhysXSceneAPI::GetUpdateTypeAttr()
+    const TfToken Asynchronous;
     /// \brief "average"
     /// 
     /// Fallback value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Fallback value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Fallback value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
@@ -61,6 +65,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXCharacterControllerAPI::GetClimbingModeAttr()
     const TfToken constrained;
+    /// \brief "Disabled"
+    /// 
+    /// Possible value for UsdPhysXSceneAPI::GetUpdateTypeAttr()
+    const TfToken Disabled;
     /// \brief "easy"
     /// 
     /// Fallback value for UsdPhysXCharacterControllerAPI::GetClimbingModeAttr()
@@ -69,6 +77,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXForceAPI::GetModeAttr()
     const TfToken force;
+    /// \brief "GPU"
+    /// 
+    /// Fallback value for UsdPhysXSceneAPI::GetBroadphaseTypeAttr()
+    const TfToken GPU;
     /// \brief "hinge"
     /// 
     /// UsdPhysXPhysicsRackAndPinionJoint
@@ -97,6 +109,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
     const TfToken max;
+    /// \brief "MBP"
+    /// 
+    /// Possible value for UsdPhysXSceneAPI::GetBroadphaseTypeAttr()
+    const TfToken MBP;
     /// \brief "min"
     /// 
     /// Possible value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
@@ -105,6 +121,18 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
     const TfToken multiply;
+    /// \brief "patch"
+    /// 
+    /// Fallback value for UsdPhysXSceneAPI::GetFrictionTypeAttr()
+    const TfToken patch;
+    /// \brief "PCM"
+    /// 
+    /// Fallback value for UsdPhysXSceneAPI::GetCollisionSystemAttr()
+    const TfToken PCM;
+    /// \brief "PGS"
+    /// 
+    /// Possible value for UsdPhysXSceneAPI::GetSolverTypeAttr()
+    const TfToken PGS;
     /// \brief "physics:body0Indices"
     /// 
     /// UsdPhysXPhysicsJointInstancer
@@ -573,6 +601,250 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXPhysicsDistanceJointAPI
     const TfToken physxPhysicsDistanceJointSpringStiffness;
+    /// \brief "physxResidualReporting:maxResidualPositionIteration"
+    /// 
+    /// UsdPhysXResidualReportingAPI
+    const TfToken physxResidualReportingMaxResidualPositionIteration;
+    /// \brief "physxResidualReporting:maxResidualVelocityIteration"
+    /// 
+    /// UsdPhysXResidualReportingAPI
+    const TfToken physxResidualReportingMaxResidualVelocityIteration;
+    /// \brief "physxResidualReporting:rmsResidualPositionIteration"
+    /// 
+    /// UsdPhysXResidualReportingAPI
+    const TfToken physxResidualReportingRmsResidualPositionIteration;
+    /// \brief "physxResidualReporting:rmsResidualVelocityIteration"
+    /// 
+    /// UsdPhysXResidualReportingAPI
+    const TfToken physxResidualReportingRmsResidualVelocityIteration;
+    /// \brief "physxRigidBody:angularDamping"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyAngularDamping;
+    /// \brief "physxRigidBody:cfmScale"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyCfmScale;
+    /// \brief "physxRigidBody:contactSlopCoefficient"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyContactSlopCoefficient;
+    /// \brief "physxRigidBody:disableGravity"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyDisableGravity;
+    /// \brief "physxRigidBody:enableCCD"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyEnableCCD;
+    /// \brief "physxRigidBody:enableGyroscopicForces"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyEnableGyroscopicForces;
+    /// \brief "physxRigidBody:enableSpeculativeCCD"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyEnableSpeculativeCCD;
+    /// \brief "physxRigidBody:linearDamping"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyLinearDamping;
+    /// \brief "physxRigidBody:lockedPosAxis"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyLockedPosAxis;
+    /// \brief "physxRigidBody:lockedRotAxis"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyLockedRotAxis;
+    /// \brief "physxRigidBody:maxAngularVelocity"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyMaxAngularVelocity;
+    /// \brief "physxRigidBody:maxContactImpulse"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyMaxContactImpulse;
+    /// \brief "physxRigidBody:maxDepenetrationVelocity"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyMaxDepenetrationVelocity;
+    /// \brief "physxRigidBody:maxLinearVelocity"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyMaxLinearVelocity;
+    /// \brief "physxRigidBody:retainAccelerations"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyRetainAccelerations;
+    /// \brief "physxRigidBody:sleepThreshold"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodySleepThreshold;
+    /// \brief "physxRigidBody:solveContact"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodySolveContact;
+    /// \brief "physxRigidBody:solverPositionIterationCount"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodySolverPositionIterationCount;
+    /// \brief "physxRigidBody:solverVelocityIterationCount"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodySolverVelocityIterationCount;
+    /// \brief "physxRigidBody:stabilizationThreshold"
+    /// 
+    /// UsdPhysXRigidBodyAPI
+    const TfToken physxRigidBodyStabilizationThreshold;
+    /// \brief "physxScene:bounceThreshold"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneBounceThreshold;
+    /// \brief "physxScene:broadphaseType"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneBroadphaseType;
+    /// \brief "physxScene:collisionSystem"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneCollisionSystem;
+    /// \brief "physxScene:enableCCD"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneEnableCCD;
+    /// \brief "physxScene:enableEnhancedDeterminism"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneEnableEnhancedDeterminism;
+    /// \brief "physxScene:enableExternalForcesEveryIteration"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneEnableExternalForcesEveryIteration;
+    /// \brief "physxScene:enableGPUDynamics"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneEnableGPUDynamics;
+    /// \brief "physxScene:enableResidualReporting"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneEnableResidualReporting;
+    /// \brief "physxScene:enableSceneQuerySupport"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneEnableSceneQuerySupport;
+    /// \brief "physxScene:enableStabilization"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneEnableStabilization;
+    /// \brief "physxScene:frictionCorrelationDistance"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneFrictionCorrelationDistance;
+    /// \brief "physxScene:frictionOffsetThreshold"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneFrictionOffsetThreshold;
+    /// \brief "physxScene:frictionType"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneFrictionType;
+    /// \brief "physxScene:gpuCollisionStackSize"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneGpuCollisionStackSize;
+    /// \brief "physxScene:gpuFoundLostAggregatePairsCapacity"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneGpuFoundLostAggregatePairsCapacity;
+    /// \brief "physxScene:gpuFoundLostPairsCapacity"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneGpuFoundLostPairsCapacity;
+    /// \brief "physxScene:gpuHeapCapacity"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneGpuHeapCapacity;
+    /// \brief "physxScene:gpuMaxDeformableSurfaceContacts"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneGpuMaxDeformableSurfaceContacts;
+    /// \brief "physxScene:gpuMaxHairContacts"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneGpuMaxHairContacts;
+    /// \brief "physxScene:gpuMaxNumPartitions"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneGpuMaxNumPartitions;
+    /// \brief "physxScene:gpuMaxParticleContacts"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneGpuMaxParticleContacts;
+    /// \brief "physxScene:gpuMaxRigidContactCount"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneGpuMaxRigidContactCount;
+    /// \brief "physxScene:gpuMaxRigidPatchCount"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneGpuMaxRigidPatchCount;
+    /// \brief "physxScene:gpuMaxSoftBodyContacts"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneGpuMaxSoftBodyContacts;
+    /// \brief "physxScene:gpuTempBufferCapacity"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneGpuTempBufferCapacity;
+    /// \brief "physxScene:gpuTotalAggregatePairsCapacity"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneGpuTotalAggregatePairsCapacity;
+    /// \brief "physxScene:invertCollisionGroupFilter"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneInvertCollisionGroupFilter;
+    /// \brief "physxScene:maxBiasCoefficient"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneMaxBiasCoefficient;
+    /// \brief "physxScene:maxPositionIterationCount"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneMaxPositionIterationCount;
+    /// \brief "physxScene:maxVelocityIterationCount"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneMaxVelocityIterationCount;
+    /// \brief "physxScene:minPositionIterationCount"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneMinPositionIterationCount;
+    /// \brief "physxScene:minVelocityIterationCount"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneMinVelocityIterationCount;
+    /// \brief "physxScene:reportKinematicKinematicPairs"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneReportKinematicKinematicPairs;
+    /// \brief "physxScene:reportKinematicStaticPairs"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneReportKinematicStaticPairs;
+    /// \brief "physxScene:solverType"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneSolverType;
+    /// \brief "physxScene:timeStepsPerSecond"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneTimeStepsPerSecond;
+    /// \brief "physxScene:updateType"
+    /// 
+    /// UsdPhysXSceneAPI
+    const TfToken physxSceneUpdateType;
     /// \brief "preventClimbing"
     /// 
     /// Fallback value for UsdPhysXCharacterControllerAPI::GetNonWalkableModeAttr()
@@ -597,6 +869,22 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXMimicJointAPI::GetReferenceJointAxisAttr()
     const TfToken rotZ;
+    /// \brief "SAP"
+    /// 
+    /// Possible value for UsdPhysXSceneAPI::GetBroadphaseTypeAttr()
+    const TfToken SAP;
+    /// \brief "SAT"
+    /// 
+    /// Possible value for UsdPhysXSceneAPI::GetCollisionSystemAttr()
+    const TfToken SAT;
+    /// \brief "Synchronous"
+    /// 
+    /// Fallback value for UsdPhysXSceneAPI::GetUpdateTypeAttr()
+    const TfToken Synchronous;
+    /// \brief "TGS"
+    /// 
+    /// Fallback value for UsdPhysXSceneAPI::GetSolverTypeAttr()
+    const TfToken TGS;
     /// \brief "X"
     /// 
     /// Possible value for UsdPhysXCharacterControllerAPI::GetUpAxisAttr()
@@ -705,6 +993,18 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXPhysicsRackAndPinionJoint
     const TfToken PhysxSchemaPhysxPhysicsRackAndPinionJoint;
+    /// \brief "PhysxSchemaPhysxResidualReportingAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXResidualReportingAPI
+    const TfToken PhysxSchemaPhysxResidualReportingAPI;
+    /// \brief "PhysxSchemaPhysxRigidBodyAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXRigidBodyAPI
+    const TfToken PhysxSchemaPhysxRigidBodyAPI;
+    /// \brief "PhysxSchemaPhysxSceneAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXSceneAPI
+    const TfToken PhysxSchemaPhysxSceneAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };
