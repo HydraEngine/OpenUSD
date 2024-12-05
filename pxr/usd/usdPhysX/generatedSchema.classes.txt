@@ -27,7 +27,9 @@ physicsJointInstancer
 physicsRackAndPinionJoint
 residualReportingAPI
 rigidBodyAPI
+sDFMeshCollisionAPI
 sceneAPI
+sceneQuasistaticAPI
 tokens
 
 # Python Module Files
@@ -58,7 +60,9 @@ wrapPhysicsJointInstancer.cpp
 wrapPhysicsRackAndPinionJoint.cpp
 wrapResidualReportingAPI.cpp
 wrapRigidBodyAPI.cpp
+wrapSDFMeshCollisionAPI.cpp
 wrapSceneAPI.cpp
+wrapSceneQuasistaticAPI.cpp
 wrapTokens.cpp
 
 # Resource Files

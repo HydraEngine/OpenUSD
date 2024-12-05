@@ -1205,3 +1205,96 @@ class "PhysxSchemaPhysxSceneAPI" (
     )
 }
 
+class "PhysxSchemaPhysxSceneQuasistaticAPI" (
+    doc = """
+        PhysxSceneQuasistaticAPI defines quasistatic mode for simulation.
+
+        The API must be applied to a UsdPhysics.PhysicsScene prim.
+
+        In this mode actors are simulated/moved by the physics engine by obeying external forces and constraints as usual, but they do not accumulate momentum. 
+        So that e.g. falling due to gravity is with constant speed, and motion stops as soon as external forces cease to apply. There is no conservation of momentum.
+
+        By default all actors belonging to the scene have this behavior unless the collection does have the includes defined, then the collection definition does have a precendence.
+    """
+)
+{
+    bool physxSceneQuasistatic:enableQuasistatic = 1 (
+        doc = """Whether the actors should behave quasistatic or not.
+        """
+    )
+}
+
+class "PhysxSchemaPhysxSDFMeshCollisionAPI" (
+    doc = '''
+        PhysX SDF mesh extended parameters.
+
+        For any described attribute Fallback Value or Allowed Values below that are text/tokens, the actual token is published and defined in PhysxSchemaTokens. 
+        So to set an attribute to the value "rightHanded", use PhysxSchemaTokens->rightHanded as the value.
+    '''
+)
+{
+    uniform token physxSDFMeshCollision:sdfBitsPerSubgridPixel = "BitsPerPixel16" (
+        allowedTokens = ["BitsPerPixel8", "BitsPerPixel16", "BitsPerPixel32"]
+        doc = """
+        Values of 8, 16 and 32 bits per subgrid pixel are supported.
+
+        Dense SDFs always use 32 bits per pixel. The less bits per pixel, the smaller the resulting SDF but also the less precise. 
+        The SDF's memory consumption scales proportionally with the number of bits per subgrid pixel.
+        """
+    )
+    uniform bool physxSDFMeshCollision:sdfEnableRemeshing = 0 (
+        doc = """
+        Enables optional remeshing as a preprocessing step before the SDF is computed.
+
+        Remeshing can help generate valid SDF data even if the input mesh has bad properties like inconsistent winding or self-intersections. 
+        The SDF distances (and therefore the collisions) will be slightly less accurate when remeshing is enabled.
+        """
+    )
+    uniform float physxSDFMeshCollision:sdfMargin = 0.01 (
+        doc = """
+        Margin to increase the size of the SDF relative to the bounding box diagonal length of the mesh.
+
+        A sdf margin value of 0.01 means the sdf boundary will be enlarged in any direction by 1% of the mesh's bounding box diagonal length.
+        Representing the margin relative to the bounding box diagonal length ensures that it is scale independent. 
+        Margins allow for precise distance queries in a region slightly outside of the mesh's bounding box. Range: [0, inf) Units: dimensionless
+        """
+    )
+    uniform float physxSDFMeshCollision:sdfNarrowBandThickness = 0.01 (
+        doc = """
+        Size of the narrow band around the mesh surface where high resolution SDF samples are available.
+
+        Outside of the narrow band, only low resolution samples are stored. 
+        Representing the narrow band thickness as a fraction of the mesh's bounding box diagonal length ensures that it is scale independent. 
+        A value of 0.01 is usually large enough. The smaller the narrow band thickness, the smaller the memory consumption of the sparse SDF. 
+        Range: [0, 1] Units: dimensionless
+        """
+    )
+    uniform int physxSDFMeshCollision:sdfResolution = 256 (
+        doc = """
+        The spacing of the uniformly sampled SDF is equal to the largest AABB extent of the mesh, divided by the resolution.
+
+        Choose the lowest possible resolution that provides acceptable performance; very high resolution results in large memory consumption, 
+        and slower cooking and simulation performance. Range: (1, inf)
+        """
+    )
+    uniform int physxSDFMeshCollision:sdfSubgridResolution = 6 (
+        doc = """
+        A positive subgrid resolution enables sparsity on signed-distance-fields (SDF) while a value of 0 leads to the usage of a dense SDF.
+
+        A value in the range of 4 to 8 is a reasonable compromise between block size and the overhead introduced by block addressing. 
+        The smaller a block, the more memory is spent on the address table. The bigger a block, the less precisely the sparse SDF can adapt to the mesh's surface. 
+        In most cases sparsity reduces the memory consumption of a SDF significantly. Range: [0, inf)
+        """
+    )
+    uniform float physxSDFMeshCollision:sdfTriangleCountReductionFactor = 1 (
+        doc = """
+        Factor that quantifies the percentage of the input triangles to keep.
+
+        1 means the input triangle mesh does not get modified. 
+        0.5 would mean that the triangle count gets reduced to half the amount of the original mesh such that the collider needs to process less data. 
+        This helps to speed up collision detection at the cost of a small geometric error. 
+        Range: [0, 1] Units: dimensionless
+        """
+    )
+}
+

@@ -33,4 +33,6 @@ TF_WRAP(UsdPhysXPhysicsJointInstancer);
 TF_WRAP(UsdPhysXResidualReportingAPI);
 TF_WRAP(UsdPhysXRigidBodyAPI);
 TF_WRAP(UsdPhysXSceneAPI);
+TF_WRAP(UsdPhysXSceneQuasistaticAPI);
+TF_WRAP(UsdPhysXSDFMeshCollisionAPI);
 TF_WRAP(UsdPhysXTokens);

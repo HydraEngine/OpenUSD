@@ -61,6 +61,18 @@ struct UsdPhysXTokensType {
     /// 
     /// Fallback value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Fallback value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Fallback value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
     const TfToken average;
+    /// \brief "BitsPerPixel16"
+    /// 
+    /// Fallback value for UsdPhysXSDFMeshCollisionAPI::GetSdfBitsPerSubgridPixelAttr()
+    const TfToken BitsPerPixel16;
+    /// \brief "BitsPerPixel32"
+    /// 
+    /// Possible value for UsdPhysXSDFMeshCollisionAPI::GetSdfBitsPerSubgridPixelAttr()
+    const TfToken BitsPerPixel32;
+    /// \brief "BitsPerPixel8"
+    /// 
+    /// Possible value for UsdPhysXSDFMeshCollisionAPI::GetSdfBitsPerSubgridPixelAttr()
+    const TfToken BitsPerPixel8;
     /// \brief "constrained"
     /// 
     /// Possible value for UsdPhysXCharacterControllerAPI::GetClimbingModeAttr()
@@ -825,6 +837,10 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXSceneAPI
     const TfToken physxSceneMinVelocityIterationCount;
+    /// \brief "physxSceneQuasistatic:enableQuasistatic"
+    /// 
+    /// UsdPhysXSceneQuasistaticAPI
+    const TfToken physxSceneQuasistaticEnableQuasistatic;
     /// \brief "physxScene:reportKinematicKinematicPairs"
     /// 
     /// UsdPhysXSceneAPI
@@ -845,6 +861,34 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXSceneAPI
     const TfToken physxSceneUpdateType;
+    /// \brief "physxSDFMeshCollision:sdfBitsPerSubgridPixel"
+    /// 
+    /// UsdPhysXSDFMeshCollisionAPI
+    const TfToken physxSDFMeshCollisionSdfBitsPerSubgridPixel;
+    /// \brief "physxSDFMeshCollision:sdfEnableRemeshing"
+    /// 
+    /// UsdPhysXSDFMeshCollisionAPI
+    const TfToken physxSDFMeshCollisionSdfEnableRemeshing;
+    /// \brief "physxSDFMeshCollision:sdfMargin"
+    /// 
+    /// UsdPhysXSDFMeshCollisionAPI
+    const TfToken physxSDFMeshCollisionSdfMargin;
+    /// \brief "physxSDFMeshCollision:sdfNarrowBandThickness"
+    /// 
+    /// UsdPhysXSDFMeshCollisionAPI
+    const TfToken physxSDFMeshCollisionSdfNarrowBandThickness;
+    /// \brief "physxSDFMeshCollision:sdfResolution"
+    /// 
+    /// UsdPhysXSDFMeshCollisionAPI
+    const TfToken physxSDFMeshCollisionSdfResolution;
+    /// \brief "physxSDFMeshCollision:sdfSubgridResolution"
+    /// 
+    /// UsdPhysXSDFMeshCollisionAPI
+    const TfToken physxSDFMeshCollisionSdfSubgridResolution;
+    /// \brief "physxSDFMeshCollision:sdfTriangleCountReductionFactor"
+    /// 
+    /// UsdPhysXSDFMeshCollisionAPI
+    const TfToken physxSDFMeshCollisionSdfTriangleCountReductionFactor;
     /// \brief "preventClimbing"
     /// 
     /// Fallback value for UsdPhysXCharacterControllerAPI::GetNonWalkableModeAttr()
@@ -1005,6 +1049,14 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXSceneAPI
     const TfToken PhysxSchemaPhysxSceneAPI;
+    /// \brief "PhysxSchemaPhysxSceneQuasistaticAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXSceneQuasistaticAPI
+    const TfToken PhysxSchemaPhysxSceneQuasistaticAPI;
+    /// \brief "PhysxSchemaPhysxSDFMeshCollisionAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXSDFMeshCollisionAPI
+    const TfToken PhysxSchemaPhysxSDFMeshCollisionAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };

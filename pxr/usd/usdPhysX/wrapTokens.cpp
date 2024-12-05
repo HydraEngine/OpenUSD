@@ -21,6 +21,9 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, alwaysUpdateEnabled);
     _ADD_TOKEN(cls, Asynchronous);
     _ADD_TOKEN(cls, average);
+    _ADD_TOKEN(cls, BitsPerPixel16);
+    _ADD_TOKEN(cls, BitsPerPixel32);
+    _ADD_TOKEN(cls, BitsPerPixel8);
     _ADD_TOKEN(cls, constrained);
     _ADD_TOKEN(cls, Disabled);
     _ADD_TOKEN(cls, easy);
@@ -212,11 +215,19 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxSceneMaxVelocityIterationCount);
     _ADD_TOKEN(cls, physxSceneMinPositionIterationCount);
     _ADD_TOKEN(cls, physxSceneMinVelocityIterationCount);
+    _ADD_TOKEN(cls, physxSceneQuasistaticEnableQuasistatic);
     _ADD_TOKEN(cls, physxSceneReportKinematicKinematicPairs);
     _ADD_TOKEN(cls, physxSceneReportKinematicStaticPairs);
     _ADD_TOKEN(cls, physxSceneSolverType);
     _ADD_TOKEN(cls, physxSceneTimeStepsPerSecond);
     _ADD_TOKEN(cls, physxSceneUpdateType);
+    _ADD_TOKEN(cls, physxSDFMeshCollisionSdfBitsPerSubgridPixel);
+    _ADD_TOKEN(cls, physxSDFMeshCollisionSdfEnableRemeshing);
+    _ADD_TOKEN(cls, physxSDFMeshCollisionSdfMargin);
+    _ADD_TOKEN(cls, physxSDFMeshCollisionSdfNarrowBandThickness);
+    _ADD_TOKEN(cls, physxSDFMeshCollisionSdfResolution);
+    _ADD_TOKEN(cls, physxSDFMeshCollisionSdfSubgridResolution);
+    _ADD_TOKEN(cls, physxSDFMeshCollisionSdfTriangleCountReductionFactor);
     _ADD_TOKEN(cls, preventClimbing);
     _ADD_TOKEN(cls, preventClimbingForceSliding);
     _ADD_TOKEN(cls, prismatic);
@@ -257,4 +268,6 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, PhysxSchemaPhysxResidualReportingAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxRigidBodyAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxSceneAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxSceneQuasistaticAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxSDFMeshCollisionAPI);
 }
