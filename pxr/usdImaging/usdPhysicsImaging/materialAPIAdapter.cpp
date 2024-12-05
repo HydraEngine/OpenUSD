@@ -34,10 +34,10 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsTokens->physicsDensity,          //
-                UsdPhysicsTokens->physicsRestitution,      //
-                UsdPhysicsTokens->physicsDynamicFriction,  //
-                UsdPhysicsTokens->physicsStaticFriction    //
+                UsdPhysicsImagingMaterialSchemaTokens->density,          //
+                UsdPhysicsImagingMaterialSchemaTokens->restitution,      //
+                UsdPhysicsImagingMaterialSchemaTokens->dynamicFriction,  //
+                UsdPhysicsImagingMaterialSchemaTokens->staticFriction    //
         };
 
         return names;
@@ -45,25 +45,25 @@ public:
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
         float v;
-        if (name == UsdPhysicsTokens->physicsDensity) {
+        if (name == UsdPhysicsImagingMaterialSchemaTokens->density) {
             if (UsdAttribute attr = _api.GetDensityAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsRestitution) {
+        } else if (name == UsdPhysicsImagingMaterialSchemaTokens->restitution) {
             if (UsdAttribute attr = _api.GetRestitutionAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsDynamicFriction) {
+        } else if (name == UsdPhysicsImagingMaterialSchemaTokens->dynamicFriction) {
             if (UsdAttribute attr = _api.GetDynamicFrictionAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsStaticFriction) {
+        } else if (name == UsdPhysicsImagingMaterialSchemaTokens->staticFriction) {
             if (UsdAttribute attr = _api.GetStaticFrictionAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
@@ -89,7 +89,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsMaterialAPIAdapter::GetImagingSubpr
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsMaterialAPI,
+        return HdRetainedContainerDataSource::New(UsdPhysicsImagingMaterialSchemaTokens->material,
                                                   _PhysicsMaterialDataSource::New(prim, stageGlobals));
     }
 

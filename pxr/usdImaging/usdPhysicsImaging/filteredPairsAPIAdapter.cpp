@@ -33,14 +33,14 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsTokens->physicsFilteredPairs,  //
+                UsdPhysicsImagingFilteredPairsSchemaTokens->filteredPairs,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsTokens->physicsFilteredPairs) {
+        if (name == UsdPhysicsImagingFilteredPairsSchemaTokens->filteredPairs) {
             if (UsdRelationship rel = _api.GetFilteredPairsRel()) {
                 return DependentPrimsDataSource::New(rel);
             }
@@ -64,7 +64,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsFilteredPairsAPIAdapter::GetImaging
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsFilteredPairsAPI,
+        return HdRetainedContainerDataSource::New(UsdPhysicsImagingFilteredPairsSchemaTokens->filteredPairs,
                                                   _PhysicsFilteredPairsDataSource::New(prim));
     }
 

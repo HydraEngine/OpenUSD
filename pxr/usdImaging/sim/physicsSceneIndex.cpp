@@ -209,22 +209,27 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             }
         }
 
-        HdDistanceJointSchema distanceJointSchema = HdDistanceJointSchema::GetFromParent(prim.dataSource);
+        UsdPhysicsImagingDistanceJointSchema distanceJointSchema =
+                UsdPhysicsImagingDistanceJointSchema::GetFromParent(prim.dataSource);
         if (distanceJointSchema) {
             std::cout << entry.primPath << "\t" << entry.primType << "\n";
             std::cout << "MinDistance: \t" << distanceJointSchema.GetMinDistance()->GetTypedValue(0) << "\n";
             std::cout << "MaxDistance: \t" << distanceJointSchema.GetMaxDistance()->GetTypedValue(0) << "\n";
-            std::cout << "BreakForce: \t" << distanceJointSchema.GetBreakForce()->GetTypedValue(0) << "\n";
-            std::cout << "BreakTorque: \t" << distanceJointSchema.GetBreakTorque()->GetTypedValue(0) << "\n";
         }
 
-        HdRevoluteJointSchema revoluteJointSchema = HdRevoluteJointSchema::GetFromParent(prim.dataSource);
+        UsdPhysicsImagingRevoluteJointSchema revoluteJointSchema =
+                UsdPhysicsImagingRevoluteJointSchema::GetFromParent(prim.dataSource);
         if (revoluteJointSchema) {
             std::cout << entry.primPath << "\t" << entry.primType << "\n";
             std::cout << "LowerLimit: \t" << revoluteJointSchema.GetLowerLimit()->GetTypedValue(0) << "\n";
             std::cout << "UpperLimit: \t" << revoluteJointSchema.GetUpperLimit()->GetTypedValue(0) << "\n";
-            std::cout << "BreakForce: \t" << revoluteJointSchema.GetBreakForce()->GetTypedValue(0) << "\n";
-            std::cout << "BreakTorque: \t" << revoluteJointSchema.GetBreakTorque()->GetTypedValue(0) << "\n";
+        }
+
+        UsdPhysicsImagingJointSchema jointSchema = UsdPhysicsImagingJointSchema::GetFromParent(prim.dataSource);
+        if (jointSchema) {
+            std::cout << entry.primPath << "\t" << entry.primType << "\n";
+            std::cout << "BreakForce: \t" << jointSchema.GetBreakForce()->GetTypedValue(0) << "\n";
+            std::cout << "BreakTorque: \t" << jointSchema.GetBreakTorque()->GetTypedValue(0) << "\n";
         }
     }
 

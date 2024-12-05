@@ -34,7 +34,7 @@ TfTokenVector UsdImagingPhysicsJointAdapter::GetImagingSubprims(UsdPrim const& p
 
 TfToken UsdImagingPhysicsJointAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return UsdPhysicsTokens->PhysicsJoint;
+        return UsdPhysicsImagingJointSchemaTokens->joint;
     }
     return TfToken();
 }

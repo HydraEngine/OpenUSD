@@ -23,21 +23,21 @@ TfTokenVector UsdImagingDataSourceRevoluteJoint::GetNames() {
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceRevoluteJoint::Get(const TfToken &name) {
-    if (name == UsdPhysicsTokens->physicsAxis) {
+    if (name == UsdPhysicsImagingRevoluteJointSchemaTokens->axis) {
         if (UsdAttribute attr = _usdRevoluteJoint.GetAxisAttr()) {
             TfToken v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<TfToken>::New(v);
             }
         }
-    } else if (name == UsdPhysicsTokens->physicsLowerLimit) {
+    } else if (name == UsdPhysicsImagingRevoluteJointSchemaTokens->lowerLimit) {
         if (UsdAttribute attr = _usdRevoluteJoint.GetLowerLimitAttr()) {
             float v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<float>::New(v);
             }
         }
-    } else if (name == UsdPhysicsTokens->physicsUpperLimit) {
+    } else if (name == UsdPhysicsImagingRevoluteJointSchemaTokens->upperLimit) {
         if (UsdAttribute attr = _usdRevoluteJoint.GetUpperLimitAttr()) {
             float v{};
             if (attr.Get(&v)) {
@@ -55,18 +55,18 @@ UsdImagingDataSourceRevoluteJointPrim::UsdImagingDataSourceRevoluteJointPrim(
     : UsdImagingDataSourceJointPrim(sceneIndexPath, usdPrim, stageGlobals) {}
 
 TfTokenVector UsdImagingDataSourceRevoluteJointPrim::GetNames() {
-    TfTokenVector result = UsdImagingDataSourcePrim::GetNames();
-    result.push_back(HdRevoluteJointSchema::GetSchemaToken());
+    TfTokenVector result = UsdImagingDataSourceJointPrim::GetNames();
+    result.push_back(UsdPhysicsImagingRevoluteJointSchema::GetSchemaToken());
     return result;
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceRevoluteJointPrim::Get(const TfToken &name) {
-    if (name == HdRevoluteJointSchema::GetSchemaToken()) {
+    if (name == UsdPhysicsImagingRevoluteJointSchema::GetSchemaToken()) {
         return UsdImagingDataSourceRevoluteJoint::New(_GetSceneIndexPath(), UsdPhysicsRevoluteJoint(_GetUsdPrim()),
-                                                       _GetStageGlobals());
+                                                      _GetStageGlobals());
     }
 
-    return UsdImagingDataSourcePrim::Get(name);
+    return UsdImagingDataSourceJointPrim::Get(name);
 }
 
 HdDataSourceLocatorSet UsdImagingDataSourceRevoluteJointPrim::Invalidate(
@@ -76,14 +76,15 @@ HdDataSourceLocatorSet UsdImagingDataSourceRevoluteJointPrim::Invalidate(
         const UsdImagingPropertyInvalidationType invalidationType) {
     TRACE_FUNCTION();
 
-    HdDataSourceLocatorSet locators = UsdImagingDataSourcePrim::Invalidate(prim, subprim, properties, invalidationType);
+    HdDataSourceLocatorSet locators =
+            UsdImagingDataSourceJointPrim::Invalidate(prim, subprim, properties, invalidationType);
 
     static TfTokenVector usdNames = UsdPhysicsRevoluteJoint::GetSchemaAttributeNames(/* includeInherited = */ false);
 
     for (const TfToken &propertyName : properties) {
         for (const TfToken &usdName : usdNames) {
             if (propertyName == usdName) {
-                locators.insert(HdRevoluteJointSchema::GetDefaultLocator().Append(propertyName));
+                locators.insert(UsdPhysicsImagingRevoluteJointSchema::GetDefaultLocator().Append(propertyName));
             }
         }
     }

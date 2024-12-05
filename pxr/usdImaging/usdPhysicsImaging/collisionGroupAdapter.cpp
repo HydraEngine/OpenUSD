@@ -35,8 +35,9 @@ public:
 
     static const TfTokenVector& GetPropertyNames() {
         static const TfTokenVector names = {
-                UsdPhysicsTokens->physicsGravityDirection,  //
-                UsdPhysicsTokens->physicsGravityMagnitude   //
+                UsdPhysicsImagingCollisionGroupSchemaTokens->mergeGroupName,  //
+                UsdPhysicsImagingCollisionGroupSchemaTokens->invertFilteredGroups,   //
+                UsdPhysicsImagingCollisionGroupSchemaTokens->filteredGroups   //
         };
 
         return names;
@@ -45,7 +46,7 @@ public:
     TfTokenVector GetNames() override { return GetPropertyNames(); }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsTokens->physicsMergeGroup) {
+        if (name == UsdPhysicsImagingCollisionGroupSchemaTokens->mergeGroupName) {
             if (UsdAttribute attr = _usdPhysicsCollisionGroup.GetMergeGroupNameAttr()) {
                 std::string v;
                 if (attr.Get(&v)) {
@@ -54,7 +55,7 @@ public:
             }
         }
 
-        if (name == UsdPhysicsTokens->physicsInvertFilteredGroups) {
+        if (name == UsdPhysicsImagingCollisionGroupSchemaTokens->invertFilteredGroups) {
             if (UsdAttribute attr = _usdPhysicsCollisionGroup.GetInvertFilteredGroupsAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
@@ -63,7 +64,7 @@ public:
             }
         }
 
-        if (name == UsdPhysicsTokens->physicsFilteredGroups) {
+        if (name == UsdPhysicsImagingCollisionGroupSchemaTokens->filteredGroups) {
             if (UsdRelationship rel = _usdPhysicsCollisionGroup.GetFilteredGroupsRel()) {
                 return DependentPrimsDataSource::New(rel);
             }
@@ -154,7 +155,7 @@ TfTokenVector UsdImagingPhysicsCollisionGroupAdapter::GetImagingSubprims(UsdPrim
 
 TfToken UsdImagingPhysicsCollisionGroupAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return UsdPhysicsTokens->PhysicsCollisionGroup;
+        return UsdPhysicsImagingCollisionGroupSchemaTokens->collisionGroup;
     }
     return TfToken();
 }

@@ -29,13 +29,15 @@ UsdImagingPhysicsSphericalJointAdapter::~UsdImagingPhysicsSphericalJointAdapter(
 // 2.0 Prim adapter API
 // -------------------------------------------------------------------------- //
 
-TfTokenVector UsdImagingPhysicsSphericalJointAdapter::GetImagingSubprims(UsdPrim const& prim) { return {TfToken()}; }
+TfTokenVector UsdImagingPhysicsSphericalJointAdapter::GetImagingSubprims(UsdPrim const& prim) {
+    return UsdImagingPhysicsJointAdapter::GetImagingSubprims(prim);
+}
 
 TfToken UsdImagingPhysicsSphericalJointAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return UsdPhysicsTokens->PhysicsSphericalJoint;
+        return UsdPhysicsImagingSphericalJointSchemaTokens->sphericalJoint;
     }
-    return TfToken();
+    return UsdImagingPhysicsJointAdapter::GetImagingSubprimType(prim, subprim);
 }
 
 HdContainerDataSourceHandle UsdImagingPhysicsSphericalJointAdapter::GetImagingSubprimData(
@@ -44,7 +46,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsSphericalJointAdapter::GetImagingSu
         return UsdImagingDataSourceSphericalJointPrim::New(prim.GetPath(), prim, stageGlobals);
     }
 
-    return nullptr;
+    return UsdImagingPhysicsJointAdapter::GetImagingSubprimData(prim, subprim, stageGlobals);
 }
 
 HdDataSourceLocatorSet UsdImagingPhysicsSphericalJointAdapter::InvalidateImagingSubprim(
@@ -56,7 +58,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsSphericalJointAdapter::InvalidateImaging
         return UsdImagingDataSourceSphericalJointPrim::Invalidate(prim, subprim, properties, invalidationType);
     }
 
-    return HdDataSourceLocatorSet();
+    return UsdImagingPhysicsJointAdapter::InvalidateImagingSubprim(prim, subprim, properties, invalidationType);
 }
 
 // -------------------------------------------------------------------------- //
@@ -75,41 +77,41 @@ bool UsdImagingPhysicsSphericalJointAdapter::IsSupported(UsdImagingIndexProxy co
 }
 
 SdfPath UsdImagingPhysicsSphericalJointAdapter::Populate(UsdPrim const& prim,
-                                                        UsdImagingIndexProxy* index,
-                                                        UsdImagingInstancerContext const* instancerContext) {
+                                                         UsdImagingIndexProxy* index,
+                                                         UsdImagingInstancerContext const* instancerContext) {
     return SdfPath::EmptyPath();
 }
 
 void UsdImagingPhysicsSphericalJointAdapter::_RemovePrim(SdfPath const& cachePath, UsdImagingIndexProxy* index) {}
 
-void UsdImagingPhysicsSphericalJointAdapter::TrackVariability(UsdPrim const& prim,
-                                                             SdfPath const& cachePath,
-                                                             HdDirtyBits* timeVaryingBits,
-                                                             UsdImagingInstancerContext const* instancerContext) const {
-}
+void UsdImagingPhysicsSphericalJointAdapter::TrackVariability(
+        UsdPrim const& prim,
+        SdfPath const& cachePath,
+        HdDirtyBits* timeVaryingBits,
+        UsdImagingInstancerContext const* instancerContext) const {}
 
 void UsdImagingPhysicsSphericalJointAdapter::UpdateForTime(UsdPrim const& prim,
-                                                          SdfPath const& cachePath,
-                                                          UsdTimeCode time,
-                                                          HdDirtyBits requestedBits,
-                                                          UsdImagingInstancerContext const* instancerContext) const {}
+                                                           SdfPath const& cachePath,
+                                                           UsdTimeCode time,
+                                                           HdDirtyBits requestedBits,
+                                                           UsdImagingInstancerContext const* instancerContext) const {}
 
 HdDirtyBits UsdImagingPhysicsSphericalJointAdapter::ProcessPropertyChange(UsdPrim const& prim,
-                                                                         SdfPath const& cachePath,
-                                                                         TfToken const& propertyName) {
+                                                                          SdfPath const& cachePath,
+                                                                          TfToken const& propertyName) {
     return HdChangeTracker::Clean;
 }
 
 void UsdImagingPhysicsSphericalJointAdapter::MarkDirty(UsdPrim const& prim,
-                                                      SdfPath const& cachePath,
-                                                      HdDirtyBits dirty,
-                                                      UsdImagingIndexProxy* index) {}
+                                                       SdfPath const& cachePath,
+                                                       HdDirtyBits dirty,
+                                                       UsdImagingIndexProxy* index) {}
 
 VtValue UsdImagingPhysicsSphericalJointAdapter::Get(UsdPrim const& prim,
-                                                   SdfPath const& cachePath,
-                                                   TfToken const& key,
-                                                   UsdTimeCode time,
-                                                   VtIntArray* outIndices) const {
+                                                    SdfPath const& cachePath,
+                                                    TfToken const& key,
+                                                    UsdTimeCode time,
+                                                    VtIntArray* outIndices) const {
     return VtValue();
 }
 

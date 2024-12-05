@@ -33,18 +33,18 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsTokens->drive_MultipleApplyTemplate_PhysicsType,
-                UsdPhysicsTokens->drive_MultipleApplyTemplate_PhysicsMaxForce,        //
-                UsdPhysicsTokens->drive_MultipleApplyTemplate_PhysicsTargetPosition,  //
-                UsdPhysicsTokens->drive_MultipleApplyTemplate_PhysicsTargetVelocity,  //
-                UsdPhysicsTokens->drive_MultipleApplyTemplate_PhysicsDamping,         //
-                UsdPhysicsTokens->drive_MultipleApplyTemplate_PhysicsStiffness,       //
+                UsdPhysicsImagingDriveSchemaTokens->type,
+                UsdPhysicsImagingDriveSchemaTokens->maxForce,        //
+                UsdPhysicsImagingDriveSchemaTokens->targetPosition,  //
+                UsdPhysicsImagingDriveSchemaTokens->targetVelocity,  //
+                UsdPhysicsImagingDriveSchemaTokens->damping,         //
+                UsdPhysicsImagingDriveSchemaTokens->stiffness,       //
         };
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsTokens->drive_MultipleApplyTemplate_PhysicsType) {
+        if (name == UsdPhysicsImagingDriveSchemaTokens->type) {
             if (UsdAttribute attr = _api.GetTypeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
@@ -52,7 +52,7 @@ public:
                 }
             }
         }
-        if (name == UsdPhysicsTokens->drive_MultipleApplyTemplate_PhysicsMaxForce) {
+        if (name == UsdPhysicsImagingDriveSchemaTokens->maxForce) {
             if (UsdAttribute attr = _api.GetMaxForceAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -60,7 +60,7 @@ public:
                 }
             }
         }
-        if (name == UsdPhysicsTokens->drive_MultipleApplyTemplate_PhysicsTargetPosition) {
+        if (name == UsdPhysicsImagingDriveSchemaTokens->targetPosition) {
             if (UsdAttribute attr = _api.GetTargetPositionAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -68,7 +68,7 @@ public:
                 }
             }
         }
-        if (name == UsdPhysicsTokens->drive_MultipleApplyTemplate_PhysicsTargetVelocity) {
+        if (name == UsdPhysicsImagingDriveSchemaTokens->targetVelocity) {
             if (UsdAttribute attr = _api.GetTargetVelocityAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -76,7 +76,7 @@ public:
                 }
             }
         }
-        if (name == UsdPhysicsTokens->drive_MultipleApplyTemplate_PhysicsDamping) {
+        if (name == UsdPhysicsImagingDriveSchemaTokens->damping) {
             if (UsdAttribute attr = _api.GetDampingAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -84,7 +84,7 @@ public:
                 }
             }
         }
-        if (name == UsdPhysicsTokens->drive_MultipleApplyTemplate_PhysicsStiffness) {
+        if (name == UsdPhysicsImagingDriveSchemaTokens->stiffness) {
             if (UsdAttribute attr = _api.GetStiffnessAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -110,7 +110,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsDriveAPIAdapter::GetImagingSubprimD
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsDriveAPI,
+        return HdRetainedContainerDataSource::New(UsdPhysicsImagingDriveSchemaTokens->drive,
                                                   _PhysicsDriveDataSource::New(prim));
     }
 

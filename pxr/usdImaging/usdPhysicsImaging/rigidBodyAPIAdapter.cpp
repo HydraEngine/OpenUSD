@@ -34,54 +34,54 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsTokens->physicsRigidBodyEnabled,  //
-                UsdPhysicsTokens->physicsKinematicEnabled,  //
-                UsdPhysicsTokens->physicsStartsAsleep,      //
-                UsdPhysicsTokens->physicsVelocity,          //
-                UsdPhysicsTokens->physicsAngularVelocity,   //
-                UsdPhysicsTokens->physicsSimulationOwner,   //
+                UsdPhysicsImagingRigidBodySchemaTokens->rigidBodyEnabled,  //
+                UsdPhysicsImagingRigidBodySchemaTokens->kinematicEnabled,  //
+                UsdPhysicsImagingRigidBodySchemaTokens->startsAsleep,      //
+                UsdPhysicsImagingRigidBodySchemaTokens->velocity,          //
+                UsdPhysicsImagingRigidBodySchemaTokens->angularVelocity,   //
+                UsdPhysicsImagingRigidBodySchemaTokens->simulationOwner,   //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsTokens->physicsRigidBodyEnabled) {
+        if (name == UsdPhysicsImagingRigidBodySchemaTokens->rigidBodyEnabled) {
             if (UsdAttribute attr = _api.GetRigidBodyEnabledAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsKinematicEnabled) {
+        } else if (name == UsdPhysicsImagingRigidBodySchemaTokens->kinematicEnabled) {
             if (UsdAttribute attr = _api.GetKinematicEnabledAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsStartsAsleep) {
+        } else if (name == UsdPhysicsImagingRigidBodySchemaTokens->startsAsleep) {
             if (UsdAttribute attr = _api.GetStartsAsleepAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsVelocity) {
+        } else if (name == UsdPhysicsImagingRigidBodySchemaTokens->velocity) {
             if (UsdAttribute attr = _api.GetVelocityAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsAngularVelocity) {
+        } else if (name == UsdPhysicsImagingRigidBodySchemaTokens->angularVelocity) {
             if (UsdAttribute attr = _api.GetAngularVelocityAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsSimulationOwner) {
+        } else if (name == UsdPhysicsImagingRigidBodySchemaTokens->simulationOwner) {
             if (UsdRelationship rel = _api.GetSimulationOwnerRel()) {
                 return DependentPrimsDataSource::New(rel);
             }
@@ -104,7 +104,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsRigidBodyAPIAdapter::GetImagingSubp
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsRigidBodyAPI,
+        return HdRetainedContainerDataSource::New(UsdPhysicsImagingRigidBodySchemaTokens->rigidBody,
                                                   _PhysicsRigidBodyDataSource::New(prim));
     }
 

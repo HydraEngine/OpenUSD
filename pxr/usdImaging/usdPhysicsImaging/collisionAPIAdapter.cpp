@@ -36,22 +36,22 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsTokens->physicsCollisionEnabled,  //
-                UsdPhysicsTokens->physicsSimulationOwner,   //
+                UsdPhysicsImagingCollisionSchemaTokens->collisionEnabled,  //
+                UsdPhysicsImagingCollisionSchemaTokens->simulationOwner,   //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsTokens->physicsCollisionEnabled) {
+        if (name == UsdPhysicsImagingCollisionSchemaTokens->collisionEnabled) {
             if (UsdAttribute attr = _api.GetCollisionEnabledAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsSimulationOwner) {
+        } else if (name == UsdPhysicsImagingCollisionSchemaTokens->simulationOwner) {
             if (UsdRelationship rel = _api.GetSimulationOwnerRel()) {
                 return DependentPrimsDataSource::New(rel);
             }
@@ -74,7 +74,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsCollisionAPIAdapter::GetImagingSubp
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsCollisionAPI,
+        return HdRetainedContainerDataSource::New(UsdPhysicsImagingCollisionSchemaTokens->collision,
                                                   _PhysicsCollisionDataSource::New(prim));
     }
 

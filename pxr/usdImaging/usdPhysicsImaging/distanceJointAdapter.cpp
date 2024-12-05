@@ -29,13 +29,15 @@ UsdImagingPhysicsDistanceJointAdapter::~UsdImagingPhysicsDistanceJointAdapter() 
 // 2.0 Prim adapter API
 // -------------------------------------------------------------------------- //
 
-TfTokenVector UsdImagingPhysicsDistanceJointAdapter::GetImagingSubprims(UsdPrim const& prim) { return {TfToken()}; }
+TfTokenVector UsdImagingPhysicsDistanceJointAdapter::GetImagingSubprims(UsdPrim const& prim) {
+    return UsdImagingPhysicsJointAdapter::GetImagingSubprims(prim);
+}
 
 TfToken UsdImagingPhysicsDistanceJointAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return UsdPhysicsTokens->PhysicsDistanceJoint;
+        return UsdPhysicsImagingDistanceJointSchemaTokens->distanceJoint;
     }
-    return TfToken();
+    return UsdImagingPhysicsJointAdapter::GetImagingSubprimType(prim, subprim);
 }
 
 HdContainerDataSourceHandle UsdImagingPhysicsDistanceJointAdapter::GetImagingSubprimData(
@@ -44,7 +46,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsDistanceJointAdapter::GetImagingSub
         return UsdImagingDataSourceDistanceJointPrim::New(prim.GetPath(), prim, stageGlobals);
     }
 
-    return nullptr;
+    return UsdImagingPhysicsJointAdapter::GetImagingSubprimData(prim, subprim, stageGlobals);
 }
 
 HdDataSourceLocatorSet UsdImagingPhysicsDistanceJointAdapter::InvalidateImagingSubprim(
@@ -56,7 +58,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsDistanceJointAdapter::InvalidateImagingS
         return UsdImagingDataSourceDistanceJointPrim::Invalidate(prim, subprim, properties, invalidationType);
     }
 
-    return HdDataSourceLocatorSet();
+    return UsdImagingPhysicsJointAdapter::InvalidateImagingSubprim(prim, subprim, properties, invalidationType);
 }
 
 // -------------------------------------------------------------------------- //

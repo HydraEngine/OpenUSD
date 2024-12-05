@@ -33,46 +33,46 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsTokens->physicsMass,             //
-                UsdPhysicsTokens->physicsDensity,          //
-                UsdPhysicsTokens->physicsCenterOfMass,     //
-                UsdPhysicsTokens->physicsDiagonalInertia,  //
-                UsdPhysicsTokens->physicsPrincipalAxes,    //
+                UsdPhysicsImagingMassSchemaTokens->mass,             //
+                UsdPhysicsImagingMassSchemaTokens->density,          //
+                UsdPhysicsImagingMassSchemaTokens->centerOfMass,     //
+                UsdPhysicsImagingMassSchemaTokens->diagonalInertia,  //
+                UsdPhysicsImagingMassSchemaTokens->principalAxes,    //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsTokens->physicsMass) {
+        if (name == UsdPhysicsImagingMassSchemaTokens->mass) {
             if (UsdAttribute attr = _api.GetMassAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsDensity) {
+        } else if (name == UsdPhysicsImagingMassSchemaTokens->density) {
             if (UsdAttribute attr = _api.GetDensityAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsCenterOfMass) {
+        } else if (name == UsdPhysicsImagingMassSchemaTokens->centerOfMass) {
             if (UsdAttribute attr = _api.GetCenterOfMassAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsDiagonalInertia) {
+        } else if (name == UsdPhysicsImagingMassSchemaTokens->diagonalInertia) {
             if (UsdAttribute attr = _api.GetDiagonalInertiaAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->physicsPrincipalAxes) {
+        } else if (name == UsdPhysicsImagingMassSchemaTokens->principalAxes) {
             if (UsdAttribute attr = _api.GetPrincipalAxesAttr()) {
                 GfQuatf v;
                 if (attr.Get(&v)) {
@@ -98,7 +98,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsMassAPIAdapter::GetImagingSubprimDa
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsMassAPI,
+        return HdRetainedContainerDataSource::New(UsdPhysicsImagingMassSchemaTokens->mass,
                                                   _PhysicsMassDataSource::New(prim));
     }
 

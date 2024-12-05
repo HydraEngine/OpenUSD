@@ -32,8 +32,8 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsLow,   //
-                UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsHigh,  //
+                UsdPhysicsImagingLimitSchemaTokens->low,   //
+                UsdPhysicsImagingLimitSchemaTokens->high,  //
         };
 
         return names;
@@ -41,13 +41,13 @@ public:
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
         float v;
-        if (name == UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsLow) {
+        if (name == UsdPhysicsImagingLimitSchemaTokens->low) {
             if (UsdAttribute attr = _api.GetLowAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsTokens->limit_MultipleApplyTemplate_PhysicsHigh) {
+        } else if (name == UsdPhysicsImagingLimitSchemaTokens->high) {
             if (UsdAttribute attr = _api.GetHighAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
@@ -72,7 +72,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsLimitAPIAdapter::GetImagingSubprimD
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsLimitAPI,
+        return HdRetainedContainerDataSource::New(UsdPhysicsImagingLimitSchemaTokens->limit,
                                                   _PhysicsLimitDataSource::New(prim));
     }
 

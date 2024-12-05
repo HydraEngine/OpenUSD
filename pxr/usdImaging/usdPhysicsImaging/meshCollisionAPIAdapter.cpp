@@ -33,13 +33,13 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsTokens->physicsApproximation,  //
+                UsdPhysicsImagingMeshCollisionSchemaTokens->approximation,  //
         };
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsTokens->physicsApproximation) {
+        if (name == UsdPhysicsImagingMeshCollisionSchemaTokens->approximation) {
             if (UsdAttribute attr = _api.GetApproximationAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
@@ -65,7 +65,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsMeshCollisionAPIAdapter::GetImaging
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsMeshCollisionAPI,
+        return HdRetainedContainerDataSource::New(UsdPhysicsImagingMeshCollisionSchemaTokens->meshCollision,
                                                   _PhysicsMeshCollisionDataSource::New(prim));
     }
 

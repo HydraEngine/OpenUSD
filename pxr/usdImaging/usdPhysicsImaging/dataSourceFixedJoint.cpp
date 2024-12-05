@@ -34,12 +34,12 @@ UsdImagingDataSourceFixedJointPrim::UsdImagingDataSourceFixedJointPrim(
 
 TfTokenVector UsdImagingDataSourceFixedJointPrim::GetNames() {
     TfTokenVector result = UsdImagingDataSourcePrim::GetNames();
-    result.push_back(HdFixedJointSchema::GetSchemaToken());
+    result.push_back(UsdPhysicsImagingFixedJointSchema::GetSchemaToken());
     return result;
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceFixedJointPrim::Get(const TfToken &name) {
-    if (name == HdFixedJointSchema::GetSchemaToken()) {
+    if (name == UsdPhysicsImagingFixedJointSchema::GetSchemaToken()) {
         return UsdImagingDataSourceFixedJoint::New(_GetSceneIndexPath(), UsdPhysicsFixedJoint(_GetUsdPrim()),
                                                       _GetStageGlobals());
     }
@@ -61,7 +61,7 @@ HdDataSourceLocatorSet UsdImagingDataSourceFixedJointPrim::Invalidate(
     for (const TfToken &propertyName : properties) {
         for (const TfToken &usdName : usdNames) {
             if (propertyName == usdName) {
-                locators.insert(HdFixedJointSchema::GetDefaultLocator().Append(propertyName));
+                locators.insert(UsdPhysicsImagingFixedJointSchema::GetDefaultLocator().Append(propertyName));
             }
         }
     }

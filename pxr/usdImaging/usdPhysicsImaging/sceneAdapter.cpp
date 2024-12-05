@@ -34,8 +34,8 @@ public:
 
     static const TfTokenVector& GetPropertyNames() {
         static const TfTokenVector names = {
-                UsdPhysicsTokens->physicsGravityDirection,  //
-                UsdPhysicsTokens->physicsGravityMagnitude   //
+                UsdPhysicsImagingSceneSchemaTokens->gravityDirection,  //
+                UsdPhysicsImagingSceneSchemaTokens->gravityMagnitude   //
         };
 
         return names;
@@ -44,7 +44,7 @@ public:
     TfTokenVector GetNames() override { return GetPropertyNames(); }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsTokens->physicsGravityDirection) {
+        if (name == UsdPhysicsImagingSceneSchemaTokens->gravityDirection) {
             if (UsdAttribute attr = _usdPhysicsScene.GetGravityDirectionAttr()) {
                 GfVec3f v;
                 if (attr.Get(&v)) {
@@ -53,7 +53,7 @@ public:
             }
         }
 
-        if (name == UsdPhysicsTokens->physicsGravityMagnitude) {
+        if (name == UsdPhysicsImagingSceneSchemaTokens->gravityMagnitude) {
             if (UsdAttribute attr = _usdPhysicsScene.GetGravityMagnitudeAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -145,7 +145,7 @@ TfTokenVector UsdImagingPhysicsSceneAdapter::GetImagingSubprims(UsdPrim const& p
 
 TfToken UsdImagingPhysicsSceneAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return UsdPhysicsTokens->PhysicsScene;
+        return UsdPhysicsImagingSceneSchemaTokens->scene;
     }
     return TfToken();
 }

@@ -29,13 +29,15 @@ UsdImagingPhysicsPrismaticJointAdapter::~UsdImagingPhysicsPrismaticJointAdapter(
 // 2.0 Prim adapter API
 // -------------------------------------------------------------------------- //
 
-TfTokenVector UsdImagingPhysicsPrismaticJointAdapter::GetImagingSubprims(UsdPrim const& prim) { return {TfToken()}; }
+TfTokenVector UsdImagingPhysicsPrismaticJointAdapter::GetImagingSubprims(UsdPrim const& prim) {
+    return UsdImagingPhysicsJointAdapter::GetImagingSubprims(prim);
+}
 
 TfToken UsdImagingPhysicsPrismaticJointAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return UsdPhysicsTokens->PhysicsPrismaticJoint;
+        return UsdPhysicsImagingPrismaticJointSchemaTokens->prismaticJoint;
     }
-    return TfToken();
+    return UsdImagingPhysicsJointAdapter::GetImagingSubprimType(prim, subprim);
 }
 
 HdContainerDataSourceHandle UsdImagingPhysicsPrismaticJointAdapter::GetImagingSubprimData(
@@ -44,7 +46,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPrismaticJointAdapter::GetImagingSu
         return UsdImagingDataSourcePrismaticJointPrim::New(prim.GetPath(), prim, stageGlobals);
     }
 
-    return nullptr;
+    return UsdImagingPhysicsJointAdapter::GetImagingSubprimData(prim, subprim, stageGlobals);
 }
 
 HdDataSourceLocatorSet UsdImagingPhysicsPrismaticJointAdapter::InvalidateImagingSubprim(
@@ -56,7 +58,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPrismaticJointAdapter::InvalidateImaging
         return UsdImagingDataSourcePrismaticJointPrim::Invalidate(prim, subprim, properties, invalidationType);
     }
 
-    return HdDataSourceLocatorSet();
+    return UsdImagingPhysicsJointAdapter::InvalidateImagingSubprim(prim, subprim, properties, invalidationType);
 }
 
 // -------------------------------------------------------------------------- //
@@ -75,41 +77,41 @@ bool UsdImagingPhysicsPrismaticJointAdapter::IsSupported(UsdImagingIndexProxy co
 }
 
 SdfPath UsdImagingPhysicsPrismaticJointAdapter::Populate(UsdPrim const& prim,
-                                                        UsdImagingIndexProxy* index,
-                                                        UsdImagingInstancerContext const* instancerContext) {
+                                                         UsdImagingIndexProxy* index,
+                                                         UsdImagingInstancerContext const* instancerContext) {
     return SdfPath::EmptyPath();
 }
 
 void UsdImagingPhysicsPrismaticJointAdapter::_RemovePrim(SdfPath const& cachePath, UsdImagingIndexProxy* index) {}
 
-void UsdImagingPhysicsPrismaticJointAdapter::TrackVariability(UsdPrim const& prim,
-                                                             SdfPath const& cachePath,
-                                                             HdDirtyBits* timeVaryingBits,
-                                                             UsdImagingInstancerContext const* instancerContext) const {
-}
+void UsdImagingPhysicsPrismaticJointAdapter::TrackVariability(
+        UsdPrim const& prim,
+        SdfPath const& cachePath,
+        HdDirtyBits* timeVaryingBits,
+        UsdImagingInstancerContext const* instancerContext) const {}
 
 void UsdImagingPhysicsPrismaticJointAdapter::UpdateForTime(UsdPrim const& prim,
-                                                          SdfPath const& cachePath,
-                                                          UsdTimeCode time,
-                                                          HdDirtyBits requestedBits,
-                                                          UsdImagingInstancerContext const* instancerContext) const {}
+                                                           SdfPath const& cachePath,
+                                                           UsdTimeCode time,
+                                                           HdDirtyBits requestedBits,
+                                                           UsdImagingInstancerContext const* instancerContext) const {}
 
 HdDirtyBits UsdImagingPhysicsPrismaticJointAdapter::ProcessPropertyChange(UsdPrim const& prim,
-                                                                         SdfPath const& cachePath,
-                                                                         TfToken const& propertyName) {
+                                                                          SdfPath const& cachePath,
+                                                                          TfToken const& propertyName) {
     return HdChangeTracker::Clean;
 }
 
 void UsdImagingPhysicsPrismaticJointAdapter::MarkDirty(UsdPrim const& prim,
-                                                      SdfPath const& cachePath,
-                                                      HdDirtyBits dirty,
-                                                      UsdImagingIndexProxy* index) {}
+                                                       SdfPath const& cachePath,
+                                                       HdDirtyBits dirty,
+                                                       UsdImagingIndexProxy* index) {}
 
 VtValue UsdImagingPhysicsPrismaticJointAdapter::Get(UsdPrim const& prim,
-                                                   SdfPath const& cachePath,
-                                                   TfToken const& key,
-                                                   UsdTimeCode time,
-                                                   VtIntArray* outIndices) const {
+                                                    SdfPath const& cachePath,
+                                                    TfToken const& key,
+                                                    UsdTimeCode time,
+                                                    VtIntArray* outIndices) const {
     return VtValue();
 }
 

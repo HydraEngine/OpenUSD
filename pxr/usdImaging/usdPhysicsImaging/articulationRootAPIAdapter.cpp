@@ -45,7 +45,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsArticulationRootAPIAdapter::GetImag
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsTokens->PhysicsArticulationRootAPI,
+        return HdRetainedContainerDataSource::New(UsdPhysicsImagingArticulationRootSchemaTokens->articulationRoot,
                                                   _PhysicsArticulationRootDataSource::New());
     }
 

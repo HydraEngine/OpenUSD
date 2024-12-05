@@ -58,6 +58,7 @@ T_BASE = "HdDataSourceBase"
 T_STRING = "HdStringDataSource"
 T_VECTOR = "HdVectorDataSource"
 T_RESOLVERCONTEXT = "HdResolverContextDataSource"
+T_QUATF = "HdQuatfDataSource"
 
 #------------------------------------------------------------------------------
 # Filters
