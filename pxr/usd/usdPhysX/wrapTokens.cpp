@@ -26,6 +26,7 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, BitsPerPixel32);
     _ADD_TOKEN(cls, BitsPerPixel8);
     _ADD_TOKEN(cls, clutch);
+    _ADD_TOKEN(cls, commandValues);
     _ADD_TOKEN(cls, constrained);
     _ADD_TOKEN(cls, Disabled);
     _ADD_TOKEN(cls, easy);
@@ -294,8 +295,22 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxVehicleMinActiveLongitudinalSlipDenominator);
     _ADD_TOKEN(cls, physxVehicleMinLateralSlipDenominator);
     _ADD_TOKEN(cls, physxVehicleMinPassiveLongitudinalSlipDenominator);
+    _ADD_TOKEN(cls, physxVehicleMultiWheelDifferentialAverageWheelSpeedRatios);
+    _ADD_TOKEN(cls, physxVehicleMultiWheelDifferentialTorqueRatios);
+    _ADD_TOKEN(cls, physxVehicleMultiWheelDifferentialWheels);
+    _ADD_TOKEN(cls, physxVehicleSteeringAngleMultipliers);
+    _ADD_TOKEN(cls, physxVehicleSteeringMaxSteerAngle);
+    _ADD_TOKEN(cls, physxVehicleSteeringWheels);
     _ADD_TOKEN(cls, physxVehicleSubStepThresholdLongitudinalSpeed);
+    _ADD_TOKEN(cls, physxVehicleSuspensionComplianceSuspensionForceAppPoint);
+    _ADD_TOKEN(cls, physxVehicleSuspensionComplianceTireForceAppPoint);
+    _ADD_TOKEN(cls, physxVehicleSuspensionComplianceWheelCamberAngle);
+    _ADD_TOKEN(cls, physxVehicleSuspensionComplianceWheelToeAngle);
     _ADD_TOKEN(cls, physxVehicleSuspensionLineQueryType);
+    _ADD_TOKEN(cls, physxVehicleSuspensionSpringDamperRate);
+    _ADD_TOKEN(cls, physxVehicleSuspensionSpringStrength);
+    _ADD_TOKEN(cls, physxVehicleSuspensionSprungMass);
+    _ADD_TOKEN(cls, physxVehicleSuspensionTravelDistance);
     _ADD_TOKEN(cls, physxVehicleVehicleEnabled);
     _ADD_TOKEN(cls, posX);
     _ADD_TOKEN(cls, posY);
@@ -311,6 +326,8 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, SAP);
     _ADD_TOKEN(cls, SAT);
     _ADD_TOKEN(cls, scriptFile);
+    _ADD_TOKEN(cls, speedResponses);
+    _ADD_TOKEN(cls, speedResponsesPerCommandValue);
     _ADD_TOKEN(cls, surface);
     _ADD_TOKEN(cls, sweep);
     _ADD_TOKEN(cls, Synchronous);
@@ -369,4 +386,9 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleDriveStandardAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleEngineAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleGearsAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleMultiWheelDifferentialAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleNonlinearCommandResponseAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleSteeringAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleSuspensionAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleSuspensionComplianceAPI);
 }

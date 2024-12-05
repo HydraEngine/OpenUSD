@@ -48,6 +48,11 @@ vehicleDriveBasicAPI
 vehicleDriveStandardAPI
 vehicleEngineAPI
 vehicleGearsAPI
+vehicleMultiWheelDifferentialAPI
+vehicleNonlinearCommandResponseAPI
+vehicleSteeringAPI
+vehicleSuspensionAPI
+vehicleSuspensionComplianceAPI
 
 # Python Module Files
 module.cpp
@@ -98,6 +103,11 @@ wrapVehicleDriveBasicAPI.cpp
 wrapVehicleDriveStandardAPI.cpp
 wrapVehicleEngineAPI.cpp
 wrapVehicleGearsAPI.cpp
+wrapVehicleMultiWheelDifferentialAPI.cpp
+wrapVehicleNonlinearCommandResponseAPI.cpp
+wrapVehicleSteeringAPI.cpp
+wrapVehicleSuspensionAPI.cpp
+wrapVehicleSuspensionComplianceAPI.cpp
 
 # Resource Files
 generatedSchema.usda

@@ -2667,3 +2667,278 @@ class "PhysxSchemaPhysxVehicleGearsAPI" (
         """
     )
 }
+
+class "PhysxSchemaPhysxVehicleMultiWheelDifferentialAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "VehicleMultiWheelDifferentialAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        Describes which wheels of a vehicle are driven as well as the distribution of the drive torque among those wheels.
+
+        Has to be applied to a prim with PhysxVehicleAPI applied. Can only be used for vehicles that have a drive (see PhysxVehicleDriveBasicAPI or PhysxVehicleDriveStandardAPI).
+    """
+)
+{
+    float[] physxVehicleMultiWheelDifferential:averageWheelSpeedRatios (
+        customData = {
+            string apiName = "averageWheelSpeedRatios"
+        }
+        doc = """Defines how the speeds of the driven wheels get weighted when computing the average wheel speed at the clutch (for computing clutch slip).
+
+        The provided ratios must be in range [0, 1] and under normal circumstances sum up to 1. 
+        If the attribute is defined, then the length of the array needs to match the length of the "wheels" array. 
+        If the attribute is not defined, the wheel speeds of all driven wheels will get weighted equally.
+
+        Note: if a vehicle is using a PhysxVehicleDriveBasicAPI drive, then this attribute should not be used.
+        """
+    )
+    float[] physxVehicleMultiWheelDifferential:torqueRatios (
+        customData = {
+            string apiName = "torqueRatios"
+        }
+        doc = """Defines how the drive torque should get distributed among the wheels specified in the "wheels" attribute.
+
+        The provided ratios must be in range [-1, 1] and under normal circumstances the absolute values should sum up to 1. 
+        If the attribute is defined, then the length of the array needs to match the length of the "wheels" array. 
+        If the attribute is not defined, the torque will get split equally among all driven wheels.
+        """
+    )
+    int[] physxVehicleMultiWheelDifferential:wheels (
+        customData = {
+            string apiName = "wheels"
+        }
+        doc = """List of indices, referencing the wheels that are driven (receiving torque from the engine).
+
+        The indices refer to the attribute "index" of PhysxVehicleWheelAttachmentAPI.
+        """
+    )
+}
+
+class "PhysxSchemaPhysxVehicleNonlinearCommandResponseAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "VehicleNonlinearCommandResponseAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        Describes a system of graphs to define nonlinear responses to PhysxVehicleControllerAPI command values like accelerator, brake0, brake1 and steer.
+
+        The normalized response will be a function of the command value and the longitudinal vehicle speed. 
+        The response will be computed by interpolating between the points of the graph and then interpolating those results again between the closest graphs. 
+        One example usage of nonlinear command response is a brake pedal that has an almost flat response when tipped slightly but a very strong response from a certain point on. 
+        Another example is the steering wheel showing a strong response for a large input at low speed but only a weak response at high speed.
+
+        This multipleApply schema can be used to control the response to steering (use instance name TfToken "steer") and braking (use instance name TfTokens "brakes0" or "brakes1"). 
+        It can also control the response to the accelerator but only in combination with the basic drive (use instance name TfToken "drive"). 
+        Furthermore, this API has to be applied to the appropriate prims to take effect: "steer" has to be applied to a prim that has PhysxVehicleSteeringAPI or PhysxVehicleAckermannSteeringAPI applied. 
+        "brakes0"/"brakes1" have to be applied to a prim that has PhysxVehicleBrakesAPI:brakes0/brakes1 applied. 
+        "drive" has to be applied to a prim that has PhysxVehicleDriveBasicAPI applied.
+    """
+)
+{
+    float[] commandValues (
+        customData = {
+            string apiName = "averageWheelSpeedRatios"
+        }
+        doc = """The command values to define response graphs for.
+
+        Each listed command value (in range [0, 1], steer commands are treated symmetrically) has to point to a graph in speedResponses. 
+        The command values refer to steer, brake0 etc. The values have to be strictly increasing. 
+        The number of entries has to match the number of entries in speedResponsesPerCommandValue and is limited to 8. Every command value needs at least one entry in speedResponses.
+        """
+    )
+    float2[] speedResponses (
+        customData = {
+            string apiName = "speedResponses"
+        }
+        doc = """List of pairs that define points in graphs of longitudinal speed vs.
+
+        normalized response. The first value of the pair is the longitudinal speed, the second value is the expected response (in range [0, 1]). 
+        The longitudinal speed values within a graph have to be strictly increasing. The maximum allowed number of entries is 64. 
+        See speedResponsesPerCommandValue for how the different graphs are accessed.
+        """
+    )
+    int[] speedResponsesPerCommandValue (
+        customData = {
+            string apiName = "speedResponsesPerCommandValue"
+        }
+        doc = """List of indices pointing to the start of a response graph for a certain command value.
+
+        The index values have to be strictly increasing. 
+        The graph for command value commandValues[i] starts at entry speedResponses[speedResponsesPerCommandValue[i]] and stops at entry speedResponses[speedResponsesPerCommandValue[i+1] - 1]. 
+        The number of entries has to match the number of entries in commandValues and has the same maximum limit.
+        """
+    )
+}
+
+class "PhysxSchemaPhysxVehicleSteeringAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "VehicleSteeringAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        Describes a steering system for a vehicle by specifying which wheels are connected to the steer control and by defining the maximum steer angle for those wheels (see PhysxVehicleControllerAPI for the steer control).
+
+        This API schema has to be applied to a prim with PhysxVehicleAPI applied. Can only be used for vehicles that have a drive (see PhysxVehicleDriveBasicAPI or PhysxVehicleDriveStandardAPI).
+    """
+)
+{
+    float[] physxVehicleSteering:angleMultipliers (
+        customData = {
+            string apiName = "angleMultipliers"
+        }
+        doc = """Allows to adjust the max steer angle for each wheel that is steered.
+
+        The values are unitless multipliers. See maxSteerAngle for how these multipliers affect the steer angle of a wheel. 
+        If the attribute is defined, then the length of the array needs to match the length of the "wheels" array. 
+        If the attribute is not defined, a multiplier value of 1 will be used for all steered wheels.
+        """
+    )
+    float physxVehicleSteering:maxSteerAngle = 0 (
+        customData = {
+            string apiName = "maxSteerAngle"
+        }
+        doc = """The maximum steer angle (in radians) that can be achieved by the wheels.
+
+        Has to be in range [-pi, pi] when multiplied by the attribute angleMultipliers. 
+        The steer angle of wheels[i] will be defined by maxSteerAngle * angleMultipliers[i] * physxVehicleController:steer (see PhysxVehicleControllerAPI).
+        """
+    )
+    int[] physxVehicleSteering:wheels (
+        customData = {
+            string apiName = "wheels"
+        }
+        doc = """List of indices, referencing the wheels that are going to be steered.
+
+        The indices refer to the attribute "index" of PhysxVehicleWheelAttachmentAPI. 
+        If not specified, every wheel will be affected by the steer control using an angle multiplier of 1 (see attribute angleMultipliers).
+        """
+    )
+}
+
+class "PhysxSchemaPhysxVehicleSuspensionAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "VehicleSuspensionAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        Properties of a PhysX vehicle wheel suspension.
+
+        If the suspension setup does not need to be shared among vehicle instances, it can be applied to the prim which has PhysxVehicleWheelAttachmentAPI applied. 
+        If the intent is to share the suspension setup, PhysxVehicleSuspensionAPI can be applied to a separate prim which can be linked to (see PhysxVehicleWheelAttachmentAPI).
+    """
+)
+{
+    float physxVehicleSuspension:springDamperRate (
+        customData = {
+            string apiName = "springDamperRate"
+        }
+        doc = """Spring damper rate of suspension unit (units: force * seconds / distance = mass / seconds).
+
+        Note: this attribute has to be specified (there is no default).
+        """
+    )
+    float physxVehicleSuspension:springStrength (
+        customData = {
+            string apiName = "springStrength"
+        }
+        doc = """Spring strength of suspension unit (units: force / distance = mass / seconds / seconds).
+
+        Note: this attribute has to be specified (there is no default).
+        """
+    )
+    float physxVehicleSuspension:sprungMass = 0 (
+        customData = {
+            string apiName = "sprungMass"
+        }
+        doc = """Mass of vehicle that is supported by suspension spring (units: mass).
+
+        If set to 0, the sprung mass will get computed automatically.
+
+        Note: it is not possible for a vehicle to have some sprung mass values being user-defined and some being computed automatically. 
+        Either all values have to be user-defined or all have to be set to 0 for auto-computation.
+        """
+    )
+    float physxVehicleSuspension:travelDistance (
+        customData = {
+            string apiName = "travelDistance"
+        }
+        doc = """Distance the wheel can travel along the suspension when going from max compression to max droop (units: distance).
+
+        The value has to be positive.
+
+        Note: either this attribute or the deprecated maxCompression/maxDroop have to to be specified (with the former taking precedence). 
+        When migrating from the deprecated attributes, travelDistance can be set to the sum of maxCompression and maxDroop.
+        """
+    )
+}
+
+class "PhysxSchemaPhysxVehicleSuspensionComplianceAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "VehicleSuspensionComplianceAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        Compliance describes how toe and camber angle and force application points are affected by suspension compression.
+
+        Each compliance term is in the form of a graph with up to 3 points. 
+        The points in the graph consist of a normalized jounce value (with 0 meaning fully elongated and 1 fully compressed suspension) 
+        and a corresponding compliance value (which can be an angle or point etc. depending on the specific compliance term). 
+        The sequence of points must respresent monotonically increasing values of normalized jounce. 
+        The actual compliance value will be computed by linear interpolation based on the current normalized jounce. 
+        If any graph has zero points in it, a value of 0.0 is used for the compliance value. 
+        If any graph has 1 point in it, the compliance value of that point is used directly. 
+        This API schema has to be applied to a prim with PhysxVehicleWheelAttachmentAPI applied. 
+        If defined, then this setup takes precedence over the deprecated attributes suspensionForceAppPointOffset and tireForceAppPointOffset of the PhysxVehicleWheelAttachmentAPI API schema, 
+        the deprecated attributes camberAtRest, camberAtMaxCompression, camberAtMaxDroop of the PhysxVehicleSuspensionAPI API schema as well as the deprecated attribute toeAngle of the PhysxVehicleWheelAPI API schema.
+    """
+)
+{
+    float4[] physxVehicleSuspensionCompliance:suspensionForceAppPoint (
+        customData = {
+            string apiName = "suspensionForceAppPoint"
+        }
+        doc = """Suspension forces are applied at an offset from the suspension frame (see PhysxVehicleWheelAttachmentAPI).
+
+        An entry in this array defines this offset for a given normalized jounce value (which is the first element in the float4 while the other 3 elements are used to store the x, y, z coordinates of the offset). 
+        See the class documentation for general info about the nature of these compliance terms and the data requirements.
+        """
+    )
+    float4[] physxVehicleSuspensionCompliance:tireForceAppPoint (
+        customData = {
+            string apiName = "tireForceAppPoint"
+        }
+        doc = """Tire forces are applied at an offset from the suspension frame (see PhysxVehicleWheelAttachmentAPI).
+
+        An entry in this array defines this offset for a given normalized jounce value (which is the first element in the float4 while the other 3 elements are used to store the x, y, z coordinates of the offset). 
+        See the class documentation for general info about the nature of these compliance terms and the data requirements.
+        """
+    )
+    float2[] physxVehicleSuspensionCompliance:wheelCamberAngle (
+        customData = {
+            string apiName = "wheelCamberAngle"
+        }
+        doc = """A graph of camber angle against normalized jounce with the camber angle expressed in radians in the range [-pi, pi].
+
+        See the class documentation for general info about the nature of these graphs and the data requirements.
+
+        Note: the camber angle is applied in the suspension frame (see PhysxVehicleWheelAttachmentAPI).
+        """
+    )
+    float2[] physxVehicleSuspensionCompliance:wheelToeAngle (
+        customData = {
+            string apiName = "wheelToeAngle"
+        }
+        doc = """A graph of toe angle against normalized jounce with the toe angle expressed in radians in the range [-pi, pi].
+
+        See the class documentation for general info about the nature of these graphs and the data requirements.
+
+        Note: the toe angle is applied in the suspension frame (see PhysxVehicleWheelAttachmentAPI).
+        """
+    )
+}

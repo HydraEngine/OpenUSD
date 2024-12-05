@@ -81,6 +81,10 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXVehicleDriveStandardAPI
     const TfToken clutch;
+    /// \brief "commandValues"
+    /// 
+    /// UsdPhysXVehicleNonlinearCommandResponseAPI
+    const TfToken commandValues;
     /// \brief "constrained"
     /// 
     /// Possible value for UsdPhysXCharacterControllerAPI::GetClimbingModeAttr()
@@ -1153,14 +1157,70 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXVehicleAPI
     const TfToken physxVehicleMinPassiveLongitudinalSlipDenominator;
+    /// \brief "physxVehicleMultiWheelDifferential:averageWheelSpeedRatios"
+    /// 
+    /// UsdPhysXVehicleMultiWheelDifferentialAPI
+    const TfToken physxVehicleMultiWheelDifferentialAverageWheelSpeedRatios;
+    /// \brief "physxVehicleMultiWheelDifferential:torqueRatios"
+    /// 
+    /// UsdPhysXVehicleMultiWheelDifferentialAPI
+    const TfToken physxVehicleMultiWheelDifferentialTorqueRatios;
+    /// \brief "physxVehicleMultiWheelDifferential:wheels"
+    /// 
+    /// UsdPhysXVehicleMultiWheelDifferentialAPI
+    const TfToken physxVehicleMultiWheelDifferentialWheels;
+    /// \brief "physxVehicleSteering:angleMultipliers"
+    /// 
+    /// UsdPhysXVehicleSteeringAPI
+    const TfToken physxVehicleSteeringAngleMultipliers;
+    /// \brief "physxVehicleSteering:maxSteerAngle"
+    /// 
+    /// UsdPhysXVehicleSteeringAPI
+    const TfToken physxVehicleSteeringMaxSteerAngle;
+    /// \brief "physxVehicleSteering:wheels"
+    /// 
+    /// UsdPhysXVehicleSteeringAPI
+    const TfToken physxVehicleSteeringWheels;
     /// \brief "physxVehicle:subStepThresholdLongitudinalSpeed"
     /// 
     /// UsdPhysXVehicleAPI
     const TfToken physxVehicleSubStepThresholdLongitudinalSpeed;
+    /// \brief "physxVehicleSuspensionCompliance:suspensionForceAppPoint"
+    /// 
+    /// UsdPhysXVehicleSuspensionComplianceAPI
+    const TfToken physxVehicleSuspensionComplianceSuspensionForceAppPoint;
+    /// \brief "physxVehicleSuspensionCompliance:tireForceAppPoint"
+    /// 
+    /// UsdPhysXVehicleSuspensionComplianceAPI
+    const TfToken physxVehicleSuspensionComplianceTireForceAppPoint;
+    /// \brief "physxVehicleSuspensionCompliance:wheelCamberAngle"
+    /// 
+    /// UsdPhysXVehicleSuspensionComplianceAPI
+    const TfToken physxVehicleSuspensionComplianceWheelCamberAngle;
+    /// \brief "physxVehicleSuspensionCompliance:wheelToeAngle"
+    /// 
+    /// UsdPhysXVehicleSuspensionComplianceAPI
+    const TfToken physxVehicleSuspensionComplianceWheelToeAngle;
     /// \brief "physxVehicle:suspensionLineQueryType"
     /// 
     /// UsdPhysXVehicleAPI
     const TfToken physxVehicleSuspensionLineQueryType;
+    /// \brief "physxVehicleSuspension:springDamperRate"
+    /// 
+    /// UsdPhysXVehicleSuspensionAPI
+    const TfToken physxVehicleSuspensionSpringDamperRate;
+    /// \brief "physxVehicleSuspension:springStrength"
+    /// 
+    /// UsdPhysXVehicleSuspensionAPI
+    const TfToken physxVehicleSuspensionSpringStrength;
+    /// \brief "physxVehicleSuspension:sprungMass"
+    /// 
+    /// UsdPhysXVehicleSuspensionAPI
+    const TfToken physxVehicleSuspensionSprungMass;
+    /// \brief "physxVehicleSuspension:travelDistance"
+    /// 
+    /// UsdPhysXVehicleSuspensionAPI
+    const TfToken physxVehicleSuspensionTravelDistance;
     /// \brief "physxVehicle:vehicleEnabled"
     /// 
     /// UsdPhysXVehicleAPI
@@ -1221,6 +1281,14 @@ struct UsdPhysXTokensType {
     /// 
     /// Fallback value for UsdPhysXTriggerAPI::GetEnterScriptTypeAttr(), Fallback value for UsdPhysXTriggerAPI::GetLeaveScriptTypeAttr()
     const TfToken scriptFile;
+    /// \brief "speedResponses"
+    /// 
+    /// UsdPhysXVehicleNonlinearCommandResponseAPI
+    const TfToken speedResponses;
+    /// \brief "speedResponsesPerCommandValue"
+    /// 
+    /// UsdPhysXVehicleNonlinearCommandResponseAPI
+    const TfToken speedResponsesPerCommandValue;
     /// \brief "surface"
     /// 
     /// Possible value for UsdPhysXSphereFillCollisionAPI::GetFillModeAttr()
@@ -1453,6 +1521,26 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXVehicleGearsAPI
     const TfToken PhysxSchemaPhysxVehicleGearsAPI;
+    /// \brief "PhysxSchemaPhysxVehicleMultiWheelDifferentialAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleMultiWheelDifferentialAPI
+    const TfToken PhysxSchemaPhysxVehicleMultiWheelDifferentialAPI;
+    /// \brief "PhysxSchemaPhysxVehicleNonlinearCommandResponseAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleNonlinearCommandResponseAPI
+    const TfToken PhysxSchemaPhysxVehicleNonlinearCommandResponseAPI;
+    /// \brief "PhysxSchemaPhysxVehicleSteeringAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleSteeringAPI
+    const TfToken PhysxSchemaPhysxVehicleSteeringAPI;
+    /// \brief "PhysxSchemaPhysxVehicleSuspensionAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleSuspensionAPI
+    const TfToken PhysxSchemaPhysxVehicleSuspensionAPI;
+    /// \brief "PhysxSchemaPhysxVehicleSuspensionComplianceAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleSuspensionComplianceAPI
+    const TfToken PhysxSchemaPhysxVehicleSuspensionComplianceAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };
