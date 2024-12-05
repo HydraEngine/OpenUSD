@@ -11,4 +11,6 @@ TF_WRAP(UsdPhysXphysxArticulationAPI);
 TF_WRAP(UsdPhysXphysxCameraAPI);
 TF_WRAP(UsdPhysXphysxCameraDroneAPI);
 TF_WRAP(UsdPhysXphysxCameraFollowAPI);
+TF_WRAP(UsdPhysXphysxCameraFollowLookAPI);
+TF_WRAP(UsdPhysXphysxCameraFollowVelocityAPI);
 TF_WRAP(UsdPhysXTokens);

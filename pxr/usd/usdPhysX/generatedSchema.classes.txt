@@ -6,6 +6,8 @@ physxArticulationAPI
 physxCameraAPI
 physxCameraDroneAPI
 physxCameraFollowAPI
+physxCameraFollowLookAPI
+physxCameraFollowVelocityAPI
 tokens
 
 # Python Module Files
@@ -16,6 +18,8 @@ wrapphysxArticulationAPI.cpp
 wrapphysxCameraAPI.cpp
 wrapphysxCameraDroneAPI.cpp
 wrapphysxCameraFollowAPI.cpp
+wrapphysxCameraFollowLookAPI.cpp
+wrapphysxCameraFollowVelocityAPI.cpp
 
 # Resource Files
 generatedSchema.usda

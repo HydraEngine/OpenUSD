@@ -209,6 +209,34 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXphysxCameraFollowAPI
     const TfToken physxFollowFollowCameraLookAheadMaxDistance;
+    /// \brief "physxFollowLookCamera:downHillGroundAngle"
+    /// 
+    /// UsdPhysXphysxCameraFollowLookAPI
+    const TfToken physxFollowLookCameraDownHillGroundAngle;
+    /// \brief "physxFollowLookCamera:downHillGroundPitch"
+    /// 
+    /// UsdPhysXphysxCameraFollowLookAPI
+    const TfToken physxFollowLookCameraDownHillGroundPitch;
+    /// \brief "physxFollowLookCamera:followReverseDistance"
+    /// 
+    /// UsdPhysXphysxCameraFollowLookAPI
+    const TfToken physxFollowLookCameraFollowReverseDistance;
+    /// \brief "physxFollowLookCamera:followReverseSpeed"
+    /// 
+    /// UsdPhysXphysxCameraFollowLookAPI
+    const TfToken physxFollowLookCameraFollowReverseSpeed;
+    /// \brief "physxFollowLookCamera:upHillGroundAngle"
+    /// 
+    /// UsdPhysXphysxCameraFollowLookAPI
+    const TfToken physxFollowLookCameraUpHillGroundAngle;
+    /// \brief "physxFollowLookCamera:upHillGroundPitch"
+    /// 
+    /// UsdPhysXphysxCameraFollowLookAPI
+    const TfToken physxFollowLookCameraUpHillGroundPitch;
+    /// \brief "physxFollowLookCamera:velocityBlendTimeConstant"
+    /// 
+    /// UsdPhysXphysxCameraFollowLookAPI
+    const TfToken physxFollowLookCameraVelocityBlendTimeConstant;
     /// \brief "PhysxSchemaJointStateAPI"
     /// 
     /// Schema identifer and family for UsdPhysXJointStateAPI
@@ -229,6 +257,14 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXphysxCameraFollowAPI
     const TfToken PhysxSchemaPhysxCameraFollowAPI;
+    /// \brief "PhysxSchemaPhysxCameraFollowLookAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXphysxCameraFollowLookAPI
+    const TfToken PhysxSchemaPhysxCameraFollowLookAPI;
+    /// \brief "PhysxSchemaPhysxCameraFollowVelocityAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXphysxCameraFollowVelocityAPI
+    const TfToken PhysxSchemaPhysxCameraFollowVelocityAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };

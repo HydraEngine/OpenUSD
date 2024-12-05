@@ -58,9 +58,18 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxFollowCameraYawAngle);
     _ADD_TOKEN(cls, physxFollowCameraYawRateTimeConstant);
     _ADD_TOKEN(cls, physxFollowFollowCameraLookAheadMaxDistance);
+    _ADD_TOKEN(cls, physxFollowLookCameraDownHillGroundAngle);
+    _ADD_TOKEN(cls, physxFollowLookCameraDownHillGroundPitch);
+    _ADD_TOKEN(cls, physxFollowLookCameraFollowReverseDistance);
+    _ADD_TOKEN(cls, physxFollowLookCameraFollowReverseSpeed);
+    _ADD_TOKEN(cls, physxFollowLookCameraUpHillGroundAngle);
+    _ADD_TOKEN(cls, physxFollowLookCameraUpHillGroundPitch);
+    _ADD_TOKEN(cls, physxFollowLookCameraVelocityBlendTimeConstant);
     _ADD_TOKEN(cls, PhysxSchemaJointStateAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxArticulationAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxCameraAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxCameraDroneAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxCameraFollowAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxCameraFollowLookAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxCameraFollowVelocityAPI);
 }

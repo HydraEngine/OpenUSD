@@ -50,11 +50,20 @@ UsdPhysXTokensType::UsdPhysXTokensType() :
     physxFollowCameraYawAngle("physxFollowCamera:yawAngle", TfToken::Immortal),
     physxFollowCameraYawRateTimeConstant("physxFollowCamera:yawRateTimeConstant", TfToken::Immortal),
     physxFollowFollowCameraLookAheadMaxDistance("physxFollowFollowCamera:lookAheadMaxDistance", TfToken::Immortal),
+    physxFollowLookCameraDownHillGroundAngle("physxFollowLookCamera:downHillGroundAngle", TfToken::Immortal),
+    physxFollowLookCameraDownHillGroundPitch("physxFollowLookCamera:downHillGroundPitch", TfToken::Immortal),
+    physxFollowLookCameraFollowReverseDistance("physxFollowLookCamera:followReverseDistance", TfToken::Immortal),
+    physxFollowLookCameraFollowReverseSpeed("physxFollowLookCamera:followReverseSpeed", TfToken::Immortal),
+    physxFollowLookCameraUpHillGroundAngle("physxFollowLookCamera:upHillGroundAngle", TfToken::Immortal),
+    physxFollowLookCameraUpHillGroundPitch("physxFollowLookCamera:upHillGroundPitch", TfToken::Immortal),
+    physxFollowLookCameraVelocityBlendTimeConstant("physxFollowLookCamera:velocityBlendTimeConstant", TfToken::Immortal),
     PhysxSchemaJointStateAPI("PhysxSchemaJointStateAPI", TfToken::Immortal),
     PhysxSchemaPhysxArticulationAPI("PhysxSchemaPhysxArticulationAPI", TfToken::Immortal),
     PhysxSchemaPhysxCameraAPI("PhysxSchemaPhysxCameraAPI", TfToken::Immortal),
     PhysxSchemaPhysxCameraDroneAPI("PhysxSchemaPhysxCameraDroneAPI", TfToken::Immortal),
     PhysxSchemaPhysxCameraFollowAPI("PhysxSchemaPhysxCameraFollowAPI", TfToken::Immortal),
+    PhysxSchemaPhysxCameraFollowLookAPI("PhysxSchemaPhysxCameraFollowLookAPI", TfToken::Immortal),
+    PhysxSchemaPhysxCameraFollowVelocityAPI("PhysxSchemaPhysxCameraFollowVelocityAPI", TfToken::Immortal),
     allTokens({
         alwaysUpdateEnabled,
         jointState,
@@ -97,11 +106,20 @@ UsdPhysXTokensType::UsdPhysXTokensType() :
         physxFollowCameraYawAngle,
         physxFollowCameraYawRateTimeConstant,
         physxFollowFollowCameraLookAheadMaxDistance,
+        physxFollowLookCameraDownHillGroundAngle,
+        physxFollowLookCameraDownHillGroundPitch,
+        physxFollowLookCameraFollowReverseDistance,
+        physxFollowLookCameraFollowReverseSpeed,
+        physxFollowLookCameraUpHillGroundAngle,
+        physxFollowLookCameraUpHillGroundPitch,
+        physxFollowLookCameraVelocityBlendTimeConstant,
         PhysxSchemaJointStateAPI,
         PhysxSchemaPhysxArticulationAPI,
         PhysxSchemaPhysxCameraAPI,
         PhysxSchemaPhysxCameraDroneAPI,
-        PhysxSchemaPhysxCameraFollowAPI
+        PhysxSchemaPhysxCameraFollowAPI,
+        PhysxSchemaPhysxCameraFollowLookAPI,
+        PhysxSchemaPhysxCameraFollowVelocityAPI
     })
 {
 }

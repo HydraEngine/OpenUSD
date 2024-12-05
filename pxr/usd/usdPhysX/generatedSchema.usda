@@ -166,3 +166,37 @@ class "PhysxSchemaPhysxCameraFollowAPI" (
     )
 }
 
+class "PhysxSchemaPhysxCameraFollowLookAPI" (
+    doc = """PhysX camera that follows behind the subject's forward vector as it moves.
+        Assumes the subject is always upright and does not roll."""
+)
+{
+    float physxFollowLookCamera:downHillGroundAngle (
+        doc = "The minimum pitch angle of the terrain used for a linear interpolation to adjust the pitch of the camera. e.g. -45.0 degrees"
+    )
+    float physxFollowLookCamera:downHillGroundPitch (
+        doc = "The minimum pitch angle of the camera used for a linear interpolation to adjust the pitch of the camera. e.g. 10.0 degrees"
+    )
+    float physxFollowLookCamera:followReverseDistance (
+        doc = "The maximum distance, when driving in reverse, used for a linear interpolation to compute the follow distance of the camera. e.g. 3000.0 cm"
+    )
+    float physxFollowLookCamera:followReverseSpeed (
+        doc = "The positive, maximum speed, when driving in reverse, used for a linear interpolation to compute the follow distance of the camera. e.g. 1500.0 cm/sec"
+    )
+    float physxFollowLookCamera:upHillGroundAngle (
+        doc = "The maximum pitch angle of the terrain used for a linear interpolation to adjust the pitch of the camera. e.g. 45.0 degrees"
+    )
+    float physxFollowLookCamera:upHillGroundPitch (
+        doc = "The maximum pitch angle of the camera used for a linear interpolation to adjust the pitch of the camera. e.g. 10.0 degrees"
+    )
+    float physxFollowLookCamera:velocityBlendTimeConstant (
+        doc = "Filter time constant to blend between the look and velocity vectors, in seconds. e.g. 0.1 seconds"
+    )
+}
+
+class "PhysxSchemaPhysxCameraFollowVelocityAPI" (
+    doc = "PhysX camera that follows behind the subject's velocity vector as it moves, which allows the subject to roll and tumble."
+)
+{
+}
+
