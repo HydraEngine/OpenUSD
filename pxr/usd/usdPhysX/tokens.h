@@ -47,7 +47,7 @@ struct UsdPhysXTokensType {
     USDPHYSX_API UsdPhysXTokensType();
     /// \brief "acceleration"
     /// 
-    /// Fallback value for UsdPhysXForceAPI::GetModeAttr()
+    /// Fallback value for UsdPhysXForceAPI::GetModeAttr(), Possible value for UsdPhysXVehicleContextAPI::GetUpdateModeAttr()
     const TfToken acceleration;
     /// \brief "alwaysUpdateEnabled"
     /// 
@@ -125,6 +125,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
     const TfToken max;
+    /// \brief "maxBrakeTorque"
+    /// 
+    /// UsdPhysXVehicleBrakesAPI
+    const TfToken maxBrakeTorque;
     /// \brief "MBP"
     /// 
     /// Possible value for UsdPhysXSceneAPI::GetBroadphaseTypeAttr()
@@ -137,6 +141,18 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
     const TfToken multiply;
+    /// \brief "negX"
+    /// 
+    /// Possible value for UsdPhysXVehicleContextAPI::GetLongitudinalAxisAttr(), Possible value for UsdPhysXVehicleContextAPI::GetVerticalAxisAttr()
+    const TfToken negX;
+    /// \brief "negY"
+    /// 
+    /// Possible value for UsdPhysXVehicleContextAPI::GetLongitudinalAxisAttr(), Possible value for UsdPhysXVehicleContextAPI::GetVerticalAxisAttr()
+    const TfToken negY;
+    /// \brief "negZ"
+    /// 
+    /// Possible value for UsdPhysXVehicleContextAPI::GetLongitudinalAxisAttr(), Possible value for UsdPhysXVehicleContextAPI::GetVerticalAxisAttr()
+    const TfToken negZ;
     /// \brief "patch"
     /// 
     /// Fallback value for UsdPhysXSceneAPI::GetFrictionTypeAttr()
@@ -977,6 +993,54 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXVehicleAckermannSteeringAPI
     const TfToken physxVehicleAckermannSteeringWheelBase;
+    /// \brief "physxVehicleAutoGearBox:downRatios"
+    /// 
+    /// UsdPhysXVehicleAutoGearBoxAPI
+    const TfToken physxVehicleAutoGearBoxDownRatios;
+    /// \brief "physxVehicleAutoGearBox:latency"
+    /// 
+    /// UsdPhysXVehicleAutoGearBoxAPI
+    const TfToken physxVehicleAutoGearBoxLatency;
+    /// \brief "physxVehicleAutoGearBox:upRatios"
+    /// 
+    /// UsdPhysXVehicleAutoGearBoxAPI
+    const TfToken physxVehicleAutoGearBoxUpRatios;
+    /// \brief "physxVehicleClutch:strength"
+    /// 
+    /// UsdPhysXVehicleClutchAPI
+    const TfToken physxVehicleClutchStrength;
+    /// \brief "physxVehicleContext:longitudinalAxis"
+    /// 
+    /// UsdPhysXVehicleContextAPI
+    const TfToken physxVehicleContextLongitudinalAxis;
+    /// \brief "physxVehicleContext:updateMode"
+    /// 
+    /// UsdPhysXVehicleContextAPI
+    const TfToken physxVehicleContextUpdateMode;
+    /// \brief "physxVehicleContext:verticalAxis"
+    /// 
+    /// UsdPhysXVehicleContextAPI
+    const TfToken physxVehicleContextVerticalAxis;
+    /// \brief "physxVehicleController:accelerator"
+    /// 
+    /// UsdPhysXVehicleControllerAPI
+    const TfToken physxVehicleControllerAccelerator;
+    /// \brief "physxVehicleController:brake0"
+    /// 
+    /// UsdPhysXVehicleControllerAPI
+    const TfToken physxVehicleControllerBrake0;
+    /// \brief "physxVehicleController:brake1"
+    /// 
+    /// UsdPhysXVehicleControllerAPI
+    const TfToken physxVehicleControllerBrake1;
+    /// \brief "physxVehicleController:steer"
+    /// 
+    /// UsdPhysXVehicleControllerAPI
+    const TfToken physxVehicleControllerSteer;
+    /// \brief "physxVehicleController:targetGear"
+    /// 
+    /// UsdPhysXVehicleControllerAPI
+    const TfToken physxVehicleControllerTargetGear;
     /// \brief "physxVehicle:highForwardSpeedSubStepCount"
     /// 
     /// UsdPhysXVehicleAPI
@@ -1037,6 +1101,18 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXVehicleAPI
     const TfToken physxVehicleVehicleEnabled;
+    /// \brief "posX"
+    /// 
+    /// Possible value for UsdPhysXVehicleContextAPI::GetLongitudinalAxisAttr(), Possible value for UsdPhysXVehicleContextAPI::GetVerticalAxisAttr()
+    const TfToken posX;
+    /// \brief "posY"
+    /// 
+    /// Possible value for UsdPhysXVehicleContextAPI::GetLongitudinalAxisAttr(), Possible value for UsdPhysXVehicleContextAPI::GetVerticalAxisAttr()
+    const TfToken posY;
+    /// \brief "posZ"
+    /// 
+    /// Possible value for UsdPhysXVehicleContextAPI::GetLongitudinalAxisAttr(), Possible value for UsdPhysXVehicleContextAPI::GetVerticalAxisAttr()
+    const TfToken posZ;
     /// \brief "preventClimbing"
     /// 
     /// Fallback value for UsdPhysXCharacterControllerAPI::GetNonWalkableModeAttr()
@@ -1097,10 +1173,26 @@ struct UsdPhysXTokensType {
     /// 
     /// Fallback value for UsdPhysXSceneAPI::GetSolverTypeAttr()
     const TfToken TGS;
+    /// \brief "torqueMultipliers"
+    /// 
+    /// UsdPhysXVehicleBrakesAPI
+    const TfToken torqueMultipliers;
     /// \brief "triggeredCollisions"
     /// 
     /// UsdPhysXTriggerStateAPI
     const TfToken triggeredCollisions;
+    /// \brief "undefined"
+    /// 
+    /// Fallback value for UsdPhysXVehicleContextAPI::GetLongitudinalAxisAttr(), Possible value for UsdPhysXVehicleContextAPI::GetUpdateModeAttr(), Fallback value for UsdPhysXVehicleContextAPI::GetVerticalAxisAttr()
+    const TfToken undefined;
+    /// \brief "velocityChange"
+    /// 
+    /// Fallback value for UsdPhysXVehicleContextAPI::GetUpdateModeAttr()
+    const TfToken velocityChange;
+    /// \brief "wheels"
+    /// 
+    /// UsdPhysXVehicleBrakesAPI
+    const TfToken wheels;
     /// \brief "X"
     /// 
     /// Possible value for UsdPhysXCharacterControllerAPI::GetUpAxisAttr()
@@ -1261,6 +1353,26 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXVehicleAPI
     const TfToken PhysxSchemaPhysxVehicleAPI;
+    /// \brief "PhysxSchemaPhysxVehicleAutoGearBoxAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleAutoGearBoxAPI
+    const TfToken PhysxSchemaPhysxVehicleAutoGearBoxAPI;
+    /// \brief "PhysxSchemaPhysxVehicleBrakesAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleBrakesAPI
+    const TfToken PhysxSchemaPhysxVehicleBrakesAPI;
+    /// \brief "PhysxSchemaPhysxVehicleClutchAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleClutchAPI
+    const TfToken PhysxSchemaPhysxVehicleClutchAPI;
+    /// \brief "PhysxSchemaPhysxVehicleContextAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleContextAPI
+    const TfToken PhysxSchemaPhysxVehicleContextAPI;
+    /// \brief "PhysxSchemaPhysxVehicleControllerAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleControllerAPI
+    const TfToken PhysxSchemaPhysxVehicleControllerAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };

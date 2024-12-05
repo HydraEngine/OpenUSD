@@ -37,9 +37,13 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, jointState_MultipleApplyTemplate_PhysicsPosition);
     _ADD_TOKEN(cls, jointState_MultipleApplyTemplate_PhysicsVelocity);
     _ADD_TOKEN(cls, max);
+    _ADD_TOKEN(cls, maxBrakeTorque);
     _ADD_TOKEN(cls, MBP);
     _ADD_TOKEN(cls, min);
     _ADD_TOKEN(cls, multiply);
+    _ADD_TOKEN(cls, negX);
+    _ADD_TOKEN(cls, negY);
+    _ADD_TOKEN(cls, negZ);
     _ADD_TOKEN(cls, patch);
     _ADD_TOKEN(cls, PCM);
     _ADD_TOKEN(cls, PGS);
@@ -250,6 +254,18 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxVehicleAckermannSteeringWheel0);
     _ADD_TOKEN(cls, physxVehicleAckermannSteeringWheel1);
     _ADD_TOKEN(cls, physxVehicleAckermannSteeringWheelBase);
+    _ADD_TOKEN(cls, physxVehicleAutoGearBoxDownRatios);
+    _ADD_TOKEN(cls, physxVehicleAutoGearBoxLatency);
+    _ADD_TOKEN(cls, physxVehicleAutoGearBoxUpRatios);
+    _ADD_TOKEN(cls, physxVehicleClutchStrength);
+    _ADD_TOKEN(cls, physxVehicleContextLongitudinalAxis);
+    _ADD_TOKEN(cls, physxVehicleContextUpdateMode);
+    _ADD_TOKEN(cls, physxVehicleContextVerticalAxis);
+    _ADD_TOKEN(cls, physxVehicleControllerAccelerator);
+    _ADD_TOKEN(cls, physxVehicleControllerBrake0);
+    _ADD_TOKEN(cls, physxVehicleControllerBrake1);
+    _ADD_TOKEN(cls, physxVehicleControllerSteer);
+    _ADD_TOKEN(cls, physxVehicleControllerTargetGear);
     _ADD_TOKEN(cls, physxVehicleHighForwardSpeedSubStepCount);
     _ADD_TOKEN(cls, physxVehicleLateralStickyTireDamping);
     _ADD_TOKEN(cls, physxVehicleLateralStickyTireThresholdSpeed);
@@ -265,6 +281,9 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxVehicleSubStepThresholdLongitudinalSpeed);
     _ADD_TOKEN(cls, physxVehicleSuspensionLineQueryType);
     _ADD_TOKEN(cls, physxVehicleVehicleEnabled);
+    _ADD_TOKEN(cls, posX);
+    _ADD_TOKEN(cls, posY);
+    _ADD_TOKEN(cls, posZ);
     _ADD_TOKEN(cls, preventClimbing);
     _ADD_TOKEN(cls, preventClimbingForceSliding);
     _ADD_TOKEN(cls, prismatic);
@@ -280,7 +299,11 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, sweep);
     _ADD_TOKEN(cls, Synchronous);
     _ADD_TOKEN(cls, TGS);
+    _ADD_TOKEN(cls, torqueMultipliers);
     _ADD_TOKEN(cls, triggeredCollisions);
+    _ADD_TOKEN(cls, undefined);
+    _ADD_TOKEN(cls, velocityChange);
+    _ADD_TOKEN(cls, wheels);
     _ADD_TOKEN(cls, X);
     _ADD_TOKEN(cls, Y);
     _ADD_TOKEN(cls, Z);
@@ -321,4 +344,9 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, PhysxSchemaPhysxTriggerStateAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleAckermannSteeringAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleAutoGearBoxAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleBrakesAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleClutchAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleContextAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleControllerAPI);
 }

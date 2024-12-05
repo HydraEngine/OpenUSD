@@ -39,6 +39,11 @@ triggerAPI
 triggerStateAPI
 vehicleAPI
 vehicleAckermannSteeringAPI
+vehicleAutoGearBoxAPI
+vehicleBrakesAPI
+vehicleClutchAPI
+vehicleContextAPI
+vehicleControllerAPI
 
 # Python Module Files
 module.cpp
@@ -80,6 +85,11 @@ wrapTriggerAPI.cpp
 wrapTriggerStateAPI.cpp
 wrapVehicleAPI.cpp
 wrapVehicleAckermannSteeringAPI.cpp
+wrapVehicleAutoGearBoxAPI.cpp
+wrapVehicleBrakesAPI.cpp
+wrapVehicleClutchAPI.cpp
+wrapVehicleContextAPI.cpp
+wrapVehicleControllerAPI.cpp
 
 # Resource Files
 generatedSchema.usda
