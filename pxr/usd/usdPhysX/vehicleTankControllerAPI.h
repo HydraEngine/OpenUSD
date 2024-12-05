@@ -4,10 +4,10 @@
 // Licensed under the terms set forth in the LICENSE.txt file available at
 // https://openusd.org/license.
 //
-#ifndef USDPHYSX_GENERATED_CONTACTREPORTAPI_H
-#define USDPHYSX_GENERATED_CONTACTREPORTAPI_H
+#ifndef USDPHYSX_GENERATED_VEHICLETANKCONTROLLERAPI_H
+#define USDPHYSX_GENERATED_VEHICLETANKCONTROLLERAPI_H
 
-/// \file usdPhysX/contactReportAPI.h
+/// \file usdPhysX/vehicleTankControllerAPI.h
 
 #include "pxr/pxr.h"
 #include "pxr/usd/usdPhysX/api.h"
@@ -30,14 +30,20 @@ PXR_NAMESPACE_OPEN_SCOPE
 class SdfAssetPath;
 
 // -------------------------------------------------------------------------- //
-// PHYSXSCHEMAPHYSXCONTACTREPORTAPI                                           //
+// PHYSXSCHEMAPHYSXVEHICLETANKCONTROLLERAPI                                   //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXContactReportAPI
+/// \class UsdPhysXVehicleTankControllerAPI
 ///
-/// Enables contact reporting for a rigid body or articulation.
+/// 
+/// PhysX vehicle tank controller to divert torque from the engine to the wheels of the tracks of a wheel based tank vehicle (see PhysxVehicleTankDifferentialAPI).
+/// 
+/// Note that the "accelerator" attribute of PhysxVehicleControllerAPI still drives the engine torque whereas the thrust controls introduced here define how that torque gets diverted to the wheels, 
+/// so both controls need to be used to drive a wheel based tank vehicle usually. This API schema has to be applied to a prim with PhysxVehicleAPI applied. 
+/// Can only be used for vehicles that have a standard drive and a tank differential defined (see PhysxVehicleDriveStandardAPI, PhysxVehicleTankDifferentialAPI).
+/// 
 ///
-class UsdPhysXContactReportAPI : public UsdAPISchemaBase
+class UsdPhysXVehicleTankControllerAPI : public UsdAPISchemaBase
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -45,26 +51,26 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::SingleApplyAPI;
 
-    /// Construct a UsdPhysXContactReportAPI on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXContactReportAPI::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXVehicleTankControllerAPI on UsdPrim \p prim .
+    /// Equivalent to UsdPhysXVehicleTankControllerAPI::Get(prim.GetStage(), prim.GetPath())
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXContactReportAPI(const UsdPrim& prim=UsdPrim())
+    explicit UsdPhysXVehicleTankControllerAPI(const UsdPrim& prim=UsdPrim())
         : UsdAPISchemaBase(prim)
     {
     }
 
-    /// Construct a UsdPhysXContactReportAPI on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXContactReportAPI(schemaObj.GetPrim()),
+    /// Construct a UsdPhysXVehicleTankControllerAPI on the prim held by \p schemaObj .
+    /// Should be preferred over UsdPhysXVehicleTankControllerAPI(schemaObj.GetPrim()),
     /// as it preserves SchemaBase state.
-    explicit UsdPhysXContactReportAPI(const UsdSchemaBase& schemaObj)
+    explicit UsdPhysXVehicleTankControllerAPI(const UsdSchemaBase& schemaObj)
         : UsdAPISchemaBase(schemaObj)
     {
     }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXContactReportAPI();
+    virtual ~UsdPhysXVehicleTankControllerAPI();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -73,17 +79,17 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
-    /// Return a UsdPhysXContactReportAPI holding the prim adhering to this
+    /// Return a UsdPhysXVehicleTankControllerAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXContactReportAPI(stage->GetPrimAtPath(path));
+    /// UsdPhysXVehicleTankControllerAPI(stage->GetPrimAtPath(path));
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXContactReportAPI
+    static UsdPhysXVehicleTankControllerAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
 
@@ -108,11 +114,11 @@ public:
     CanApply(const UsdPrim &prim, std::string *whyNot=nullptr);
 
     /// Applies this <b>single-apply</b> API schema to the given \p prim.
-    /// This information is stored by adding "PhysxSchemaPhysxContactReportAPI" to the 
+    /// This information is stored by adding "PhysxSchemaPhysxVehicleTankControllerAPI" to the 
     /// token-valued, listOp metadata \em apiSchemas on the prim.
     /// 
-    /// \return A valid UsdPhysXContactReportAPI object is returned upon success. 
-    /// An invalid (or empty) UsdPhysXContactReportAPI object is returned upon 
+    /// \return A valid UsdPhysXVehicleTankControllerAPI object is returned upon success. 
+    /// An invalid (or empty) UsdPhysXVehicleTankControllerAPI object is returned upon 
     /// failure. See \ref UsdPrim::ApplyAPI() for conditions 
     /// resulting in failure. 
     /// 
@@ -123,7 +129,7 @@ public:
     /// \sa UsdPrim::RemoveAPI()
     ///
     USDPHYSX_API
-    static UsdPhysXContactReportAPI 
+    static UsdPhysXVehicleTankControllerAPI 
     Apply(const UsdPrim &prim);
 
 protected:
@@ -147,42 +153,53 @@ private:
 
 public:
     // --------------------------------------------------------------------- //
-    // THRESHOLD 
+    // THRUST0 
     // --------------------------------------------------------------------- //
-    /// Sets the force threshold for contact reports. Range: [0, inf] Units: force = mass * distance / seconds^2
+    /// Magnitude of thrust to apply to the tracks that are assigned to thrust control 0.
+    /// 
+    /// Values have to be in [-1.0, 1.0] with the sign dictating whether the thrust will be applied positively or negatively with respect to the gearing ratio.
+    /// 
     ///
     /// | ||
     /// | -- | -- |
-    /// | Declaration | `float physxContactReport:threshold = 1` |
+    /// | Declaration | `float physxVehicleTankController:thrust0 = 0` |
     /// | C++ Type | float |
     /// | \ref Usd_Datatypes "Usd Type" | SdfValueTypeNames->Float |
     USDPHYSX_API
-    UsdAttribute GetThresholdAttr() const;
+    UsdAttribute GetThrust0Attr() const;
 
-    /// See GetThresholdAttr(), and also 
+    /// See GetThrust0Attr(), and also 
     /// \ref Usd_Create_Or_Get_Property for when to use Get vs Create.
     /// If specified, author \p defaultValue as the attribute's default,
     /// sparsely (when it makes sense to do so) if \p writeSparsely is \c true -
     /// the default for \p writeSparsely is \c false.
     USDPHYSX_API
-    UsdAttribute CreateThresholdAttr(VtValue const &defaultValue = VtValue(), bool writeSparsely=false) const;
+    UsdAttribute CreateThrust0Attr(VtValue const &defaultValue = VtValue(), bool writeSparsely=false) const;
 
 public:
     // --------------------------------------------------------------------- //
-    // REPORTPAIRS 
+    // THRUST1 
     // --------------------------------------------------------------------- //
+    /// Magnitude of thrust to apply to the tracks that are assigned to thrust control 1.
     /// 
-    /// Relationship to objects. If in contact with these objects, contact reports will be sent. 
-    /// If relationship not set or list empty all contacts are reported.
+    /// Values have to be in [-1.0, 1.0] with the sign dictating whether the thrust will be applied positively or negatively with respect to the gearing ratio.
     /// 
     ///
+    /// | ||
+    /// | -- | -- |
+    /// | Declaration | `float physxVehicleTankController:thrust1 = 0` |
+    /// | C++ Type | float |
+    /// | \ref Usd_Datatypes "Usd Type" | SdfValueTypeNames->Float |
     USDPHYSX_API
-    UsdRelationship GetReportPairsRel() const;
+    UsdAttribute GetThrust1Attr() const;
 
-    /// See GetReportPairsRel(), and also 
-    /// \ref Usd_Create_Or_Get_Property for when to use Get vs Create
+    /// See GetThrust1Attr(), and also 
+    /// \ref Usd_Create_Or_Get_Property for when to use Get vs Create.
+    /// If specified, author \p defaultValue as the attribute's default,
+    /// sparsely (when it makes sense to do so) if \p writeSparsely is \c true -
+    /// the default for \p writeSparsely is \c false.
     USDPHYSX_API
-    UsdRelationship CreateReportPairsRel() const;
+    UsdAttribute CreateThrust1Attr(VtValue const &defaultValue = VtValue(), bool writeSparsely=false) const;
 
 public:
     // ===================================================================== //

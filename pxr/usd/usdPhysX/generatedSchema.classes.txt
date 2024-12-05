@@ -53,6 +53,13 @@ vehicleNonlinearCommandResponseAPI
 vehicleSteeringAPI
 vehicleSuspensionAPI
 vehicleSuspensionComplianceAPI
+vehicleTankControllerAPI
+vehicleTankDifferentialAPI
+vehicleTireAPI
+vehicleTireFrictionTable
+vehicleWheelAPI
+vehicleWheelAttachmentAPI
+vehicleWheelControllerAPI
 
 # Python Module Files
 module.cpp
@@ -108,6 +115,13 @@ wrapVehicleNonlinearCommandResponseAPI.cpp
 wrapVehicleSteeringAPI.cpp
 wrapVehicleSuspensionAPI.cpp
 wrapVehicleSuspensionComplianceAPI.cpp
+wrapVehicleTankControllerAPI.cpp
+wrapVehicleTankDifferentialAPI.cpp
+wrapVehicleTireAPI.cpp
+wrapVehicleTireFrictionTable.cpp
+wrapVehicleWheelAPI.cpp
+wrapVehicleWheelAttachmentAPI.cpp
+wrapVehicleWheelControllerAPI.cpp
 
 # Resource Files
 generatedSchema.usda

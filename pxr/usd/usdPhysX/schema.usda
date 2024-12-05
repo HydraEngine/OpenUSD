@@ -518,7 +518,10 @@ class "PhysxSchemaPhysxContactReportAPI" (
 )
 {
     rel reportPairs (
-        doc = "Relationship to objects. If in contact with these objects, contact reports will be sent. If relationship not set or list empty all contacts are reported."
+        doc = """
+        Relationship to objects. If in contact with these objects, contact reports will be sent. 
+        If relationship not set or list empty all contacts are reported.
+        """
     )
 
     float physxContactReport:threshold = 1 (
@@ -2939,6 +2942,421 @@ class "PhysxSchemaPhysxVehicleSuspensionComplianceAPI" (
         See the class documentation for general info about the nature of these graphs and the data requirements.
 
         Note: the toe angle is applied in the suspension frame (see PhysxVehicleWheelAttachmentAPI).
+        """
+    )
+}
+
+class "PhysxSchemaPhysxVehicleTankControllerAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "VehicleTankControllerAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        PhysX vehicle tank controller to divert torque from the engine to the wheels of the tracks of a wheel based tank vehicle (see PhysxVehicleTankDifferentialAPI).
+
+        Note that the "accelerator" attribute of PhysxVehicleControllerAPI still drives the engine torque whereas the thrust controls introduced here define how that torque gets diverted to the wheels, 
+        so both controls need to be used to drive a wheel based tank vehicle usually. This API schema has to be applied to a prim with PhysxVehicleAPI applied. 
+        Can only be used for vehicles that have a standard drive and a tank differential defined (see PhysxVehicleDriveStandardAPI, PhysxVehicleTankDifferentialAPI).
+    """
+)
+{
+    float physxVehicleTankController:thrust0 = 0 (
+        customData = {
+            string apiName = "thrust0"
+        }
+        doc = """Magnitude of thrust to apply to the tracks that are assigned to thrust control 0.
+
+        Values have to be in [-1.0, 1.0] with the sign dictating whether the thrust will be applied positively or negatively with respect to the gearing ratio.
+        """
+    )
+    float physxVehicleTankController:thrust1 = 0 (
+        customData = {
+            string apiName = "thrust1"
+        }
+        doc = """Magnitude of thrust to apply to the tracks that are assigned to thrust control 1.
+
+        Values have to be in [-1.0, 1.0] with the sign dictating whether the thrust will be applied positively or negatively with respect to the gearing ratio.
+        """
+    )
+}
+
+class "PhysxSchemaPhysxVehicleTankDifferentialAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "VehicleTankDifferentialAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        Differential to set up a wheeled tank vehicle.
+
+        Describes which wheels of a vehicle are part of the tank tracks. 
+        The wheels in each tank track have a constraint applied to them to enforce the rule that they all have the same longitudinal speed at the contact point between the wheel and the tank track. 
+        Driven wheels that are not part of a tank track receive the torque split specified in physxVehicleMultiWheelDifferential:torqueRatios. 
+        Has to be applied to a prim with PhysxVehicleAPI applied. Can only be used for vehicles that have a standard drive (see PhysxVehicleDriveStandardAPI).
+    """
+)
+{
+    int[] physxVehicleTankDifferential:numberOfWheelsPerTrack (
+        customData = {
+            string apiName = "numberOfWheelsPerTrack"
+        }
+        doc = """For each track, this array holds the number of wheels assigned to that track.
+        """
+    )
+    int[] physxVehicleTankDifferential:thrustIndexPerTrack (
+        customData = {
+            string apiName = "thrustIndexPerTrack"
+        }
+        doc = """
+        For each track, this array holds the index of the thrust control (0 or 1, see PhysxVehicleTankControllerAPI) that drives the track.
+
+        The length of the array needs to match the length of the "numberOfWheelsPerTrack" array.
+        """
+    )
+    int[] physxVehicleTankDifferential:trackToWheelIndices (
+        customData = {
+            string apiName = "trackToWheelIndices"
+        }
+        doc = """
+        For each track, this array holds the start index of the list describing the wheels that are assigned to that track (e.g., the list of wheel indices assigned to the track with index 2 starts at: wheelIndicesInTrackOrder[trackToWheelIndices[2]]).
+
+        The length of the array needs to match the length of the "numberOfWheelsPerTrack" array.
+        """
+    )
+    int[] physxVehicleTankDifferential:wheelIndicesInTrackOrder (
+        customData = {
+            string apiName = "wheelIndicesInTrackOrder"
+        }
+        doc = """
+        The wheels (identified by wheel attachment indices, see attribtue "index" of PhysxVehicleWheelAttachmentAPI) assigned to track 0, followed by the wheels assigned to track 1 and so on.
+
+        The length of the array is expected to be equal (or larger than) the number of wheels that are assigned to tracks.
+        """
+    )
+}
+
+class "PhysxSchemaPhysxVehicleTireAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "VehicleTireAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        Properties of a PhysX vehicle tire.
+
+        If the tire setup does not need to be shared among vehicle instances, it can be applied to the prim which has PhysxVehicleWheelAttachmentAPI applied. 
+        If the intent is to share the tire setup, PhysxVehicleTireAPI can be applied to a separate prim which can be linked to (see PhysxVehicleWheelAttachmentAPI).
+    """
+)
+{
+    float physxVehicleTire:camberStiffness = -1 (
+        customData = {
+            string apiName = "camberStiffness"
+        }
+        doc = """
+        Tire camber stiffness (units: mass * distance / seconds / seconds / radians).
+
+        The value has to be greater or equal 0. Camber force can be approximated as: camberStiffness*camberAngle.
+
+        Note: the default value -1 is not a valid value as such but indicates that the deprecated attribute camberStiffnessPerUnitGravity should be used instead.
+        """
+    )
+    float2[] physxVehicleTire:frictionVsSlipGraph (
+        customData = {
+            string apiName = "frictionVsSlipGraph"
+        }
+        doc = """
+        Graph of friction vs longitudinal slip with 3 points.
+
+        The friction value extracted from this graph will be multiplied with the friction value of the combination of ground material and tire type. 
+        The array is expected to have 3 entries/points. For the first point, the first value is always zero and the second value is the friction available at zero longitudinal slip. 
+        For the second point, the first value is the longitudinal slip with maximum friction and the second value is the maximum friction. 
+        For the third point, the first value is the end point of the graph and the second value is the friction for slips greater than the end point of the graph. 
+        Note that the friction value of the first point is typically smaller than the friction value of the second point and the friction value of the second point is typically larger than the friction value of the third point.
+
+        Note: if not defined, the following values will be used: [(0.0, 1.0), (0.1, 1.0), (1.0, 1.0)].
+        """
+    )
+    float2 physxVehicleTire:lateralStiffnessGraph = (0, 0) (
+        customData = {
+            string apiName = "lateralStiffnessGraph"
+        }
+        doc = """
+        Tire lateral stiffness is represented as a graph of tire load that has linear behavior near zero load and flattens at large loads.
+
+        The first value of the parameter describes the minimum normalized load (load/restLoad) that gives a flat lateral stiffness response to load. 
+        This value has to be greater or equal 0. The second value of the parameter defines the lateral stiffness when the response is flat (the max lateral stiffness, units: mass * distance / seconds / seconds). This value has to be positive.
+
+        Note: the default value (0, 0) is not a valid value as such but indicates that the deprecated attributes latStiffX and latStiffY should be used instead.
+        """
+    )
+    float physxVehicleTire:longitudinalStiffness = 0 (
+        customData = {
+            string apiName = "longitudinalStiffness"
+        }
+        doc = """
+        Tire longitudinal stiffness (units: mass * distance / seconds / seconds).
+
+        The value has to be positive. The resulting longitudinal force can be approximated as: longitudinalStiffness*longitudinalSlip.
+
+        Note: the default value 0 is not a valid value as such but indicates that the deprecated attribute longitudinalStiffnessPerUnitGravity should be used instead.
+        """
+    )
+    float physxVehicleTire:restLoad = 0 (
+        customData = {
+            string apiName = "restLoad"
+        }
+        doc = """
+        The load that develops on the tire when the vehicle is at rest on a flat plane (units: force = mass * distance / seconds / seconds).
+
+        The value has to be greater or equal 0. If set to 0, the rest load will get computed automatically using the approximation of: gravitational acceleration * sprungMass.
+
+        Note: it is not possible for a vehicle to have some rest load values being user-defined and some being computed automatically. 
+        Either all values have to be user-defined or all have to be set to 0 for auto-computation.
+        """
+    )
+}
+
+class PhysxSchemaPhysxVehicleTireFrictionTable "PhysxSchemaPhysxVehicleTireFrictionTable" (
+    doc = """Table defining the friction values of a tire against a given set of ground materials."""
+    # Inherits from </SimplePrim> defined in simple.usda.
+    inherits = </Typed>
+    customData = {
+        string className = "VehicleTireFrictionTable"
+    }
+)  {
+    float defaultFrictionValue = 1 (
+        doc = """
+        The friction value to use for the tire against the ground if the material of the ground surface is not among the materials listed in groundMaterials.
+
+        The value has to be greater or equal 0.
+        """
+    )
+    float[] frictionValues (
+        doc = """
+        The friction values to use for the tire against the ground materials listed under groundMaterials.
+
+        The array needs to have the same size as the list of materials specified in groundMaterials.
+        """
+    )
+
+    rel groundMaterials (
+        doc = """
+        Relationships to Material instances that have PhysicsMaterialAPI applied.
+
+        For each material, a friction value has to be specified in the frictionValues attribute. 
+        If a material is encountered that has not been listed, the value declared in defaultFrictionValue will be used.
+        """
+    )
+}
+
+class "PhysxSchemaPhysxVehicleWheelAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "VehicleWheelAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        Properties of a PhysX vehicle wheel.
+
+        If the wheel setup does not need to be shared among vehicle instances, it can be applied to the prim which has PhysxVehicleWheelAttachmentAPI applied. 
+        If the intent is to share the wheel setup, PhysxVehicleWheelAPI can be applied to a separate prim which can be linked to (see PhysxVehicleWheelAttachmentAPI).
+    """
+)
+{
+    float physxVehicleWheel:dampingRate (
+        customData = {
+            string apiName = "dampingRate"
+        }
+        doc = """
+        The damping rate applied to the wheel (units: torque * seconds = mass * distance * distance / seconds).
+
+        Note: this attribute has to be specified (there is no default).
+        """
+    )
+    float physxVehicleWheel:mass (
+        customData = {
+            string apiName = "mass"
+        }
+        doc = """
+        The mass of the wheel (metal wheel plus tire).
+
+        Note: this attribute has to be specified (there is no default).
+        """
+    )
+    float physxVehicleWheel:moi (
+        customData = {
+            string apiName = "moi"
+        }
+        doc = """
+        The moment of inertia (metal wheel plus tire) about the rolling axis (units: mass * distance * distance).
+
+        Note: this attribute has to be specified (there is no default).
+        """
+    )
+    float physxVehicleWheel:radius (
+        customData = {
+            string apiName = "radius"
+        }
+        doc = """
+        The radius of the wheel (metal wheel plus tire).
+
+        Note: this attribute has to be specified (there is no default).
+        """
+    )
+    float physxVehicleWheel:width (
+        customData = {
+            string apiName = "width"
+        }
+        doc = """
+        The width of the wheel (metal wheel plus tire).
+
+        Note: this attribute has to be specified (there is no default).
+        """
+    )
+}
+
+class "PhysxSchemaPhysxVehicleWheelAttachmentAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "VehicleWheelAttachmentAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        For every wheel of a vehicle, this class defines the attachment properties.
+
+        Has to be applied to a prim that is a descendant of a prim with PhysxVehicleAPI applied. 
+        If the wheel attachment prim (the prim with PhysxVehicleWheelAttachmentAPI applied) is a UsdGeomXformable, then the position and orientation of the prim will be set by the vehicle simulation. 
+        If the wheel attachment prim has PhysicsCollisionAPI applied, then none of its descendants are allowed to have PhysicsCollisionAPI applied. 
+        If the wheel attachment prim is a UsdGeomXformable but does not have PhysicsCollisionAPI applied, then exactly one direct child prim among all descendants is allowed to have PhysicsCollisionAPI applied. 
+        That prim will be interpreted as the collision geometry of the wheel and its position and orientation will be set by the vehicle simulation too. 
+        Note that the relative transform between the collision geometry prim and the wheel attachment prim at the start of the simulation will be maintained (the relative transform with respect to the center of mass frame of the vehicle rigid body that is). 
+        If there is no desire to have the vehicle simulation control the transform of the wheel attachment prim, then a prim type that is not a UsdGeomXformable should be chosen.
+    """
+)
+{
+    int physxVehicleWheelAttachment:index = -1 (
+        customData = {
+            string apiName = "index"
+        }
+        doc = """
+        The index of the wheel attachment.
+
+        Some other components will reference the wheel attachments based on this index. 
+        Either all indices of a vehicle's wheel attachments need to be -1 or they need to cover all entries in the group {0, .., (numberOfWheels-1)}. 
+        All indices being -1 covers the case where wheels are controlled directly through PhysxVehicleWheelControllerAPI, for example, or when deprecated APIs are used still.
+        """
+    )
+    quatf physxVehicleWheelAttachment:suspensionFrameOrientation = (1, 0, 0, 0) (
+        customData = {
+            string apiName = "suspensionFrameOrientation"
+        }
+        doc = """
+        The orientation of the suspension frame.
+
+        The custom metadata physxVehicle:referenceFrameIsCenterOfMass (on the vehicle prim) defines in what frame the orientation is specified. 
+        If set to true, the orientation is assumed to be relative to the vehicle center of mass frame, else relative to the frame of the vehicle prim. 
+        Note that using the center of mass frame as reference is deprecated and will not be supported for much longer. 
+        Camber, steer and toe angles are all applied in the suspension frame. 
+        The vehicle frame transform of the wheel will be defined by: centerOfMassFrame * suspensionFrame * wheelFrame (if physxVehicle:referenceFrameIsCenterOfMass is true, else centerOfMassFrame has to be omitted).
+        """
+    )
+    point3f physxVehicleWheelAttachment:suspensionFramePosition (
+        customData = {
+            string apiName = "suspensionFramePosition"
+        }
+        doc = """
+        The point of the suspension at max compression.
+
+        The custom metadata physxVehicle:referenceFrameIsCenterOfMass (on the vehicle prim) defines in what frame the position is specified. 
+        If set to true, the position is assumed to be relative to the vehicle center of mass frame, else relative to the frame of the vehicle prim. 
+        Note that using the center of mass frame as reference is deprecated and will not be supported for much longer. Camber, steer and toe angles are all applied in the suspension frame. 
+        The vehicle frame transform of the wheel will be defined by: centerOfMassFrame * suspensionFrame * wheelFrame (if physxVehicle:referenceFrameIsCenterOfMass is true, else centerOfMassFrame has to be omitted).
+
+        Note: either this attribute or the deprecated wheelCenterOfMassOffset have to to be specified (with the former taking precedence).
+        """
+    )
+    vector3f physxVehicleWheelAttachment:suspensionTravelDirection (
+        customData = {
+            string apiName = "suspensionTravelDirection"
+        }
+        doc = """
+        The direction of the suspension travel (towards the wheel).
+
+        The custom metadata physxVehicle:referenceFrameIsCenterOfMass (on the vehicle prim) defines in what frame the direction is specified. 
+        If set to true, the direction is assumed to be relative to the vehicle center of mass frame, else relative to the frame of the vehicle prim. 
+        Note that using the center of mass frame as reference is deprecated and will not be supported for much longer.
+
+        Note: this attribute has to be specified (there is no default).
+        """
+    )
+    quatf physxVehicleWheelAttachment:wheelFrameOrientation = (1, 0, 0, 0) (
+        customData = {
+            string apiName = "wheelFrameOrientation"
+        }
+        doc = """
+        An orientation adjustment of the wheel relative to the suspension frame.
+
+        The rotation angle around the wheel's lateral axis is applied in this frame.
+        """
+    )
+    point3f physxVehicleWheelAttachment:wheelFramePosition = (0, 0, 0) (
+        customData = {
+            string apiName = "wheelFramePosition"
+        }
+        doc = """
+        A position offset of the wheel center relative to the suspension frame.
+
+        Non-zero values might be used, for example, if the steer axis should not go through the wheel center.
+        """
+    )
+    rel wheel (
+        doc = """
+        A relationship to a PhysxVehicleWheelAPI prim.
+
+        Note: either this relationship has to be specified or the prim must have PhysxVehicleWheelAPI applied (none or both of the two is invalid).
+        """
+    )
+}
+
+class "PhysxSchemaPhysxVehicleWheelControllerAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "VehicleWheelControllerAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        PhysX wheel controller that samples user input and allows direct control of the wheel torques and steer angle to drive the vehicle.
+
+        Has to be applied to a prim with PhysxVehicleWheelAttachmentAPI applied and be a descendant of a prim with a PhysxVehicleAPI applied.
+    """
+)
+{
+    float physxVehicleWheelController:brakeTorque = 0 (
+        customData = {
+            string apiName = "brakeTorque"
+        }
+        doc = """
+        Torque to decrease wheel angular rate and slow down (units: mass * distance * distance / seconds / seconds).
+
+        The value has to be greater or equal zero.
+        """
+    )
+    float physxVehicleWheelController:driveTorque = 0 (
+        customData = {
+            string apiName = "driveTorque"
+        }
+        doc = """
+        Torque to increase wheel angular rate and speed up (units: mass * distance * distance / seconds / seconds).
+        """
+    )
+    float physxVehicleWheelController:steerAngle = 0 (
+        customData = {
+            string apiName = "steerAngle"
+        }
+        doc = """
+        Steer angle of the wheel in radians.
         """
     )
 }

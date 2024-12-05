@@ -89,6 +89,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXCharacterControllerAPI::GetClimbingModeAttr()
     const TfToken constrained;
+    /// \brief "defaultFrictionValue"
+    /// 
+    /// UsdPhysXVehicleTireFrictionTable
+    const TfToken defaultFrictionValue;
     /// \brief "Disabled"
     /// 
     /// Possible value for UsdPhysXSceneAPI::GetUpdateTypeAttr()
@@ -109,6 +113,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXForceAPI::GetModeAttr()
     const TfToken force;
+    /// \brief "frictionValues"
+    /// 
+    /// UsdPhysXVehicleTireFrictionTable
+    const TfToken frictionValues;
     /// \brief "gears"
     /// 
     /// UsdPhysXVehicleDriveStandardAPI
@@ -117,6 +125,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Fallback value for UsdPhysXSceneAPI::GetBroadphaseTypeAttr()
     const TfToken GPU;
+    /// \brief "groundMaterials"
+    /// 
+    /// UsdPhysXVehicleTireFrictionTable
+    const TfToken groundMaterials;
     /// \brief "hinge"
     /// 
     /// UsdPhysXPhysicsRackAndPinionJoint
@@ -1221,10 +1233,110 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXVehicleSuspensionAPI
     const TfToken physxVehicleSuspensionTravelDistance;
+    /// \brief "physxVehicleTankController:thrust0"
+    /// 
+    /// UsdPhysXVehicleTankControllerAPI
+    const TfToken physxVehicleTankControllerThrust0;
+    /// \brief "physxVehicleTankController:thrust1"
+    /// 
+    /// UsdPhysXVehicleTankControllerAPI
+    const TfToken physxVehicleTankControllerThrust1;
+    /// \brief "physxVehicleTankDifferential:numberOfWheelsPerTrack"
+    /// 
+    /// UsdPhysXVehicleTankDifferentialAPI
+    const TfToken physxVehicleTankDifferentialNumberOfWheelsPerTrack;
+    /// \brief "physxVehicleTankDifferential:thrustIndexPerTrack"
+    /// 
+    /// UsdPhysXVehicleTankDifferentialAPI
+    const TfToken physxVehicleTankDifferentialThrustIndexPerTrack;
+    /// \brief "physxVehicleTankDifferential:trackToWheelIndices"
+    /// 
+    /// UsdPhysXVehicleTankDifferentialAPI
+    const TfToken physxVehicleTankDifferentialTrackToWheelIndices;
+    /// \brief "physxVehicleTankDifferential:wheelIndicesInTrackOrder"
+    /// 
+    /// UsdPhysXVehicleTankDifferentialAPI
+    const TfToken physxVehicleTankDifferentialWheelIndicesInTrackOrder;
+    /// \brief "physxVehicleTire:camberStiffness"
+    /// 
+    /// UsdPhysXVehicleTireAPI
+    const TfToken physxVehicleTireCamberStiffness;
+    /// \brief "physxVehicleTire:frictionVsSlipGraph"
+    /// 
+    /// UsdPhysXVehicleTireAPI
+    const TfToken physxVehicleTireFrictionVsSlipGraph;
+    /// \brief "physxVehicleTire:lateralStiffnessGraph"
+    /// 
+    /// UsdPhysXVehicleTireAPI
+    const TfToken physxVehicleTireLateralStiffnessGraph;
+    /// \brief "physxVehicleTire:longitudinalStiffness"
+    /// 
+    /// UsdPhysXVehicleTireAPI
+    const TfToken physxVehicleTireLongitudinalStiffness;
+    /// \brief "physxVehicleTire:restLoad"
+    /// 
+    /// UsdPhysXVehicleTireAPI
+    const TfToken physxVehicleTireRestLoad;
     /// \brief "physxVehicle:vehicleEnabled"
     /// 
     /// UsdPhysXVehicleAPI
     const TfToken physxVehicleVehicleEnabled;
+    /// \brief "physxVehicleWheelAttachment:index"
+    /// 
+    /// UsdPhysXVehicleWheelAttachmentAPI
+    const TfToken physxVehicleWheelAttachmentIndex;
+    /// \brief "physxVehicleWheelAttachment:suspensionFrameOrientation"
+    /// 
+    /// UsdPhysXVehicleWheelAttachmentAPI
+    const TfToken physxVehicleWheelAttachmentSuspensionFrameOrientation;
+    /// \brief "physxVehicleWheelAttachment:suspensionFramePosition"
+    /// 
+    /// UsdPhysXVehicleWheelAttachmentAPI
+    const TfToken physxVehicleWheelAttachmentSuspensionFramePosition;
+    /// \brief "physxVehicleWheelAttachment:suspensionTravelDirection"
+    /// 
+    /// UsdPhysXVehicleWheelAttachmentAPI
+    const TfToken physxVehicleWheelAttachmentSuspensionTravelDirection;
+    /// \brief "physxVehicleWheelAttachment:wheelFrameOrientation"
+    /// 
+    /// UsdPhysXVehicleWheelAttachmentAPI
+    const TfToken physxVehicleWheelAttachmentWheelFrameOrientation;
+    /// \brief "physxVehicleWheelAttachment:wheelFramePosition"
+    /// 
+    /// UsdPhysXVehicleWheelAttachmentAPI
+    const TfToken physxVehicleWheelAttachmentWheelFramePosition;
+    /// \brief "physxVehicleWheelController:brakeTorque"
+    /// 
+    /// UsdPhysXVehicleWheelControllerAPI
+    const TfToken physxVehicleWheelControllerBrakeTorque;
+    /// \brief "physxVehicleWheelController:driveTorque"
+    /// 
+    /// UsdPhysXVehicleWheelControllerAPI
+    const TfToken physxVehicleWheelControllerDriveTorque;
+    /// \brief "physxVehicleWheelController:steerAngle"
+    /// 
+    /// UsdPhysXVehicleWheelControllerAPI
+    const TfToken physxVehicleWheelControllerSteerAngle;
+    /// \brief "physxVehicleWheel:dampingRate"
+    /// 
+    /// UsdPhysXVehicleWheelAPI
+    const TfToken physxVehicleWheelDampingRate;
+    /// \brief "physxVehicleWheel:mass"
+    /// 
+    /// UsdPhysXVehicleWheelAPI
+    const TfToken physxVehicleWheelMass;
+    /// \brief "physxVehicleWheel:moi"
+    /// 
+    /// UsdPhysXVehicleWheelAPI
+    const TfToken physxVehicleWheelMoi;
+    /// \brief "physxVehicleWheel:radius"
+    /// 
+    /// UsdPhysXVehicleWheelAPI
+    const TfToken physxVehicleWheelRadius;
+    /// \brief "physxVehicleWheel:width"
+    /// 
+    /// UsdPhysXVehicleWheelAPI
+    const TfToken physxVehicleWheelWidth;
     /// \brief "posX"
     /// 
     /// Possible value for UsdPhysXVehicleContextAPI::GetLongitudinalAxisAttr(), Possible value for UsdPhysXVehicleContextAPI::GetVerticalAxisAttr()
@@ -1321,6 +1433,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Fallback value for UsdPhysXVehicleContextAPI::GetUpdateModeAttr()
     const TfToken velocityChange;
+    /// \brief "wheel"
+    /// 
+    /// UsdPhysXVehicleWheelAttachmentAPI
+    const TfToken wheel;
     /// \brief "wheels"
     /// 
     /// UsdPhysXVehicleBrakesAPI
@@ -1541,6 +1657,34 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXVehicleSuspensionComplianceAPI
     const TfToken PhysxSchemaPhysxVehicleSuspensionComplianceAPI;
+    /// \brief "PhysxSchemaPhysxVehicleTankControllerAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleTankControllerAPI
+    const TfToken PhysxSchemaPhysxVehicleTankControllerAPI;
+    /// \brief "PhysxSchemaPhysxVehicleTankDifferentialAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleTankDifferentialAPI
+    const TfToken PhysxSchemaPhysxVehicleTankDifferentialAPI;
+    /// \brief "PhysxSchemaPhysxVehicleTireAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleTireAPI
+    const TfToken PhysxSchemaPhysxVehicleTireAPI;
+    /// \brief "PhysxSchemaPhysxVehicleTireFrictionTable"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleTireFrictionTable
+    const TfToken PhysxSchemaPhysxVehicleTireFrictionTable;
+    /// \brief "PhysxSchemaPhysxVehicleWheelAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleWheelAPI
+    const TfToken PhysxSchemaPhysxVehicleWheelAPI;
+    /// \brief "PhysxSchemaPhysxVehicleWheelAttachmentAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleWheelAttachmentAPI
+    const TfToken PhysxSchemaPhysxVehicleWheelAttachmentAPI;
+    /// \brief "PhysxSchemaPhysxVehicleWheelControllerAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleWheelControllerAPI
+    const TfToken PhysxSchemaPhysxVehicleWheelControllerAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };
