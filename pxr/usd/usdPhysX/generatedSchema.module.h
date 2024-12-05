@@ -18,4 +18,7 @@ TF_WRAP(UsdPhysXphysxCollisionAPI);
 TF_WRAP(UsdPhysXphysxContactReportAPI);
 TF_WRAP(UsdPhysXphysxConvexDecompositionCollisionAPI);
 TF_WRAP(UsdPhysXphysxConvexHullCollisionAPI);
+TF_WRAP(UsdPhysXphysxCookedDataAPI);
+TF_WRAP(UsdPhysXphysxForceAPI);
+TF_WRAP(UsdPhysXphysxIsosurfaceAPI);
 TF_WRAP(UsdPhysXTokens);

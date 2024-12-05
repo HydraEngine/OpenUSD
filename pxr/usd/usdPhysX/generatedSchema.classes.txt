@@ -13,6 +13,9 @@ physxCollisionAPI
 physxContactReportAPI
 physxConvexDecompositionCollisionAPI
 physxConvexHullCollisionAPI
+physxCookedDataAPI
+physxForceAPI
+physxIsosurfaceAPI
 tokens
 
 # Python Module Files
@@ -30,6 +33,9 @@ wrapphysxCollisionAPI.cpp
 wrapphysxContactReportAPI.cpp
 wrapphysxConvexDecompositionCollisionAPI.cpp
 wrapphysxConvexHullCollisionAPI.cpp
+wrapphysxCookedDataAPI.cpp
+wrapphysxForceAPI.cpp
+wrapphysxIsosurfaceAPI.cpp
 
 # Resource Files
 generatedSchema.usda

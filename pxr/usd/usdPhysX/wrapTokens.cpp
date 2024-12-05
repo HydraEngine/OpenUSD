@@ -17,9 +17,11 @@ void wrapUsdPhysXTokens()
 {
     pxr_boost::python::class_<UsdPhysXTokensType, pxr_boost::python::noncopyable>
         cls("Tokens", pxr_boost::python::no_init);
+    _ADD_TOKEN(cls, acceleration);
     _ADD_TOKEN(cls, alwaysUpdateEnabled);
     _ADD_TOKEN(cls, constrained);
     _ADD_TOKEN(cls, easy);
+    _ADD_TOKEN(cls, force);
     _ADD_TOKEN(cls, jointState);
     _ADD_TOKEN(cls, jointState_MultipleApplyTemplate_PhysicsPosition);
     _ADD_TOKEN(cls, jointState_MultipleApplyTemplate_PhysicsVelocity);
@@ -53,6 +55,8 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxConvexDecompositionCollisionVoxelResolution);
     _ADD_TOKEN(cls, physxConvexHullCollisionHullVertexLimit);
     _ADD_TOKEN(cls, physxConvexHullCollisionMinThickness);
+    _ADD_TOKEN(cls, physxCookedData);
+    _ADD_TOKEN(cls, physxCookedData_MultipleApplyTemplate_Buffer);
     _ADD_TOKEN(cls, physxDroneCameraFeedForwardVelocityGain);
     _ADD_TOKEN(cls, physxDroneCameraFollowDistance);
     _ADD_TOKEN(cls, physxDroneCameraFollowHeight);
@@ -91,6 +95,25 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxFollowLookCameraUpHillGroundAngle);
     _ADD_TOKEN(cls, physxFollowLookCameraUpHillGroundPitch);
     _ADD_TOKEN(cls, physxFollowLookCameraVelocityBlendTimeConstant);
+    _ADD_TOKEN(cls, physxForceForce);
+    _ADD_TOKEN(cls, physxForceForceEnabled);
+    _ADD_TOKEN(cls, physxForceMode);
+    _ADD_TOKEN(cls, physxForceTorque);
+    _ADD_TOKEN(cls, physxForceWorldFrameEnabled);
+    _ADD_TOKEN(cls, physxIsosurfaceAnisotropyMax);
+    _ADD_TOKEN(cls, physxIsosurfaceAnisotropyMin);
+    _ADD_TOKEN(cls, physxIsosurfaceAnisotropyRadius);
+    _ADD_TOKEN(cls, physxIsosurfaceEnableAnisotropy);
+    _ADD_TOKEN(cls, physxIsosurfaceGridFilteringPasses);
+    _ADD_TOKEN(cls, physxIsosurfaceGridSmoothingRadiusRelativeToCellSize);
+    _ADD_TOKEN(cls, physxIsosurfaceGridSpacing);
+    _ADD_TOKEN(cls, physxIsosurfaceIsoSurfaceEnabled);
+    _ADD_TOKEN(cls, physxIsosurfaceIsosurfaceLevel);
+    _ADD_TOKEN(cls, physxIsosurfaceKernelRadius);
+    _ADD_TOKEN(cls, physxIsosurfaceMaxSubgrids);
+    _ADD_TOKEN(cls, physxIsosurfaceMaxTriangles);
+    _ADD_TOKEN(cls, physxIsosurfaceMaxVertices);
+    _ADD_TOKEN(cls, physxIsosurfaceNumMeshSmoothingPasses);
     _ADD_TOKEN(cls, preventClimbing);
     _ADD_TOKEN(cls, preventClimbingForceSliding);
     _ADD_TOKEN(cls, X);
@@ -108,4 +131,7 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, PhysxSchemaPhysxContactReportAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxConvexDecompositionCollisionAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxConvexHullCollisionAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxCookedDataAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxForceAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxIsosurfaceAPI);
 }

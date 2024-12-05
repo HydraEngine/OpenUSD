@@ -309,3 +309,114 @@ class "PhysxSchemaPhysxConvexHullCollisionAPI" (
     )
 }
 
+class "PhysxSchemaPhysxCookedDataAPI" (
+    doc = "PhysX cooked data storage."
+)
+{
+    uchar[] physxCookedData:__INSTANCE_NAME__:buffer (
+        doc = "CookedData"
+    )
+}
+
+class "PhysxSchemaPhysxForceAPI" (
+    doc = """
+        PhysX schema API that applies a force and torque to a rigid body (UsdGeom.Xformable with UsdPhysicsRigidBodyAPI).
+
+        The API can be applied to either:
+
+        The rigid-body Xformable, in which case the force is applied at the body's center of mass.
+        To an UsdGeom.Xformable that is a child of the rigid-body Xformable, in which case the force is applied at the location defined by the Xformable.
+        The worldFrameEnabled flag defines what coordinate frame the force and torque are expressed in. Note that any scale transform operations will only affect the force and torque values if on \"acceleration\" mode.
+
+        For any described attribute Fallback Value or Allowed Values below that are text/tokens, the actual token is published and defined in PhysxSchemaTokens. So to set an attribute to the value \"rightHanded\", use PhysxSchemaTokens->rightHanded as the value.
+    """
+)
+{
+    vector3f physxForce:force = (0, 0, 0) (
+        doc = """Force to apply defined in global or local frame depending on worldFrameEnabled.
+
+        The force is applied at the position defined by the relative transform to the parent rigid-body Xformable, or at the body's center of mass if the API is applied directly to a rigid-body Xformable. For units see mode attribute. Range: (-inf, inf)
+    """
+    )
+    bool physxForce:forceEnabled = 1 (
+        doc = "Boolean defining whether the force and torque are enabled or disabled."
+    )
+    uniform token physxForce:mode = "acceleration" (
+        allowedTokens = ["acceleration", "force"]
+        doc = """
+        Force mode, can be either a force or an acceleration.
+
+        force - units: (linear) mass * distance / seconds^2, i.e. a force (angular) mass * distance * distance / time^2, 
+        i.e. a torque acceleration - units: (linear) distance / seconds^2, i.e. a linear acceleration. (angular) degrees / seconds^2, i.e. an angular acceleration.
+        """
+    )
+    vector3f physxForce:torque = (0, 0, 0) (
+        doc = """Torque to apply defined in the global or local frame depending on worldFrameEnabled.
+            For units see mode attribute. Range: (-inf, inf)"""
+    )
+    bool physxForce:worldFrameEnabled = 0 (
+        doc = "Boolean defining whether the force and torque are in world frame or in local frame."
+    )
+}
+
+class "PhysxSchemaPhysxIsosurfaceAPI" (
+    doc = """Applied to a PhysxParticleSystem.
+        Defines settings to extract an isosurface from the particles in the particle system."""
+)
+{
+    float physxIsosurface:anisotropyMax = 2 (
+        doc = """The maximal scale anisotropy can apply to a particle radius.
+            Range: [anisotropyMin, inf) Units: dimensionless"""
+    )
+    float physxIsosurface:anisotropyMin = 0.1 (
+        doc = """The minimal scale anisotropy can apply to a particle radius.
+            Range: [0, anisotropyMax] Units: dimensionless"""
+    )
+    float physxIsosurface:anisotropyRadius = 0.5 (
+        doc = """Radius that defines the size of the neighborhood used to determine the anisotropy information.
+            Range: [0, inf) Units: distance"""
+    )
+    bool physxIsosurface:enableAnisotropy = 0 (
+        doc = "Enables usage of anisotropy information during isosurface extraction process."
+    )
+    string physxIsosurface:gridFilteringPasses = "GSRS" (
+        doc = '''Grid filtering sequence, defined as capital letters "S":Smooth, "G":Grow, "R":Reduce. 
+        Up to 8 passes, every pass can consist of up to 4 repetitions.'''
+    )
+    float physxIsosurface:gridSmoothingRadiusRelativeToCellSize = 0.5 (
+        doc = """The radius used during the smoothing process on the grid.
+        It is measured relative to the grid's cell size. Range: [0, inf) Units: dimensionless"""
+    )
+    float physxIsosurface:gridSpacing = 0.25 (
+        doc = """Cell Size of the grid used for isosurface extraction.
+        Range: (0, inf) Units: distance"""
+    )
+    bool physxIsosurface:isoSurfaceEnabled = 1 (
+        doc = "Enable or disable the creation of an isosurface."
+    )
+    float physxIsosurface:isosurfaceLevel = -0.3 (
+        doc = """The level at which the isosurface is located.
+        Allows to control the droplet size. The signed distance field is more negative towards the center of the fluid and positive outside. Range: (-inf, inf) Units: distance"""
+    )
+    float physxIsosurface:kernelRadius = 0.5 (
+        doc = """Radius of the kernel used to transfer the density to the isosurface grid.
+        Range: (0, inf) Units: distance"""
+    )
+    int physxIsosurface:maxSubgrids = 1024 (
+        doc = """Maximum number of blocks the sparse grid structure can contain.
+        Range: [1, inf)"""
+    )
+    int physxIsosurface:maxTriangles = 2097152 (
+        doc = """Maximum number of triangles the extracted isosurface can have.
+        Range: [1, inf)"""
+    )
+    int physxIsosurface:maxVertices = 1048576 (
+        doc = """Maximum number of vertices the extracted isosurface can have.
+        Range: [3, inf)"""
+    )
+    int physxIsosurface:numMeshSmoothingPasses = 2 (
+        doc = """Number of smoothing passes applied to the generated isosurface triangle mesh.
+        Using an even number of passes leads to less shrinking. Range: [0, inf)"""
+    )
+}
+

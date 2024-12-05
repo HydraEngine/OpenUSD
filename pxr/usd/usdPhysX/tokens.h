@@ -41,10 +41,14 @@ PXR_NAMESPACE_OPEN_SCOPE
 /// Use UsdPhysXTokens like so:
 ///
 /// \code
-///     gprim.GetMyTokenValuedAttr().Set(UsdPhysXTokens->alwaysUpdateEnabled);
+///     gprim.GetMyTokenValuedAttr().Set(UsdPhysXTokens->acceleration);
 /// \endcode
 struct UsdPhysXTokensType {
     USDPHYSX_API UsdPhysXTokensType();
+    /// \brief "acceleration"
+    /// 
+    /// Fallback value for UsdPhysXphysxForceAPI::GetModeAttr()
+    const TfToken acceleration;
     /// \brief "alwaysUpdateEnabled"
     /// 
     /// UsdPhysXphysxCameraAPI
@@ -57,6 +61,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Fallback value for UsdPhysXphysxCharacterControllerAPI::GetClimbingModeAttr()
     const TfToken easy;
+    /// \brief "force"
+    /// 
+    /// Possible value for UsdPhysXphysxForceAPI::GetModeAttr()
+    const TfToken force;
     /// \brief "jointState"
     /// 
     /// Property namespace prefix for the UsdPhysXJointStateAPI schema.
@@ -189,6 +197,14 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXphysxConvexHullCollisionAPI
     const TfToken physxConvexHullCollisionMinThickness;
+    /// \brief "physxCookedData"
+    /// 
+    /// Property namespace prefix for the UsdPhysXphysxCookedDataAPI schema.
+    const TfToken physxCookedData;
+    /// \brief "physxCookedData:__INSTANCE_NAME__:buffer"
+    /// 
+    /// UsdPhysXphysxCookedDataAPI
+    const TfToken physxCookedData_MultipleApplyTemplate_Buffer;
     /// \brief "physxDroneCamera:feedForwardVelocityGain"
     /// 
     /// UsdPhysXphysxCameraDroneAPI
@@ -341,6 +357,82 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXphysxCameraFollowLookAPI
     const TfToken physxFollowLookCameraVelocityBlendTimeConstant;
+    /// \brief "physxForce:force"
+    /// 
+    /// UsdPhysXphysxForceAPI
+    const TfToken physxForceForce;
+    /// \brief "physxForce:forceEnabled"
+    /// 
+    /// UsdPhysXphysxForceAPI
+    const TfToken physxForceForceEnabled;
+    /// \brief "physxForce:mode"
+    /// 
+    /// UsdPhysXphysxForceAPI
+    const TfToken physxForceMode;
+    /// \brief "physxForce:torque"
+    /// 
+    /// UsdPhysXphysxForceAPI
+    const TfToken physxForceTorque;
+    /// \brief "physxForce:worldFrameEnabled"
+    /// 
+    /// UsdPhysXphysxForceAPI
+    const TfToken physxForceWorldFrameEnabled;
+    /// \brief "physxIsosurface:anisotropyMax"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceAnisotropyMax;
+    /// \brief "physxIsosurface:anisotropyMin"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceAnisotropyMin;
+    /// \brief "physxIsosurface:anisotropyRadius"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceAnisotropyRadius;
+    /// \brief "physxIsosurface:enableAnisotropy"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceEnableAnisotropy;
+    /// \brief "physxIsosurface:gridFilteringPasses"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceGridFilteringPasses;
+    /// \brief "physxIsosurface:gridSmoothingRadiusRelativeToCellSize"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceGridSmoothingRadiusRelativeToCellSize;
+    /// \brief "physxIsosurface:gridSpacing"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceGridSpacing;
+    /// \brief "physxIsosurface:isoSurfaceEnabled"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceIsoSurfaceEnabled;
+    /// \brief "physxIsosurface:isosurfaceLevel"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceIsosurfaceLevel;
+    /// \brief "physxIsosurface:kernelRadius"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceKernelRadius;
+    /// \brief "physxIsosurface:maxSubgrids"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceMaxSubgrids;
+    /// \brief "physxIsosurface:maxTriangles"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceMaxTriangles;
+    /// \brief "physxIsosurface:maxVertices"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceMaxVertices;
+    /// \brief "physxIsosurface:numMeshSmoothingPasses"
+    /// 
+    /// UsdPhysXphysxIsosurfaceAPI
+    const TfToken physxIsosurfaceNumMeshSmoothingPasses;
     /// \brief "preventClimbing"
     /// 
     /// Fallback value for UsdPhysXphysxCharacterControllerAPI::GetNonWalkableModeAttr()
@@ -409,6 +501,18 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXphysxConvexHullCollisionAPI
     const TfToken PhysxSchemaPhysxConvexHullCollisionAPI;
+    /// \brief "PhysxSchemaPhysxCookedDataAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXphysxCookedDataAPI
+    const TfToken PhysxSchemaPhysxCookedDataAPI;
+    /// \brief "PhysxSchemaPhysxForceAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXphysxForceAPI
+    const TfToken PhysxSchemaPhysxForceAPI;
+    /// \brief "PhysxSchemaPhysxIsosurfaceAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXphysxIsosurfaceAPI
+    const TfToken PhysxSchemaPhysxIsosurfaceAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };
