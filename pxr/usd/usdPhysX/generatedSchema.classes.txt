@@ -30,6 +30,8 @@ rigidBodyAPI
 sDFMeshCollisionAPI
 sceneAPI
 sceneQuasistaticAPI
+sphereFillCollisionAPI
+surfaceVelocityAPI
 tokens
 
 # Python Module Files
@@ -63,6 +65,8 @@ wrapRigidBodyAPI.cpp
 wrapSDFMeshCollisionAPI.cpp
 wrapSceneAPI.cpp
 wrapSceneQuasistaticAPI.cpp
+wrapSphereFillCollisionAPI.cpp
+wrapSurfaceVelocityAPI.cpp
 wrapTokens.cpp
 
 # Resource Files

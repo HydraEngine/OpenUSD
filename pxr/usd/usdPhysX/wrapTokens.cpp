@@ -27,6 +27,7 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, constrained);
     _ADD_TOKEN(cls, Disabled);
     _ADD_TOKEN(cls, easy);
+    _ADD_TOKEN(cls, flood);
     _ADD_TOKEN(cls, force);
     _ADD_TOKEN(cls, GPU);
     _ADD_TOKEN(cls, hinge);
@@ -228,14 +229,24 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxSDFMeshCollisionSdfResolution);
     _ADD_TOKEN(cls, physxSDFMeshCollisionSdfSubgridResolution);
     _ADD_TOKEN(cls, physxSDFMeshCollisionSdfTriangleCountReductionFactor);
+    _ADD_TOKEN(cls, physxSphereFillCollisionFillMode);
+    _ADD_TOKEN(cls, physxSphereFillCollisionMaxSpheres);
+    _ADD_TOKEN(cls, physxSphereFillCollisionSeedCount);
+    _ADD_TOKEN(cls, physxSphereFillCollisionVoxelResolution);
+    _ADD_TOKEN(cls, physxSurfaceVelocitySurfaceAngularVelocity);
+    _ADD_TOKEN(cls, physxSurfaceVelocitySurfaceVelocity);
+    _ADD_TOKEN(cls, physxSurfaceVelocitySurfaceVelocityEnabled);
+    _ADD_TOKEN(cls, physxSurfaceVelocitySurfaceVelocityLocalSpace);
     _ADD_TOKEN(cls, preventClimbing);
     _ADD_TOKEN(cls, preventClimbingForceSliding);
     _ADD_TOKEN(cls, prismatic);
+    _ADD_TOKEN(cls, raycast);
     _ADD_TOKEN(cls, rotX);
     _ADD_TOKEN(cls, rotY);
     _ADD_TOKEN(cls, rotZ);
     _ADD_TOKEN(cls, SAP);
     _ADD_TOKEN(cls, SAT);
+    _ADD_TOKEN(cls, surface);
     _ADD_TOKEN(cls, Synchronous);
     _ADD_TOKEN(cls, TGS);
     _ADD_TOKEN(cls, X);
@@ -270,4 +281,6 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, PhysxSchemaPhysxSceneAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxSceneQuasistaticAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxSDFMeshCollisionAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxSphereFillCollisionAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxSurfaceVelocityAPI);
 }

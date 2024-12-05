@@ -85,6 +85,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Fallback value for UsdPhysXCharacterControllerAPI::GetClimbingModeAttr()
     const TfToken easy;
+    /// \brief "flood"
+    /// 
+    /// Fallback value for UsdPhysXSphereFillCollisionAPI::GetFillModeAttr()
+    const TfToken flood;
     /// \brief "force"
     /// 
     /// Possible value for UsdPhysXForceAPI::GetModeAttr()
@@ -889,6 +893,38 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXSDFMeshCollisionAPI
     const TfToken physxSDFMeshCollisionSdfTriangleCountReductionFactor;
+    /// \brief "physxSphereFillCollision:fillMode"
+    /// 
+    /// UsdPhysXSphereFillCollisionAPI
+    const TfToken physxSphereFillCollisionFillMode;
+    /// \brief "physxSphereFillCollision:maxSpheres"
+    /// 
+    /// UsdPhysXSphereFillCollisionAPI
+    const TfToken physxSphereFillCollisionMaxSpheres;
+    /// \brief "physxSphereFillCollision:seedCount"
+    /// 
+    /// UsdPhysXSphereFillCollisionAPI
+    const TfToken physxSphereFillCollisionSeedCount;
+    /// \brief "physxSphereFillCollision:voxelResolution"
+    /// 
+    /// UsdPhysXSphereFillCollisionAPI
+    const TfToken physxSphereFillCollisionVoxelResolution;
+    /// \brief "physxSurfaceVelocity:surfaceAngularVelocity"
+    /// 
+    /// UsdPhysXSurfaceVelocityAPI
+    const TfToken physxSurfaceVelocitySurfaceAngularVelocity;
+    /// \brief "physxSurfaceVelocity:surfaceVelocity"
+    /// 
+    /// UsdPhysXSurfaceVelocityAPI
+    const TfToken physxSurfaceVelocitySurfaceVelocity;
+    /// \brief "physxSurfaceVelocity:surfaceVelocityEnabled"
+    /// 
+    /// UsdPhysXSurfaceVelocityAPI
+    const TfToken physxSurfaceVelocitySurfaceVelocityEnabled;
+    /// \brief "physxSurfaceVelocity:surfaceVelocityLocalSpace"
+    /// 
+    /// UsdPhysXSurfaceVelocityAPI
+    const TfToken physxSurfaceVelocitySurfaceVelocityLocalSpace;
     /// \brief "preventClimbing"
     /// 
     /// Fallback value for UsdPhysXCharacterControllerAPI::GetNonWalkableModeAttr()
@@ -901,6 +937,10 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXPhysicsRackAndPinionJoint
     const TfToken prismatic;
+    /// \brief "raycast"
+    /// 
+    /// Possible value for UsdPhysXSphereFillCollisionAPI::GetFillModeAttr()
+    const TfToken raycast;
     /// \brief "rotX"
     /// 
     /// Fallback value for UsdPhysXMimicJointAPI::GetReferenceJointAxisAttr()
@@ -921,6 +961,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXSceneAPI::GetCollisionSystemAttr()
     const TfToken SAT;
+    /// \brief "surface"
+    /// 
+    /// Possible value for UsdPhysXSphereFillCollisionAPI::GetFillModeAttr()
+    const TfToken surface;
     /// \brief "Synchronous"
     /// 
     /// Fallback value for UsdPhysXSceneAPI::GetUpdateTypeAttr()
@@ -1057,6 +1101,14 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXSDFMeshCollisionAPI
     const TfToken PhysxSchemaPhysxSDFMeshCollisionAPI;
+    /// \brief "PhysxSchemaPhysxSphereFillCollisionAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXSphereFillCollisionAPI
+    const TfToken PhysxSchemaPhysxSphereFillCollisionAPI;
+    /// \brief "PhysxSchemaPhysxSurfaceVelocityAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXSurfaceVelocityAPI
+    const TfToken PhysxSchemaPhysxSurfaceVelocityAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };

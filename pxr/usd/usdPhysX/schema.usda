@@ -1728,3 +1728,98 @@ class "PhysxSchemaPhysxSDFMeshCollisionAPI" (
         """
     )
 }
+
+class "PhysxSchemaPhysxSphereFillCollisionAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "SphereFillCollisionAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        PhysX sphere fill extended parameters.
+
+        For any described attribute Fallback Value or Allowed Values below that are text/tokens, the actual token is published and defined in PhysxSchemaTokens. 
+        So to set an attribute to the value "rightHanded", use PhysxSchemaTokens->rightHanded as the value.
+    """
+)
+{
+    uniform token physxSphereFillCollision:fillMode = "flood" (
+        customData = {
+            string apiName = "fillMode"
+        }
+        allowedTokens = ["flood", "raycast", "surface"]
+        doc = """
+        Fill mode for the the algorithm.
+        """
+    )
+
+    int physxSphereFillCollision:maxSpheres = 128 (
+        customData = {
+            string apiName = "maxSpheres"
+        }
+        doc = """Maximum of spheres produced.
+        Range (2, 4000)
+        """
+    )
+    int physxSphereFillCollision:seedCount = 1000 (
+        customData = {
+            string apiName = "seedCount"
+        }
+        doc = """Seed count used for the algorithm.
+        Range (16, 4000)
+        """
+    )
+    int physxSphereFillCollision:voxelResolution = 50000 (
+        customData = {
+            string apiName = "voxelResolution"
+        }
+        doc = """Voxel resolution used for the algorithm.
+        Range (10 000, 1 000 000)
+        """
+    )
+}
+
+class "PhysxSchemaPhysxSurfaceVelocityAPI" (
+    inherits = </APISchemaBase>
+    customData = {
+        string className = "SurfaceVelocityAPI"
+        token apiSchemaType = "singleApply"
+    }
+    doc = """
+        PhysxSurfaceVelocityAPI enables surface velocity simulation that injects velocity to the solver through internal contact modify callback.
+
+        Surface velocity can be used typically for conveyer belt simulation. It must be applied to a prim with UsdPhysicsRigidBodyAPI.
+    """
+)
+{
+    vector3f physxSurfaceVelocity:surfaceAngularVelocity = (0, 0, 0) (
+        customData = {
+            string apiName = "surfaceAngularVelocity"
+        }
+        doc = """Surface angular velocity applied through contact modify callback.
+        Units: degrees/second.
+        """
+    )
+    vector3f physxSurfaceVelocity:surfaceVelocity = (0, 0, 0) (
+        customData = {
+            string apiName = "surfaceVelocity"
+        }
+        doc = """Surface linear velocity applied through contact modify callback.
+        Units: distance/second.
+        """
+    )
+    bool physxSurfaceVelocity:surfaceVelocityEnabled = 1 (
+        customData = {
+            string apiName = "surfaceVelocityEnabled"
+        }
+        doc = """Whether surface velocity is enabled or not.
+        """
+    )
+    bool physxSurfaceVelocity:surfaceVelocityLocalSpace = 1 (
+        customData = {
+            string apiName = "surfaceVelocityLocalSpace"
+        }
+        doc = """Whether surface velocity is defined in body local space or in world space.
+        """
+    )
+}
