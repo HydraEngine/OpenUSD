@@ -20,15 +20,19 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, acceleration);
     _ADD_TOKEN(cls, alwaysUpdateEnabled);
     _ADD_TOKEN(cls, Asynchronous);
+    _ADD_TOKEN(cls, autoGearBox);
     _ADD_TOKEN(cls, average);
     _ADD_TOKEN(cls, BitsPerPixel16);
     _ADD_TOKEN(cls, BitsPerPixel32);
     _ADD_TOKEN(cls, BitsPerPixel8);
+    _ADD_TOKEN(cls, clutch);
     _ADD_TOKEN(cls, constrained);
     _ADD_TOKEN(cls, Disabled);
     _ADD_TOKEN(cls, easy);
+    _ADD_TOKEN(cls, engine);
     _ADD_TOKEN(cls, flood);
     _ADD_TOKEN(cls, force);
+    _ADD_TOKEN(cls, gears);
     _ADD_TOKEN(cls, GPU);
     _ADD_TOKEN(cls, hinge);
     _ADD_TOKEN(cls, hinge0);
@@ -266,6 +270,18 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxVehicleControllerBrake1);
     _ADD_TOKEN(cls, physxVehicleControllerSteer);
     _ADD_TOKEN(cls, physxVehicleControllerTargetGear);
+    _ADD_TOKEN(cls, physxVehicleDriveBasicPeakTorque);
+    _ADD_TOKEN(cls, physxVehicleEngineDampingRateFullThrottle);
+    _ADD_TOKEN(cls, physxVehicleEngineDampingRateZeroThrottleClutchDisengaged);
+    _ADD_TOKEN(cls, physxVehicleEngineDampingRateZeroThrottleClutchEngaged);
+    _ADD_TOKEN(cls, physxVehicleEngineIdleRotationSpeed);
+    _ADD_TOKEN(cls, physxVehicleEngineMaxRotationSpeed);
+    _ADD_TOKEN(cls, physxVehicleEngineMoi);
+    _ADD_TOKEN(cls, physxVehicleEnginePeakTorque);
+    _ADD_TOKEN(cls, physxVehicleEngineTorqueCurve);
+    _ADD_TOKEN(cls, physxVehicleGearsRatios);
+    _ADD_TOKEN(cls, physxVehicleGearsRatioScale);
+    _ADD_TOKEN(cls, physxVehicleGearsSwitchTime);
     _ADD_TOKEN(cls, physxVehicleHighForwardSpeedSubStepCount);
     _ADD_TOKEN(cls, physxVehicleLateralStickyTireDamping);
     _ADD_TOKEN(cls, physxVehicleLateralStickyTireThresholdSpeed);
@@ -349,4 +365,8 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleClutchAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleContextAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleControllerAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleDriveBasicAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleDriveStandardAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleEngineAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxVehicleGearsAPI);
 }

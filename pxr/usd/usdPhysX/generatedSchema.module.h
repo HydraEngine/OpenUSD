@@ -48,4 +48,8 @@ TF_WRAP(UsdPhysXVehicleBrakesAPI);
 TF_WRAP(UsdPhysXVehicleClutchAPI);
 TF_WRAP(UsdPhysXVehicleContextAPI);
 TF_WRAP(UsdPhysXVehicleControllerAPI);
+TF_WRAP(UsdPhysXVehicleDriveBasicAPI);
+TF_WRAP(UsdPhysXVehicleDriveStandardAPI);
+TF_WRAP(UsdPhysXVehicleEngineAPI);
+TF_WRAP(UsdPhysXVehicleGearsAPI);
 TF_WRAP(UsdPhysXTokens);

@@ -57,6 +57,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXSceneAPI::GetUpdateTypeAttr()
     const TfToken Asynchronous;
+    /// \brief "autoGearBox"
+    /// 
+    /// UsdPhysXVehicleDriveStandardAPI
+    const TfToken autoGearBox;
     /// \brief "average"
     /// 
     /// Fallback value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Fallback value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Fallback value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
@@ -73,6 +77,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXSDFMeshCollisionAPI::GetSdfBitsPerSubgridPixelAttr()
     const TfToken BitsPerPixel8;
+    /// \brief "clutch"
+    /// 
+    /// UsdPhysXVehicleDriveStandardAPI
+    const TfToken clutch;
     /// \brief "constrained"
     /// 
     /// Possible value for UsdPhysXCharacterControllerAPI::GetClimbingModeAttr()
@@ -85,6 +93,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Fallback value for UsdPhysXCharacterControllerAPI::GetClimbingModeAttr()
     const TfToken easy;
+    /// \brief "engine"
+    /// 
+    /// UsdPhysXVehicleDriveStandardAPI
+    const TfToken engine;
     /// \brief "flood"
     /// 
     /// Fallback value for UsdPhysXSphereFillCollisionAPI::GetFillModeAttr()
@@ -93,6 +105,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXForceAPI::GetModeAttr()
     const TfToken force;
+    /// \brief "gears"
+    /// 
+    /// UsdPhysXVehicleDriveStandardAPI
+    const TfToken gears;
     /// \brief "GPU"
     /// 
     /// Fallback value for UsdPhysXSceneAPI::GetBroadphaseTypeAttr()
@@ -1041,6 +1057,54 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXVehicleControllerAPI
     const TfToken physxVehicleControllerTargetGear;
+    /// \brief "physxVehicleDriveBasic:peakTorque"
+    /// 
+    /// UsdPhysXVehicleDriveBasicAPI
+    const TfToken physxVehicleDriveBasicPeakTorque;
+    /// \brief "physxVehicleEngine:dampingRateFullThrottle"
+    /// 
+    /// UsdPhysXVehicleEngineAPI
+    const TfToken physxVehicleEngineDampingRateFullThrottle;
+    /// \brief "physxVehicleEngine:dampingRateZeroThrottleClutchDisengaged"
+    /// 
+    /// UsdPhysXVehicleEngineAPI
+    const TfToken physxVehicleEngineDampingRateZeroThrottleClutchDisengaged;
+    /// \brief "physxVehicleEngine:dampingRateZeroThrottleClutchEngaged"
+    /// 
+    /// UsdPhysXVehicleEngineAPI
+    const TfToken physxVehicleEngineDampingRateZeroThrottleClutchEngaged;
+    /// \brief "physxVehicleEngine:idleRotationSpeed"
+    /// 
+    /// UsdPhysXVehicleEngineAPI
+    const TfToken physxVehicleEngineIdleRotationSpeed;
+    /// \brief "physxVehicleEngine:maxRotationSpeed"
+    /// 
+    /// UsdPhysXVehicleEngineAPI
+    const TfToken physxVehicleEngineMaxRotationSpeed;
+    /// \brief "physxVehicleEngine:moi"
+    /// 
+    /// UsdPhysXVehicleEngineAPI
+    const TfToken physxVehicleEngineMoi;
+    /// \brief "physxVehicleEngine:peakTorque"
+    /// 
+    /// UsdPhysXVehicleEngineAPI
+    const TfToken physxVehicleEnginePeakTorque;
+    /// \brief "physxVehicleEngine:torqueCurve"
+    /// 
+    /// UsdPhysXVehicleEngineAPI
+    const TfToken physxVehicleEngineTorqueCurve;
+    /// \brief "physxVehicleGears:ratios"
+    /// 
+    /// UsdPhysXVehicleGearsAPI
+    const TfToken physxVehicleGearsRatios;
+    /// \brief "physxVehicleGears:ratioScale"
+    /// 
+    /// UsdPhysXVehicleGearsAPI
+    const TfToken physxVehicleGearsRatioScale;
+    /// \brief "physxVehicleGears:switchTime"
+    /// 
+    /// UsdPhysXVehicleGearsAPI
+    const TfToken physxVehicleGearsSwitchTime;
     /// \brief "physxVehicle:highForwardSpeedSubStepCount"
     /// 
     /// UsdPhysXVehicleAPI
@@ -1373,6 +1437,22 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXVehicleControllerAPI
     const TfToken PhysxSchemaPhysxVehicleControllerAPI;
+    /// \brief "PhysxSchemaPhysxVehicleDriveBasicAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleDriveBasicAPI
+    const TfToken PhysxSchemaPhysxVehicleDriveBasicAPI;
+    /// \brief "PhysxSchemaPhysxVehicleDriveStandardAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleDriveStandardAPI
+    const TfToken PhysxSchemaPhysxVehicleDriveStandardAPI;
+    /// \brief "PhysxSchemaPhysxVehicleEngineAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleEngineAPI
+    const TfToken PhysxSchemaPhysxVehicleEngineAPI;
+    /// \brief "PhysxSchemaPhysxVehicleGearsAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXVehicleGearsAPI
+    const TfToken PhysxSchemaPhysxVehicleGearsAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };

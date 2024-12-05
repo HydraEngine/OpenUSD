@@ -44,6 +44,10 @@ vehicleBrakesAPI
 vehicleClutchAPI
 vehicleContextAPI
 vehicleControllerAPI
+vehicleDriveBasicAPI
+vehicleDriveStandardAPI
+vehicleEngineAPI
+vehicleGearsAPI
 
 # Python Module Files
 module.cpp
@@ -90,6 +94,10 @@ wrapVehicleBrakesAPI.cpp
 wrapVehicleClutchAPI.cpp
 wrapVehicleContextAPI.cpp
 wrapVehicleControllerAPI.cpp
+wrapVehicleDriveBasicAPI.cpp
+wrapVehicleDriveStandardAPI.cpp
+wrapVehicleEngineAPI.cpp
+wrapVehicleGearsAPI.cpp
 
 # Resource Files
 generatedSchema.usda
