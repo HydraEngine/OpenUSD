@@ -4,10 +4,10 @@
 // Licensed under the terms set forth in the LICENSE.txt file available at
 // https://openusd.org/license.
 //
-#ifndef USDPHYSX_GENERATED_CONTACTREPORTAPI_H
-#define USDPHYSX_GENERATED_CONTACTREPORTAPI_H
+#ifndef USDPHYSX_GENERATED_TRIGGERSTATEAPI_H
+#define USDPHYSX_GENERATED_TRIGGERSTATEAPI_H
 
-/// \file usdPhysX/contactReportAPI.h
+/// \file usdPhysX/triggerStateAPI.h
 
 #include "pxr/pxr.h"
 #include "pxr/usd/usdPhysX/api.h"
@@ -30,14 +30,14 @@ PXR_NAMESPACE_OPEN_SCOPE
 class SdfAssetPath;
 
 // -------------------------------------------------------------------------- //
-// PHYSXSCHEMAPHYSXCONTACTREPORTAPI                                           //
+// PHYSXSCHEMAPHYSXTRIGGERSTATEAPI                                            //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXContactReportAPI
+/// \class UsdPhysXTriggerStateAPI
 ///
-/// Enables contact reporting for a rigid body or articulation.
+/// PhysX trigger state.
 ///
-class UsdPhysXContactReportAPI : public UsdAPISchemaBase
+class UsdPhysXTriggerStateAPI : public UsdAPISchemaBase
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -45,26 +45,26 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::SingleApplyAPI;
 
-    /// Construct a UsdPhysXContactReportAPI on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXContactReportAPI::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXTriggerStateAPI on UsdPrim \p prim .
+    /// Equivalent to UsdPhysXTriggerStateAPI::Get(prim.GetStage(), prim.GetPath())
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXContactReportAPI(const UsdPrim& prim=UsdPrim())
+    explicit UsdPhysXTriggerStateAPI(const UsdPrim& prim=UsdPrim())
         : UsdAPISchemaBase(prim)
     {
     }
 
-    /// Construct a UsdPhysXContactReportAPI on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXContactReportAPI(schemaObj.GetPrim()),
+    /// Construct a UsdPhysXTriggerStateAPI on the prim held by \p schemaObj .
+    /// Should be preferred over UsdPhysXTriggerStateAPI(schemaObj.GetPrim()),
     /// as it preserves SchemaBase state.
-    explicit UsdPhysXContactReportAPI(const UsdSchemaBase& schemaObj)
+    explicit UsdPhysXTriggerStateAPI(const UsdSchemaBase& schemaObj)
         : UsdAPISchemaBase(schemaObj)
     {
     }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXContactReportAPI();
+    virtual ~UsdPhysXTriggerStateAPI();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -73,17 +73,17 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
-    /// Return a UsdPhysXContactReportAPI holding the prim adhering to this
+    /// Return a UsdPhysXTriggerStateAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXContactReportAPI(stage->GetPrimAtPath(path));
+    /// UsdPhysXTriggerStateAPI(stage->GetPrimAtPath(path));
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXContactReportAPI
+    static UsdPhysXTriggerStateAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
 
@@ -108,11 +108,11 @@ public:
     CanApply(const UsdPrim &prim, std::string *whyNot=nullptr);
 
     /// Applies this <b>single-apply</b> API schema to the given \p prim.
-    /// This information is stored by adding "PhysxSchemaPhysxContactReportAPI" to the 
+    /// This information is stored by adding "PhysxSchemaPhysxTriggerStateAPI" to the 
     /// token-valued, listOp metadata \em apiSchemas on the prim.
     /// 
-    /// \return A valid UsdPhysXContactReportAPI object is returned upon success. 
-    /// An invalid (or empty) UsdPhysXContactReportAPI object is returned upon 
+    /// \return A valid UsdPhysXTriggerStateAPI object is returned upon success. 
+    /// An invalid (or empty) UsdPhysXTriggerStateAPI object is returned upon 
     /// failure. See \ref UsdPrim::ApplyAPI() for conditions 
     /// resulting in failure. 
     /// 
@@ -123,7 +123,7 @@ public:
     /// \sa UsdPrim::RemoveAPI()
     ///
     USDPHYSX_API
-    static UsdPhysXContactReportAPI 
+    static UsdPhysXTriggerStateAPI 
     Apply(const UsdPrim &prim);
 
 protected:
@@ -147,39 +147,17 @@ private:
 
 public:
     // --------------------------------------------------------------------- //
-    // THRESHOLD 
+    // TRIGGEREDCOLLISIONS 
     // --------------------------------------------------------------------- //
-    /// Sets the force threshold for contact reports. Range: [0, inf] Units: force = mass * distance / seconds^2
-    ///
-    /// | ||
-    /// | -- | -- |
-    /// | Declaration | `float physxContactReport:threshold = 1` |
-    /// | C++ Type | float |
-    /// | \ref Usd_Datatypes "Usd Type" | SdfValueTypeNames->Float |
-    USDPHYSX_API
-    UsdAttribute GetThresholdAttr() const;
-
-    /// See GetThresholdAttr(), and also 
-    /// \ref Usd_Create_Or_Get_Property for when to use Get vs Create.
-    /// If specified, author \p defaultValue as the attribute's default,
-    /// sparsely (when it makes sense to do so) if \p writeSparsely is \c true -
-    /// the default for \p writeSparsely is \c false.
-    USDPHYSX_API
-    UsdAttribute CreateThresholdAttr(VtValue const &defaultValue = VtValue(), bool writeSparsely=false) const;
-
-public:
-    // --------------------------------------------------------------------- //
-    // REPORTPAIRS 
-    // --------------------------------------------------------------------- //
-    /// Relationship to objects. If in contact with these objects, contact reports will be sent. If relationship not set or list empty all contacts are reported.
+    /// List of collisions that are currently triggered.
     ///
     USDPHYSX_API
-    UsdRelationship GetReportPairsRel() const;
+    UsdRelationship GetTriggeredCollisionsRel() const;
 
-    /// See GetReportPairsRel(), and also 
+    /// See GetTriggeredCollisionsRel(), and also 
     /// \ref Usd_Create_Or_Get_Property for when to use Get vs Create
     USDPHYSX_API
-    UsdRelationship CreateReportPairsRel() const;
+    UsdRelationship CreateTriggeredCollisionsRel() const;
 
 public:
     // ===================================================================== //

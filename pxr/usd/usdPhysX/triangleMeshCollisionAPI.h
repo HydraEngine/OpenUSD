@@ -4,10 +4,10 @@
 // Licensed under the terms set forth in the LICENSE.txt file available at
 // https://openusd.org/license.
 //
-#ifndef USDPHYSX_GENERATED_CONTACTREPORTAPI_H
-#define USDPHYSX_GENERATED_CONTACTREPORTAPI_H
+#ifndef USDPHYSX_GENERATED_TRIANGLEMESHCOLLISIONAPI_H
+#define USDPHYSX_GENERATED_TRIANGLEMESHCOLLISIONAPI_H
 
-/// \file usdPhysX/contactReportAPI.h
+/// \file usdPhysX/triangleMeshCollisionAPI.h
 
 #include "pxr/pxr.h"
 #include "pxr/usd/usdPhysX/api.h"
@@ -30,14 +30,16 @@ PXR_NAMESPACE_OPEN_SCOPE
 class SdfAssetPath;
 
 // -------------------------------------------------------------------------- //
-// PHYSXSCHEMAPHYSXCONTACTREPORTAPI                                           //
+// PHYSXSCHEMAPHYSXTRIANGLEMESHCOLLISIONAPI                                   //
 // -------------------------------------------------------------------------- //
 
-/// \class UsdPhysXContactReportAPI
+/// \class UsdPhysXTriangleMeshCollisionAPI
 ///
-/// Enables contact reporting for a rigid body or articulation.
+/// 
+/// PhysX triangle mesh extended parameters.
+/// 
 ///
-class UsdPhysXContactReportAPI : public UsdAPISchemaBase
+class UsdPhysXTriangleMeshCollisionAPI : public UsdAPISchemaBase
 {
 public:
     /// Compile time constant representing what kind of schema this class is.
@@ -45,26 +47,26 @@ public:
     /// \sa UsdSchemaKind
     static const UsdSchemaKind schemaKind = UsdSchemaKind::SingleApplyAPI;
 
-    /// Construct a UsdPhysXContactReportAPI on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXContactReportAPI::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXTriangleMeshCollisionAPI on UsdPrim \p prim .
+    /// Equivalent to UsdPhysXTriangleMeshCollisionAPI::Get(prim.GetStage(), prim.GetPath())
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXContactReportAPI(const UsdPrim& prim=UsdPrim())
+    explicit UsdPhysXTriangleMeshCollisionAPI(const UsdPrim& prim=UsdPrim())
         : UsdAPISchemaBase(prim)
     {
     }
 
-    /// Construct a UsdPhysXContactReportAPI on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXContactReportAPI(schemaObj.GetPrim()),
+    /// Construct a UsdPhysXTriangleMeshCollisionAPI on the prim held by \p schemaObj .
+    /// Should be preferred over UsdPhysXTriangleMeshCollisionAPI(schemaObj.GetPrim()),
     /// as it preserves SchemaBase state.
-    explicit UsdPhysXContactReportAPI(const UsdSchemaBase& schemaObj)
+    explicit UsdPhysXTriangleMeshCollisionAPI(const UsdSchemaBase& schemaObj)
         : UsdAPISchemaBase(schemaObj)
     {
     }
 
     /// Destructor.
     USDPHYSX_API
-    virtual ~UsdPhysXContactReportAPI();
+    virtual ~UsdPhysXTriangleMeshCollisionAPI();
 
     /// Return a vector of names of all pre-declared attributes for this schema
     /// class and all its ancestor classes.  Does not include attributes that
@@ -73,17 +75,17 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
-    /// Return a UsdPhysXContactReportAPI holding the prim adhering to this
+    /// Return a UsdPhysXTriangleMeshCollisionAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
     /// return an invalid schema object.  This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXContactReportAPI(stage->GetPrimAtPath(path));
+    /// UsdPhysXTriangleMeshCollisionAPI(stage->GetPrimAtPath(path));
     /// \endcode
     ///
     USDPHYSX_API
-    static UsdPhysXContactReportAPI
+    static UsdPhysXTriangleMeshCollisionAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
 
@@ -108,11 +110,11 @@ public:
     CanApply(const UsdPrim &prim, std::string *whyNot=nullptr);
 
     /// Applies this <b>single-apply</b> API schema to the given \p prim.
-    /// This information is stored by adding "PhysxSchemaPhysxContactReportAPI" to the 
+    /// This information is stored by adding "PhysxSchemaPhysxTriangleMeshCollisionAPI" to the 
     /// token-valued, listOp metadata \em apiSchemas on the prim.
     /// 
-    /// \return A valid UsdPhysXContactReportAPI object is returned upon success. 
-    /// An invalid (or empty) UsdPhysXContactReportAPI object is returned upon 
+    /// \return A valid UsdPhysXTriangleMeshCollisionAPI object is returned upon success. 
+    /// An invalid (or empty) UsdPhysXTriangleMeshCollisionAPI object is returned upon 
     /// failure. See \ref UsdPrim::ApplyAPI() for conditions 
     /// resulting in failure. 
     /// 
@@ -123,7 +125,7 @@ public:
     /// \sa UsdPrim::RemoveAPI()
     ///
     USDPHYSX_API
-    static UsdPhysXContactReportAPI 
+    static UsdPhysXTriangleMeshCollisionAPI 
     Apply(const UsdPrim &prim);
 
 protected:
@@ -147,39 +149,27 @@ private:
 
 public:
     // --------------------------------------------------------------------- //
-    // THRESHOLD 
+    // WELDTOLERANCE 
     // --------------------------------------------------------------------- //
-    /// Sets the force threshold for contact reports. Range: [0, inf] Units: force = mass * distance / seconds^2
+    /// Mesh weld tolerance, controls the distance at which vertices are welded.
+    /// Default -inf will autocompute the welding tolerance based on the mesh size. Zero value will disable welding. Range: [0, inf) Units: distance
+    /// 
     ///
     /// | ||
     /// | -- | -- |
-    /// | Declaration | `float physxContactReport:threshold = 1` |
+    /// | Declaration | `float physxTriangleMeshCollision:weldTolerance = -inf` |
     /// | C++ Type | float |
     /// | \ref Usd_Datatypes "Usd Type" | SdfValueTypeNames->Float |
     USDPHYSX_API
-    UsdAttribute GetThresholdAttr() const;
+    UsdAttribute GetWeldToleranceAttr() const;
 
-    /// See GetThresholdAttr(), and also 
+    /// See GetWeldToleranceAttr(), and also 
     /// \ref Usd_Create_Or_Get_Property for when to use Get vs Create.
     /// If specified, author \p defaultValue as the attribute's default,
     /// sparsely (when it makes sense to do so) if \p writeSparsely is \c true -
     /// the default for \p writeSparsely is \c false.
     USDPHYSX_API
-    UsdAttribute CreateThresholdAttr(VtValue const &defaultValue = VtValue(), bool writeSparsely=false) const;
-
-public:
-    // --------------------------------------------------------------------- //
-    // REPORTPAIRS 
-    // --------------------------------------------------------------------- //
-    /// Relationship to objects. If in contact with these objects, contact reports will be sent. If relationship not set or list empty all contacts are reported.
-    ///
-    USDPHYSX_API
-    UsdRelationship GetReportPairsRel() const;
-
-    /// See GetReportPairsRel(), and also 
-    /// \ref Usd_Create_Or_Get_Property for when to use Get vs Create
-    USDPHYSX_API
-    UsdRelationship CreateReportPairsRel() const;
+    UsdAttribute CreateWeldToleranceAttr(VtValue const &defaultValue = VtValue(), bool writeSparsely=false) const;
 
 public:
     // ===================================================================== //

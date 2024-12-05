@@ -4,7 +4,7 @@
 // Licensed under the terms set forth in the LICENSE.txt file available at
 // https://openusd.org/license.
 //
-#include "pxr/usd/usdPhysX/contactReportAPI.h"
+#include "pxr/usd/usdPhysX/triangleMeshCollisionAPI.h"
 #include "pxr/usd/usd/schemaBase.h"
 
 #include "pxr/usd/sdf/primSpec.h"
@@ -34,47 +34,47 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateThresholdAttr(UsdPhysXContactReportAPI &self,
+_CreateWeldToleranceAttr(UsdPhysXTriangleMeshCollisionAPI &self,
                                       object defaultVal, bool writeSparsely) {
-    return self.CreateThresholdAttr(
+    return self.CreateWeldToleranceAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXContactReportAPI &self)
+_Repr(const UsdPhysXTriangleMeshCollisionAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.ContactReportAPI(%s)",
+        "UsdPhysX.TriangleMeshCollisionAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXContactReportAPI_CanApplyResult : 
+struct UsdPhysXTriangleMeshCollisionAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXContactReportAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXTriangleMeshCollisionAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXContactReportAPI_CanApplyResult
+static UsdPhysXTriangleMeshCollisionAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXContactReportAPI::CanApply(prim, &whyNot);
-    return UsdPhysXContactReportAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXTriangleMeshCollisionAPI::CanApply(prim, &whyNot);
+    return UsdPhysXTriangleMeshCollisionAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXContactReportAPI()
+void wrapUsdPhysXTriangleMeshCollisionAPI()
 {
-    typedef UsdPhysXContactReportAPI This;
+    typedef UsdPhysXTriangleMeshCollisionAPI This;
 
-    UsdPhysXContactReportAPI_CanApplyResult::Wrap<UsdPhysXContactReportAPI_CanApplyResult>(
+    UsdPhysXTriangleMeshCollisionAPI_CanApplyResult::Wrap<UsdPhysXTriangleMeshCollisionAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("ContactReportAPI");
+        cls("TriangleMeshCollisionAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))
@@ -103,18 +103,13 @@ void wrapUsdPhysXContactReportAPI()
         .def(!self)
 
         
-        .def("GetThresholdAttr",
-             &This::GetThresholdAttr)
-        .def("CreateThresholdAttr",
-             &_CreateThresholdAttr,
+        .def("GetWeldToleranceAttr",
+             &This::GetWeldToleranceAttr)
+        .def("CreateWeldToleranceAttr",
+             &_CreateWeldToleranceAttr,
              (arg("defaultValue")=object(),
               arg("writeSparsely")=false))
 
-        
-        .def("GetReportPairsRel",
-             &This::GetReportPairsRel)
-        .def("CreateReportPairsRel",
-             &This::CreateReportPairsRel)
         .def("__repr__", ::_Repr)
     ;
 

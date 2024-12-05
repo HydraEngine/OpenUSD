@@ -4,7 +4,7 @@
 // Licensed under the terms set forth in the LICENSE.txt file available at
 // https://openusd.org/license.
 //
-#include "pxr/usd/usdPhysX/contactReportAPI.h"
+#include "pxr/usd/usdPhysX/triggerStateAPI.h"
 #include "pxr/usd/usd/schemaBase.h"
 
 #include "pxr/usd/sdf/primSpec.h"
@@ -32,49 +32,42 @@ namespace {
 // fwd decl.
 WRAP_CUSTOM;
 
-        
-static UsdAttribute
-_CreateThresholdAttr(UsdPhysXContactReportAPI &self,
-                                      object defaultVal, bool writeSparsely) {
-    return self.CreateThresholdAttr(
-        UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
-}
 
 static std::string
-_Repr(const UsdPhysXContactReportAPI &self)
+_Repr(const UsdPhysXTriggerStateAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.ContactReportAPI(%s)",
+        "UsdPhysX.TriggerStateAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXContactReportAPI_CanApplyResult : 
+struct UsdPhysXTriggerStateAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXContactReportAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXTriggerStateAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXContactReportAPI_CanApplyResult
+static UsdPhysXTriggerStateAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXContactReportAPI::CanApply(prim, &whyNot);
-    return UsdPhysXContactReportAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXTriggerStateAPI::CanApply(prim, &whyNot);
+    return UsdPhysXTriggerStateAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXContactReportAPI()
+void wrapUsdPhysXTriggerStateAPI()
 {
-    typedef UsdPhysXContactReportAPI This;
+    typedef UsdPhysXTriggerStateAPI This;
 
-    UsdPhysXContactReportAPI_CanApplyResult::Wrap<UsdPhysXContactReportAPI_CanApplyResult>(
+    UsdPhysXTriggerStateAPI_CanApplyResult::Wrap<UsdPhysXTriggerStateAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("ContactReportAPI");
+        cls("TriggerStateAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))
@@ -102,19 +95,12 @@ void wrapUsdPhysXContactReportAPI()
 
         .def(!self)
 
-        
-        .def("GetThresholdAttr",
-             &This::GetThresholdAttr)
-        .def("CreateThresholdAttr",
-             &_CreateThresholdAttr,
-             (arg("defaultValue")=object(),
-              arg("writeSparsely")=false))
 
         
-        .def("GetReportPairsRel",
-             &This::GetReportPairsRel)
-        .def("CreateReportPairsRel",
-             &This::CreateReportPairsRel)
+        .def("GetTriggeredCollisionsRel",
+             &This::GetTriggeredCollisionsRel)
+        .def("CreateTriggeredCollisionsRel",
+             &This::CreateTriggeredCollisionsRel)
         .def("__repr__", ::_Repr)
     ;
 

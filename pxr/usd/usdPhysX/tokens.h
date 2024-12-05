@@ -925,6 +925,34 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXSurfaceVelocityAPI
     const TfToken physxSurfaceVelocitySurfaceVelocityLocalSpace;
+    /// \brief "physxTriangleMeshCollision:weldTolerance"
+    /// 
+    /// UsdPhysXTriangleMeshCollisionAPI
+    const TfToken physxTriangleMeshCollisionWeldTolerance;
+    /// \brief "physxTriangleMeshSimplificationCollision:metric"
+    /// 
+    /// UsdPhysXTriangleMeshSimplificationCollisionAPI
+    const TfToken physxTriangleMeshSimplificationCollisionMetric;
+    /// \brief "physxTriangleMeshSimplificationCollision:weldTolerance"
+    /// 
+    /// UsdPhysXTriangleMeshSimplificationCollisionAPI
+    const TfToken physxTriangleMeshSimplificationCollisionWeldTolerance;
+    /// \brief "physxTrigger:enterScriptType"
+    /// 
+    /// UsdPhysXTriggerAPI
+    const TfToken physxTriggerEnterScriptType;
+    /// \brief "physxTrigger:leaveScriptType"
+    /// 
+    /// UsdPhysXTriggerAPI
+    const TfToken physxTriggerLeaveScriptType;
+    /// \brief "physxTrigger:onEnterScript"
+    /// 
+    /// UsdPhysXTriggerAPI
+    const TfToken physxTriggerOnEnterScript;
+    /// \brief "physxTrigger:onLeaveScript"
+    /// 
+    /// UsdPhysXTriggerAPI
+    const TfToken physxTriggerOnLeaveScript;
     /// \brief "preventClimbing"
     /// 
     /// Fallback value for UsdPhysXCharacterControllerAPI::GetNonWalkableModeAttr()
@@ -941,6 +969,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXSphereFillCollisionAPI::GetFillModeAttr()
     const TfToken raycast;
+    /// \brief "reportPairs"
+    /// 
+    /// UsdPhysXContactReportAPI
+    const TfToken reportPairs;
     /// \brief "rotX"
     /// 
     /// Fallback value for UsdPhysXMimicJointAPI::GetReferenceJointAxisAttr()
@@ -961,6 +993,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXSceneAPI::GetCollisionSystemAttr()
     const TfToken SAT;
+    /// \brief "scriptFile"
+    /// 
+    /// Fallback value for UsdPhysXTriggerAPI::GetEnterScriptTypeAttr(), Fallback value for UsdPhysXTriggerAPI::GetLeaveScriptTypeAttr()
+    const TfToken scriptFile;
     /// \brief "surface"
     /// 
     /// Possible value for UsdPhysXSphereFillCollisionAPI::GetFillModeAttr()
@@ -973,6 +1009,10 @@ struct UsdPhysXTokensType {
     /// 
     /// Fallback value for UsdPhysXSceneAPI::GetSolverTypeAttr()
     const TfToken TGS;
+    /// \brief "triggeredCollisions"
+    /// 
+    /// UsdPhysXTriggerStateAPI
+    const TfToken triggeredCollisions;
     /// \brief "X"
     /// 
     /// Possible value for UsdPhysXCharacterControllerAPI::GetUpAxisAttr()
@@ -1109,6 +1149,22 @@ struct UsdPhysXTokensType {
     /// 
     /// Schema identifer and family for UsdPhysXSurfaceVelocityAPI
     const TfToken PhysxSchemaPhysxSurfaceVelocityAPI;
+    /// \brief "PhysxSchemaPhysxTriangleMeshCollisionAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXTriangleMeshCollisionAPI
+    const TfToken PhysxSchemaPhysxTriangleMeshCollisionAPI;
+    /// \brief "PhysxSchemaPhysxTriangleMeshSimplificationCollisionAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXTriangleMeshSimplificationCollisionAPI
+    const TfToken PhysxSchemaPhysxTriangleMeshSimplificationCollisionAPI;
+    /// \brief "PhysxSchemaPhysxTriggerAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXTriggerAPI
+    const TfToken PhysxSchemaPhysxTriggerAPI;
+    /// \brief "PhysxSchemaPhysxTriggerStateAPI"
+    /// 
+    /// Schema identifer and family for UsdPhysXTriggerStateAPI
+    const TfToken PhysxSchemaPhysxTriggerStateAPI;
     /// A vector of all of the tokens listed above.
     const std::vector<TfToken> allTokens;
 };

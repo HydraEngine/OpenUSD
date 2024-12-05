@@ -4,7 +4,7 @@
 // Licensed under the terms set forth in the LICENSE.txt file available at
 // https://openusd.org/license.
 //
-#include "pxr/usd/usdPhysX/contactReportAPI.h"
+#include "pxr/usd/usdPhysX/triangleMeshCollisionAPI.h"
 #include "pxr/usd/usd/schemaRegistry.h"
 #include "pxr/usd/usd/typed.h"
 
@@ -16,63 +16,63 @@ PXR_NAMESPACE_OPEN_SCOPE
 // Register the schema with the TfType system.
 TF_REGISTRY_FUNCTION(TfType)
 {
-    TfType::Define<UsdPhysXContactReportAPI,
+    TfType::Define<UsdPhysXTriangleMeshCollisionAPI,
         TfType::Bases< UsdAPISchemaBase > >();
     
 }
 
 /* virtual */
-UsdPhysXContactReportAPI::~UsdPhysXContactReportAPI()
+UsdPhysXTriangleMeshCollisionAPI::~UsdPhysXTriangleMeshCollisionAPI()
 {
 }
 
 /* static */
-UsdPhysXContactReportAPI
-UsdPhysXContactReportAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
+UsdPhysXTriangleMeshCollisionAPI
+UsdPhysXTriangleMeshCollisionAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
 {
     if (!stage) {
         TF_CODING_ERROR("Invalid stage");
-        return UsdPhysXContactReportAPI();
+        return UsdPhysXTriangleMeshCollisionAPI();
     }
-    return UsdPhysXContactReportAPI(stage->GetPrimAtPath(path));
+    return UsdPhysXTriangleMeshCollisionAPI(stage->GetPrimAtPath(path));
 }
 
 
 /* virtual */
-UsdSchemaKind UsdPhysXContactReportAPI::_GetSchemaKind() const
+UsdSchemaKind UsdPhysXTriangleMeshCollisionAPI::_GetSchemaKind() const
 {
-    return UsdPhysXContactReportAPI::schemaKind;
+    return UsdPhysXTriangleMeshCollisionAPI::schemaKind;
 }
 
 /* static */
 bool
-UsdPhysXContactReportAPI::CanApply(
+UsdPhysXTriangleMeshCollisionAPI::CanApply(
     const UsdPrim &prim, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXContactReportAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXTriangleMeshCollisionAPI>(whyNot);
 }
 
 /* static */
-UsdPhysXContactReportAPI
-UsdPhysXContactReportAPI::Apply(const UsdPrim &prim)
+UsdPhysXTriangleMeshCollisionAPI
+UsdPhysXTriangleMeshCollisionAPI::Apply(const UsdPrim &prim)
 {
-    if (prim.ApplyAPI<UsdPhysXContactReportAPI>()) {
-        return UsdPhysXContactReportAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXTriangleMeshCollisionAPI>()) {
+        return UsdPhysXTriangleMeshCollisionAPI(prim);
     }
-    return UsdPhysXContactReportAPI();
+    return UsdPhysXTriangleMeshCollisionAPI();
 }
 
 /* static */
 const TfType &
-UsdPhysXContactReportAPI::_GetStaticTfType()
+UsdPhysXTriangleMeshCollisionAPI::_GetStaticTfType()
 {
-    static TfType tfType = TfType::Find<UsdPhysXContactReportAPI>();
+    static TfType tfType = TfType::Find<UsdPhysXTriangleMeshCollisionAPI>();
     return tfType;
 }
 
 /* static */
 bool 
-UsdPhysXContactReportAPI::_IsTypedSchema()
+UsdPhysXTriangleMeshCollisionAPI::_IsTypedSchema()
 {
     static bool isTyped = _GetStaticTfType().IsA<UsdTyped>();
     return isTyped;
@@ -80,39 +80,26 @@ UsdPhysXContactReportAPI::_IsTypedSchema()
 
 /* virtual */
 const TfType &
-UsdPhysXContactReportAPI::_GetTfType() const
+UsdPhysXTriangleMeshCollisionAPI::_GetTfType() const
 {
     return _GetStaticTfType();
 }
 
 UsdAttribute
-UsdPhysXContactReportAPI::GetThresholdAttr() const
+UsdPhysXTriangleMeshCollisionAPI::GetWeldToleranceAttr() const
 {
-    return GetPrim().GetAttribute(UsdPhysXTokens->physxContactReportThreshold);
+    return GetPrim().GetAttribute(UsdPhysXTokens->physxTriangleMeshCollisionWeldTolerance);
 }
 
 UsdAttribute
-UsdPhysXContactReportAPI::CreateThresholdAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXTriangleMeshCollisionAPI::CreateWeldToleranceAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
-    return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxContactReportThreshold,
+    return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->physxTriangleMeshCollisionWeldTolerance,
                        SdfValueTypeNames->Float,
                        /* custom = */ false,
                        SdfVariabilityVarying,
                        defaultValue,
                        writeSparsely);
-}
-
-UsdRelationship
-UsdPhysXContactReportAPI::GetReportPairsRel() const
-{
-    return GetPrim().GetRelationship(UsdPhysXTokens->reportPairs);
-}
-
-UsdRelationship
-UsdPhysXContactReportAPI::CreateReportPairsRel() const
-{
-    return GetPrim().CreateRelationship(UsdPhysXTokens->reportPairs,
-                       /* custom = */ false);
 }
 
 namespace {
@@ -129,10 +116,10 @@ _ConcatenateAttributeNames(const TfTokenVector& left,const TfTokenVector& right)
 
 /*static*/
 const TfTokenVector&
-UsdPhysXContactReportAPI::GetSchemaAttributeNames(bool includeInherited)
+UsdPhysXTriangleMeshCollisionAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
-        UsdPhysXTokens->physxContactReportThreshold,
+        UsdPhysXTokens->physxTriangleMeshCollisionWeldTolerance,
     };
     static TfTokenVector allNames =
         _ConcatenateAttributeNames(

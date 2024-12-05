@@ -37,4 +37,8 @@ TF_WRAP(UsdPhysXSceneQuasistaticAPI);
 TF_WRAP(UsdPhysXSDFMeshCollisionAPI);
 TF_WRAP(UsdPhysXSphereFillCollisionAPI);
 TF_WRAP(UsdPhysXSurfaceVelocityAPI);
+TF_WRAP(UsdPhysXTriangleMeshCollisionAPI);
+TF_WRAP(UsdPhysXTriangleMeshSimplificationCollisionAPI);
+TF_WRAP(UsdPhysXTriggerAPI);
+TF_WRAP(UsdPhysXTriggerStateAPI);
 TF_WRAP(UsdPhysXTokens);

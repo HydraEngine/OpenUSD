@@ -237,18 +237,28 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, physxSurfaceVelocitySurfaceVelocity);
     _ADD_TOKEN(cls, physxSurfaceVelocitySurfaceVelocityEnabled);
     _ADD_TOKEN(cls, physxSurfaceVelocitySurfaceVelocityLocalSpace);
+    _ADD_TOKEN(cls, physxTriangleMeshCollisionWeldTolerance);
+    _ADD_TOKEN(cls, physxTriangleMeshSimplificationCollisionMetric);
+    _ADD_TOKEN(cls, physxTriangleMeshSimplificationCollisionWeldTolerance);
+    _ADD_TOKEN(cls, physxTriggerEnterScriptType);
+    _ADD_TOKEN(cls, physxTriggerLeaveScriptType);
+    _ADD_TOKEN(cls, physxTriggerOnEnterScript);
+    _ADD_TOKEN(cls, physxTriggerOnLeaveScript);
     _ADD_TOKEN(cls, preventClimbing);
     _ADD_TOKEN(cls, preventClimbingForceSliding);
     _ADD_TOKEN(cls, prismatic);
     _ADD_TOKEN(cls, raycast);
+    _ADD_TOKEN(cls, reportPairs);
     _ADD_TOKEN(cls, rotX);
     _ADD_TOKEN(cls, rotY);
     _ADD_TOKEN(cls, rotZ);
     _ADD_TOKEN(cls, SAP);
     _ADD_TOKEN(cls, SAT);
+    _ADD_TOKEN(cls, scriptFile);
     _ADD_TOKEN(cls, surface);
     _ADD_TOKEN(cls, Synchronous);
     _ADD_TOKEN(cls, TGS);
+    _ADD_TOKEN(cls, triggeredCollisions);
     _ADD_TOKEN(cls, X);
     _ADD_TOKEN(cls, Y);
     _ADD_TOKEN(cls, Z);
@@ -283,4 +293,8 @@ void wrapUsdPhysXTokens()
     _ADD_TOKEN(cls, PhysxSchemaPhysxSDFMeshCollisionAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxSphereFillCollisionAPI);
     _ADD_TOKEN(cls, PhysxSchemaPhysxSurfaceVelocityAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxTriangleMeshCollisionAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxTriangleMeshSimplificationCollisionAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxTriggerAPI);
+    _ADD_TOKEN(cls, PhysxSchemaPhysxTriggerStateAPI);
 }

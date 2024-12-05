@@ -33,6 +33,10 @@ sceneQuasistaticAPI
 sphereFillCollisionAPI
 surfaceVelocityAPI
 tokens
+triangleMeshCollisionAPI
+triangleMeshSimplificationCollisionAPI
+triggerAPI
+triggerStateAPI
 
 # Python Module Files
 module.cpp
@@ -68,6 +72,10 @@ wrapSceneQuasistaticAPI.cpp
 wrapSphereFillCollisionAPI.cpp
 wrapSurfaceVelocityAPI.cpp
 wrapTokens.cpp
+wrapTriangleMeshCollisionAPI.cpp
+wrapTriangleMeshSimplificationCollisionAPI.cpp
+wrapTriggerAPI.cpp
+wrapTriggerStateAPI.cpp
 
 # Resource Files
 generatedSchema.usda

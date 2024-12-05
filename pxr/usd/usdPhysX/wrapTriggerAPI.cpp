@@ -4,7 +4,7 @@
 // Licensed under the terms set forth in the LICENSE.txt file available at
 // https://openusd.org/license.
 //
-#include "pxr/usd/usdPhysX/contactReportAPI.h"
+#include "pxr/usd/usdPhysX/triggerAPI.h"
 #include "pxr/usd/usd/schemaBase.h"
 
 #include "pxr/usd/sdf/primSpec.h"
@@ -34,47 +34,68 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateThresholdAttr(UsdPhysXContactReportAPI &self,
+_CreateEnterScriptTypeAttr(UsdPhysXTriggerAPI &self,
                                       object defaultVal, bool writeSparsely) {
-    return self.CreateThresholdAttr(
-        UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Float), writeSparsely);
+    return self.CreateEnterScriptTypeAttr(
+        UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Token), writeSparsely);
+}
+        
+static UsdAttribute
+_CreateLeaveScriptTypeAttr(UsdPhysXTriggerAPI &self,
+                                      object defaultVal, bool writeSparsely) {
+    return self.CreateLeaveScriptTypeAttr(
+        UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Token), writeSparsely);
+}
+        
+static UsdAttribute
+_CreateOnEnterScriptAttr(UsdPhysXTriggerAPI &self,
+                                      object defaultVal, bool writeSparsely) {
+    return self.CreateOnEnterScriptAttr(
+        UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Token), writeSparsely);
+}
+        
+static UsdAttribute
+_CreateOnLeaveScriptAttr(UsdPhysXTriggerAPI &self,
+                                      object defaultVal, bool writeSparsely) {
+    return self.CreateOnLeaveScriptAttr(
+        UsdPythonToSdfType(defaultVal, SdfValueTypeNames->Token), writeSparsely);
 }
 
 static std::string
-_Repr(const UsdPhysXContactReportAPI &self)
+_Repr(const UsdPhysXTriggerAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
     return TfStringPrintf(
-        "UsdPhysX.ContactReportAPI(%s)",
+        "UsdPhysX.TriggerAPI(%s)",
         primRepr.c_str());
 }
 
-struct UsdPhysXContactReportAPI_CanApplyResult : 
+struct UsdPhysXTriggerAPI_CanApplyResult : 
     public TfPyAnnotatedBoolResult<std::string>
 {
-    UsdPhysXContactReportAPI_CanApplyResult(bool val, std::string const &msg) :
+    UsdPhysXTriggerAPI_CanApplyResult(bool val, std::string const &msg) :
         TfPyAnnotatedBoolResult<std::string>(val, msg) {}
 };
 
-static UsdPhysXContactReportAPI_CanApplyResult
+static UsdPhysXTriggerAPI_CanApplyResult
 _WrapCanApply(const UsdPrim& prim)
 {
     std::string whyNot;
-    bool result = UsdPhysXContactReportAPI::CanApply(prim, &whyNot);
-    return UsdPhysXContactReportAPI_CanApplyResult(result, whyNot);
+    bool result = UsdPhysXTriggerAPI::CanApply(prim, &whyNot);
+    return UsdPhysXTriggerAPI_CanApplyResult(result, whyNot);
 }
 
 } // anonymous namespace
 
-void wrapUsdPhysXContactReportAPI()
+void wrapUsdPhysXTriggerAPI()
 {
-    typedef UsdPhysXContactReportAPI This;
+    typedef UsdPhysXTriggerAPI This;
 
-    UsdPhysXContactReportAPI_CanApplyResult::Wrap<UsdPhysXContactReportAPI_CanApplyResult>(
+    UsdPhysXTriggerAPI_CanApplyResult::Wrap<UsdPhysXTriggerAPI_CanApplyResult>(
         "_CanApplyResult", "whyNot");
 
     class_<This, bases<UsdAPISchemaBase> >
-        cls("ContactReportAPI");
+        cls("TriggerAPI");
 
     cls
         .def(init<UsdPrim>(arg("prim")))
@@ -103,18 +124,34 @@ void wrapUsdPhysXContactReportAPI()
         .def(!self)
 
         
-        .def("GetThresholdAttr",
-             &This::GetThresholdAttr)
-        .def("CreateThresholdAttr",
-             &_CreateThresholdAttr,
+        .def("GetEnterScriptTypeAttr",
+             &This::GetEnterScriptTypeAttr)
+        .def("CreateEnterScriptTypeAttr",
+             &_CreateEnterScriptTypeAttr,
+             (arg("defaultValue")=object(),
+              arg("writeSparsely")=false))
+        
+        .def("GetLeaveScriptTypeAttr",
+             &This::GetLeaveScriptTypeAttr)
+        .def("CreateLeaveScriptTypeAttr",
+             &_CreateLeaveScriptTypeAttr,
+             (arg("defaultValue")=object(),
+              arg("writeSparsely")=false))
+        
+        .def("GetOnEnterScriptAttr",
+             &This::GetOnEnterScriptAttr)
+        .def("CreateOnEnterScriptAttr",
+             &_CreateOnEnterScriptAttr,
+             (arg("defaultValue")=object(),
+              arg("writeSparsely")=false))
+        
+        .def("GetOnLeaveScriptAttr",
+             &This::GetOnLeaveScriptAttr)
+        .def("CreateOnLeaveScriptAttr",
+             &_CreateOnLeaveScriptAttr,
              (arg("defaultValue")=object(),
               arg("writeSparsely")=false))
 
-        
-        .def("GetReportPairsRel",
-             &This::GetReportPairsRel)
-        .def("CreateReportPairsRel",
-             &This::CreateReportPairsRel)
         .def("__repr__", ::_Repr)
     ;
 
