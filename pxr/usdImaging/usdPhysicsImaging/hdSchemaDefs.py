@@ -453,4 +453,70 @@
 
         ADD_DEFAULT_LOCATOR = True,
     ),
+    dict(
+        SCHEMA_NAME = 'PhysxPhysicsDistanceJoint',
+        SCHEMA_TOKEN = 'physxPhysicsDistanceJoint',
+        MEMBERS = [
+            ('springDamping', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('springEnabled', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('springStiffness', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxPhysicsGearJoint',
+        SCHEMA_TOKEN = 'physxPhysicsGearJoint',
+        MEMBERS = [
+            ('gearRatio', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('hinge0', T_PATHARRAY, dict(ADD_LOCATOR = True)),
+            ('hinge1', T_PATHARRAY, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxPhysicsInstancer',
+        SCHEMA_TOKEN = 'physxPhysicsInstancer',
+        MEMBERS = [
+            ('protoIndices', T_INTARRAY, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxPhysicsJointInstancer',
+        SCHEMA_TOKEN = 'physxPhysicsJointInstancer',
+        MEMBERS = [
+            ('body0Indices', T_INTARRAY, dict(ADD_LOCATOR = True)),
+            ('body1Indices', T_INTARRAY, dict(ADD_LOCATOR = True)),
+            ('localPos0s', T_VEC3FARRAY, dict(ADD_LOCATOR = True)),
+            ('localPos1s', T_VEC3FARRAY, dict(ADD_LOCATOR = True)),
+            ('localRot0s', T_QUATF, dict(ADD_LOCATOR = True)),
+            ('localRot1s', T_QUATF, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxPhysicsRackAndPinionJoint',
+        SCHEMA_TOKEN = 'physxPhysicsRackAndPinionJoint',
+        MEMBERS = [
+            ('ratio', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxResidualReporting',
+        SCHEMA_TOKEN = 'physxResidualReporting',
+        MEMBERS = [
+            ('maxResidualPositionIteration', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('maxResidualVelocityIteration', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('rmsResidualPositionIteration', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('rmsResidualVelocityIteration', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
 ]

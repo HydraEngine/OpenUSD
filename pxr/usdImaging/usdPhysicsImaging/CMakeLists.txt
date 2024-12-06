@@ -76,6 +76,12 @@ pxr_library(usdPhysicsImaging
         physxMaterialSchema
         physxMeshMergeCollisionSchema
         physxMimicJointSchema
+        physxPhysicsDistanceJointSchema
+        physxPhysicsGearJointSchema
+        physxPhysicsInstancerSchema
+        physxPhysicsJointInstancerSchema
+        physxPhysicsRackAndPinionJointSchema
+        physxResidualReportingSchema
 
         PUBLIC_HEADERS
         api.h
