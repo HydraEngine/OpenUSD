@@ -128,6 +128,10 @@ pxr_library(usdPhysicsImaging
         physxContactReportAPIAdapter
         physxConvexDecompositionCollisionAPIAdapter
         physxConvexHullCollisionAPIAdapter
+        physxCookedDataAPIAdapter
+        physxForceAPIAdapter
+        physxIsosurfaceAPIAdapter
+        physxJointAPIAdapter
 
         PUBLIC_HEADERS
         api.h
