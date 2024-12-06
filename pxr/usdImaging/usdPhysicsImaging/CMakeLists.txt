@@ -120,6 +120,9 @@ pxr_library(usdPhysicsImaging
         physxArticulationAPIAdapter
         physxCameraDroneAPIAdapter
         physxCameraFollowLookAPIAdapter
+        physxCameraFollowAPIAdapter
+        physxCameraFollowVelocityAPIAdapter
+        physxCameraAPIAdapter
 
         PUBLIC_HEADERS
         api.h
