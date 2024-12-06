@@ -63,6 +63,12 @@ pxr_library(usdPhysicsImaging
         physxCameraFollowSchema
         physxCameraFollowVelocitySchema
         physxCameraSchema
+        physxCharacterControllerSchema
+        physxCollisionSchema
+        physxContactReportSchema
+        physxConvexDecompositionCollisionSchema
+        physxConvexHullCollisionSchema
+        physxCookedDataSchema
         physxJointStateSchema
 
         PUBLIC_HEADERS

@@ -301,9 +301,74 @@
         ADD_DEFAULT_LOCATOR = True,
     ),
     dict(
-        SCHEMA_NAME = 'PhysxCameraFollowVelocity',
-        SCHEMA_TOKEN = 'physxCameraFollowVelocity',
+        SCHEMA_NAME = 'PhysxCharacterController',
+        SCHEMA_TOKEN = 'physxCharacterController',
         MEMBERS = [
+            ('climbingMode', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('contactOffset', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('invisibleWallHeight', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('maxJumpHeight', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('moveTarget', T_VEC3F, dict(ADD_LOCATOR = True)),
+            ('nonWalkableMode', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('scaleCoeff', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('slopeLimit', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('stepOffset', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('upAxis', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('volumeGrowth', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxCollision',
+        SCHEMA_TOKEN = 'physxCollision',
+        MEMBERS = [
+            ('contactOffset', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('minTorsionalPatchRadius', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('restOffset', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('torsionalPatchRadius', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxContactReport',
+        SCHEMA_TOKEN = 'physxContactReport',
+        MEMBERS = [
+            ('threshold', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxConvexDecompositionCollision',
+        SCHEMA_TOKEN = 'physxConvexDecompositionCollision',
+        MEMBERS = [
+            ('errorPercentage', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('hullVertexLimit', T_INT, dict(ADD_LOCATOR = True)),
+            ('maxConvexHulls', T_INT, dict(ADD_LOCATOR = True)),
+            ('minThickness', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('shrinkWrap', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('voxelResolution', T_INT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxConvexHullCollision',
+        SCHEMA_TOKEN = 'physxConvexHullCollision',
+        MEMBERS = [
+            ('hullVertexLimit', T_INT, dict(ADD_LOCATOR = True)),
+            ('minThickness', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxCookedData',
+        SCHEMA_TOKEN = 'physxCookedData',
+        MEMBERS = [
+            ('buffer', T_INTARRAY, dict(ADD_LOCATOR = True)),
         ],
 
         ADD_DEFAULT_LOCATOR = True,
