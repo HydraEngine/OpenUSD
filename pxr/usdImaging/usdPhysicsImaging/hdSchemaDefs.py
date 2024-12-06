@@ -519,4 +519,182 @@
 
         ADD_DEFAULT_LOCATOR = True,
     ),
+    dict(
+        SCHEMA_NAME = 'PhysxRigidBody',
+        SCHEMA_TOKEN = 'physxRigidBody',
+        MEMBERS = [
+            ('angularDamping', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('cfmScale', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('contactSlopCoefficient', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('disableGravity', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('enableCCD', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('enableGyroscopicForces', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('enableSpeculativeCCD', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('linearDamping', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('lockedPosAxis', T_INT, dict(ADD_LOCATOR = True)),
+            ('lockedRotAxis', T_INT, dict(ADD_LOCATOR = True)),
+            ('maxAngularVelocity', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('maxContactImpulse', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('maxDepenetrationVelocity', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('maxLinearVelocity', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('retainAccelerations', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('sleepThreshold', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('solveContact', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('solverPositionIterationCount', T_INT, dict(ADD_LOCATOR = True)),
+            ('solverVelocityIterationCount', T_INT, dict(ADD_LOCATOR = True)),
+            ('stabilizationThreshold', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxScene',
+        SCHEMA_TOKEN = 'physxScene',
+        MEMBERS = [
+            ('bounceThreshold', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('broadphaseType', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('collisionSystem', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('enableCCD', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('enableEnhancedDeterminism', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('enableExternalForcesEveryIteration', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('enableGPUDynamics', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('enableResidualReporting', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('enableSceneQuerySupport', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('enableStabilization', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('frictionCorrelationDistance', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('frictionOffsetThreshold', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('frictionType', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('gpuCollisionStackSize', T_INT, dict(ADD_LOCATOR = True)),
+            ('gpuFoundLostAggregatePairsCapacity', T_INT, dict(ADD_LOCATOR = True)),
+            ('gpuFoundLostPairsCapacity', T_INT, dict(ADD_LOCATOR = True)),
+            ('gpuHeapCapacity', T_INT, dict(ADD_LOCATOR = True)),
+            ('gpuMaxDeformableSurfaceContacts', T_INT, dict(ADD_LOCATOR = True)),
+            ('gpuMaxHairContacts', T_INT, dict(ADD_LOCATOR = True)),
+            ('gpuMaxNumPartitions', T_INT, dict(ADD_LOCATOR = True)),
+            ('gpuMaxParticleContacts', T_INT, dict(ADD_LOCATOR = True)),
+            ('gpuMaxRigidContactCount', T_INT, dict(ADD_LOCATOR = True)),
+            ('gpuMaxRigidPatchCount', T_INT, dict(ADD_LOCATOR = True)),
+            ('gpuMaxSoftBodyContacts', T_INT, dict(ADD_LOCATOR = True)),
+            ('gpuTempBufferCapacity', T_INT, dict(ADD_LOCATOR = True)),
+            ('gpuTotalAggregatePairsCapacity', T_INT, dict(ADD_LOCATOR = True)),
+            ('invertCollisionGroupFilter', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('maxBiasCoefficient', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('maxPositionIterationCount', T_INT, dict(ADD_LOCATOR = True)),
+            ('maxVelocityIterationCount', T_INT, dict(ADD_LOCATOR = True)),
+            ('minPositionIterationCount', T_INT, dict(ADD_LOCATOR = True)),
+            ('minVelocityIterationCount', T_INT, dict(ADD_LOCATOR = True)),
+            ('reportKinematicKinematicPairs', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('reportKinematicStaticPairs', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('solverType', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('timeStepsPerSecond', T_INT, dict(ADD_LOCATOR = True)),
+            ('updateType', T_TOKEN, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxSceneQuasistatic',
+        SCHEMA_TOKEN = 'physxSceneQuasistatic',
+        MEMBERS = [
+            ('enableQuasistatic', T_BOOL, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxSDFMeshCollision',
+        SCHEMA_TOKEN = 'physxSDFMeshCollision',
+        MEMBERS = [
+            ('sdfBitsPerSubgridPixel', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('sdfEnableRemeshing', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('sdfMargin', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('sdfNarrowBandThickness', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('sdfResolution', T_INT, dict(ADD_LOCATOR = True)),
+            ('sdfSubgridResolution', T_INT, dict(ADD_LOCATOR = True)),
+            ('sdfTriangleCountReductionFactor', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxSphereFillCollision',
+        SCHEMA_TOKEN = 'physxSphereFillCollision',
+        MEMBERS = [
+            ('fillMode', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('maxSpheres', T_INT, dict(ADD_LOCATOR = True)),
+            ('seedCount', T_INT, dict(ADD_LOCATOR = True)),
+            ('voxelResolution', T_INT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxSurfaceVelocity',
+        SCHEMA_TOKEN = 'physxSurfaceVelocity',
+        MEMBERS = [
+            ('surfaceAngularVelocity', T_VEC3F, dict(ADD_LOCATOR = True)),
+            ('surfaceVelocity', T_VEC3F, dict(ADD_LOCATOR = True)),
+            ('surfaceVelocityEnabled', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('surfaceVelocityLocalSpace', T_BOOL, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxTriangleMeshCollision',
+        SCHEMA_TOKEN = 'physxTriangleMeshCollision',
+        MEMBERS = [
+            ('weldTolerance', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxTriangleMeshSimplificationCollision',
+        SCHEMA_TOKEN = 'physxTriangleMeshSimplificationCollision',
+        MEMBERS = [
+            ('metric', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('weldTolerance', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxTrigger',
+        SCHEMA_TOKEN = 'physxTrigger',
+        MEMBERS = [
+            ('enterScriptType', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('leaveScriptType', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('onEnterScript', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('onLeaveScript', T_TOKEN, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxTriggerState',
+        SCHEMA_TOKEN = 'physxTriggerState',
+        MEMBERS = [
+            ('triggeredCollisions', T_PATHARRAY, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

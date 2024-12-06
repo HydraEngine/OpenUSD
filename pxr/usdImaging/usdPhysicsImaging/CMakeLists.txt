@@ -82,6 +82,16 @@ pxr_library(usdPhysicsImaging
         physxPhysicsJointInstancerSchema
         physxPhysicsRackAndPinionJointSchema
         physxResidualReportingSchema
+        physxRigidBodySchema
+        physxSceneQuasistaticSchema
+        physxSceneSchema
+        physxSDFMeshCollisionSchema
+        physxSphereFillCollisionSchema
+        physxSurfaceVelocitySchema
+        physxTriangleMeshCollisionSchema
+        physxTriangleMeshSimplificationCollisionSchema
+        physxTriggerSchema
+        physxTriggerStateSchema
 
         PUBLIC_HEADERS
         api.h
