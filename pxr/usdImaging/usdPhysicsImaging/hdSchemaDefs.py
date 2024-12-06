@@ -203,4 +203,109 @@
 
         ADD_DEFAULT_LOCATOR = True,
     ),
+
+    ############# PhysX Schema Extension ###########################################################
+    dict(
+        SCHEMA_NAME = 'PhysxJointState',
+        SCHEMA_TOKEN = 'physxJointState',
+        MEMBERS = [
+            ('position', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('velocity', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxArticulation',
+        SCHEMA_TOKEN = 'physxArticulation',
+        MEMBERS = [
+            ('articulationEnabled', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('enabledSelfCollisions', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('sleepThreshold', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('solverPositionIterationCount', T_INT, dict(ADD_LOCATOR = True)),
+            ('solverVelocityIterationCount', T_INT, dict(ADD_LOCATOR = True)),
+            ('stabilizationThreshold', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxCamera',
+        SCHEMA_TOKEN = 'physxCamera',
+        MEMBERS = [
+            ('alwaysUpdateEnabled', T_BOOL, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxCameraDrone',
+        SCHEMA_TOKEN = 'physxCameraDrone',
+        MEMBERS = [
+            ('feedForwardVelocityGain', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('followDistance', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('followHeight', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('horizontalVelocityGain', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('maxDistance', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('maxSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('positionOffset', T_VEC3F, dict(ADD_LOCATOR = True)),
+            ('rotationFilterTimeConstant', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('velocityFilterTimeConstant', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('verticalVelocityGain', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxCameraFollow',
+        SCHEMA_TOKEN = 'physxCameraFollow',
+        MEMBERS = [
+            ('cameraPositionTimeConstant', T_VEC3F, dict(ADD_LOCATOR = True)),
+            ('followMaxDistance', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('followMaxSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('followMinDistance', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('followMinSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('followTurnRateGain', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('lookAheadMaxDistance', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('lookAheadMaxSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('lookAheadMinDistance', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('lookAheadMinSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('lookAheadTurnRateGain', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('lookPositionHeight', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('lookPositionTimeConstant', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('pitchAngle', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('pitchAngleTimeConstant', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('positionOffset', T_VEC3F, dict(ADD_LOCATOR = True)),
+            ('slowPitchAngleSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('slowSpeedPitchAngleScale', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('velocityNormalMinSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('yawAngle', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('yawRateTimeConstant', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxCameraFollowLook',
+        SCHEMA_TOKEN = 'physxCameraFollowLook',
+        MEMBERS = [
+            ('downHillGroundAngle', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('downHillGroundPitch', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('followReverseDistance', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('followReverseSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('upHillGroundAngle', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('upHillGroundPitch', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('velocityBlendTimeConstant', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxCameraFollowVelocity',
+        SCHEMA_TOKEN = 'physxCameraFollowVelocity',
+        MEMBERS = [
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
 ]

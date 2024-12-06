@@ -57,6 +57,14 @@ pxr_library(usdPhysicsImaging
         collisionGroupSchema
         collisionGroupAdapter
 
+        physxArticulationSchema
+        physxCameraDroneSchema
+        physxCameraFollowLookSchema
+        physxCameraFollowSchema
+        physxCameraFollowVelocitySchema
+        physxCameraSchema
+        physxJointStateSchema
+
         PUBLIC_HEADERS
         api.h
 
