@@ -123,6 +123,11 @@ pxr_library(usdPhysicsImaging
         physxCameraFollowAPIAdapter
         physxCameraFollowVelocityAPIAdapter
         physxCameraAPIAdapter
+        physxCharacterControllerAPIAdapter
+        physxCollisionAPIAdapter
+        physxContactReportAPIAdapter
+        physxConvexDecompositionCollisionAPIAdapter
+        physxConvexHullCollisionAPIAdapter
 
         PUBLIC_HEADERS
         api.h
