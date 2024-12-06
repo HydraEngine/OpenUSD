@@ -93,7 +93,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
 
     // Standalone Object
     for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
-        if (entry.primType == UsdPhysicsTokens->PhysicsScene) {
+        if (entry.primType == UsdPhysicsImagingSceneSchemaTokens->scene) {
             const auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
             if (auto scene = engine->CreatePxScene(entry.primPath, prim.dataSource)) {
                 std::cout << entry.primPath << "\t" << entry.primType << "\t Scene Created" << "\n";
@@ -101,7 +101,7 @@ void UsdImagingPhysicsSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
             }
         }
 
-        if (entry.primType == HdPrimTypeTokens->material) {
+        if (entry.primType == UsdPhysicsImagingMaterialSchemaTokens->material) {
             const auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
             if (const auto material = engine->CreateMaterial(entry.primPath, prim.dataSource)) {
                 std::cout << entry.primPath << "\t" << material->getConcreteTypeName() << "\t Created" << "\n";
