@@ -7,6 +7,7 @@ pxr_library(usdPhysicsImaging
         hd
         usdImaging
         usdPhysics
+        usdPhysX
 
         PUBLIC_CLASSES
         dependentPrimsDataSource
@@ -115,6 +116,8 @@ pxr_library(usdPhysicsImaging
         physxVehicleWheelAttachmentSchema
         physxVehicleWheelControllerSchema
         physxVehicleWheelSchema
+
+        physxArticulationAPIAdapter
 
         PUBLIC_HEADERS
         api.h
