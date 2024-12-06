@@ -132,6 +132,11 @@ pxr_library(usdPhysicsImaging
         physxForceAPIAdapter
         physxIsosurfaceAPIAdapter
         physxJointAPIAdapter
+        physxJointStateAPIAdapter
+        physxMaterialAPIAdapter
+        physxMeshMergeCollisionAPIAdapter
+        physxMimicJointAPIAdapter
+        physxPhysicsDistanceJointAPIAdapter
 
         PUBLIC_HEADERS
         api.h
