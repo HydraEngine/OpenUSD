@@ -146,6 +146,8 @@ pxr_library(usdPhysicsImaging
         physxSurfaceVelocityAPIAdapter
         physxTriangleMeshCollisionAPIAdapter
         physxTriangleMeshSimplificationCollisionAPIAdapter
+        physxTriggerAPIAdapter
+        physxTriggerStateAPIAdapter
 
         PUBLIC_HEADERS
         api.h
