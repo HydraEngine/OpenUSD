@@ -15,8 +15,8 @@
 /* **                                                                      ** */
 /* ************************************************************************** */
 
-#ifndef PXR_USD_IMAGING_USD_PHYSICS_IMAGING_PHYSX_PHYSICS_JOINT_INSTANCER_SCHEMA_H
-#define PXR_USD_IMAGING_USD_PHYSICS_IMAGING_PHYSX_PHYSICS_JOINT_INSTANCER_SCHEMA_H
+#ifndef PXR_USD_IMAGING_USD_PHYSICS_IMAGING_PHYSX_VEHICLE_CONTROLLER_SCHEMA_H
+#define PXR_USD_IMAGING_USD_PHYSICS_IMAGING_PHYSX_VEHICLE_CONTROLLER_SCHEMA_H
 
 /// \file
 
@@ -32,37 +32,38 @@ PXR_NAMESPACE_OPEN_SCOPE
 // --(BEGIN CUSTOM CODE: Declares)--
 // --(END CUSTOM CODE: Declares)--
 
-#define USD_PHYSICS_IMAGING_PHYSX_PHYSICS_JOINT_INSTANCER_SCHEMA_TOKENS \
-    (physxPhysicsJointInstancer) \
-    (body0Indices) \
-    (body1Indices) \
-    (localPos0s) \
-    (localPos1s) \
-    (localRot0s) \
-    (localRot1s) \
+#define USD_PHYSICS_IMAGING_PHYSX_VEHICLE_CONTROLLER_SCHEMA_TOKENS \
+    (physxVehicleController) \
+    (accelerator) \
+    (brake0) \
+    (brake1) \
+    (brake) \
+    (handbrake) \
+    (steer) \
+    (targetGear) \
 
-TF_DECLARE_PUBLIC_TOKENS(UsdPhysicsImagingPhysxPhysicsJointInstancerSchemaTokens, USDPHYSICSIMAGING_API,
-    USD_PHYSICS_IMAGING_PHYSX_PHYSICS_JOINT_INSTANCER_SCHEMA_TOKENS);
+TF_DECLARE_PUBLIC_TOKENS(UsdPhysicsImagingPhysxVehicleControllerSchemaTokens, USDPHYSICSIMAGING_API,
+    USD_PHYSICS_IMAGING_PHYSX_VEHICLE_CONTROLLER_SCHEMA_TOKENS);
 
 //-----------------------------------------------------------------------------
 
 
-class UsdPhysicsImagingPhysxPhysicsJointInstancerSchema : public HdSchema
+class UsdPhysicsImagingPhysxVehicleControllerSchema : public HdSchema
 {
 public:
     /// \name Schema retrieval
     /// @{
 
-    UsdPhysicsImagingPhysxPhysicsJointInstancerSchema(HdContainerDataSourceHandle container)
+    UsdPhysicsImagingPhysxVehicleControllerSchema(HdContainerDataSourceHandle container)
       : HdSchema(container) {}
 
     /// Retrieves a container data source with the schema's default name token
-    /// "physxPhysicsJointInstancer" from the parent container and constructs a
-    /// UsdPhysicsImagingPhysxPhysicsJointInstancerSchema instance.
+    /// "physxVehicleController" from the parent container and constructs a
+    /// UsdPhysicsImagingPhysxVehicleControllerSchema instance.
     /// Because the requested container data source may not exist, the result
     /// should be checked with IsDefined() or a bool comparison before use.
     USDPHYSICSIMAGING_API
-    static UsdPhysicsImagingPhysxPhysicsJointInstancerSchema GetFromParent(
+    static UsdPhysicsImagingPhysxVehicleControllerSchema GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer);
 
     /// @}
@@ -74,22 +75,25 @@ public:
     /// @{
 
     USDPHYSICSIMAGING_API
-    HdIntArrayDataSourceHandle GetBody0Indices() const;
+    HdFloatDataSourceHandle GetAccelerator() const;
 
     USDPHYSICSIMAGING_API
-    HdIntArrayDataSourceHandle GetBody1Indices() const;
+    HdFloatDataSourceHandle GetBrake0() const;
 
     USDPHYSICSIMAGING_API
-    HdVec3fArrayDataSourceHandle GetLocalPos0s() const;
+    HdFloatDataSourceHandle GetBrake1() const;
 
     USDPHYSICSIMAGING_API
-    HdVec3fArrayDataSourceHandle GetLocalPos1s() const;
+    HdFloatDataSourceHandle GetBrake() const;
 
     USDPHYSICSIMAGING_API
-    HdQuatfArrayDataSourceHandle GetLocalRot0s() const;
+    HdFloatDataSourceHandle GetHandbrake() const;
 
     USDPHYSICSIMAGING_API
-    HdQuatfArrayDataSourceHandle GetLocalRot1s() const; 
+    HdFloatDataSourceHandle GetSteer() const;
+
+    USDPHYSICSIMAGING_API
+    HdIntDataSourceHandle GetTargetGear() const; 
 
     /// @}
 
@@ -117,29 +121,33 @@ public:
     /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
     /// @{
 
-    /// Prim-level relative data source locator to locate body0Indices.
+    /// Prim-level relative data source locator to locate accelerator.
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetBody0IndicesLocator();
+    static const HdDataSourceLocator &GetAcceleratorLocator();
 
-    /// Prim-level relative data source locator to locate body1Indices.
+    /// Prim-level relative data source locator to locate brake0.
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetBody1IndicesLocator();
+    static const HdDataSourceLocator &GetBrake0Locator();
 
-    /// Prim-level relative data source locator to locate localPos0s.
+    /// Prim-level relative data source locator to locate brake1.
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetLocalPos0sLocator();
+    static const HdDataSourceLocator &GetBrake1Locator();
 
-    /// Prim-level relative data source locator to locate localPos1s.
+    /// Prim-level relative data source locator to locate brake.
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetLocalPos1sLocator();
+    static const HdDataSourceLocator &GetBrakeLocator();
 
-    /// Prim-level relative data source locator to locate localRot0s.
+    /// Prim-level relative data source locator to locate handbrake.
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetLocalRot0sLocator();
+    static const HdDataSourceLocator &GetHandbrakeLocator();
 
-    /// Prim-level relative data source locator to locate localRot1s.
+    /// Prim-level relative data source locator to locate steer.
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetLocalRot1sLocator();
+    static const HdDataSourceLocator &GetSteerLocator();
+
+    /// Prim-level relative data source locator to locate targetGear.
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetTargetGearLocator();
     /// @} 
 
     /// \name Schema construction
@@ -155,15 +163,16 @@ public:
     USDPHYSICSIMAGING_API
     static HdContainerDataSourceHandle
     BuildRetained(
-        const HdIntArrayDataSourceHandle &body0Indices,
-        const HdIntArrayDataSourceHandle &body1Indices,
-        const HdVec3fArrayDataSourceHandle &localPos0s,
-        const HdVec3fArrayDataSourceHandle &localPos1s,
-        const HdQuatfArrayDataSourceHandle &localRot0s,
-        const HdQuatfArrayDataSourceHandle &localRot1s
+        const HdFloatDataSourceHandle &accelerator,
+        const HdFloatDataSourceHandle &brake0,
+        const HdFloatDataSourceHandle &brake1,
+        const HdFloatDataSourceHandle &brake,
+        const HdFloatDataSourceHandle &handbrake,
+        const HdFloatDataSourceHandle &steer,
+        const HdIntDataSourceHandle &targetGear
     );
 
-    /// \class UsdPhysicsImagingPhysxPhysicsJointInstancerSchema::Builder
+    /// \class UsdPhysicsImagingPhysxVehicleControllerSchema::Builder
     /// 
     /// Utility class for setting sparse sets of child data source fields to be
     /// filled as arguments into BuildRetained. Because all setter methods
@@ -173,35 +182,39 @@ public:
     {
     public:
         USDPHYSICSIMAGING_API
-        Builder &SetBody0Indices(
-            const HdIntArrayDataSourceHandle &body0Indices);
+        Builder &SetAccelerator(
+            const HdFloatDataSourceHandle &accelerator);
         USDPHYSICSIMAGING_API
-        Builder &SetBody1Indices(
-            const HdIntArrayDataSourceHandle &body1Indices);
+        Builder &SetBrake0(
+            const HdFloatDataSourceHandle &brake0);
         USDPHYSICSIMAGING_API
-        Builder &SetLocalPos0s(
-            const HdVec3fArrayDataSourceHandle &localPos0s);
+        Builder &SetBrake1(
+            const HdFloatDataSourceHandle &brake1);
         USDPHYSICSIMAGING_API
-        Builder &SetLocalPos1s(
-            const HdVec3fArrayDataSourceHandle &localPos1s);
+        Builder &SetBrake(
+            const HdFloatDataSourceHandle &brake);
         USDPHYSICSIMAGING_API
-        Builder &SetLocalRot0s(
-            const HdQuatfArrayDataSourceHandle &localRot0s);
+        Builder &SetHandbrake(
+            const HdFloatDataSourceHandle &handbrake);
         USDPHYSICSIMAGING_API
-        Builder &SetLocalRot1s(
-            const HdQuatfArrayDataSourceHandle &localRot1s);
+        Builder &SetSteer(
+            const HdFloatDataSourceHandle &steer);
+        USDPHYSICSIMAGING_API
+        Builder &SetTargetGear(
+            const HdIntDataSourceHandle &targetGear);
 
         /// Returns a container data source containing the members set thus far.
         USDPHYSICSIMAGING_API
         HdContainerDataSourceHandle Build();
 
     private:
-        HdIntArrayDataSourceHandle _body0Indices;
-        HdIntArrayDataSourceHandle _body1Indices;
-        HdVec3fArrayDataSourceHandle _localPos0s;
-        HdVec3fArrayDataSourceHandle _localPos1s;
-        HdQuatfArrayDataSourceHandle _localRot0s;
-        HdQuatfArrayDataSourceHandle _localRot1s;
+        HdFloatDataSourceHandle _accelerator;
+        HdFloatDataSourceHandle _brake0;
+        HdFloatDataSourceHandle _brake1;
+        HdFloatDataSourceHandle _brake;
+        HdFloatDataSourceHandle _handbrake;
+        HdFloatDataSourceHandle _steer;
+        HdIntDataSourceHandle _targetGear;
 
     };
 

@@ -15,8 +15,8 @@
 /* **                                                                      ** */
 /* ************************************************************************** */
 
-#ifndef PXR_USD_IMAGING_USD_PHYSICS_IMAGING_PHYSX_PHYSICS_JOINT_INSTANCER_SCHEMA_H
-#define PXR_USD_IMAGING_USD_PHYSICS_IMAGING_PHYSX_PHYSICS_JOINT_INSTANCER_SCHEMA_H
+#ifndef PXR_USD_IMAGING_USD_PHYSICS_IMAGING_PHYSX_VEHICLE_SUSPENSION_COMPLIANCE_SCHEMA_H
+#define PXR_USD_IMAGING_USD_PHYSICS_IMAGING_PHYSX_VEHICLE_SUSPENSION_COMPLIANCE_SCHEMA_H
 
 /// \file
 
@@ -32,37 +32,35 @@ PXR_NAMESPACE_OPEN_SCOPE
 // --(BEGIN CUSTOM CODE: Declares)--
 // --(END CUSTOM CODE: Declares)--
 
-#define USD_PHYSICS_IMAGING_PHYSX_PHYSICS_JOINT_INSTANCER_SCHEMA_TOKENS \
-    (physxPhysicsJointInstancer) \
-    (body0Indices) \
-    (body1Indices) \
-    (localPos0s) \
-    (localPos1s) \
-    (localRot0s) \
-    (localRot1s) \
+#define USD_PHYSICS_IMAGING_PHYSX_VEHICLE_SUSPENSION_COMPLIANCE_SCHEMA_TOKENS \
+    (physxVehicleSuspensionCompliance) \
+    (suspensionForceAppPoint) \
+    (tireForceAppPoint) \
+    (wheelCamberAngle) \
+    (wheelToeAngle) \
 
-TF_DECLARE_PUBLIC_TOKENS(UsdPhysicsImagingPhysxPhysicsJointInstancerSchemaTokens, USDPHYSICSIMAGING_API,
-    USD_PHYSICS_IMAGING_PHYSX_PHYSICS_JOINT_INSTANCER_SCHEMA_TOKENS);
+TF_DECLARE_PUBLIC_TOKENS(UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchemaTokens, USDPHYSICSIMAGING_API,
+    USD_PHYSICS_IMAGING_PHYSX_VEHICLE_SUSPENSION_COMPLIANCE_SCHEMA_TOKENS);
 
 //-----------------------------------------------------------------------------
 
 
-class UsdPhysicsImagingPhysxPhysicsJointInstancerSchema : public HdSchema
+class UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchema : public HdSchema
 {
 public:
     /// \name Schema retrieval
     /// @{
 
-    UsdPhysicsImagingPhysxPhysicsJointInstancerSchema(HdContainerDataSourceHandle container)
+    UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchema(HdContainerDataSourceHandle container)
       : HdSchema(container) {}
 
     /// Retrieves a container data source with the schema's default name token
-    /// "physxPhysicsJointInstancer" from the parent container and constructs a
-    /// UsdPhysicsImagingPhysxPhysicsJointInstancerSchema instance.
+    /// "physxVehicleSuspensionCompliance" from the parent container and constructs a
+    /// UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchema instance.
     /// Because the requested container data source may not exist, the result
     /// should be checked with IsDefined() or a bool comparison before use.
     USDPHYSICSIMAGING_API
-    static UsdPhysicsImagingPhysxPhysicsJointInstancerSchema GetFromParent(
+    static UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchema GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer);
 
     /// @}
@@ -74,22 +72,16 @@ public:
     /// @{
 
     USDPHYSICSIMAGING_API
-    HdIntArrayDataSourceHandle GetBody0Indices() const;
+    HdVec4fArrayDataSourceHandle GetSuspensionForceAppPoint() const;
 
     USDPHYSICSIMAGING_API
-    HdIntArrayDataSourceHandle GetBody1Indices() const;
+    HdVec4fArrayDataSourceHandle GetTireForceAppPoint() const;
 
     USDPHYSICSIMAGING_API
-    HdVec3fArrayDataSourceHandle GetLocalPos0s() const;
+    HdVec2fArrayDataSourceHandle GetWheelCamberAngle() const;
 
     USDPHYSICSIMAGING_API
-    HdVec3fArrayDataSourceHandle GetLocalPos1s() const;
-
-    USDPHYSICSIMAGING_API
-    HdQuatfArrayDataSourceHandle GetLocalRot0s() const;
-
-    USDPHYSICSIMAGING_API
-    HdQuatfArrayDataSourceHandle GetLocalRot1s() const; 
+    HdVec2fArrayDataSourceHandle GetWheelToeAngle() const; 
 
     /// @}
 
@@ -117,29 +109,21 @@ public:
     /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
     /// @{
 
-    /// Prim-level relative data source locator to locate body0Indices.
+    /// Prim-level relative data source locator to locate suspensionForceAppPoint.
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetBody0IndicesLocator();
+    static const HdDataSourceLocator &GetSuspensionForceAppPointLocator();
 
-    /// Prim-level relative data source locator to locate body1Indices.
+    /// Prim-level relative data source locator to locate tireForceAppPoint.
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetBody1IndicesLocator();
+    static const HdDataSourceLocator &GetTireForceAppPointLocator();
 
-    /// Prim-level relative data source locator to locate localPos0s.
+    /// Prim-level relative data source locator to locate wheelCamberAngle.
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetLocalPos0sLocator();
+    static const HdDataSourceLocator &GetWheelCamberAngleLocator();
 
-    /// Prim-level relative data source locator to locate localPos1s.
+    /// Prim-level relative data source locator to locate wheelToeAngle.
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetLocalPos1sLocator();
-
-    /// Prim-level relative data source locator to locate localRot0s.
-    USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetLocalRot0sLocator();
-
-    /// Prim-level relative data source locator to locate localRot1s.
-    USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetLocalRot1sLocator();
+    static const HdDataSourceLocator &GetWheelToeAngleLocator();
     /// @} 
 
     /// \name Schema construction
@@ -155,15 +139,13 @@ public:
     USDPHYSICSIMAGING_API
     static HdContainerDataSourceHandle
     BuildRetained(
-        const HdIntArrayDataSourceHandle &body0Indices,
-        const HdIntArrayDataSourceHandle &body1Indices,
-        const HdVec3fArrayDataSourceHandle &localPos0s,
-        const HdVec3fArrayDataSourceHandle &localPos1s,
-        const HdQuatfArrayDataSourceHandle &localRot0s,
-        const HdQuatfArrayDataSourceHandle &localRot1s
+        const HdVec4fArrayDataSourceHandle &suspensionForceAppPoint,
+        const HdVec4fArrayDataSourceHandle &tireForceAppPoint,
+        const HdVec2fArrayDataSourceHandle &wheelCamberAngle,
+        const HdVec2fArrayDataSourceHandle &wheelToeAngle
     );
 
-    /// \class UsdPhysicsImagingPhysxPhysicsJointInstancerSchema::Builder
+    /// \class UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchema::Builder
     /// 
     /// Utility class for setting sparse sets of child data source fields to be
     /// filled as arguments into BuildRetained. Because all setter methods
@@ -173,35 +155,27 @@ public:
     {
     public:
         USDPHYSICSIMAGING_API
-        Builder &SetBody0Indices(
-            const HdIntArrayDataSourceHandle &body0Indices);
+        Builder &SetSuspensionForceAppPoint(
+            const HdVec4fArrayDataSourceHandle &suspensionForceAppPoint);
         USDPHYSICSIMAGING_API
-        Builder &SetBody1Indices(
-            const HdIntArrayDataSourceHandle &body1Indices);
+        Builder &SetTireForceAppPoint(
+            const HdVec4fArrayDataSourceHandle &tireForceAppPoint);
         USDPHYSICSIMAGING_API
-        Builder &SetLocalPos0s(
-            const HdVec3fArrayDataSourceHandle &localPos0s);
+        Builder &SetWheelCamberAngle(
+            const HdVec2fArrayDataSourceHandle &wheelCamberAngle);
         USDPHYSICSIMAGING_API
-        Builder &SetLocalPos1s(
-            const HdVec3fArrayDataSourceHandle &localPos1s);
-        USDPHYSICSIMAGING_API
-        Builder &SetLocalRot0s(
-            const HdQuatfArrayDataSourceHandle &localRot0s);
-        USDPHYSICSIMAGING_API
-        Builder &SetLocalRot1s(
-            const HdQuatfArrayDataSourceHandle &localRot1s);
+        Builder &SetWheelToeAngle(
+            const HdVec2fArrayDataSourceHandle &wheelToeAngle);
 
         /// Returns a container data source containing the members set thus far.
         USDPHYSICSIMAGING_API
         HdContainerDataSourceHandle Build();
 
     private:
-        HdIntArrayDataSourceHandle _body0Indices;
-        HdIntArrayDataSourceHandle _body1Indices;
-        HdVec3fArrayDataSourceHandle _localPos0s;
-        HdVec3fArrayDataSourceHandle _localPos1s;
-        HdQuatfArrayDataSourceHandle _localRot0s;
-        HdQuatfArrayDataSourceHandle _localRot1s;
+        HdVec4fArrayDataSourceHandle _suspensionForceAppPoint;
+        HdVec4fArrayDataSourceHandle _tireForceAppPoint;
+        HdVec2fArrayDataSourceHandle _wheelCamberAngle;
+        HdVec2fArrayDataSourceHandle _wheelToeAngle;
 
     };
 

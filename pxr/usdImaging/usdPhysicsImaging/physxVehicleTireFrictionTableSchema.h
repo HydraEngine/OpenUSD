@@ -15,8 +15,8 @@
 /* **                                                                      ** */
 /* ************************************************************************** */
 
-#ifndef PXR_USD_IMAGING_USD_PHYSICS_IMAGING_PHYSX_PHYSICS_JOINT_INSTANCER_SCHEMA_H
-#define PXR_USD_IMAGING_USD_PHYSICS_IMAGING_PHYSX_PHYSICS_JOINT_INSTANCER_SCHEMA_H
+#ifndef PXR_USD_IMAGING_USD_PHYSICS_IMAGING_PHYSX_VEHICLE_TIRE_FRICTION_TABLE_SCHEMA_H
+#define PXR_USD_IMAGING_USD_PHYSICS_IMAGING_PHYSX_VEHICLE_TIRE_FRICTION_TABLE_SCHEMA_H
 
 /// \file
 
@@ -32,37 +32,33 @@ PXR_NAMESPACE_OPEN_SCOPE
 // --(BEGIN CUSTOM CODE: Declares)--
 // --(END CUSTOM CODE: Declares)--
 
-#define USD_PHYSICS_IMAGING_PHYSX_PHYSICS_JOINT_INSTANCER_SCHEMA_TOKENS \
-    (physxPhysicsJointInstancer) \
-    (body0Indices) \
-    (body1Indices) \
-    (localPos0s) \
-    (localPos1s) \
-    (localRot0s) \
-    (localRot1s) \
+#define USD_PHYSICS_IMAGING_PHYSX_VEHICLE_TIRE_FRICTION_TABLE_SCHEMA_TOKENS \
+    (physxVehicleTireFrictionTable) \
+    (defaultFrictionValue) \
+    (frictionValues) \
 
-TF_DECLARE_PUBLIC_TOKENS(UsdPhysicsImagingPhysxPhysicsJointInstancerSchemaTokens, USDPHYSICSIMAGING_API,
-    USD_PHYSICS_IMAGING_PHYSX_PHYSICS_JOINT_INSTANCER_SCHEMA_TOKENS);
+TF_DECLARE_PUBLIC_TOKENS(UsdPhysicsImagingPhysxVehicleTireFrictionTableSchemaTokens, USDPHYSICSIMAGING_API,
+    USD_PHYSICS_IMAGING_PHYSX_VEHICLE_TIRE_FRICTION_TABLE_SCHEMA_TOKENS);
 
 //-----------------------------------------------------------------------------
 
 
-class UsdPhysicsImagingPhysxPhysicsJointInstancerSchema : public HdSchema
+class UsdPhysicsImagingPhysxVehicleTireFrictionTableSchema : public HdSchema
 {
 public:
     /// \name Schema retrieval
     /// @{
 
-    UsdPhysicsImagingPhysxPhysicsJointInstancerSchema(HdContainerDataSourceHandle container)
+    UsdPhysicsImagingPhysxVehicleTireFrictionTableSchema(HdContainerDataSourceHandle container)
       : HdSchema(container) {}
 
     /// Retrieves a container data source with the schema's default name token
-    /// "physxPhysicsJointInstancer" from the parent container and constructs a
-    /// UsdPhysicsImagingPhysxPhysicsJointInstancerSchema instance.
+    /// "physxVehicleTireFrictionTable" from the parent container and constructs a
+    /// UsdPhysicsImagingPhysxVehicleTireFrictionTableSchema instance.
     /// Because the requested container data source may not exist, the result
     /// should be checked with IsDefined() or a bool comparison before use.
     USDPHYSICSIMAGING_API
-    static UsdPhysicsImagingPhysxPhysicsJointInstancerSchema GetFromParent(
+    static UsdPhysicsImagingPhysxVehicleTireFrictionTableSchema GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer);
 
     /// @}
@@ -74,22 +70,10 @@ public:
     /// @{
 
     USDPHYSICSIMAGING_API
-    HdIntArrayDataSourceHandle GetBody0Indices() const;
+    HdFloatDataSourceHandle GetDefaultFrictionValue() const;
 
     USDPHYSICSIMAGING_API
-    HdIntArrayDataSourceHandle GetBody1Indices() const;
-
-    USDPHYSICSIMAGING_API
-    HdVec3fArrayDataSourceHandle GetLocalPos0s() const;
-
-    USDPHYSICSIMAGING_API
-    HdVec3fArrayDataSourceHandle GetLocalPos1s() const;
-
-    USDPHYSICSIMAGING_API
-    HdQuatfArrayDataSourceHandle GetLocalRot0s() const;
-
-    USDPHYSICSIMAGING_API
-    HdQuatfArrayDataSourceHandle GetLocalRot1s() const; 
+    HdFloatArrayDataSourceHandle GetFrictionValues() const; 
 
     /// @}
 
@@ -117,29 +101,13 @@ public:
     /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
     /// @{
 
-    /// Prim-level relative data source locator to locate body0Indices.
+    /// Prim-level relative data source locator to locate defaultFrictionValue.
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetBody0IndicesLocator();
+    static const HdDataSourceLocator &GetDefaultFrictionValueLocator();
 
-    /// Prim-level relative data source locator to locate body1Indices.
+    /// Prim-level relative data source locator to locate frictionValues.
     USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetBody1IndicesLocator();
-
-    /// Prim-level relative data source locator to locate localPos0s.
-    USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetLocalPos0sLocator();
-
-    /// Prim-level relative data source locator to locate localPos1s.
-    USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetLocalPos1sLocator();
-
-    /// Prim-level relative data source locator to locate localRot0s.
-    USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetLocalRot0sLocator();
-
-    /// Prim-level relative data source locator to locate localRot1s.
-    USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetLocalRot1sLocator();
+    static const HdDataSourceLocator &GetFrictionValuesLocator();
     /// @} 
 
     /// \name Schema construction
@@ -155,15 +123,11 @@ public:
     USDPHYSICSIMAGING_API
     static HdContainerDataSourceHandle
     BuildRetained(
-        const HdIntArrayDataSourceHandle &body0Indices,
-        const HdIntArrayDataSourceHandle &body1Indices,
-        const HdVec3fArrayDataSourceHandle &localPos0s,
-        const HdVec3fArrayDataSourceHandle &localPos1s,
-        const HdQuatfArrayDataSourceHandle &localRot0s,
-        const HdQuatfArrayDataSourceHandle &localRot1s
+        const HdFloatDataSourceHandle &defaultFrictionValue,
+        const HdFloatArrayDataSourceHandle &frictionValues
     );
 
-    /// \class UsdPhysicsImagingPhysxPhysicsJointInstancerSchema::Builder
+    /// \class UsdPhysicsImagingPhysxVehicleTireFrictionTableSchema::Builder
     /// 
     /// Utility class for setting sparse sets of child data source fields to be
     /// filled as arguments into BuildRetained. Because all setter methods
@@ -173,35 +137,19 @@ public:
     {
     public:
         USDPHYSICSIMAGING_API
-        Builder &SetBody0Indices(
-            const HdIntArrayDataSourceHandle &body0Indices);
+        Builder &SetDefaultFrictionValue(
+            const HdFloatDataSourceHandle &defaultFrictionValue);
         USDPHYSICSIMAGING_API
-        Builder &SetBody1Indices(
-            const HdIntArrayDataSourceHandle &body1Indices);
-        USDPHYSICSIMAGING_API
-        Builder &SetLocalPos0s(
-            const HdVec3fArrayDataSourceHandle &localPos0s);
-        USDPHYSICSIMAGING_API
-        Builder &SetLocalPos1s(
-            const HdVec3fArrayDataSourceHandle &localPos1s);
-        USDPHYSICSIMAGING_API
-        Builder &SetLocalRot0s(
-            const HdQuatfArrayDataSourceHandle &localRot0s);
-        USDPHYSICSIMAGING_API
-        Builder &SetLocalRot1s(
-            const HdQuatfArrayDataSourceHandle &localRot1s);
+        Builder &SetFrictionValues(
+            const HdFloatArrayDataSourceHandle &frictionValues);
 
         /// Returns a container data source containing the members set thus far.
         USDPHYSICSIMAGING_API
         HdContainerDataSourceHandle Build();
 
     private:
-        HdIntArrayDataSourceHandle _body0Indices;
-        HdIntArrayDataSourceHandle _body1Indices;
-        HdVec3fArrayDataSourceHandle _localPos0s;
-        HdVec3fArrayDataSourceHandle _localPos1s;
-        HdQuatfArrayDataSourceHandle _localRot0s;
-        HdQuatfArrayDataSourceHandle _localRot1s;
+        HdFloatDataSourceHandle _defaultFrictionValue;
+        HdFloatArrayDataSourceHandle _frictionValues;
 
     };
 

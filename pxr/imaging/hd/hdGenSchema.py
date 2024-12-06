@@ -47,6 +47,7 @@ T_VEC4IARRAY = "HdVec4iArrayDataSource"
 T_VEC4F = "HdVec4fDataSource"
 T_VEC4D = "HdVec4dDataSource"
 T_VEC4DARRAY = "HdVec4dArrayDataSource"
+T_VEC4FARRAY = "HdVec4fArrayDataSource"
 T_MATRIX = "HdMatrixDataSource"
 T_MATRIXARRAY = "HdMatrixArrayDataSource"
 T_LOCATOR = "HdLocatorDataSource"
@@ -59,6 +60,7 @@ T_STRING = "HdStringDataSource"
 T_VECTOR = "HdVectorDataSource"
 T_RESOLVERCONTEXT = "HdResolverContextDataSource"
 T_QUATF = "HdQuatfDataSource"
+T_QUATFARRAY = "HdQuatfArrayDataSource"
 
 #------------------------------------------------------------------------------
 # Filters

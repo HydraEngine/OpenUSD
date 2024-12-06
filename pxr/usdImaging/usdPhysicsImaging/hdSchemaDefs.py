@@ -492,8 +492,8 @@
             ('body1Indices', T_INTARRAY, dict(ADD_LOCATOR = True)),
             ('localPos0s', T_VEC3FARRAY, dict(ADD_LOCATOR = True)),
             ('localPos1s', T_VEC3FARRAY, dict(ADD_LOCATOR = True)),
-            ('localRot0s', T_QUATF, dict(ADD_LOCATOR = True)),
-            ('localRot1s', T_QUATF, dict(ADD_LOCATOR = True)),
+            ('localRot0s', T_QUATFARRAY, dict(ADD_LOCATOR = True)),
+            ('localRot1s', T_QUATFARRAY, dict(ADD_LOCATOR = True)),
         ],
 
         ADD_DEFAULT_LOCATOR = True,
@@ -680,21 +680,287 @@
 
         ADD_DEFAULT_LOCATOR = True,
     ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleAckermannSteering',
+        SCHEMA_TOKEN = 'physxVehicleAckermannSteering',
+        MEMBERS = [
+            ('maxSteerAngle', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('strength', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('trackWidth', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('wheel0', T_INT, dict(ADD_LOCATOR = True)),
+            ('wheel1', T_INT, dict(ADD_LOCATOR = True)),
+            ('wheelBase', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicle',
+        SCHEMA_TOKEN = 'physxVehicle',
+        MEMBERS = [
+            ('highForwardSpeedSubStepCount', T_INT, dict(ADD_LOCATOR = True)),
+            ('lateralStickyTireDamping', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('lateralStickyTireThresholdSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('lateralStickyTireThresholdTime', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('limitSuspensionExpansionVelocity', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('longitudinalStickyTireDamping', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('longitudinalStickyTireThresholdSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('longitudinalStickyTireThresholdTime', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('lowForwardSpeedSubStepCount', T_INT, dict(ADD_LOCATOR = True)),
+            ('minActiveLongitudinalSlipDenominator', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('minLateralSlipDenominator', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('minLongitudinalSlipDenominator', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('minPassiveLongitudinalSlipDenominator', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('subStepThresholdLongitudinalSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('suspensionLineQueryType', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('vehicleEnabled', T_BOOL, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleAutoGearBox',
+        SCHEMA_TOKEN = 'physxVehicleAutoGearBox',
+        MEMBERS = [
+            ('downRatios', T_FLOATARRAY, dict(ADD_LOCATOR = True)),
+            ('latency', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('upRatios', T_FLOATARRAY, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleBrakes',
+        SCHEMA_TOKEN = 'physxVehicleBrakes',
+        MEMBERS = [
+            ('maxBrakeTorque', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('torqueMultipliers', T_FLOATARRAY, dict(ADD_LOCATOR = True)),
+            ('wheels', T_INTARRAY, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleClutch',
+        SCHEMA_TOKEN = 'physxVehicleClutch',
+        MEMBERS = [
+            ('strength', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleContext',
+        SCHEMA_TOKEN = 'physxVehicleContext',
+        MEMBERS = [
+            ('longitudinalAxis', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('updateMode', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('verticalAxis', T_TOKEN, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleController',
+        SCHEMA_TOKEN = 'physxVehicleController',
+        MEMBERS = [
+            ('accelerator', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('brake0', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('brake1', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('brake', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('handbrake', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('steer', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('targetGear', T_INT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleDriveBasic',
+        SCHEMA_TOKEN = 'physxVehicleDriveBasic',
+        MEMBERS = [
+            ('peakTorque', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleDriveStandard',
+        SCHEMA_TOKEN = 'physxVehicleDriveStandard',
+        MEMBERS = [
+            ('gears', T_PATHARRAY, dict(ADD_LOCATOR = True)),
+            ('engine', T_PATHARRAY, dict(ADD_LOCATOR = True)),
+            ('autoGearBox', T_PATHARRAY, dict(ADD_LOCATOR = True)),
+            ('clutch', T_PATHARRAY, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleEngine',
+        SCHEMA_TOKEN = 'physxVehicleEngine',
+        MEMBERS = [
+            ('dampingRateFullThrottle', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('dampingRateZeroThrottleClutchDisengaged', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('dampingRateZeroThrottleClutchEngaged', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('idleRotationSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('maxRotationSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('moi', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('peakTorque', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('torqueCurve', T_VEC2F, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleGears',
+        SCHEMA_TOKEN = 'physxVehicleGears',
+        MEMBERS = [
+            ('ratios', T_FLOATARRAY, dict(ADD_LOCATOR = True)),
+            ('ratioScale', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('switchTime', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleMultiWheelDifferential',
+        SCHEMA_TOKEN = 'physxVehicleMultiWheelDifferential',
+        MEMBERS = [
+            ('averageWheelSpeedRatios', T_FLOATARRAY, dict(ADD_LOCATOR = True)),
+            ('torqueRatios', T_FLOATARRAY, dict(ADD_LOCATOR = True)),
+            ('wheels', T_INTARRAY, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleNonlinearCommandResponse',
+        SCHEMA_TOKEN = 'physxVehicleNonlinearCommandResponse',
+        MEMBERS = [
+            ('commandValues', T_FLOATARRAY, dict(ADD_LOCATOR = True)),
+            ('speedResponses', T_VEC2FARRAY, dict(ADD_LOCATOR = True)),
+            ('speedResponsesPerCommandValue', T_INTARRAY, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleSteering',
+        SCHEMA_TOKEN = 'physxVehicleSteering',
+        MEMBERS = [
+            ('angleMultipliers', T_FLOATARRAY, dict(ADD_LOCATOR = True)),
+            ('maxSteerAngle', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('wheels', T_INTARRAY, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleSuspension',
+        SCHEMA_TOKEN = 'physxVehicleSuspension',
+        MEMBERS = [
+            ('springDamperRate', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('springStrength', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('sprungMass', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('travelDistance', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleSuspensionCompliance',
+        SCHEMA_TOKEN = 'physxVehicleSuspensionCompliance',
+        MEMBERS = [
+            ('suspensionForceAppPoint', T_VEC4FARRAY, dict(ADD_LOCATOR = True)),
+            ('tireForceAppPoint', T_VEC4FARRAY, dict(ADD_LOCATOR = True)),
+            ('wheelCamberAngle', T_VEC2FARRAY, dict(ADD_LOCATOR = True)),
+            ('wheelToeAngle', T_VEC2FARRAY, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleTankController',
+        SCHEMA_TOKEN = 'physxVehicleTankController',
+        MEMBERS = [
+            ('thrust0', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('thrust1', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleTankDifferential',
+        SCHEMA_TOKEN = 'physxVehicleTankDifferential',
+        MEMBERS = [
+            ('numberOfWheelsPerTrack', T_INTARRAY, dict(ADD_LOCATOR = True)),
+            ('thrustIndexPerTrack', T_INTARRAY, dict(ADD_LOCATOR = True)),
+            ('trackToWheelIndices', T_INTARRAY, dict(ADD_LOCATOR = True)),
+            ('wheelIndicesInTrackOrder', T_INTARRAY, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleTire',
+        SCHEMA_TOKEN = 'physxVehicleTire',
+        MEMBERS = [
+            ('camberStiffness', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('frictionVsSlipGraph', T_VEC2FARRAY, dict(ADD_LOCATOR = True)),
+            ('lateralStiffnessGraph', T_VEC2F, dict(ADD_LOCATOR = True)),
+            ('longitudinalStiffness', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('restLoad', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleTireFrictionTable',
+        SCHEMA_TOKEN = 'physxVehicleTireFrictionTable',
+        MEMBERS = [
+            ('defaultFrictionValue', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('frictionValues', T_FLOATARRAY, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleWheel',
+        SCHEMA_TOKEN = 'physxVehicleWheel',
+        MEMBERS = [
+            ('dampingRate', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('mass', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('moi', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('radius', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('width', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleWheelAttachment',
+        SCHEMA_TOKEN = 'physxVehicleWheelAttachment',
+        MEMBERS = [
+            ('index', T_INT, dict(ADD_LOCATOR = True)),
+            ('suspensionFrameOrientation', T_QUATF, dict(ADD_LOCATOR = True)),
+            ('suspensionFramePosition', T_VEC3F, dict(ADD_LOCATOR = True)),
+            ('suspensionTravelDirection', T_VEC3F, dict(ADD_LOCATOR = True)),
+            ('wheelFrameOrientation', T_QUATF, dict(ADD_LOCATOR = True)),
+            ('wheelFramePosition', T_VEC3F, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleWheelController',
+        SCHEMA_TOKEN = 'physxVehicleWheelController',
+        MEMBERS = [
+            ('brakeTorque', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('driveTorque', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('steerAngle', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
 ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

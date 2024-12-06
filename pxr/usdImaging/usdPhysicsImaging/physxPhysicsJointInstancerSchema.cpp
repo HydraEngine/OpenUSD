@@ -60,17 +60,17 @@ UsdPhysicsImagingPhysxPhysicsJointInstancerSchema::GetLocalPos1s() const
         UsdPhysicsImagingPhysxPhysicsJointInstancerSchemaTokens->localPos1s);
 }
 
-HdQuatfDataSourceHandle
+HdQuatfArrayDataSourceHandle
 UsdPhysicsImagingPhysxPhysicsJointInstancerSchema::GetLocalRot0s() const
 {
-    return _GetTypedDataSource<HdQuatfDataSource>(
+    return _GetTypedDataSource<HdQuatfArrayDataSource>(
         UsdPhysicsImagingPhysxPhysicsJointInstancerSchemaTokens->localRot0s);
 }
 
-HdQuatfDataSourceHandle
+HdQuatfArrayDataSourceHandle
 UsdPhysicsImagingPhysxPhysicsJointInstancerSchema::GetLocalRot1s() const
 {
-    return _GetTypedDataSource<HdQuatfDataSource>(
+    return _GetTypedDataSource<HdQuatfArrayDataSource>(
         UsdPhysicsImagingPhysxPhysicsJointInstancerSchemaTokens->localRot1s);
 }
 
@@ -81,8 +81,8 @@ UsdPhysicsImagingPhysxPhysicsJointInstancerSchema::BuildRetained(
         const HdIntArrayDataSourceHandle &body1Indices,
         const HdVec3fArrayDataSourceHandle &localPos0s,
         const HdVec3fArrayDataSourceHandle &localPos1s,
-        const HdQuatfDataSourceHandle &localRot0s,
-        const HdQuatfDataSourceHandle &localRot1s
+        const HdQuatfArrayDataSourceHandle &localRot0s,
+        const HdQuatfArrayDataSourceHandle &localRot1s
 )
 {
     TfToken _names[6];
@@ -156,7 +156,7 @@ UsdPhysicsImagingPhysxPhysicsJointInstancerSchema::Builder::SetLocalPos1s(
 
 UsdPhysicsImagingPhysxPhysicsJointInstancerSchema::Builder &
 UsdPhysicsImagingPhysxPhysicsJointInstancerSchema::Builder::SetLocalRot0s(
-    const HdQuatfDataSourceHandle &localRot0s)
+    const HdQuatfArrayDataSourceHandle &localRot0s)
 {
     _localRot0s = localRot0s;
     return *this;
@@ -164,7 +164,7 @@ UsdPhysicsImagingPhysxPhysicsJointInstancerSchema::Builder::SetLocalRot0s(
 
 UsdPhysicsImagingPhysxPhysicsJointInstancerSchema::Builder &
 UsdPhysicsImagingPhysxPhysicsJointInstancerSchema::Builder::SetLocalRot1s(
-    const HdQuatfDataSourceHandle &localRot1s)
+    const HdQuatfArrayDataSourceHandle &localRot1s)
 {
     _localRot1s = localRot1s;
     return *this;

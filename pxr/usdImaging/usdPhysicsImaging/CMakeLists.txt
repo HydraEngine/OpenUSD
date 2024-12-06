@@ -92,6 +92,29 @@ pxr_library(usdPhysicsImaging
         physxTriangleMeshSimplificationCollisionSchema
         physxTriggerSchema
         physxTriggerStateSchema
+        physxVehicleAckermannSteeringSchema
+        physxVehicleAutoGearBoxSchema
+        physxVehicleBrakesSchema
+        physxVehicleClutchSchema
+        physxVehicleContextSchema
+        physxVehicleControllerSchema
+        physxVehicleDriveBasicSchema
+        physxVehicleDriveStandardSchema
+        physxVehicleEngineSchema
+        physxVehicleGearsSchema
+        physxVehicleMultiWheelDifferentialSchema
+        physxVehicleNonlinearCommandResponseSchema
+        physxVehicleSchema
+        physxVehicleSteeringSchema
+        physxVehicleSuspensionComplianceSchema
+        physxVehicleSuspensionSchema
+        physxVehicleTankControllerSchema
+        physxVehicleTankDifferentialSchema
+        physxVehicleTireFrictionTableSchema
+        physxVehicleTireSchema
+        physxVehicleWheelAttachmentSchema
+        physxVehicleWheelControllerSchema
+        physxVehicleWheelSchema
 
         PUBLIC_HEADERS
         api.h
