@@ -69,7 +69,13 @@ pxr_library(usdPhysicsImaging
         physxConvexDecompositionCollisionSchema
         physxConvexHullCollisionSchema
         physxCookedDataSchema
+        physxForceSchema
+        physxIsosurfaceSchema
+        physxJointSchema
         physxJointStateSchema
+        physxMaterialSchema
+        physxMeshMergeCollisionSchema
+        physxMimicJointSchema
 
         PUBLIC_HEADERS
         api.h

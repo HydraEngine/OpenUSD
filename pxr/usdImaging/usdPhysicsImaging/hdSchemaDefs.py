@@ -373,4 +373,84 @@
 
         ADD_DEFAULT_LOCATOR = True,
     ),
+    dict(
+        SCHEMA_NAME = 'PhysxForce',
+        SCHEMA_TOKEN = 'physxForce',
+        MEMBERS = [
+            ('force', T_VEC3F, dict(ADD_LOCATOR = True)),
+            ('forceEnabled', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('mode', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('torque', T_VEC3F, dict(ADD_LOCATOR = True)),
+            ('worldFrameEnabled', T_BOOL, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxIsosurface',
+        SCHEMA_TOKEN = 'physxIsosurface',
+        MEMBERS = [
+            ('anisotropyMax', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('anisotropyMin', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('anisotropyRadius', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('enableAnisotropy', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('gridFilteringPasses', T_STRING, dict(ADD_LOCATOR = True)),
+            ('gridSmoothingRadiusRelativeToCellSize', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('gridSpacing', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('isoSurfaceEnabled', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('isosurfaceLevel', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('kernelRadius', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('maxSubgrids', T_INT, dict(ADD_LOCATOR = True)),
+            ('maxTriangles', T_INT, dict(ADD_LOCATOR = True)),
+            ('maxVertices', T_INT, dict(ADD_LOCATOR = True)),
+            ('numMeshSmoothingPasses', T_INT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxJoint',
+        SCHEMA_TOKEN = 'physxJoint',
+        MEMBERS = [
+            ('armature', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('enableProjection', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('jointFriction', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('maxJointVelocity', T_FLOAT, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxMaterial',
+        SCHEMA_TOKEN = 'physxMaterial',
+        MEMBERS = [
+            ('compliantContactAccelerationSpring', T_BOOL, dict(ADD_LOCATOR = True)),
+            ('compliantContactDamping', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('compliantContactStiffness', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('dampingCombineMode', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('frictionCombineMode', T_TOKEN, dict(ADD_LOCATOR = True)),
+            ('restitutionCombineMode', T_TOKEN, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxMeshMergeCollision',
+        SCHEMA_TOKEN = 'physxMeshMergeCollision',
+        MEMBERS = [
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxMimicJoint',
+        SCHEMA_TOKEN = 'physxMimicJoint',
+        MEMBERS = [
+            ('gearing', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('offset', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('referenceJointAxis', T_TOKEN, dict(ADD_LOCATOR = True)),
+        ],
+
+        ADD_DEFAULT_LOCATOR = True,
+    ),
 ]
