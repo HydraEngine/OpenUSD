@@ -118,6 +118,8 @@ pxr_library(usdPhysicsImaging
         physxVehicleWheelSchema
 
         physxArticulationAPIAdapter
+        physxCameraDroneAPIAdapter
+        physxCameraFollowLookAPIAdapter
 
         PUBLIC_HEADERS
         api.h
