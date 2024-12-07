@@ -164,6 +164,8 @@ pxr_library(usdPhysicsImaging
         physxVehicleSteeringAPIAdapter
         physxVehicleSuspensionComplianceAPIAdapter
         physxVehicleSuspensionAPIAdapter
+        physxVehicleTankControllerAPIAdapter
+        physxVehicleTankDifferentialAPIAdapter
 
         PUBLIC_HEADERS
         api.h
