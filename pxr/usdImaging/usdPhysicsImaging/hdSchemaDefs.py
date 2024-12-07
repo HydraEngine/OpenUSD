@@ -767,8 +767,6 @@
             ('accelerator', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('brake0', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('brake1', T_FLOAT, dict(ADD_LOCATOR = True)),
-            ('brake', T_FLOAT, dict(ADD_LOCATOR = True)),
-            ('handbrake', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('steer', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('targetGear', T_INT, dict(ADD_LOCATOR = True)),
         ],

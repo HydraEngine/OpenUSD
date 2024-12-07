@@ -153,6 +153,10 @@ pxr_library(usdPhysicsImaging
         physxVehicleBrakesAPIAdapter
         physxVehicleClutchAPIAdapter
         physxVehicleContextAPIAdapter
+        physxVehicleControllerAPIAdapter
+        physxVehicleDriveBasicAPIAdapter
+        physxVehicleDriveStandardAPIAdapter
+        physxVehicleEngineAPIAdapter
 
         PUBLIC_HEADERS
         api.h

@@ -37,8 +37,6 @@ PXR_NAMESPACE_OPEN_SCOPE
     (accelerator) \
     (brake0) \
     (brake1) \
-    (brake) \
-    (handbrake) \
     (steer) \
     (targetGear) \
 
@@ -84,12 +82,6 @@ public:
     HdFloatDataSourceHandle GetBrake1() const;
 
     USDPHYSICSIMAGING_API
-    HdFloatDataSourceHandle GetBrake() const;
-
-    USDPHYSICSIMAGING_API
-    HdFloatDataSourceHandle GetHandbrake() const;
-
-    USDPHYSICSIMAGING_API
     HdFloatDataSourceHandle GetSteer() const;
 
     USDPHYSICSIMAGING_API
@@ -133,14 +125,6 @@ public:
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetBrake1Locator();
 
-    /// Prim-level relative data source locator to locate brake.
-    USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetBrakeLocator();
-
-    /// Prim-level relative data source locator to locate handbrake.
-    USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetHandbrakeLocator();
-
     /// Prim-level relative data source locator to locate steer.
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetSteerLocator();
@@ -166,8 +150,6 @@ public:
         const HdFloatDataSourceHandle &accelerator,
         const HdFloatDataSourceHandle &brake0,
         const HdFloatDataSourceHandle &brake1,
-        const HdFloatDataSourceHandle &brake,
-        const HdFloatDataSourceHandle &handbrake,
         const HdFloatDataSourceHandle &steer,
         const HdIntDataSourceHandle &targetGear
     );
@@ -191,12 +173,6 @@ public:
         Builder &SetBrake1(
             const HdFloatDataSourceHandle &brake1);
         USDPHYSICSIMAGING_API
-        Builder &SetBrake(
-            const HdFloatDataSourceHandle &brake);
-        USDPHYSICSIMAGING_API
-        Builder &SetHandbrake(
-            const HdFloatDataSourceHandle &handbrake);
-        USDPHYSICSIMAGING_API
         Builder &SetSteer(
             const HdFloatDataSourceHandle &steer);
         USDPHYSICSIMAGING_API
@@ -211,8 +187,6 @@ public:
         HdFloatDataSourceHandle _accelerator;
         HdFloatDataSourceHandle _brake0;
         HdFloatDataSourceHandle _brake1;
-        HdFloatDataSourceHandle _brake;
-        HdFloatDataSourceHandle _handbrake;
         HdFloatDataSourceHandle _steer;
         HdIntDataSourceHandle _targetGear;
 

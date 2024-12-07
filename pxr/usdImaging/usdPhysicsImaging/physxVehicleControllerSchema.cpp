@@ -54,20 +54,6 @@ UsdPhysicsImagingPhysxVehicleControllerSchema::GetBrake1() const
 }
 
 HdFloatDataSourceHandle
-UsdPhysicsImagingPhysxVehicleControllerSchema::GetBrake() const
-{
-    return _GetTypedDataSource<HdFloatDataSource>(
-        UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->brake);
-}
-
-HdFloatDataSourceHandle
-UsdPhysicsImagingPhysxVehicleControllerSchema::GetHandbrake() const
-{
-    return _GetTypedDataSource<HdFloatDataSource>(
-        UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->handbrake);
-}
-
-HdFloatDataSourceHandle
 UsdPhysicsImagingPhysxVehicleControllerSchema::GetSteer() const
 {
     return _GetTypedDataSource<HdFloatDataSource>(
@@ -87,14 +73,12 @@ UsdPhysicsImagingPhysxVehicleControllerSchema::BuildRetained(
         const HdFloatDataSourceHandle &accelerator,
         const HdFloatDataSourceHandle &brake0,
         const HdFloatDataSourceHandle &brake1,
-        const HdFloatDataSourceHandle &brake,
-        const HdFloatDataSourceHandle &handbrake,
         const HdFloatDataSourceHandle &steer,
         const HdIntDataSourceHandle &targetGear
 )
 {
-    TfToken _names[7];
-    HdDataSourceBaseHandle _values[7];
+    TfToken _names[5];
+    HdDataSourceBaseHandle _values[5];
 
     size_t _count = 0;
 
@@ -111,16 +95,6 @@ UsdPhysicsImagingPhysxVehicleControllerSchema::BuildRetained(
     if (brake1) {
         _names[_count] = UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->brake1;
         _values[_count++] = brake1;
-    }
-
-    if (brake) {
-        _names[_count] = UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->brake;
-        _values[_count++] = brake;
-    }
-
-    if (handbrake) {
-        _names[_count] = UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->handbrake;
-        _values[_count++] = handbrake;
     }
 
     if (steer) {
@@ -160,22 +134,6 @@ UsdPhysicsImagingPhysxVehicleControllerSchema::Builder::SetBrake1(
 }
 
 UsdPhysicsImagingPhysxVehicleControllerSchema::Builder &
-UsdPhysicsImagingPhysxVehicleControllerSchema::Builder::SetBrake(
-    const HdFloatDataSourceHandle &brake)
-{
-    _brake = brake;
-    return *this;
-}
-
-UsdPhysicsImagingPhysxVehicleControllerSchema::Builder &
-UsdPhysicsImagingPhysxVehicleControllerSchema::Builder::SetHandbrake(
-    const HdFloatDataSourceHandle &handbrake)
-{
-    _handbrake = handbrake;
-    return *this;
-}
-
-UsdPhysicsImagingPhysxVehicleControllerSchema::Builder &
 UsdPhysicsImagingPhysxVehicleControllerSchema::Builder::SetSteer(
     const HdFloatDataSourceHandle &steer)
 {
@@ -198,8 +156,6 @@ UsdPhysicsImagingPhysxVehicleControllerSchema::Builder::Build()
         _accelerator,
         _brake0,
         _brake1,
-        _brake,
-        _handbrake,
         _steer,
         _targetGear
     );
@@ -259,26 +215,6 @@ UsdPhysicsImagingPhysxVehicleControllerSchema::GetBrake1Locator()
     static const HdDataSourceLocator locator =
         GetDefaultLocator().Append(
             UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->brake1);
-    return locator;
-}
-
-/* static */
-const HdDataSourceLocator &
-UsdPhysicsImagingPhysxVehicleControllerSchema::GetBrakeLocator()
-{
-    static const HdDataSourceLocator locator =
-        GetDefaultLocator().Append(
-            UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->brake);
-    return locator;
-}
-
-/* static */
-const HdDataSourceLocator &
-UsdPhysicsImagingPhysxVehicleControllerSchema::GetHandbrakeLocator()
-{
-    static const HdDataSourceLocator locator =
-        GetDefaultLocator().Append(
-            UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->handbrake);
     return locator;
 }
 
