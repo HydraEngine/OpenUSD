@@ -2743,7 +2743,7 @@ class "PhysxSchemaPhysxVehicleNonlinearCommandResponseAPI" (
 {
     float[] commandValues (
         customData = {
-            string apiName = "averageWheelSpeedRatios"
+            string apiName = "commandValues"
         }
         doc = """The command values to define response graphs for.
 

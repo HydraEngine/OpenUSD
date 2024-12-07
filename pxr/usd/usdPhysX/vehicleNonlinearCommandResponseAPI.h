@@ -160,7 +160,7 @@ private:
 
 public:
     // --------------------------------------------------------------------- //
-    // AVERAGEWHEELSPEEDRATIOS 
+    // COMMANDVALUES 
     // --------------------------------------------------------------------- //
     /// The command values to define response graphs for.
     /// 
@@ -175,15 +175,15 @@ public:
     /// | C++ Type | VtArray<float> |
     /// | \ref Usd_Datatypes "Usd Type" | SdfValueTypeNames->FloatArray |
     USDPHYSX_API
-    UsdAttribute GetAverageWheelSpeedRatiosAttr() const;
+    UsdAttribute GetCommandValuesAttr() const;
 
-    /// See GetAverageWheelSpeedRatiosAttr(), and also 
+    /// See GetCommandValuesAttr(), and also 
     /// \ref Usd_Create_Or_Get_Property for when to use Get vs Create.
     /// If specified, author \p defaultValue as the attribute's default,
     /// sparsely (when it makes sense to do so) if \p writeSparsely is \c true -
     /// the default for \p writeSparsely is \c false.
     USDPHYSX_API
-    UsdAttribute CreateAverageWheelSpeedRatiosAttr(VtValue const &defaultValue = VtValue(), bool writeSparsely=false) const;
+    UsdAttribute CreateCommandValuesAttr(VtValue const &defaultValue = VtValue(), bool writeSparsely=false) const;
 
 public:
     // --------------------------------------------------------------------- //

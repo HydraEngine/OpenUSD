@@ -34,9 +34,9 @@ WRAP_CUSTOM;
 
         
 static UsdAttribute
-_CreateAverageWheelSpeedRatiosAttr(UsdPhysXVehicleNonlinearCommandResponseAPI &self,
+_CreateCommandValuesAttr(UsdPhysXVehicleNonlinearCommandResponseAPI &self,
                                       object defaultVal, bool writeSparsely) {
-    return self.CreateAverageWheelSpeedRatiosAttr(
+    return self.CreateCommandValuesAttr(
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->FloatArray), writeSparsely);
 }
         
@@ -117,10 +117,10 @@ void wrapUsdPhysXVehicleNonlinearCommandResponseAPI()
         .def(!self)
 
         
-        .def("GetAverageWheelSpeedRatiosAttr",
-             &This::GetAverageWheelSpeedRatiosAttr)
-        .def("CreateAverageWheelSpeedRatiosAttr",
-             &_CreateAverageWheelSpeedRatiosAttr,
+        .def("GetCommandValuesAttr",
+             &This::GetCommandValuesAttr)
+        .def("CreateCommandValuesAttr",
+             &_CreateCommandValuesAttr,
              (arg("defaultValue")=object(),
               arg("writeSparsely")=false))
         

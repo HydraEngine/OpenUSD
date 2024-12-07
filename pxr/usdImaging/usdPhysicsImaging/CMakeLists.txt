@@ -157,6 +157,9 @@ pxr_library(usdPhysicsImaging
         physxVehicleDriveBasicAPIAdapter
         physxVehicleDriveStandardAPIAdapter
         physxVehicleEngineAPIAdapter
+        physxVehicleGearsAPIAdapter
+        physxVehicleMultiWheelDifferentialAPIAdapter
+        physxVehicleNonlinearCommandResponseAPIAdapter
 
         PUBLIC_HEADERS
         api.h

@@ -86,13 +86,13 @@ UsdPhysXVehicleNonlinearCommandResponseAPI::_GetTfType() const
 }
 
 UsdAttribute
-UsdPhysXVehicleNonlinearCommandResponseAPI::GetAverageWheelSpeedRatiosAttr() const
+UsdPhysXVehicleNonlinearCommandResponseAPI::GetCommandValuesAttr() const
 {
     return GetPrim().GetAttribute(UsdPhysXTokens->commandValues);
 }
 
 UsdAttribute
-UsdPhysXVehicleNonlinearCommandResponseAPI::CreateAverageWheelSpeedRatiosAttr(VtValue const &defaultValue, bool writeSparsely) const
+UsdPhysXVehicleNonlinearCommandResponseAPI::CreateCommandValuesAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
     return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->commandValues,
                        SdfValueTypeNames->FloatArray,
