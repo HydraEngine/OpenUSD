@@ -35,6 +35,8 @@ PXR_NAMESPACE_OPEN_SCOPE
 #define USD_PHYSICS_IMAGING_PHYSX_PHYSICS_RACK_AND_PINION_JOINT_SCHEMA_TOKENS \
     (physxPhysicsRackAndPinionJoint) \
     (ratio) \
+    (hinge) \
+    (prismatic) \
 
 TF_DECLARE_PUBLIC_TOKENS(UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens, USDPHYSICSIMAGING_API,
     USD_PHYSICS_IMAGING_PHYSX_PHYSICS_RACK_AND_PINION_JOINT_SCHEMA_TOKENS);
@@ -69,7 +71,13 @@ public:
     /// @{
 
     USDPHYSICSIMAGING_API
-    HdFloatDataSourceHandle GetRatio() const; 
+    HdFloatDataSourceHandle GetRatio() const;
+
+    USDPHYSICSIMAGING_API
+    HdPathArrayDataSourceHandle GetHinge() const;
+
+    USDPHYSICSIMAGING_API
+    HdPathArrayDataSourceHandle GetPrismatic() const; 
 
     /// @}
 
@@ -100,6 +108,14 @@ public:
     /// Prim-level relative data source locator to locate ratio.
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetRatioLocator();
+
+    /// Prim-level relative data source locator to locate hinge.
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetHingeLocator();
+
+    /// Prim-level relative data source locator to locate prismatic.
+    USDPHYSICSIMAGING_API
+    static const HdDataSourceLocator &GetPrismaticLocator();
     /// @} 
 
     /// \name Schema construction
@@ -115,7 +131,9 @@ public:
     USDPHYSICSIMAGING_API
     static HdContainerDataSourceHandle
     BuildRetained(
-        const HdFloatDataSourceHandle &ratio
+        const HdFloatDataSourceHandle &ratio,
+        const HdPathArrayDataSourceHandle &hinge,
+        const HdPathArrayDataSourceHandle &prismatic
     );
 
     /// \class UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::Builder
@@ -130,6 +148,12 @@ public:
         USDPHYSICSIMAGING_API
         Builder &SetRatio(
             const HdFloatDataSourceHandle &ratio);
+        USDPHYSICSIMAGING_API
+        Builder &SetHinge(
+            const HdPathArrayDataSourceHandle &hinge);
+        USDPHYSICSIMAGING_API
+        Builder &SetPrismatic(
+            const HdPathArrayDataSourceHandle &prismatic);
 
         /// Returns a container data source containing the members set thus far.
         USDPHYSICSIMAGING_API
@@ -137,6 +161,8 @@ public:
 
     private:
         HdFloatDataSourceHandle _ratio;
+        HdPathArrayDataSourceHandle _hinge;
+        HdPathArrayDataSourceHandle _prismatic;
 
     };
 

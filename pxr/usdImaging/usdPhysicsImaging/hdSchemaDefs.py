@@ -503,6 +503,8 @@
         SCHEMA_TOKEN = 'physxPhysicsRackAndPinionJoint',
         MEMBERS = [
             ('ratio', T_FLOAT, dict(ADD_LOCATOR = True)),
+            ('hinge', T_PATHARRAY, dict(ADD_LOCATOR = True)),
+            ('prismatic', T_PATHARRAY, dict(ADD_LOCATOR = True)),
         ],
 
         ADD_DEFAULT_LOCATOR = True,

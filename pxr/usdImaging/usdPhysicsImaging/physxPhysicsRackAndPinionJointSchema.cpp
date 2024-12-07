@@ -39,20 +39,46 @@ UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::GetRatio() const
         UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens->ratio);
 }
 
+HdPathArrayDataSourceHandle
+UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::GetHinge() const
+{
+    return _GetTypedDataSource<HdPathArrayDataSource>(
+        UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens->hinge);
+}
+
+HdPathArrayDataSourceHandle
+UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::GetPrismatic() const
+{
+    return _GetTypedDataSource<HdPathArrayDataSource>(
+        UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens->prismatic);
+}
+
 /*static*/
 HdContainerDataSourceHandle
 UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::BuildRetained(
-        const HdFloatDataSourceHandle &ratio
+        const HdFloatDataSourceHandle &ratio,
+        const HdPathArrayDataSourceHandle &hinge,
+        const HdPathArrayDataSourceHandle &prismatic
 )
 {
-    TfToken _names[1];
-    HdDataSourceBaseHandle _values[1];
+    TfToken _names[3];
+    HdDataSourceBaseHandle _values[3];
 
     size_t _count = 0;
 
     if (ratio) {
         _names[_count] = UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens->ratio;
         _values[_count++] = ratio;
+    }
+
+    if (hinge) {
+        _names[_count] = UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens->hinge;
+        _values[_count++] = hinge;
+    }
+
+    if (prismatic) {
+        _names[_count] = UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens->prismatic;
+        _values[_count++] = prismatic;
     }
     return HdRetainedContainerDataSource::New(_count, _names, _values);
 }
@@ -65,11 +91,29 @@ UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::Builder::SetRatio(
     return *this;
 }
 
+UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::Builder &
+UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::Builder::SetHinge(
+    const HdPathArrayDataSourceHandle &hinge)
+{
+    _hinge = hinge;
+    return *this;
+}
+
+UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::Builder &
+UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::Builder::SetPrismatic(
+    const HdPathArrayDataSourceHandle &prismatic)
+{
+    _prismatic = prismatic;
+    return *this;
+}
+
 HdContainerDataSourceHandle
 UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::Builder::Build()
 {
     return UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::BuildRetained(
-        _ratio
+        _ratio,
+        _hinge,
+        _prismatic
     );
 }
 
@@ -107,6 +151,26 @@ UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::GetRatioLocator()
     static const HdDataSourceLocator locator =
         GetDefaultLocator().Append(
             UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens->ratio);
+    return locator;
+}
+
+/* static */
+const HdDataSourceLocator &
+UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::GetHingeLocator()
+{
+    static const HdDataSourceLocator locator =
+        GetDefaultLocator().Append(
+            UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens->hinge);
+    return locator;
+}
+
+/* static */
+const HdDataSourceLocator &
+UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::GetPrismaticLocator()
+{
+    static const HdDataSourceLocator locator =
+        GetDefaultLocator().Append(
+            UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens->prismatic);
     return locator;
 } 
 

@@ -43,6 +43,8 @@ pxr_library(usdPhysicsImaging
         dataSourcePrismaticJoint
         dataSourceRevoluteJoint
         dataSourceSphericalJoint
+        dataSourceGearJoint
+        dataSourceRackAndPinionJoint
 
         jointAdapter
         distanceJointAdapter
@@ -50,6 +52,8 @@ pxr_library(usdPhysicsImaging
         prismaticJointAdapter
         revoluteJointAdapter
         sphericalJointAdapter
+        gearJointAdapter
+        rackAndPinionJointAdapter
 
         sceneSchema
         sceneAdapter
