@@ -121,6 +121,391 @@
             ],
             "isInternal": true,
             "primTypeName": "PhysicsScene"
+          },
+          "UsdImagingPhysicsGearJointAdapter": {
+            "bases": [
+              "UsdImagingPrimAdapter"
+            ],
+            "isInternal": true,
+            "primTypeName": "PhysxSchemaPhysxPhysicsGearJoint"
+          },
+          "UsdImagingPhysicsRackAndPinionJointAdapter": {
+            "bases": [
+              "UsdImagingPrimAdapter"
+            ],
+            "isInternal": true,
+            "primTypeName": "PhysxSchemaPhysxPhysicsRackAndPinionJoint"
+          },
+          "UsdImagingPhysicsPhysXArticulationRootAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxArticulationAPI"
+          },
+          "UsdImagingPhysicsPhysXCameraAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxCameraAPI"
+          },
+          "UsdImagingPhysicsPhysxCameraDroneAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxCameraDroneAPI"
+          },
+          "UsdImagingPhysicsPhysXCameraFollowAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxCameraFollowAPI"
+          },
+          "UsdImagingPhysicsPhysxCameraFollowLookAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxCameraFollowLookAPI"
+          },
+          "UsdImagingPhysicsPhysXCameraFollowVelocityAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxCameraFollowVelocityAPI"
+          },
+          "UsdImagingPhysicsPhysXCharacterControllerAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxCharacterControllerAPI"
+          },
+          "UsdImagingPhysicsPhysXCollisionAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxCollisionAPI"
+          },
+          "UsdImagingPhysicsPhysXContactReportAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxContactReportAPI"
+          },
+          "UsdImagingPhysicsPhysXConvexDecompositionCollisionAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxConvexDecompositionCollisionAPI"
+          },
+          "UsdImagingPhysicsPhysXConvexHullCollisionAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxConvexHullCollisionAPI"
+          },
+          "UsdImagingPhysicsPhysXCookedDataAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxCookedDataAPI"
+          },
+          "UsdImagingPhysicsPhysXForceAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxForceAPI"
+          },
+          "UsdImagingPhysicsPhysXIsosurfaceAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxIsosurfaceAPI"
+          },
+          "UsdImagingPhysicsPhysXJointAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxJointAPI"
+          },
+          "UsdImagingPhysicsPhysXJointStateAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaJointStateAPI"
+          },
+          "UsdImagingPhysicsPhysXMaterialAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxMaterialAPI"
+          },
+          "UsdImagingPhysicsPhysXMeshMergeCollisionAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxMeshMergeCollisionAPI"
+          },
+          "UsdImagingPhysicsPhysXMimicJointAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxMimicJointAPI"
+          },
+          "UsdImagingPhysicsPhysXPhysicsDistanceJointAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxPhysicsDistanceJointAPI"
+          },
+          "UsdImagingPhysicsPhysXResidualReportingAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxResidualReportingAPI"
+          },
+          "UsdImagingPhysicsPhysXRigidBodyAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxRigidBodyAPI"
+          },
+          "UsdImagingPhysicsPhysXSDFMeshCollisionAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxSDFMeshCollisionAPI"
+          },
+          "UsdImagingPhysicsPhysXSceneAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxSceneAPI"
+          },
+          "UsdImagingPhysicsPhysXSceneQuasistaticAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxSceneQuasistaticAPI"
+          },
+          "UsdImagingPhysicsPhysXSphereFillCollisionAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxSphereFillCollisionAPI"
+          },
+          "UsdImagingPhysicsPhysXSurfaceVelocityAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxSurfaceVelocityAPI"
+          },
+          "UsdImagingPhysicsPhysXTriangleMeshCollisionAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxTriangleMeshCollisionAPI"
+          },
+          "UsdImagingPhysicsPhysXTriangleMeshSimplificationCollisionAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxTriangleMeshSimplificationCollisionAPI"
+          },
+          "UsdImagingPhysicsPhysXTriggerAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxTriggerAPI"
+          },
+          "UsdImagingPhysicsPhysXTriggerStateAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxTriggerStateAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleAckermannSteeringAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleAckermannSteeringAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleAutoGearBoxAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleAutoGearBoxAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleBrakesAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleBrakesAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleClutchAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleClutchAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleContextAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleContextAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleControllerAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleControllerAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleDriveBasicAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleDriveBasicAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleDriveStandardAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleDriveStandardAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleEngineAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleEngineAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleGearsAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleGearsAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleMultiWheelDifferentialAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleMultiWheelDifferentialAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleNonlinearCommandResponseAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleNonlinearCommandResponseAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleSteeringAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleSteeringAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleSuspensionAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleSuspensionAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleSuspensionComplianceAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleSuspensionComplianceAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleTankControllerAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleTankControllerAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleTankDifferentialAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleTankDifferentialAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleTireAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleTireAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleWheelAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleWheelAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleWheelAttachmentAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleWheelAttachmentAPI"
+          },
+          "UsdImagingPhysicsPhysXVehicleWheelControllerAPIAdapter": {
+            "bases": [
+              "UsdImagingAPISchemaAdapter"
+            ],
+            "isInternal": true,
+            "apiSchemaName": "PhysxSchemaPhysxVehicleWheelControllerAPI"
           }
         }
       },
