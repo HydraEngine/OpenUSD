@@ -45,7 +45,6 @@ PXR_NAMESPACE_OPEN_SCOPE
     (lowForwardSpeedSubStepCount) \
     (minActiveLongitudinalSlipDenominator) \
     (minLateralSlipDenominator) \
-    (minLongitudinalSlipDenominator) \
     (minPassiveLongitudinalSlipDenominator) \
     (subStepThresholdLongitudinalSpeed) \
     (suspensionLineQueryType) \
@@ -115,9 +114,6 @@ public:
 
     USDPHYSICSIMAGING_API
     HdFloatDataSourceHandle GetMinLateralSlipDenominator() const;
-
-    USDPHYSICSIMAGING_API
-    HdFloatDataSourceHandle GetMinLongitudinalSlipDenominator() const;
 
     USDPHYSICSIMAGING_API
     HdFloatDataSourceHandle GetMinPassiveLongitudinalSlipDenominator() const;
@@ -201,10 +197,6 @@ public:
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetMinLateralSlipDenominatorLocator();
 
-    /// Prim-level relative data source locator to locate minLongitudinalSlipDenominator.
-    USDPHYSICSIMAGING_API
-    static const HdDataSourceLocator &GetMinLongitudinalSlipDenominatorLocator();
-
     /// Prim-level relative data source locator to locate minPassiveLongitudinalSlipDenominator.
     USDPHYSICSIMAGING_API
     static const HdDataSourceLocator &GetMinPassiveLongitudinalSlipDenominatorLocator();
@@ -246,7 +238,6 @@ public:
         const HdIntDataSourceHandle &lowForwardSpeedSubStepCount,
         const HdFloatDataSourceHandle &minActiveLongitudinalSlipDenominator,
         const HdFloatDataSourceHandle &minLateralSlipDenominator,
-        const HdFloatDataSourceHandle &minLongitudinalSlipDenominator,
         const HdFloatDataSourceHandle &minPassiveLongitudinalSlipDenominator,
         const HdFloatDataSourceHandle &subStepThresholdLongitudinalSpeed,
         const HdTokenDataSourceHandle &suspensionLineQueryType,
@@ -296,9 +287,6 @@ public:
         Builder &SetMinLateralSlipDenominator(
             const HdFloatDataSourceHandle &minLateralSlipDenominator);
         USDPHYSICSIMAGING_API
-        Builder &SetMinLongitudinalSlipDenominator(
-            const HdFloatDataSourceHandle &minLongitudinalSlipDenominator);
-        USDPHYSICSIMAGING_API
         Builder &SetMinPassiveLongitudinalSlipDenominator(
             const HdFloatDataSourceHandle &minPassiveLongitudinalSlipDenominator);
         USDPHYSICSIMAGING_API
@@ -327,7 +315,6 @@ public:
         HdIntDataSourceHandle _lowForwardSpeedSubStepCount;
         HdFloatDataSourceHandle _minActiveLongitudinalSlipDenominator;
         HdFloatDataSourceHandle _minLateralSlipDenominator;
-        HdFloatDataSourceHandle _minLongitudinalSlipDenominator;
         HdFloatDataSourceHandle _minPassiveLongitudinalSlipDenominator;
         HdFloatDataSourceHandle _subStepThresholdLongitudinalSpeed;
         HdTokenDataSourceHandle _suspensionLineQueryType;

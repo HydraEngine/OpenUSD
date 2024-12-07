@@ -709,7 +709,6 @@
             ('lowForwardSpeedSubStepCount', T_INT, dict(ADD_LOCATOR = True)),
             ('minActiveLongitudinalSlipDenominator', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('minLateralSlipDenominator', T_FLOAT, dict(ADD_LOCATOR = True)),
-            ('minLongitudinalSlipDenominator', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('minPassiveLongitudinalSlipDenominator', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('subStepThresholdLongitudinalSpeed', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('suspensionLineQueryType', T_TOKEN, dict(ADD_LOCATOR = True)),

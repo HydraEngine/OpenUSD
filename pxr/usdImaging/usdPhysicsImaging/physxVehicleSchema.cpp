@@ -110,13 +110,6 @@ UsdPhysicsImagingPhysxVehicleSchema::GetMinLateralSlipDenominator() const
 }
 
 HdFloatDataSourceHandle
-UsdPhysicsImagingPhysxVehicleSchema::GetMinLongitudinalSlipDenominator() const
-{
-    return _GetTypedDataSource<HdFloatDataSource>(
-        UsdPhysicsImagingPhysxVehicleSchemaTokens->minLongitudinalSlipDenominator);
-}
-
-HdFloatDataSourceHandle
 UsdPhysicsImagingPhysxVehicleSchema::GetMinPassiveLongitudinalSlipDenominator() const
 {
     return _GetTypedDataSource<HdFloatDataSource>(
@@ -158,15 +151,14 @@ UsdPhysicsImagingPhysxVehicleSchema::BuildRetained(
         const HdIntDataSourceHandle &lowForwardSpeedSubStepCount,
         const HdFloatDataSourceHandle &minActiveLongitudinalSlipDenominator,
         const HdFloatDataSourceHandle &minLateralSlipDenominator,
-        const HdFloatDataSourceHandle &minLongitudinalSlipDenominator,
         const HdFloatDataSourceHandle &minPassiveLongitudinalSlipDenominator,
         const HdFloatDataSourceHandle &subStepThresholdLongitudinalSpeed,
         const HdTokenDataSourceHandle &suspensionLineQueryType,
         const HdBoolDataSourceHandle &vehicleEnabled
 )
 {
-    TfToken _names[16];
-    HdDataSourceBaseHandle _values[16];
+    TfToken _names[15];
+    HdDataSourceBaseHandle _values[15];
 
     size_t _count = 0;
 
@@ -223,11 +215,6 @@ UsdPhysicsImagingPhysxVehicleSchema::BuildRetained(
     if (minLateralSlipDenominator) {
         _names[_count] = UsdPhysicsImagingPhysxVehicleSchemaTokens->minLateralSlipDenominator;
         _values[_count++] = minLateralSlipDenominator;
-    }
-
-    if (minLongitudinalSlipDenominator) {
-        _names[_count] = UsdPhysicsImagingPhysxVehicleSchemaTokens->minLongitudinalSlipDenominator;
-        _values[_count++] = minLongitudinalSlipDenominator;
     }
 
     if (minPassiveLongitudinalSlipDenominator) {
@@ -341,14 +328,6 @@ UsdPhysicsImagingPhysxVehicleSchema::Builder::SetMinLateralSlipDenominator(
 }
 
 UsdPhysicsImagingPhysxVehicleSchema::Builder &
-UsdPhysicsImagingPhysxVehicleSchema::Builder::SetMinLongitudinalSlipDenominator(
-    const HdFloatDataSourceHandle &minLongitudinalSlipDenominator)
-{
-    _minLongitudinalSlipDenominator = minLongitudinalSlipDenominator;
-    return *this;
-}
-
-UsdPhysicsImagingPhysxVehicleSchema::Builder &
 UsdPhysicsImagingPhysxVehicleSchema::Builder::SetMinPassiveLongitudinalSlipDenominator(
     const HdFloatDataSourceHandle &minPassiveLongitudinalSlipDenominator)
 {
@@ -395,7 +374,6 @@ UsdPhysicsImagingPhysxVehicleSchema::Builder::Build()
         _lowForwardSpeedSubStepCount,
         _minActiveLongitudinalSlipDenominator,
         _minLateralSlipDenominator,
-        _minLongitudinalSlipDenominator,
         _minPassiveLongitudinalSlipDenominator,
         _subStepThresholdLongitudinalSpeed,
         _suspensionLineQueryType,
@@ -537,16 +515,6 @@ UsdPhysicsImagingPhysxVehicleSchema::GetMinLateralSlipDenominatorLocator()
     static const HdDataSourceLocator locator =
         GetDefaultLocator().Append(
             UsdPhysicsImagingPhysxVehicleSchemaTokens->minLateralSlipDenominator);
-    return locator;
-}
-
-/* static */
-const HdDataSourceLocator &
-UsdPhysicsImagingPhysxVehicleSchema::GetMinLongitudinalSlipDenominatorLocator()
-{
-    static const HdDataSourceLocator locator =
-        GetDefaultLocator().Append(
-            UsdPhysicsImagingPhysxVehicleSchemaTokens->minLongitudinalSlipDenominator);
     return locator;
 }
 

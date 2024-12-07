@@ -160,6 +160,10 @@ pxr_library(usdPhysicsImaging
         physxVehicleGearsAPIAdapter
         physxVehicleMultiWheelDifferentialAPIAdapter
         physxVehicleNonlinearCommandResponseAPIAdapter
+        physxVehicleAPIAdapter
+        physxVehicleSteeringAPIAdapter
+        physxVehicleSuspensionComplianceAPIAdapter
+        physxVehicleSuspensionAPIAdapter
 
         PUBLIC_HEADERS
         api.h
