@@ -148,6 +148,11 @@ pxr_library(usdPhysicsImaging
         physxTriangleMeshSimplificationCollisionAPIAdapter
         physxTriggerAPIAdapter
         physxTriggerStateAPIAdapter
+        physxVehicleAckermannSteeringAPIAdapter
+        physxVehicleAutoGearBoxAPIAdapter
+        physxVehicleBrakesAPIAdapter
+        physxVehicleClutchAPIAdapter
+        physxVehicleContextAPIAdapter
 
         PUBLIC_HEADERS
         api.h
