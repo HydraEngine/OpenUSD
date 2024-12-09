@@ -1,25 +1,31 @@
 set(PXR_PREFIX pxr/usdImaging)
 set(PXR_PACKAGE usdSimImaging)
 
-set(physx5_SOURCE_DIR /Users/yangfeng/Desktop/PhysX-Mac/physx)
+find_package(CUDAToolkit REQUIRED)
+
+set(physx5_SOURCE_DIR /home/yangfengzzz/Desktop/PhysX/physx)
 
 set(physx5_link_libraries)
 set(physx5_include_directories)
 if (physx5_SOURCE_DIR)
-    set(physx5_link_directories ${physx5_SOURCE_DIR}/bin/mac.x86_64/release)
+    set(physx5_link_directories ${physx5_SOURCE_DIR}/bin/linux.clang/release)
     set(physx5_link_libraries
-            ${physx5_link_directories}/libPhysX_static_64.a
+            ${physx5_link_directories}/libPhysX_64.so
+            ${physx5_link_directories}/libPhysXCommon_64.so
+            ${physx5_link_directories}/libPhysXCooking_64.so
+            ${physx5_link_directories}/libPhysXFoundation_64.so
+            ${physx5_link_directories}/libPhysXGpu_64.so
+
             ${physx5_link_directories}/libPhysXCharacterKinematic_static_64.a
-            ${physx5_link_directories}/libPhysXCommon_static_64.a
-            ${physx5_link_directories}/libPhysXCooking_static_64.a
             ${physx5_link_directories}/libPhysXExtensions_static_64.a
-            ${physx5_link_directories}/libPhysXFoundation_static_64.a
             ${physx5_link_directories}/libPhysXPvdSDK_static_64.a
             ${physx5_link_directories}/libPhysXVehicle2_static_64.a
             ${physx5_link_directories}/libPhysXVehicle_static_64.a
+            CUDA::cuda_driver
     )
     set(physx5_include_directories
             ${physx5_SOURCE_DIR}/include
+            ${physx5_SOURCE_DIR}/source
     )
 endif ()
 

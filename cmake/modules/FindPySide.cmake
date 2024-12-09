@@ -31,6 +31,7 @@ if (pySideImportResult EQUAL 1 OR PYSIDE_USE_PYSIDE2)
     endif()
 endif()
 
+set(PYSIDE_BIN_DIR /home/yangfengzzz/Desktop/OpenUSD/.venv/bin)
 # If nothing is found, the result will be <VAR>-NOTFOUND.
 find_program(PYSIDEUICBINARY NAMES ${pySideUIC} HINTS ${PYSIDE_BIN_DIR})
 

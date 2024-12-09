@@ -1,6 +1,7 @@
 .p4*
 .DS_Store
 .AppleDouble
+.venv
 
 .idea
 build_scripts
