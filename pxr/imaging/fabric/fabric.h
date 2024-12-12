@@ -87,6 +87,14 @@ class FabricRigidBodySchema;
 class FabricSceneSchema;
 class FabricSphericalJointSchema;
 
+class HdCubeSchema;
+class HdCapsuleSchema;
+class HdSphereSchema;
+class HdConeSchema;
+class HdCylinderSchema;
+class HdPlaneSchema;
+class HdPrimvarsSchema;
+
 class Fabric {
 public:
     void PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::AddedPrimEntry& entry);
@@ -171,6 +179,14 @@ private:
     std::map<SdfPath, FabricRigidBodySchema> _rigidBodies;
     std::map<SdfPath, FabricSceneSchema> _scenes;
     std::map<SdfPath, FabricSphericalJointSchema> _sphericalJoints;
+
+    std::map<SdfPath, HdCubeSchema> _cubes;
+    std::map<SdfPath, HdCapsuleSchema> _capsules;
+    std::map<SdfPath, HdSphereSchema> _spheres;
+    std::map<SdfPath, HdConeSchema> _cones;
+    std::map<SdfPath, HdCylinderSchema> _cylinders;
+    std::map<SdfPath, HdPlaneSchema> _planes;
+    std::map<SdfPath, HdPrimvarsSchema> _meshes;
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE

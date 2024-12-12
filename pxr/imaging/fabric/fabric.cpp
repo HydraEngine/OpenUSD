@@ -88,7 +88,8 @@
 #include <pxr/imaging/hd/sphereSchema.h>
 #include <pxr/imaging/hd/coneSchema.h>
 #include <pxr/imaging/hd/cylinderSchema.h>
-#include <pxr/imaging/hd/meshSchema.h>
+#include <pxr/imaging/hd/planeSchema.h>
+#include <pxr/imaging/hd/primvarsSchema.h>
 
 PXR_NAMESPACE_OPEN_SCOPE
 
@@ -100,6 +101,27 @@ void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver
         _collisionGroups.insert({entry.primPath, schema});
     }
     if (auto schema = FabricCollisionSchema::GetFromParent(prim.dataSource)) {
+        if (auto geom = HdCubeSchema::GetFromParent(prim.dataSource)) {
+            _cubes.insert({entry.primPath, geom});
+        }
+        if (auto geom = HdCapsuleSchema::GetFromParent(prim.dataSource)) {
+            _capsules.insert({entry.primPath, geom});
+        }
+        if (auto geom = HdSphereSchema::GetFromParent(prim.dataSource)) {
+            _spheres.insert({entry.primPath, geom});
+        }
+        if (auto geom = HdConeSchema::GetFromParent(prim.dataSource)) {
+            _cones.insert({entry.primPath, geom});
+        }
+        if (auto geom = HdCylinderSchema::GetFromParent(prim.dataSource)) {
+            _cylinders.insert({entry.primPath, geom});
+        }
+        if (auto geom = HdPlaneSchema::GetFromParent(prim.dataSource)) {
+            _planes.insert({entry.primPath, geom});
+        }
+        if (auto geom = HdPrimvarsSchema::GetFromParent(prim.dataSource)) {
+            _meshes.insert({entry.primPath, geom});
+        }
         _collisions.insert({entry.primPath, schema});
     }
     if (auto schema = FabricDistanceJointSchema::GetFromParent(prim.dataSource)) {
@@ -323,7 +345,15 @@ void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver
 void Fabric::PrimsRemoved(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::RemovedPrimEntry& entry) {
     _articulationRoots.erase(entry.primPath);
     _collisionGroups.erase(entry.primPath);
-    _collisions.erase(entry.primPath);
+    if (_collisions.erase(entry.primPath)) {
+        _cubes.erase(entry.primPath);
+        _capsules.erase(entry.primPath);
+        _spheres.erase(entry.primPath);
+        _cones.erase(entry.primPath);
+        _cylinders.erase(entry.primPath);
+        _planes.erase(entry.primPath);
+        _meshes.erase(entry.primPath);
+    }
     _distanceJoints.erase(entry.primPath);
     _drives.erase(entry.primPath);
     _filteredPairs.erase(entry.primPath);
