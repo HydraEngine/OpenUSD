@@ -53,19 +53,29 @@ void FabricSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
     if (!_IsObserved()) {
         return;
     }
-    _fabric.PrimsAdded(entries);
+    for (const HdSceneIndexObserver::AddedPrimEntry &entry : entries) {
+        auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
+        _fabric.PrimsAdded(prim, entry);
+    }
+
     _SendPrimsAdded(entries);
 }
 
 void FabricSceneIndex::_PrimsRemoved(const HdSceneIndexBase &sender,
                                      const HdSceneIndexObserver::RemovedPrimEntries &entries) {
-    _fabric.PrimsRemoved(entries);
+    for (const HdSceneIndexObserver::RemovedPrimEntry &entry : entries) {
+        auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
+        _fabric.PrimsRemoved(prim, entry);
+    }
     _SendPrimsRemoved(entries);
 }
 
 void FabricSceneIndex::_PrimsDirtied(const HdSceneIndexBase &sender,
                                      const HdSceneIndexObserver::DirtiedPrimEntries &entries) {
-    _fabric.PrimsDirtied(entries);
+    for (const HdSceneIndexObserver::DirtiedPrimEntry &entry : entries) {
+        auto prim = _GetInputSceneIndex()->GetPrim(entry.primPath);
+        _fabric.PrimsDirtied(prim, entry);
+    }
     _SendPrimsDirtied(entries);
 }
 

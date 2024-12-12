@@ -8,20 +8,21 @@
 
 #include <pxr/imaging/hd/filteringSceneIndex.h>
 #include <pxr/usd/sdf/pathTable.h>
-#include <pxr/imaging/fabric/materialSchema.h>
 
 PXR_NAMESPACE_OPEN_SCOPE
 
+class FabricMaterialSchema;
+
 class Fabric {
 public:
-    void PrimsAdded(const HdSceneIndexObserver::AddedPrimEntries &entries);
+    void PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::AddedPrimEntry &entry);
 
-    void PrimsRemoved(const HdSceneIndexObserver::RemovedPrimEntries &entries);
+    void PrimsRemoved(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::RemovedPrimEntry &entry);
 
-    void PrimsDirtied(const HdSceneIndexObserver::DirtiedPrimEntries &entries);
+    void PrimsDirtied(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::DirtiedPrimEntry &entry);
 
 private:
-    SdfPathTable<HdSceneIndexPrim> _materialPrims;
+    std::map<SdfPath, FabricMaterialSchema> _materials;
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE
