@@ -5,6 +5,7 @@
 //  property of any third parties.
 
 #include "pxr/imaging/fabric/fabricSceneIndex.h"
+#include "pxr/imaging/fabric/fabric.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
@@ -40,29 +41,31 @@
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-FabricSceneIndexRefPtr FabricSceneIndex::New(const HdSceneIndexBaseRefPtr &inputSceneIndex) {
-    return TfCreateRefPtr(new FabricSceneIndex(inputSceneIndex));
+FabricSceneIndexRefPtr FabricSceneIndex::New(const HdSceneIndexBaseRefPtr &inputSceneIndex, Fabric &fabric) {
+    return TfCreateRefPtr(new FabricSceneIndex(inputSceneIndex, fabric));
 }
 
-FabricSceneIndex::FabricSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex)
-    : HdSingleInputFilteringSceneIndexBase(inputSceneIndex) {
-}
+FabricSceneIndex::FabricSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex, Fabric &fabric)
+    : HdSingleInputFilteringSceneIndexBase(inputSceneIndex), _fabric{fabric} {}
 
 void FabricSceneIndex::_PrimsAdded(const HdSceneIndexBase &sender,
                                    const HdSceneIndexObserver::AddedPrimEntries &entries) {
     if (!_IsObserved()) {
         return;
     }
+    _fabric.PrimsAdded(entries);
     _SendPrimsAdded(entries);
 }
 
 void FabricSceneIndex::_PrimsRemoved(const HdSceneIndexBase &sender,
                                      const HdSceneIndexObserver::RemovedPrimEntries &entries) {
+    _fabric.PrimsRemoved(entries);
     _SendPrimsRemoved(entries);
 }
 
 void FabricSceneIndex::_PrimsDirtied(const HdSceneIndexBase &sender,
                                      const HdSceneIndexObserver::DirtiedPrimEntries &entries) {
+    _fabric.PrimsDirtied(entries);
     _SendPrimsDirtied(entries);
 }
 

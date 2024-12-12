@@ -14,10 +14,12 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 TF_DECLARE_REF_PTRS(FabricSceneIndex);
 
+class Fabric;
+
 class FabricSceneIndex : public HdSingleInputFilteringSceneIndexBase {
 public:
     FABRIC_API
-    static FabricSceneIndexRefPtr New(const HdSceneIndexBaseRefPtr &inputSceneIndex);
+    static FabricSceneIndexRefPtr New(const HdSceneIndexBaseRefPtr &inputSceneIndex, Fabric& fabric);
 
     FABRIC_API
     HdSceneIndexPrim GetPrim(const SdfPath &primPath) const override;
@@ -25,7 +27,7 @@ public:
     SdfPathVector GetChildPrimPaths(const SdfPath &primPath) const override;
 
 protected:
-    explicit FabricSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex);
+    explicit FabricSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex, Fabric& fabric);
 
     void _PrimsAdded(const HdSceneIndexBase &sender, const HdSceneIndexObserver::AddedPrimEntries &entries) override;
 
@@ -35,6 +37,8 @@ protected:
     void _PrimsDirtied(const HdSceneIndexBase &sender,
                        const HdSceneIndexObserver::DirtiedPrimEntries &entries) override;
 
+private:
+    Fabric& _fabric;
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE
