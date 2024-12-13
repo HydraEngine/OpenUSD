@@ -65,28 +65,121 @@ PhysxEngine::~PhysxEngine() {
     mPxFoundation->release();
 }
 
-std::shared_ptr<PhysxScene> PhysxEngine::CreatePxScene(const pxr::SdfPath& primPath, const pxr::HdSceneSchema& schema) {
+void PhysxEngine::UpdateAll(float dt) {
+    for (const auto& scene : mScenes) {
+        scene.second->Update(dt);
+    }
+}
+
+void PhysxEngine::Sync() {
+    for (const auto& scene : _fabric._scenes) {
+        CreateScene(scene.first, scene.second);
+    }
+    for (const auto& material : _fabric._materials) {
+        CreateMaterial(material.first, material.second);
+    }
+
+    for (const auto& rigidBody : _fabric._rigidBodies) {
+        auto actor = CreateDynamicActor(rigidBody.first, rigidBody.second);
+        if (actor) {
+            auto simulator = rigidBody.second.GetSimulationOwner()->GetTypedValue(0);
+            if (simulator.empty()) {
+                simulator.push_back(mDefaultScene);
+            }
+            for (const auto& scenePath : simulator) {
+                auto iter = mScenes.find(scenePath);
+                if (iter != mScenes.end()) {
+                    auto scene = iter->second;
+                    scene->Handle()->addActor(*actor);
+                }
+            }
+        }
+    }
+
+    for (const auto& collision : _fabric._collisions) {
+        const auto primPath = collision.first;
+        // Find Actor
+        const auto xform = _fabric._globalXforms.find(primPath);
+        if (xform == _fabric._globalXforms.end()) {
+            continue;
+        }
+        const auto collisionXform = xform->second;
+        auto shapePose = GfMatrix4d(1);
+        physx::PxRigidActor* actor = nullptr;
+        for (const auto& ancestors : primPath.GetAncestorsRange()) {
+            if (const auto result = FindActor(ancestors)) {
+                std::cout << "Find Actor Ancestor: " << ancestors << "\n";
+                actor = result;
+                auto globalPose = actor->getGlobalPose();
+                auto actorXform = convert(globalPose);
+                actorXform = actorXform.RemoveScaleShear();
+                shapePose = collisionXform / actorXform;
+                break;
+            }
+        }
+        if (!actor) {
+            std::cout << "use self as static actor" << "\n";
+            auto actorXform = collisionXform.RemoveScaleShear();
+            shapePose = collisionXform / actorXform;
+            actor = CreateStaticActor(primPath);
+
+            if (actor) {
+                auto simulator = collision.second.GetSimulationOwner()->GetTypedValue(0);
+                if (simulator.empty()) {
+                    simulator.push_back(mDefaultScene);
+                }
+                for (const auto& scenePath : simulator) {
+                    auto iter = mScenes.find(scenePath);
+                    if (iter != mScenes.end()) {
+                        auto scene = iter->second;
+                        scene->Handle()->addActor(*actor);
+                    }
+                }
+            }
+        }
+
+        // Find Material
+        physx::PxMaterial* material{nullptr};
+        UsdImagingDirectMaterialBindingsSchema materialBindingSchema =
+                UsdImagingDirectMaterialBindingsSchema::GetFromParent(prim.dataSource);
+        if (materialBindingSchema) {
+            auto binding = materialBindingSchema.GetDirectMaterialBinding(TfToken("physics"));
+            if (binding) {
+                auto path = binding.GetMaterialPath()->GetTypedValue(0);
+                material = FindMaterial(path);
+            }
+        }
+        if (!material) {
+            material = DefaultMaterial();
+        }
+
+        // create shape
+        if (auto iter = _fabric._cubes.find(primPath); iter != _fabric._cubes.end()) {
+            CreateShape(primPath, iter->second, shapePose, material, actor);
+        }
+    }
+}
+
+void PhysxEngine::UnSync() {}
+
+// =====================================================================================================================
+
+std::shared_ptr<PhysxScene> PhysxEngine::CreateScene(const pxr::SdfPath& primPath, const pxr::HdSceneSchema& schema) {
     auto g_length = schema.GetGravityMagnitude()->GetTypedValue(0);
     auto g_dir = schema.GetGravityDirection()->GetTypedValue(0);
     g_dir *= g_length;
     auto scene = std::make_shared<PhysxScene>(mPxPhysics, g_dir, mConfig);
-    mScenes.insert({primPath.GetHash(), scene});
+    mScenes.insert({primPath, scene});
     mDefaultScene = primPath;
     return scene;
 }
 
 std::shared_ptr<PhysxScene> PhysxEngine::FindScene(const pxr::SdfPath& primPath) {
-    auto iter = mScenes.find(primPath.GetHash());
+    auto iter = mScenes.find(primPath);
     if (iter != mScenes.end()) {
         return iter->second;
     }
     return nullptr;
-}
-
-void PhysxEngine::UpdateAll(float dt) {
-    for (const auto& scene : mScenes) {
-        scene.second->Update(dt);
-    }
 }
 
 physx::PxMaterial* PhysxEngine::CreateMaterial(const pxr::SdfPath& primPath,
@@ -96,12 +189,12 @@ physx::PxMaterial* PhysxEngine::CreateMaterial(const pxr::SdfPath& primPath,
     auto dynamicFriction = schema.GetDynamicFriction()->GetTypedValue(0);
 
     auto scene = mPxPhysics->createMaterial(staticFriction, dynamicFriction, restitution);
-    mMaterials.insert({primPath.GetHash(), scene});
+    mMaterials.insert({primPath, scene});
     return scene;
 }
 
 physx::PxMaterial* PhysxEngine::FindMaterial(const pxr::SdfPath& primPath) {
-    if (const auto iter = mMaterials.find(primPath.GetHash()); iter != mMaterials.end()) {
+    if (const auto iter = mMaterials.find(primPath); iter != mMaterials.end()) {
         return iter->second;
     }
     return nullptr;
@@ -109,25 +202,33 @@ physx::PxMaterial* PhysxEngine::FindMaterial(const pxr::SdfPath& primPath) {
 
 physx::PxMaterial* PhysxEngine::DefaultMaterial() { return mDefaultMaterial; }
 
-physx::PxRigidStatic* PhysxEngine::CreateStaticActor(const pxr::SdfPath& primPath, const pxr::GfMatrix4d& transform) {
-    auto actor = mPxPhysics->createRigidStatic(convert(transform));
-    mStaticActors.insert({primPath.GetHash(), actor});
+physx::PxRigidStatic* PhysxEngine::CreateStaticActor(const pxr::SdfPath& primPath) {
+    const auto xform = _fabric._globalXforms.find(primPath);
+    if (xform == _fabric._globalXforms.end()) {
+        return nullptr;
+    }
+
+    auto actor = mPxPhysics->createRigidStatic(convert(xform->second));
+    mStaticActors.insert({primPath, actor});
     return actor;
 }
 
 physx::PxRigidStatic* PhysxEngine::FindStaticActor(const pxr::SdfPath& primPath) {
-    auto hash = primPath.GetHash();
-    if (const auto iter = mStaticActors.find(hash); iter != mStaticActors.end()) {
+    if (const auto iter = mStaticActors.find(primPath); iter != mStaticActors.end()) {
         return iter->second;
     }
     return nullptr;
 }
 
 physx::PxRigidDynamic* PhysxEngine::CreateDynamicActor(const pxr::SdfPath& primPath,
-                                                       const pxr::GfMatrix4d& transform,
                                                        const pxr::HdRigidBodySchema& schema) {
-    auto actor = mPxPhysics->createRigidDynamic(convert(transform));
-    mDynamicActors.insert({primPath.GetHash(), actor});
+    const auto xform = _fabric._globalXforms.find(primPath);
+    if (xform == _fabric._globalXforms.end()) {
+        return nullptr;
+    }
+
+    auto actor = mPxPhysics->createRigidDynamic(convert(xform->second));
+    mDynamicActors.insert({primPath, actor});
 
     if (schema.GetKinematicEnabled()->GetTypedValue(0)) {
         actor->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
@@ -144,19 +245,17 @@ physx::PxRigidDynamic* PhysxEngine::CreateDynamicActor(const pxr::SdfPath& primP
 }
 
 physx::PxRigidDynamic* PhysxEngine::FindDynamicsActor(const pxr::SdfPath& primPath) {
-    auto hash = primPath.GetHash();
-    if (const auto iter = mDynamicActors.find(hash); iter != mDynamicActors.end()) {
+    if (const auto iter = mDynamicActors.find(primPath); iter != mDynamicActors.end()) {
         return iter->second;
     }
     return nullptr;
 }
 
 physx::PxRigidActor* PhysxEngine::FindActor(const pxr::SdfPath& primPath) {
-    auto hash = primPath.GetHash();
-    if (const auto iter = mStaticActors.find(hash); iter != mStaticActors.end()) {
+    if (const auto iter = mStaticActors.find(primPath); iter != mStaticActors.end()) {
         return iter->second;
     }
-    if (const auto iter = mDynamicActors.find(hash); iter != mDynamicActors.end()) {
+    if (const auto iter = mDynamicActors.find(primPath); iter != mDynamicActors.end()) {
         return iter->second;
     }
     return nullptr;
@@ -189,40 +288,11 @@ physx::PxShape* PhysxEngine::CreateShape(const pxr::SdfPath& primPath,
 
         shape->setLocalPose(PxTransform(translation, rotation));
         actor->attachShape(*shape);
-        mShapes.insert({primPath.GetHash(), shape});
+        mShapes.insert({primPath, shape});
         return shape;
     }
 
     return nullptr;
-}
-
-void PhysxEngine::AddActor(const VtArray<pxr::SdfPath>& scene, physx::PxRigidActor* actor) {
-    auto insertScene = [&](const pxr::SdfPath& scenePath) {
-        auto iter = mActorScene.find(scenePath.GetHash());
-        if (iter != mActorScene.end()) {
-            iter->second.push_back(actor);
-        } else {
-            mActorScene.insert({scenePath.GetHash(), {actor}});
-        }
-    };
-
-    if (scene.empty()) {
-        insertScene(mDefaultScene);
-    } else {
-        for (const auto& path : scene) {
-            insertScene(path);
-        }
-    }
-}
-
-void PhysxEngine::Sync() {
-    for (const auto& actors : mActorScene) {
-        auto iter = mScenes.find(actors.first);
-        if (iter != mScenes.end()) {
-            auto scene = iter->second;
-            scene->Handle()->addActors(actors.second.data(), actors.second.size());
-        }
-    }
 }
 
 }  // namespace sim

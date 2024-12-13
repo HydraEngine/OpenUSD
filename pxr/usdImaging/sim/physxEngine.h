@@ -26,26 +26,28 @@ struct PhysxSceneConfig {
 
 class PhysxEngine {
 public:
-    PhysxEngine(pxr::Fabric& fabric);
-    ::physx::PxPhysics *getPxPhysics() const { return mPxPhysics; }
+    explicit PhysxEngine(pxr::Fabric &fabric);
+    [[nodiscard]] physx::PxPhysics *getPxPhysics() const { return mPxPhysics; }
 
     ~PhysxEngine();
 
-public:
-    std::shared_ptr<PhysxScene> CreatePxScene(const pxr::SdfPath &primPath,
-                                              const pxr::HdSceneSchema &schema);
-    std::shared_ptr<PhysxScene> FindScene(const pxr::SdfPath &primPath);
     void UpdateAll(float dt);
+
+    void Sync();
+
+    void UnSync();
+
+public:
+    std::shared_ptr<PhysxScene> CreateScene(const pxr::SdfPath &primPath, const pxr::HdSceneSchema &schema);
+    std::shared_ptr<PhysxScene> FindScene(const pxr::SdfPath &primPath);
 
     physx::PxMaterial *CreateMaterial(const pxr::SdfPath &primPath, const pxr::HdPhysicsMaterialSchema &schema);
     physx::PxMaterial *FindMaterial(const pxr::SdfPath &primPath);
     physx::PxMaterial *DefaultMaterial();
 
-    physx::PxRigidStatic *CreateStaticActor(const pxr::SdfPath &primPath, const pxr::GfMatrix4d &transform);
+    physx::PxRigidStatic *CreateStaticActor(const pxr::SdfPath &primPath);
     physx::PxRigidStatic *FindStaticActor(const pxr::SdfPath &primPath);
-    physx::PxRigidDynamic *CreateDynamicActor(const pxr::SdfPath &primPath,
-                                              const pxr::GfMatrix4d &transform,
-                                              const pxr::HdRigidBodySchema &schema);
+    physx::PxRigidDynamic *CreateDynamicActor(const pxr::SdfPath &primPath, const pxr::HdRigidBodySchema &schema);
     physx::PxRigidDynamic *FindDynamicsActor(const pxr::SdfPath &primPath);
     physx::PxRigidActor *FindActor(const pxr::SdfPath &primPath);
 
@@ -55,23 +57,18 @@ public:
                                 physx::PxMaterial *material,
                                 physx::PxRigidActor *actor);
 
-    void AddActor(const pxr::VtArray<pxr::SdfPath> &scene, physx::PxRigidActor *actor);
-
-    void Sync();
-
 private:
-    pxr::Fabric& _fabric;
+    pxr::Fabric &_fabric;
 
     ::physx::PxPhysics *mPxPhysics;
     ::physx::PxFoundation *mPxFoundation;
     physx::PxMaterial *mDefaultMaterial;
     pxr::SdfPath mDefaultScene;
-    std::unordered_map<size_t, std::shared_ptr<PhysxScene>> mScenes;
-    std::unordered_map<size_t, physx::PxMaterial *> mMaterials;
-    std::unordered_map<size_t, physx::PxRigidStatic *> mStaticActors;
-    std::unordered_map<size_t, physx::PxRigidDynamic *> mDynamicActors;
-    std::unordered_map<size_t, physx::PxShape *> mShapes;
-    std::unordered_map<size_t, std::vector<physx::PxActor *>> mActorScene;
+    std::map<pxr::SdfPath, std::shared_ptr<PhysxScene>> mScenes;
+    std::map<pxr::SdfPath, physx::PxMaterial *> mMaterials;
+    std::map<pxr::SdfPath, physx::PxRigidStatic *> mStaticActors;
+    std::map<pxr::SdfPath, physx::PxRigidDynamic *> mDynamicActors;
+    std::map<pxr::SdfPath, physx::PxShape *> mShapes;
 
     PhysxSceneConfig mConfig;
 };
