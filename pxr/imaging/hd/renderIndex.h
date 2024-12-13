@@ -126,6 +126,9 @@ public:
     HD_API
     ~HdRenderIndex();
 
+    HD_API
+    class Fabric& fabric();
+
     /// Clear all r (render), s (state) and b (buffer) prims.
     HD_API
     void Clear();
@@ -514,6 +517,7 @@ private:
     HdLegacyPrimSceneIndexRefPtr _emulationSceneIndex;
     std::unique_ptr<_NoticeBatchingContext> _emulationBatchingCtx;
 
+    std::unique_ptr<class Fabric> _fabric;
     std::unique_ptr<class HdSceneIndexAdapterSceneDelegate> _siSd;
 
     HdMergingSceneIndexRefPtr _mergingSceneIndex;

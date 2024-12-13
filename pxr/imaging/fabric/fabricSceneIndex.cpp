@@ -77,6 +77,8 @@ void FabricSceneIndex::_PrimsDirtied(const HdSceneIndexBase &sender,
         _fabric.PrimsDirtied(prim, entry);
     }
     _SendPrimsDirtied(entries);
+    _SendPrimsDirtied(_fabric.dirtyEntries());
+    _fabric.dirtyEntries().clear();
 }
 
 HdSceneIndexPrim FabricSceneIndex::GetPrim(const SdfPath &primPath) const {

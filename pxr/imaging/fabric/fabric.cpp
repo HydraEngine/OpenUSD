@@ -5,91 +5,7 @@
 //  property of any third parties.
 
 #include "pxr/imaging/fabric/fabric.h"
-#include <pxr/imaging/fabric/materialSchema.h>
-#include <pxr/imaging/fabric/articulationRootSchema.h>
-#include <pxr/imaging/fabric/collisionGroupSchema.h>
-#include <pxr/imaging/fabric/collisionSchema.h>
-#include <pxr/imaging/fabric/distanceJointSchema.h>
-#include <pxr/imaging/fabric/driveSchema.h>
-#include <pxr/imaging/fabric/filteredPairsSchema.h>
-#include <pxr/imaging/fabric/fixedJointSchema.h>
-#include <pxr/imaging/fabric/jointSchema.h>
-#include <pxr/imaging/fabric/limitSchema.h>
-#include <pxr/imaging/fabric/massSchema.h>
-#include <pxr/imaging/fabric/materialSchema.h>
-#include <pxr/imaging/fabric/meshCollisionSchema.h>
-#include <pxr/imaging/fabric/physxArticulationSchema.h>
-#include <pxr/imaging/fabric/physxCameraDroneSchema.h>
-#include <pxr/imaging/fabric/physxCameraFollowLookSchema.h>
-#include <pxr/imaging/fabric/physxCameraFollowSchema.h>
-#include <pxr/imaging/fabric/physxCameraFollowVelocitySchema.h>
-#include <pxr/imaging/fabric/physxCameraSchema.h>
-#include <pxr/imaging/fabric/physxCharacterControllerSchema.h>
-#include <pxr/imaging/fabric/physxCollisionSchema.h>
-#include <pxr/imaging/fabric/physxContactReportSchema.h>
-#include <pxr/imaging/fabric/physxConvexDecompositionCollisionSchema.h>
-#include <pxr/imaging/fabric/physxConvexHullCollisionSchema.h>
-#include <pxr/imaging/fabric/physxCookedDataSchema.h>
-#include <pxr/imaging/fabric/physxForceSchema.h>
-#include <pxr/imaging/fabric/physxIsosurfaceSchema.h>
-#include <pxr/imaging/fabric/physxJointSchema.h>
-#include <pxr/imaging/fabric/physxJointStateSchema.h>
-#include <pxr/imaging/fabric/physxMaterialSchema.h>
-#include <pxr/imaging/fabric/physxMeshMergeCollisionSchema.h>
-#include <pxr/imaging/fabric/physxMimicJointSchema.h>
-#include <pxr/imaging/fabric/physxPhysicsDistanceJointSchema.h>
-#include <pxr/imaging/fabric/physxPhysicsGearJointSchema.h>
-#include <pxr/imaging/fabric/physxPhysicsInstancerSchema.h>
-#include <pxr/imaging/fabric/physxPhysicsJointInstancerSchema.h>
-#include <pxr/imaging/fabric/physxPhysicsRackAndPinionJointSchema.h>
-#include <pxr/imaging/fabric/physxResidualReportingSchema.h>
-#include <pxr/imaging/fabric/physxRigidBodySchema.h>
-#include <pxr/imaging/fabric/physxSceneQuasistaticSchema.h>
-#include <pxr/imaging/fabric/physxSceneSchema.h>
-#include <pxr/imaging/fabric/physxSDFMeshCollisionSchema.h>
-#include <pxr/imaging/fabric/physxSphereFillCollisionSchema.h>
-#include <pxr/imaging/fabric/physxSurfaceVelocitySchema.h>
-#include <pxr/imaging/fabric/physxTriangleMeshCollisionSchema.h>
-#include <pxr/imaging/fabric/physxTriangleMeshSimplificationCollisionSchema.h>
-#include <pxr/imaging/fabric/physxTriggerSchema.h>
-#include <pxr/imaging/fabric/physxTriggerStateSchema.h>
-#include <pxr/imaging/fabric/physxVehicleAckermannSteeringSchema.h>
-#include <pxr/imaging/fabric/physxVehicleAutoGearBoxSchema.h>
-#include <pxr/imaging/fabric/physxVehicleBrakesSchema.h>
-#include <pxr/imaging/fabric/physxVehicleClutchSchema.h>
-#include <pxr/imaging/fabric/physxVehicleContextSchema.h>
-#include <pxr/imaging/fabric/physxVehicleControllerSchema.h>
-#include <pxr/imaging/fabric/physxVehicleDriveBasicSchema.h>
-#include <pxr/imaging/fabric/physxVehicleDriveStandardSchema.h>
-#include <pxr/imaging/fabric/physxVehicleEngineSchema.h>
-#include <pxr/imaging/fabric/physxVehicleGearsSchema.h>
-#include <pxr/imaging/fabric/physxVehicleMultiWheelDifferentialSchema.h>
-#include <pxr/imaging/fabric/physxVehicleNonlinearCommandResponseSchema.h>
-#include <pxr/imaging/fabric/physxVehicleSchema.h>
-#include <pxr/imaging/fabric/physxVehicleSteeringSchema.h>
-#include <pxr/imaging/fabric/physxVehicleSuspensionComplianceSchema.h>
-#include <pxr/imaging/fabric/physxVehicleSuspensionSchema.h>
-#include <pxr/imaging/fabric/physxVehicleTankControllerSchema.h>
-#include <pxr/imaging/fabric/physxVehicleTankDifferentialSchema.h>
-#include <pxr/imaging/fabric/physxVehicleTireFrictionTableSchema.h>
-#include <pxr/imaging/fabric/physxVehicleTireSchema.h>
-#include <pxr/imaging/fabric/physxVehicleWheelAttachmentSchema.h>
-#include <pxr/imaging/fabric/physxVehicleWheelControllerSchema.h>
-#include <pxr/imaging/fabric/physxVehicleWheelSchema.h>
-#include <pxr/imaging/fabric/prismaticJointSchema.h>
-#include <pxr/imaging/fabric/revoluteJointSchema.h>
-#include <pxr/imaging/fabric/rigidBodySchema.h>
-#include <pxr/imaging/fabric/sceneSchema.h>
-#include <pxr/imaging/fabric/sphericalJointSchema.h>
 
-#include <pxr/imaging/hd/xformSchema.h>
-#include <pxr/imaging/hd/cubeSchema.h>
-#include <pxr/imaging/hd/capsuleSchema.h>
-#include <pxr/imaging/hd/sphereSchema.h>
-#include <pxr/imaging/hd/coneSchema.h>
-#include <pxr/imaging/hd/cylinderSchema.h>
-#include <pxr/imaging/hd/planeSchema.h>
-#include <pxr/imaging/hd/primvarsSchema.h>
 
 PXR_NAMESPACE_OPEN_SCOPE
 
@@ -340,6 +256,18 @@ void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver
     if (auto schema = FabricSphericalJointSchema::GetFromParent(prim.dataSource)) {
         _sphericalJoints.insert({entry.primPath, schema});
     }
+
+    if (auto schema = HdXformSchema::GetFromParent(prim.dataSource)) {
+        if (auto matrixSource = schema.GetMatrix()) {
+            auto m = matrixSource->GetTypedValue(0.0f);
+            const auto it = _globalXforms.find(entry.primPath);
+            if (it != _globalXforms.end()) {
+                it->second = m;
+            } else {
+                _globalXforms.insert({entry.primPath, m});
+            }
+        }
+    }
 }
 
 void Fabric::PrimsRemoved(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::RemovedPrimEntry& entry) {
@@ -423,7 +351,9 @@ void Fabric::PrimsRemoved(const HdSceneIndexPrim& prim, const HdSceneIndexObserv
     _physxVehicleWheels.erase(entry.primPath);
     _prismaticJoints.erase(entry.primPath);
     _revoluteJoints.erase(entry.primPath);
-    _rigidBodies.erase(entry.primPath);
+    if (_rigidBodies.erase(entry.primPath)) {
+        _globalXforms.erase(entry.primPath);
+    }
     _scenes.erase(entry.primPath);
     _sphericalJoints.erase(entry.primPath);
 }

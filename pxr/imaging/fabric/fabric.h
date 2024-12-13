@@ -8,92 +8,93 @@
 
 #include <pxr/imaging/hd/filteringSceneIndex.h>
 #include <pxr/usd/sdf/pathTable.h>
+#include <pxr/imaging/fabric/materialSchema.h>
+#include <pxr/imaging/fabric/articulationRootSchema.h>
+#include <pxr/imaging/fabric/collisionGroupSchema.h>
+#include <pxr/imaging/fabric/collisionSchema.h>
+#include <pxr/imaging/fabric/distanceJointSchema.h>
+#include <pxr/imaging/fabric/driveSchema.h>
+#include <pxr/imaging/fabric/filteredPairsSchema.h>
+#include <pxr/imaging/fabric/fixedJointSchema.h>
+#include <pxr/imaging/fabric/jointSchema.h>
+#include <pxr/imaging/fabric/limitSchema.h>
+#include <pxr/imaging/fabric/massSchema.h>
+#include <pxr/imaging/fabric/materialSchema.h>
+#include <pxr/imaging/fabric/meshCollisionSchema.h>
+#include <pxr/imaging/fabric/physxArticulationSchema.h>
+#include <pxr/imaging/fabric/physxCameraDroneSchema.h>
+#include <pxr/imaging/fabric/physxCameraFollowLookSchema.h>
+#include <pxr/imaging/fabric/physxCameraFollowSchema.h>
+#include <pxr/imaging/fabric/physxCameraFollowVelocitySchema.h>
+#include <pxr/imaging/fabric/physxCameraSchema.h>
+#include <pxr/imaging/fabric/physxCharacterControllerSchema.h>
+#include <pxr/imaging/fabric/physxCollisionSchema.h>
+#include <pxr/imaging/fabric/physxContactReportSchema.h>
+#include <pxr/imaging/fabric/physxConvexDecompositionCollisionSchema.h>
+#include <pxr/imaging/fabric/physxConvexHullCollisionSchema.h>
+#include <pxr/imaging/fabric/physxCookedDataSchema.h>
+#include <pxr/imaging/fabric/physxForceSchema.h>
+#include <pxr/imaging/fabric/physxIsosurfaceSchema.h>
+#include <pxr/imaging/fabric/physxJointSchema.h>
+#include <pxr/imaging/fabric/physxJointStateSchema.h>
+#include <pxr/imaging/fabric/physxMaterialSchema.h>
+#include <pxr/imaging/fabric/physxMeshMergeCollisionSchema.h>
+#include <pxr/imaging/fabric/physxMimicJointSchema.h>
+#include <pxr/imaging/fabric/physxPhysicsDistanceJointSchema.h>
+#include <pxr/imaging/fabric/physxPhysicsGearJointSchema.h>
+#include <pxr/imaging/fabric/physxPhysicsInstancerSchema.h>
+#include <pxr/imaging/fabric/physxPhysicsJointInstancerSchema.h>
+#include <pxr/imaging/fabric/physxPhysicsRackAndPinionJointSchema.h>
+#include <pxr/imaging/fabric/physxResidualReportingSchema.h>
+#include <pxr/imaging/fabric/physxRigidBodySchema.h>
+#include <pxr/imaging/fabric/physxSceneQuasistaticSchema.h>
+#include <pxr/imaging/fabric/physxSceneSchema.h>
+#include <pxr/imaging/fabric/physxSDFMeshCollisionSchema.h>
+#include <pxr/imaging/fabric/physxSphereFillCollisionSchema.h>
+#include <pxr/imaging/fabric/physxSurfaceVelocitySchema.h>
+#include <pxr/imaging/fabric/physxTriangleMeshCollisionSchema.h>
+#include <pxr/imaging/fabric/physxTriangleMeshSimplificationCollisionSchema.h>
+#include <pxr/imaging/fabric/physxTriggerSchema.h>
+#include <pxr/imaging/fabric/physxTriggerStateSchema.h>
+#include <pxr/imaging/fabric/physxVehicleAckermannSteeringSchema.h>
+#include <pxr/imaging/fabric/physxVehicleAutoGearBoxSchema.h>
+#include <pxr/imaging/fabric/physxVehicleBrakesSchema.h>
+#include <pxr/imaging/fabric/physxVehicleClutchSchema.h>
+#include <pxr/imaging/fabric/physxVehicleContextSchema.h>
+#include <pxr/imaging/fabric/physxVehicleControllerSchema.h>
+#include <pxr/imaging/fabric/physxVehicleDriveBasicSchema.h>
+#include <pxr/imaging/fabric/physxVehicleDriveStandardSchema.h>
+#include <pxr/imaging/fabric/physxVehicleEngineSchema.h>
+#include <pxr/imaging/fabric/physxVehicleGearsSchema.h>
+#include <pxr/imaging/fabric/physxVehicleMultiWheelDifferentialSchema.h>
+#include <pxr/imaging/fabric/physxVehicleNonlinearCommandResponseSchema.h>
+#include <pxr/imaging/fabric/physxVehicleSchema.h>
+#include <pxr/imaging/fabric/physxVehicleSteeringSchema.h>
+#include <pxr/imaging/fabric/physxVehicleSuspensionComplianceSchema.h>
+#include <pxr/imaging/fabric/physxVehicleSuspensionSchema.h>
+#include <pxr/imaging/fabric/physxVehicleTankControllerSchema.h>
+#include <pxr/imaging/fabric/physxVehicleTankDifferentialSchema.h>
+#include <pxr/imaging/fabric/physxVehicleTireFrictionTableSchema.h>
+#include <pxr/imaging/fabric/physxVehicleTireSchema.h>
+#include <pxr/imaging/fabric/physxVehicleWheelAttachmentSchema.h>
+#include <pxr/imaging/fabric/physxVehicleWheelControllerSchema.h>
+#include <pxr/imaging/fabric/physxVehicleWheelSchema.h>
+#include <pxr/imaging/fabric/prismaticJointSchema.h>
+#include <pxr/imaging/fabric/revoluteJointSchema.h>
+#include <pxr/imaging/fabric/rigidBodySchema.h>
+#include <pxr/imaging/fabric/sceneSchema.h>
+#include <pxr/imaging/fabric/sphericalJointSchema.h>
+
+#include <pxr/imaging/hd/xformSchema.h>
+#include <pxr/imaging/hd/cubeSchema.h>
+#include <pxr/imaging/hd/capsuleSchema.h>
+#include <pxr/imaging/hd/sphereSchema.h>
+#include <pxr/imaging/hd/coneSchema.h>
+#include <pxr/imaging/hd/cylinderSchema.h>
+#include <pxr/imaging/hd/planeSchema.h>
+#include <pxr/imaging/hd/primvarsSchema.h>
 
 PXR_NAMESPACE_OPEN_SCOPE
-
-class FabricArticulationRootSchema;
-class FabricCollisionGroupSchema;
-class FabricCollisionSchema;
-class FabricDistanceJointSchema;
-class FabricDriveSchema;
-class FabricFilteredPairsSchema;
-class FabricFixedJointSchema;
-class FabricJointSchema;
-class FabricLimitSchema;
-class FabricMassSchema;
-class FabricMaterialSchema;
-class FabricMeshCollisionSchema;
-class FabricPhysxArticulationSchema;
-class FabricPhysxCameraDroneSchema;
-class FabricPhysxCameraFollowLookSchema;
-class FabricPhysxCameraFollowSchema;
-class FabricPhysxCameraFollowVelocitySchema;
-class FabricPhysxCameraSchema;
-class FabricPhysxCharacterControllerSchema;
-class FabricPhysxCollisionSchema;
-class FabricPhysxContactReportSchema;
-class FabricPhysxConvexDecompositionCollisionSchema;
-class FabricPhysxConvexHullCollisionSchema;
-class FabricPhysxCookedDataSchema;
-class FabricPhysxForceSchema;
-class FabricPhysxIsosurfaceSchema;
-class FabricPhysxJointSchema;
-class FabricPhysxJointStateSchema;
-class FabricPhysxMaterialSchema;
-class FabricPhysxMeshMergeCollisionSchema;
-class FabricPhysxMimicJointSchema;
-class FabricPhysxPhysicsDistanceJointSchema;
-class FabricPhysxPhysicsGearJointSchema;
-class FabricPhysxPhysicsInstancerSchema;
-class FabricPhysxPhysicsJointInstancerSchema;
-class FabricPhysxPhysicsRackAndPinionJointSchema;
-class FabricPhysxResidualReportingSchema;
-class FabricPhysxRigidBodySchema;
-class FabricPhysxSceneQuasistaticSchema;
-class FabricPhysxSceneSchema;
-class FabricPhysxSDFMeshCollisionSchema;
-class FabricPhysxSphereFillCollisionSchema;
-class FabricPhysxSurfaceVelocitySchema;
-class FabricPhysxTriangleMeshCollisionSchema;
-class FabricPhysxTriangleMeshSimplificationCollisionSchema;
-class FabricPhysxTriggerSchema;
-class FabricPhysxTriggerStateSchema;
-class FabricPhysxVehicleAckermannSteeringSchema;
-class FabricPhysxVehicleAutoGearBoxSchema;
-class FabricPhysxVehicleBrakesSchema;
-class FabricPhysxVehicleClutchSchema;
-class FabricPhysxVehicleContextSchema;
-class FabricPhysxVehicleControllerSchema;
-class FabricPhysxVehicleDriveBasicSchema;
-class FabricPhysxVehicleDriveStandardSchema;
-class FabricPhysxVehicleEngineSchema;
-class FabricPhysxVehicleGearsSchema;
-class FabricPhysxVehicleMultiWheelDifferentialSchema;
-class FabricPhysxVehicleNonlinearCommandResponseSchema;
-class FabricPhysxVehicleSchema;
-class FabricPhysxVehicleSteeringSchema;
-class FabricPhysxVehicleSuspensionComplianceSchema;
-class FabricPhysxVehicleSuspensionSchema;
-class FabricPhysxVehicleTankControllerSchema;
-class FabricPhysxVehicleTankDifferentialSchema;
-class FabricPhysxVehicleTireFrictionTableSchema;
-class FabricPhysxVehicleTireSchema;
-class FabricPhysxVehicleWheelAttachmentSchema;
-class FabricPhysxVehicleWheelControllerSchema;
-class FabricPhysxVehicleWheelSchema;
-class FabricPrismaticJointSchema;
-class FabricRevoluteJointSchema;
-class FabricRigidBodySchema;
-class FabricSceneSchema;
-class FabricSphericalJointSchema;
-
-class HdCubeSchema;
-class HdCapsuleSchema;
-class HdSphereSchema;
-class HdConeSchema;
-class HdCylinderSchema;
-class HdPlaneSchema;
-class HdPrimvarsSchema;
 
 class Fabric {
 public:
@@ -102,6 +103,10 @@ public:
     void PrimsRemoved(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::RemovedPrimEntry& entry);
 
     void PrimsDirtied(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::DirtiedPrimEntry& entry);
+
+    HdSceneIndexObserver::DirtiedPrimEntries& dirtyEntries() { return _dirtyEntries; }
+
+
 
 private:
     std::map<SdfPath, FabricArticulationRootSchema> _articulationRoots;
@@ -187,6 +192,9 @@ private:
     std::map<SdfPath, HdCylinderSchema> _cylinders;
     std::map<SdfPath, HdPlaneSchema> _planes;
     std::map<SdfPath, HdPrimvarsSchema> _meshes;
+
+    SdfPathTable<GfMatrix4d> _globalXforms;
+    HdSceneIndexObserver::DirtiedPrimEntries _dirtyEntries;
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE

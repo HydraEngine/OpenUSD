@@ -32,6 +32,7 @@
 #include "pxr/imaging/hd/sprim.h"
 #include "pxr/imaging/hd/task.h"
 #include "pxr/imaging/hd/tokens.h"
+#include "pxr/imaging/fabric/fabric.h"
 
 #include "pxr/base/work/dispatcher.h"
 #include "pxr/base/work/loops.h"
@@ -50,21 +51,14 @@
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-TF_DEFINE_ENV_SETTING(HD_ENABLE_SCENE_INDEX_EMULATION, true,
-                      "Enable scene index emulation in the render index.");
+TF_DEFINE_ENV_SETTING(HD_ENABLE_SCENE_INDEX_EMULATION, true, "Enable scene index emulation in the render index.");
 
-TF_DEFINE_PRIVATE_TOKENS(
-    _noticeBatchingTokens,
-    ((postEmulation, "Post-Emulation Notice Batching Scene Index"))
-    ((postMerging, "Post-Merging Notice Batching Scene Index"))
-);
+TF_DEFINE_PRIVATE_TOKENS(_noticeBatchingTokens,
+                         ((postEmulation, "Post-Emulation Notice Batching Scene Index"))(
+                                 (postMerging, "Post-Merging Notice Batching Scene Index")));
 
-
-static bool
-_IsEnabledSceneIndexEmulation()
-{
-    static bool enabled =
-        (TfGetEnvSetting(HD_ENABLE_SCENE_INDEX_EMULATION) == true);
+static bool _IsEnabledSceneIndexEmulation() {
+    static bool enabled = (TfGetEnvSetting(HD_ENABLE_SCENE_INDEX_EMULATION) == true);
     return enabled;
 }
 
@@ -73,32 +67,25 @@ _IsEnabledSceneIndexEmulation()
 /// Object that manages a notice batching scene index with support for nested
 /// calls to BeginBatching/EndBatching.
 ///
-class HdRenderIndex::_NoticeBatchingContext
-{
+class HdRenderIndex::_NoticeBatchingContext {
 public:
-    _NoticeBatchingContext(const TfToken &displayName)
-    : _displayName(displayName) {}
+    _NoticeBatchingContext(const TfToken &displayName) : _displayName(displayName) {}
 
-    ~_NoticeBatchingContext()
-    {
+    ~_NoticeBatchingContext() {
         if (_batchingDepth != 0) {
-            TF_CODING_ERROR("Imbalanced batch begin/end calls for %s.\n",
-                _displayName.GetText());
+            TF_CODING_ERROR("Imbalanced batch begin/end calls for %s.\n", _displayName.GetText());
         }
     }
 
     /// Creates and returns a notice batching scene index that takes \p inputSi
     /// as its input.
-    HdSceneIndexBaseRefPtr Append(
-        HdSceneIndexBaseRefPtr const &inputSi)
-    {
+    HdSceneIndexBaseRefPtr Append(HdSceneIndexBaseRefPtr const &inputSi) {
         _nbSi = HdNoticeBatchingSceneIndex::New(inputSi);
         _nbSi->SetDisplayName(_displayName.GetString());
         return _nbSi;
     }
 
-    void BeginBatching()
-    {
+    void BeginBatching() {
         if (_nbSi) {
             if (_batchingDepth == 0) {
                 _nbSi->SetBatchingEnabled(true);
@@ -107,8 +94,7 @@ public:
         }
     }
 
-    void EndBatching()
-    {
+    void EndBatching() {
         if (_nbSi) {
             if (_batchingDepth > 0) {
                 --_batchingDepth;
@@ -117,11 +103,11 @@ public:
                     _nbSi->SetBatchingEnabled(false);
                 }
             } else {
-                TF_CODING_ERROR("Imbalanced batch begin/end calls for %s.\n",
-                    _displayName.GetText());
+                TF_CODING_ERROR("Imbalanced batch begin/end calls for %s.\n", _displayName.GetText());
             }
         }
     }
+
 private:
     HdNoticeBatchingSceneIndexRefPtr _nbSi;
     unsigned int _batchingDepth = 0;
@@ -130,25 +116,17 @@ private:
 
 // -------------------------------------------------------------------------- //
 
-bool
-HdRenderIndex::IsSceneIndexEmulationEnabled()
-{
-    return _IsEnabledSceneIndexEmulation();
-}
+bool HdRenderIndex::IsSceneIndexEmulationEnabled() { return _IsEnabledSceneIndexEmulation(); }
 
-HdRenderIndex::HdRenderIndex(
-    HdRenderDelegate *renderDelegate,
-    HdDriverVector const& drivers,
-    const std::string &instanceName)
-    : _emulationBatchingCtx(std::make_unique<_NoticeBatchingContext>(
-        _noticeBatchingTokens->postEmulation))
-    , _mergingBatchingCtx(std::make_unique<_NoticeBatchingContext>(
-        _noticeBatchingTokens->postMerging))
-    , _renderDelegate(renderDelegate)
-    , _drivers(drivers)
-    , _instanceName(instanceName)
-    , _rprimDirtyList(*this)
-{
+HdRenderIndex::HdRenderIndex(HdRenderDelegate *renderDelegate,
+                             HdDriverVector const &drivers,
+                             const std::string &instanceName)
+    : _emulationBatchingCtx(std::make_unique<_NoticeBatchingContext>(_noticeBatchingTokens->postEmulation)),
+      _mergingBatchingCtx(std::make_unique<_NoticeBatchingContext>(_noticeBatchingTokens->postMerging)),
+      _renderDelegate(renderDelegate),
+      _drivers(drivers),
+      _instanceName(instanceName),
+      _rprimDirtyList(*this) {
     // Note: HdRenderIndex::New(...) guarantees renderDelegate is non-null.
 
     _rprimPrimIdMap.reserve(128);
@@ -176,34 +154,26 @@ HdRenderIndex::HdRenderIndex(
         _emulationSceneIndex = HdLegacyPrimSceneIndex::New();
 
         _mergingSceneIndex = HdMergingSceneIndex::New();
-        _mergingSceneIndex->AddInputScene(
-            _emulationBatchingCtx->Append(_emulationSceneIndex),
-            SdfPath::AbsoluteRootPath());
+        _mergingSceneIndex->AddInputScene(_emulationBatchingCtx->Append(_emulationSceneIndex),
+                                          SdfPath::AbsoluteRootPath());
 
-        _terminalSceneIndex =
-            _mergingBatchingCtx->Append(_mergingSceneIndex);
+        _terminalSceneIndex = _mergingBatchingCtx->Append(_mergingSceneIndex);
 
-        _terminalSceneIndex = HdLegacyGeomSubsetSceneIndex::New(
-            _terminalSceneIndex);
+        _terminalSceneIndex = HdLegacyGeomSubsetSceneIndex::New(_terminalSceneIndex);
 
-        _terminalSceneIndex =
-            HdSceneIndexAdapterSceneDelegate::AppendDefaultSceneFilters(
-                _terminalSceneIndex, SdfPath::AbsoluteRootPath());
+        _terminalSceneIndex = HdSceneIndexAdapterSceneDelegate::AppendDefaultSceneFilters(_terminalSceneIndex,
+                                                                                          SdfPath::AbsoluteRootPath());
 
-        const std::string &rendererDisplayName =
-            renderDelegate->GetRendererDisplayName();
+        const std::string &rendererDisplayName = renderDelegate->GetRendererDisplayName();
 
         if (!rendererDisplayName.empty()) {
-            _terminalSceneIndex =
-                HdSceneIndexPluginRegistry::GetInstance()
-                    .AppendSceneIndicesForRenderer(
-                        rendererDisplayName, _terminalSceneIndex, instanceName);
+            _terminalSceneIndex = HdSceneIndexPluginRegistry::GetInstance().AppendSceneIndicesForRenderer(
+                    rendererDisplayName, _terminalSceneIndex, instanceName);
         }
 
-        _siSd = std::make_unique<HdSceneIndexAdapterSceneDelegate>(
-            _terminalSceneIndex,
-            this,
-            SdfPath::AbsoluteRootPath());
+        _fabric = std::make_unique<Fabric>();
+        _siSd = std::make_unique<HdSceneIndexAdapterSceneDelegate>(_terminalSceneIndex, this,
+                                                                   SdfPath::AbsoluteRootPath());
 
         _tracker._SetTargetSceneIndex(get_pointer(_emulationSceneIndex));
 
@@ -211,8 +181,7 @@ HdRenderIndex::HdRenderIndex(
     }
 }
 
-HdRenderIndex::~HdRenderIndex()
-{
+HdRenderIndex::~HdRenderIndex() {
     HD_TRACE_FUNCTION();
 
     // Get rid of prims first.
@@ -228,65 +197,50 @@ HdRenderIndex::~HdRenderIndex()
     _DestroyFallbackPrims();
 }
 
-HdRenderIndex*
-HdRenderIndex::New(
-    HdRenderDelegate *renderDelegate,
-    HdDriverVector const& drivers,
-    const std::string &instanceName)
-{
+Fabric &HdRenderIndex::fabric() { return *_fabric; }
+
+HdRenderIndex *HdRenderIndex::New(HdRenderDelegate *renderDelegate,
+                                  HdDriverVector const &drivers,
+                                  const std::string &instanceName) {
     if (renderDelegate == nullptr) {
-        TF_CODING_ERROR(
-            "Null Render Delegate provided to create render index");
+        TF_CODING_ERROR("Null Render Delegate provided to create render index");
         return nullptr;
     }
     return new HdRenderIndex(renderDelegate, drivers, instanceName);
 }
 
-void
-HdRenderIndex::InsertSceneIndex(
-    const HdSceneIndexBaseRefPtr &inputScene,
-    SdfPath const& scenePathPrefix,
-    bool needsPrefixing/* = true*/)
-{
+void HdRenderIndex::InsertSceneIndex(const HdSceneIndexBaseRefPtr &inputScene,
+                                     SdfPath const &scenePathPrefix,
+                                     bool needsPrefixing /* = true*/) {
     if (!_IsEnabledSceneIndexEmulation()) {
-        TF_WARN("Unable to add scene index at prefix %s because emulation is off.",
-                scenePathPrefix.GetText());
+        TF_WARN("Unable to add scene index at prefix %s because emulation is off.", scenePathPrefix.GetText());
         return;
     }
 
     HdSceneIndexBaseRefPtr resolvedScene = inputScene;
     if (needsPrefixing && scenePathPrefix != SdfPath::AbsoluteRootPath()) {
-        resolvedScene = HdPrefixingSceneIndex::New(
-            inputScene, scenePathPrefix);
+        resolvedScene = HdPrefixingSceneIndex::New(inputScene, scenePathPrefix);
     }
-    _mergingSceneIndex->AddInputScene(
-        resolvedScene, scenePathPrefix);
+    _mergingSceneIndex->AddInputScene(resolvedScene, scenePathPrefix);
 }
 
-static
-HdSceneIndexBaseRefPtr
-_GetInputScene(const HdPrefixingSceneIndexRefPtr &prefixingScene)
-{
-    const std::vector<HdSceneIndexBaseRefPtr> inputScenes =
-        prefixingScene->GetInputScenes();
+static HdSceneIndexBaseRefPtr _GetInputScene(const HdPrefixingSceneIndexRefPtr &prefixingScene) {
+    const std::vector<HdSceneIndexBaseRefPtr> inputScenes = prefixingScene->GetInputScenes();
     if (inputScenes.size() == 1) {
         return inputScenes[0];
     }
-    TF_CODING_ERROR("Expected exactly one scene index from "
-                    "HdPrefixingSceneIndex::GetInputScenes");
+    TF_CODING_ERROR(
+            "Expected exactly one scene index from "
+            "HdPrefixingSceneIndex::GetInputScenes");
     return TfNullPtr;
 }
 
-void
-HdRenderIndex::RemoveSceneIndex(
-    const HdSceneIndexBaseRefPtr &inputScene)
-{
+void HdRenderIndex::RemoveSceneIndex(const HdSceneIndexBaseRefPtr &inputScene) {
     if (!_IsEnabledSceneIndexEmulation()) {
         return;
     }
 
-    const std::vector<HdSceneIndexBaseRefPtr> resolvedScenes =
-        _mergingSceneIndex->GetInputScenes();
+    const std::vector<HdSceneIndexBaseRefPtr> resolvedScenes = _mergingSceneIndex->GetInputScenes();
 
     // Case that given scene index was added by InsertSceneIndex with
     // scenePathPrefix = "/". We find it just by going over the
@@ -304,25 +258,18 @@ HdRenderIndex::RemoveSceneIndex(
     // from the given scene index.
     for (HdSceneIndexBaseRefPtr const &resolvedScene : resolvedScenes) {
         if (HdPrefixingSceneIndexRefPtr const prefixingScene =
-                TfDynamic_cast<HdPrefixingSceneIndexRefPtr>(resolvedScene)) {
+                    TfDynamic_cast<HdPrefixingSceneIndexRefPtr>(resolvedScene)) {
             if (inputScene == _GetInputScene(prefixingScene)) {
                 _mergingSceneIndex->RemoveInputScene(resolvedScene);
-                    return;
+                return;
             }
         }
     }
 }
 
-HdSceneIndexBaseRefPtr
-HdRenderIndex::GetTerminalSceneIndex() const
-{
-    return _terminalSceneIndex;
-}
+HdSceneIndexBaseRefPtr HdRenderIndex::GetTerminalSceneIndex() const { return _terminalSceneIndex; }
 
-void
-HdRenderIndex::RemoveSubtree(const SdfPath &root,
-                             HdSceneDelegate* sceneDelegate)
-{
+void HdRenderIndex::RemoveSubtree(const SdfPath &root, HdSceneDelegate *sceneDelegate) {
     HD_TRACE_FUNCTION();
 
     // Remove tasks here, since they aren't part of emulation.
@@ -337,11 +284,7 @@ HdRenderIndex::RemoveSubtree(const SdfPath &root,
     _RemoveSubtree(root, sceneDelegate);
 }
 
-void
-HdRenderIndex::_RemoveSubtree(
-    const SdfPath &root,
-    HdSceneDelegate* sceneDelegate)
-{
+void HdRenderIndex::_RemoveSubtree(const SdfPath &root, HdSceneDelegate *sceneDelegate) {
     HD_TRACE_FUNCTION();
 
     _RemoveRprimSubtree(root, sceneDelegate);
@@ -350,12 +293,7 @@ HdRenderIndex::_RemoveSubtree(
     _RemoveInstancerSubtree(root, sceneDelegate);
 }
 
-
-void
-HdRenderIndex::InsertRprim(TfToken const& typeId,
-                 HdSceneDelegate* sceneDelegate,
-                 SdfPath const& rprimId)
-{
+void HdRenderIndex::InsertRprim(TfToken const &typeId, HdSceneDelegate *sceneDelegate, SdfPath const &rprimId) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -369,11 +307,7 @@ HdRenderIndex::InsertRprim(TfToken const& typeId,
     _InsertRprim(typeId, sceneDelegate, rprimId);
 }
 
-void
-HdRenderIndex::_InsertRprim(TfToken const& typeId,
-                            HdSceneDelegate* sceneDelegate,
-                            SdfPath const& rprimId)
-{
+void HdRenderIndex::_InsertRprim(TfToken const &typeId, HdSceneDelegate *sceneDelegate, SdfPath const &rprimId) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -383,8 +317,8 @@ HdRenderIndex::_InsertRprim(TfToken const& typeId,
 
     SdfPath const &sceneDelegateId = sceneDelegate->GetDelegateID();
     if (!rprimId.HasPrefix(sceneDelegateId)) {
-        TF_CODING_ERROR("Scene Delegate Id (%s) must prefix prim Id (%s)",
-                        sceneDelegateId.GetText(), rprimId.GetText());
+        TF_CODING_ERROR("Scene Delegate Id (%s) must prefix prim Id (%s)", sceneDelegateId.GetText(),
+                        rprimId.GetText());
         return;
     }
 
@@ -397,20 +331,14 @@ HdRenderIndex::_InsertRprim(TfToken const& typeId,
 
     // Force an initial "renderTag" sync.  We add the bit here since the
     // render index manages render tags, rather than the rprim implementation.
-    _tracker.RprimInserted(rprimId, rprim->GetInitialDirtyBitsMask() |
-                                    HdChangeTracker::DirtyRenderTag);
+    _tracker.RprimInserted(rprimId, rprim->GetInitialDirtyBitsMask() | HdChangeTracker::DirtyRenderTag);
     _AllocatePrimId(rprim);
 
-    _RprimInfo info = {
-      sceneDelegate,
-      rprim
-    };
+    _RprimInfo info = {sceneDelegate, rprim};
     _rprimMap[rprimId] = std::move(info);
 }
 
-void
-HdRenderIndex::RemoveRprim(SdfPath const& id)
-{
+void HdRenderIndex::RemoveRprim(SdfPath const &id) {
     HD_TRACE_FUNCTION();
 
     // If we are emulating let's remove from the scene index
@@ -423,18 +351,15 @@ HdRenderIndex::RemoveRprim(SdfPath const& id)
     _RemoveRprim(id);
 }
 
-void HdRenderIndex::_RemoveRprim(SdfPath const &id)
-{
+void HdRenderIndex::_RemoveRprim(SdfPath const &id) {
     _RprimMap::iterator rit = _rprimMap.find(id);
-    if (rit == _rprimMap.end())
-        return;
+    if (rit == _rprimMap.end()) return;
 
     _RprimInfo &rprimInfo = rit->second;
 
     SdfPath instancerId = rprimInfo.rprim->GetInstancerId();
 
     _rprimIds.Remove(id);
-
 
     if (!instancerId.IsEmpty()) {
         _tracker.RemoveInstancerRprimDependency(instancerId, id);
@@ -450,10 +375,7 @@ void HdRenderIndex::_RemoveRprim(SdfPath const &id)
     _rprimMap.erase(rit);
 }
 
-void
-HdRenderIndex::_RemoveRprimSubtree(const SdfPath &root,
-                                   HdSceneDelegate* sceneDelegate)
-{
+void HdRenderIndex::_RemoveRprimSubtree(const SdfPath &root, HdSceneDelegate *sceneDelegate) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -462,11 +384,7 @@ HdRenderIndex::_RemoveRprimSubtree(const SdfPath &root,
         size_t _end;
 
         _Range() = default;
-        _Range(size_t start, size_t end)
-         : _start(start)
-         , _end(end)
-        {
-        }
+        _Range(size_t start, size_t end) : _start(start), _end(end) {}
     };
 
     HdPrimGather gather;
@@ -474,24 +392,18 @@ HdRenderIndex::_RemoveRprimSubtree(const SdfPath &root,
     std::vector<_Range> rangesToRemove;
 
     const SdfPathVector &ids = _rprimIds.GetIds();
-    if (!gather.SubtreeAsRange(ids,
-                               root,
-                               &totalRange._start,
-                               &totalRange._end)) {
+    if (!gather.SubtreeAsRange(ids, root, &totalRange._start, &totalRange._end)) {
         return;
     }
 
     // end is inclusive!
     size_t currentRangeStart = totalRange._start;
-    for (size_t rprimIdIdx  = totalRange._start;
-                rprimIdIdx <= totalRange._end;
-              ++rprimIdIdx) {
+    for (size_t rprimIdIdx = totalRange._start; rprimIdIdx <= totalRange._end; ++rprimIdIdx) {
         const SdfPath &id = ids[rprimIdIdx];
 
         _RprimMap::iterator rit = _rprimMap.find(id);
         if (rit == _rprimMap.end()) {
-            TF_CODING_ERROR("Rprim in id list not in info map: %s",
-                             id.GetText());
+            TF_CODING_ERROR("Rprim in id list not in info map: %s", id.GetText());
         } else {
             _RprimInfo &rprimInfo = rit->second;
 
@@ -511,8 +423,7 @@ HdRenderIndex::_RemoveRprimSubtree(const SdfPath &root,
                 _rprimMap.erase(rit);
             } else {
                 if (currentRangeStart < rprimIdIdx) {
-                    rangesToRemove.emplace_back(currentRangeStart,
-                                                rprimIdIdx - 1);
+                    rangesToRemove.emplace_back(currentRangeStart, rprimIdIdx - 1);
                 }
 
                 currentRangeStart = rprimIdIdx + 1;
@@ -522,8 +433,7 @@ HdRenderIndex::_RemoveRprimSubtree(const SdfPath &root,
 
     // Remove final range
     if (currentRangeStart <= totalRange._end) {
-        rangesToRemove.emplace_back(currentRangeStart,
-                                    totalRange._end);
+        rangesToRemove.emplace_back(currentRangeStart, totalRange._end);
     }
 
     // Remove ranges from id's in back to front order to not invalidate indices
@@ -535,10 +445,7 @@ HdRenderIndex::_RemoveRprimSubtree(const SdfPath &root,
     }
 }
 
-
-void
-HdRenderIndex::Clear()
-{
+void HdRenderIndex::Clear() {
     HD_TRACE_FUNCTION();
 
     // Clear tasks.
@@ -556,9 +463,7 @@ HdRenderIndex::Clear()
     _Clear();
 }
 
-void
-HdRenderIndex::_Clear()
-{
+void HdRenderIndex::_Clear() {
     HD_TRACE_FUNCTION();
 
     for (const auto &pair : _rprimMap) {
@@ -594,11 +499,9 @@ HdRenderIndex::_Clear()
 /// \name Task Support
 // -------------------------------------------------------------------------- //
 
-void
-HdRenderIndex::_TrackDelegateTask(HdSceneDelegate* delegate,
-                                  SdfPath const& taskId,
-                                  HdTaskCreateFnc taskCreateFnc)
-{
+void HdRenderIndex::_TrackDelegateTask(HdSceneDelegate *delegate,
+                                       SdfPath const &taskId,
+                                       HdTaskCreateFnc taskCreateFnc) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -611,8 +514,7 @@ HdRenderIndex::_TrackDelegateTask(HdSceneDelegate* delegate,
     _taskMap.emplace(taskId, _TaskInfo{delegate, task});
 }
 
-HdTaskSharedPtr const&
-HdRenderIndex::GetTask(SdfPath const& id) const {
+HdTaskSharedPtr const &HdRenderIndex::GetTask(SdfPath const &id) const {
     _TaskMap::const_iterator it = _taskMap.find(id);
     if (it != _taskMap.end()) {
         return it->second.task;
@@ -622,9 +524,7 @@ HdRenderIndex::GetTask(SdfPath const& id) const {
     return EMPTY;
 }
 
-void
-HdRenderIndex::RemoveTask(SdfPath const& id)
-{
+void HdRenderIndex::RemoveTask(SdfPath const &id) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -637,11 +537,7 @@ HdRenderIndex::RemoveTask(SdfPath const& id)
     _taskMap.erase(it);
 }
 
-
-void
-HdRenderIndex::_RemoveTaskSubtree(const SdfPath &root,
-                                  HdSceneDelegate* sceneDelegate)
-{
+void HdRenderIndex::_RemoveTaskSubtree(const SdfPath &root, HdSceneDelegate *sceneDelegate) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -650,8 +546,7 @@ HdRenderIndex::_RemoveTaskSubtree(const SdfPath &root,
         const SdfPath &id = it->first;
         const _TaskInfo &taskInfo = it->second;
 
-        if ((taskInfo.sceneDelegate == sceneDelegate) &&
-            (id.HasPrefix(root))) {
+        if ((taskInfo.sceneDelegate == sceneDelegate) && (id.HasPrefix(root))) {
             _tracker.TaskRemoved(id);
 
             it = _taskMap.erase(it);
@@ -665,11 +560,7 @@ HdRenderIndex::_RemoveTaskSubtree(const SdfPath &root,
 /// \name Sprim Support (scene state prim: light, camera...)
 // -------------------------------------------------------------------------- //
 
-void
-HdRenderIndex::InsertSprim(TfToken const& typeId,
-                           HdSceneDelegate* sceneDelegate,
-                           SdfPath const& sprimId)
-{
+void HdRenderIndex::InsertSprim(TfToken const &typeId, HdSceneDelegate *sceneDelegate, SdfPath const &sprimId) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -683,21 +574,14 @@ HdRenderIndex::InsertSprim(TfToken const& typeId,
     _InsertSprim(typeId, sceneDelegate, sprimId);
 }
 
-void
-HdRenderIndex::_InsertSprim(TfToken const& typeId,
-                            HdSceneDelegate* delegate,
-                            SdfPath const& sprimId)
-{
+void HdRenderIndex::_InsertSprim(TfToken const &typeId, HdSceneDelegate *delegate, SdfPath const &sprimId) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
-    _sprimIndex.InsertPrim(typeId, delegate, sprimId,
-                           _tracker, _renderDelegate);
+    _sprimIndex.InsertPrim(typeId, delegate, sprimId, _tracker, _renderDelegate);
 }
 
-void
-HdRenderIndex::RemoveSprim(TfToken const& typeId, SdfPath const& id)
-{
+void HdRenderIndex::RemoveSprim(TfToken const &typeId, SdfPath const &id) {
     if (_IsEnabledSceneIndexEmulation()) {
         _emulationSceneIndex->RemovePrim(id);
         return;
@@ -706,43 +590,27 @@ HdRenderIndex::RemoveSprim(TfToken const& typeId, SdfPath const& id)
     _RemoveSprim(typeId, id);
 }
 
-void
-HdRenderIndex::_RemoveSprim(TfToken const& typeId, SdfPath const &id)
-{
+void HdRenderIndex::_RemoveSprim(TfToken const &typeId, SdfPath const &id) {
     _sprimIndex.RemovePrim(typeId, id, _tracker, _renderDelegate);
 }
 
-HdSprim*
-HdRenderIndex::GetSprim(TfToken const& typeId, SdfPath const& id) const
-{
+HdSprim *HdRenderIndex::GetSprim(TfToken const &typeId, SdfPath const &id) const {
     return _sprimIndex.GetPrim(typeId, id);
 }
 
-SdfPathVector
-HdRenderIndex::GetSprimSubtree(TfToken const& typeId,
-                               SdfPath const& rootPath)
-{
+SdfPathVector HdRenderIndex::GetSprimSubtree(TfToken const &typeId, SdfPath const &rootPath) {
     SdfPathVector result;
     _sprimIndex.GetPrimSubtree(typeId, rootPath, &result);
     return result;
 }
 
-HdSprim *
-HdRenderIndex::GetFallbackSprim(TfToken const& typeId) const
-{
-    return _sprimIndex.GetFallbackPrim(typeId);
-}
-
+HdSprim *HdRenderIndex::GetFallbackSprim(TfToken const &typeId) const { return _sprimIndex.GetFallbackPrim(typeId); }
 
 // -------------------------------------------------------------------------- //
 /// \name Bprim Support (Buffer prim: texture, buffers...)
 // -------------------------------------------------------------------------- //
 
-void
-HdRenderIndex::InsertBprim(TfToken const& typeId,
-                           HdSceneDelegate* sceneDelegate,
-                           SdfPath const& bprimId)
-{
+void HdRenderIndex::InsertBprim(TfToken const &typeId, HdSceneDelegate *sceneDelegate, SdfPath const &bprimId) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -756,21 +624,14 @@ HdRenderIndex::InsertBprim(TfToken const& typeId,
     _InsertBprim(typeId, sceneDelegate, bprimId);
 }
 
-void
-HdRenderIndex::_InsertBprim(TfToken const& typeId,
-                           HdSceneDelegate* sceneDelegate,
-                           SdfPath const& bprimId)
-{
+void HdRenderIndex::_InsertBprim(TfToken const &typeId, HdSceneDelegate *sceneDelegate, SdfPath const &bprimId) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
-    _bprimIndex.InsertPrim(typeId, sceneDelegate, bprimId,
-                           _tracker, _renderDelegate);
+    _bprimIndex.InsertPrim(typeId, sceneDelegate, bprimId, _tracker, _renderDelegate);
 }
 
-void
-HdRenderIndex::RemoveBprim(TfToken const& typeId, SdfPath const& id)
-{
+void HdRenderIndex::RemoveBprim(TfToken const &typeId, SdfPath const &id) {
     if (_IsEnabledSceneIndexEmulation()) {
         _emulationSceneIndex->RemovePrim(id);
         return;
@@ -779,75 +640,40 @@ HdRenderIndex::RemoveBprim(TfToken const& typeId, SdfPath const& id)
     _RemoveBprim(typeId, id);
 }
 
-void
-HdRenderIndex::_RemoveBprim(TfToken const& typeId, SdfPath const &id)
-{
+void HdRenderIndex::_RemoveBprim(TfToken const &typeId, SdfPath const &id) {
     _bprimIndex.RemovePrim(typeId, id, _tracker, _renderDelegate);
 }
 
-HdBprim *
-HdRenderIndex::GetBprim(TfToken const& typeId, SdfPath const& id) const
-{
+HdBprim *HdRenderIndex::GetBprim(TfToken const &typeId, SdfPath const &id) const {
     return _bprimIndex.GetPrim(typeId, id);
 }
 
-SdfPathVector
-HdRenderIndex::GetBprimSubtree(TfToken const& typeId,
-                               SdfPath const& rootPath)
-{
+SdfPathVector HdRenderIndex::GetBprimSubtree(TfToken const &typeId, SdfPath const &rootPath) {
     SdfPathVector result;
     _bprimIndex.GetPrimSubtree(typeId, rootPath, &result);
     return result;
 }
 
-HdBprim *
-HdRenderIndex::GetFallbackBprim(TfToken const& typeId) const
-{
-    return _bprimIndex.GetFallbackPrim(typeId);
-}
-
+HdBprim *HdRenderIndex::GetFallbackBprim(TfToken const &typeId) const { return _bprimIndex.GetFallbackPrim(typeId); }
 
 // ---------------------------------------------------------------------- //
 // Render Delegate
 // ---------------------------------------------------------------------- //
-HdRenderDelegate *HdRenderIndex::GetRenderDelegate() const
-{
-    return _renderDelegate;
-}
+HdRenderDelegate *HdRenderIndex::GetRenderDelegate() const { return _renderDelegate; }
 
-HdResourceRegistrySharedPtr
-HdRenderIndex::GetResourceRegistry() const
-{
+HdResourceRegistrySharedPtr HdRenderIndex::GetResourceRegistry() const {
     return _renderDelegate->GetResourceRegistry();
 }
 
-void
-HdRenderIndex::SceneIndexEmulationNoticeBatchBegin()
-{
-    _emulationBatchingCtx->BeginBatching();
-}
+void HdRenderIndex::SceneIndexEmulationNoticeBatchBegin() { _emulationBatchingCtx->BeginBatching(); }
 
-void
-HdRenderIndex::SceneIndexEmulationNoticeBatchEnd()
-{
-    _emulationBatchingCtx->EndBatching();
-}
+void HdRenderIndex::SceneIndexEmulationNoticeBatchEnd() { _emulationBatchingCtx->EndBatching(); }
 
-void
-HdRenderIndex::MergingSceneIndexNoticeBatchBegin()
-{
-    _mergingBatchingCtx->BeginBatching();
-}
+void HdRenderIndex::MergingSceneIndexNoticeBatchBegin() { _mergingBatchingCtx->BeginBatching(); }
 
-void
-HdRenderIndex::MergingSceneIndexNoticeBatchEnd()
-{
-    _mergingBatchingCtx->EndBatching();
-}
+void HdRenderIndex::MergingSceneIndexNoticeBatchEnd() { _mergingBatchingCtx->EndBatching(); }
 
-std::string
-HdRenderIndex::GetInstanceName() const
-{
+std::string HdRenderIndex::GetInstanceName() const {
     if (!_instanceName.empty()) {
         return _instanceName;
     }
@@ -855,9 +681,7 @@ HdRenderIndex::GetInstanceName() const
     return ArchStringPrintf("%p", (void *)this);
 }
 
-bool
-HdRenderIndex::_CreateFallbackPrims()
-{
+bool HdRenderIndex::_CreateFallbackPrims() {
     bool success = true;
 
     success &= _sprimIndex.CreateFallbackPrims(_renderDelegate);
@@ -866,121 +690,82 @@ HdRenderIndex::_CreateFallbackPrims()
     return success;
 }
 
-void
-HdRenderIndex::_DestroyFallbackPrims()
-{
+void HdRenderIndex::_DestroyFallbackPrims() {
     _sprimIndex.DestroyFallbackPrims(_renderDelegate);
     _bprimIndex.DestroyFallbackPrims(_renderDelegate);
 }
 
 /* static */
-void
-HdRenderIndex::_ConfigureReprs()
-{
+void HdRenderIndex::_ConfigureReprs() {
     // pre-defined reprs (to be deprecated or minimalized)
     HdMesh::ConfigureRepr(HdReprTokens->hull,
-                          HdMeshReprDesc(HdMeshGeomStyleHull,
-                                         HdCullStyleDontCare,
-                                         HdMeshReprDescTokens->surfaceShader,
+                          HdMeshReprDesc(HdMeshGeomStyleHull, HdCullStyleDontCare, HdMeshReprDescTokens->surfaceShader,
                                          /*flatShadingEnabled=*/true,
                                          /*blendWireframeColor=*/false));
     HdMesh::ConfigureRepr(HdReprTokens->smoothHull,
-                          HdMeshReprDesc(HdMeshGeomStyleHull,
-                                         HdCullStyleDontCare,
-                                         HdMeshReprDescTokens->surfaceShader,
+                          HdMeshReprDesc(HdMeshGeomStyleHull, HdCullStyleDontCare, HdMeshReprDescTokens->surfaceShader,
                                          /*flatShadingEnabled=*/false,
                                          /*blendWireframeColor=*/false));
-    HdMesh::ConfigureRepr(HdReprTokens->wire,
-                          HdMeshReprDesc(HdMeshGeomStyleHullEdgeOnly,
-                                         HdCullStyleDontCare,
-                                         HdMeshReprDescTokens->surfaceShader,
-                                         /*flatShadingEnabled=*/false,
-                                         /*blendWireframeColor=*/true));
-    HdMesh::ConfigureRepr(HdReprTokens->wireOnSurf,
-                          HdMeshReprDesc(HdMeshGeomStyleHullEdgeOnSurf,
-                                         HdCullStyleDontCare,
-                                         HdMeshReprDescTokens->surfaceShader,
-                                         /*flatShadingEnabled=*/false,
-                                         /*blendWireframeColor=*/true,
-                                         /*forceOpaqueEdges=*/false));
+    HdMesh::ConfigureRepr(HdReprTokens->wire, HdMeshReprDesc(HdMeshGeomStyleHullEdgeOnly, HdCullStyleDontCare,
+                                                             HdMeshReprDescTokens->surfaceShader,
+                                                             /*flatShadingEnabled=*/false,
+                                                             /*blendWireframeColor=*/true));
+    HdMesh::ConfigureRepr(HdReprTokens->wireOnSurf, HdMeshReprDesc(HdMeshGeomStyleHullEdgeOnSurf, HdCullStyleDontCare,
+                                                                   HdMeshReprDescTokens->surfaceShader,
+                                                                   /*flatShadingEnabled=*/false,
+                                                                   /*blendWireframeColor=*/true,
+                                                                   /*forceOpaqueEdges=*/false));
     HdMesh::ConfigureRepr(HdReprTokens->refined,
-                          HdMeshReprDesc(HdMeshGeomStyleSurf,
-                                         HdCullStyleDontCare,
-                                         HdMeshReprDescTokens->surfaceShader,
+                          HdMeshReprDesc(HdMeshGeomStyleSurf, HdCullStyleDontCare, HdMeshReprDescTokens->surfaceShader,
                                          /*flatShadingEnabled=*/false,
                                          /*blendWireframeColor=*/false));
-    HdMesh::ConfigureRepr(HdReprTokens->refinedWire,
-                          HdMeshReprDesc(HdMeshGeomStyleEdgeOnly,
-                                         HdCullStyleDontCare,
-                                         HdMeshReprDescTokens->surfaceShader,
-                                         /*flatShadingEnabled=*/false,
-                                         /*blendWireframeColor=*/true));
-    HdMesh::ConfigureRepr(HdReprTokens->refinedWireOnSurf,
-                          HdMeshReprDesc(HdMeshGeomStyleEdgeOnSurf,
-                                         HdCullStyleDontCare,
-                                         HdMeshReprDescTokens->surfaceShader,
-                                         /*flatShadingEnabled=*/false,
-                                         /*blendWireframeColor=*/true,
-                                         /*forceOpaqueEdges=*/false));
+    HdMesh::ConfigureRepr(HdReprTokens->refinedWire, HdMeshReprDesc(HdMeshGeomStyleEdgeOnly, HdCullStyleDontCare,
+                                                                    HdMeshReprDescTokens->surfaceShader,
+                                                                    /*flatShadingEnabled=*/false,
+                                                                    /*blendWireframeColor=*/true));
+    HdMesh::ConfigureRepr(
+            HdReprTokens->refinedWireOnSurf,
+            HdMeshReprDesc(HdMeshGeomStyleEdgeOnSurf, HdCullStyleDontCare, HdMeshReprDescTokens->surfaceShader,
+                           /*flatShadingEnabled=*/false,
+                           /*blendWireframeColor=*/true,
+                           /*forceOpaqueEdges=*/false));
     HdMesh::ConfigureRepr(HdReprTokens->points,
-                          HdMeshReprDesc(HdMeshGeomStylePoints,
-                                         HdCullStyleNothing,
-                                         HdMeshReprDescTokens->pointColor,
+                          HdMeshReprDesc(HdMeshGeomStylePoints, HdCullStyleNothing, HdMeshReprDescTokens->pointColor,
                                          /*flatShadingEnabled=*/false,
                                          /*blendWireframeColor=*/false));
 
-    HdBasisCurves::ConfigureRepr(HdReprTokens->hull,
-                                 HdBasisCurvesGeomStylePatch);
-    HdBasisCurves::ConfigureRepr(HdReprTokens->smoothHull,
-                                 HdBasisCurvesGeomStylePatch);
-    HdBasisCurves::ConfigureRepr(HdReprTokens->wire,
-                                 HdBasisCurvesGeomStyleWire);
-    HdBasisCurves::ConfigureRepr(HdReprTokens->wireOnSurf,
-                                 HdBasisCurvesGeomStylePatch);
-    HdBasisCurves::ConfigureRepr(HdReprTokens->refined,
-                                 HdBasisCurvesGeomStylePatch);
-    HdBasisCurves::ConfigureRepr(HdReprTokens->refinedWire,
-                                 HdBasisCurvesGeomStyleWire);
-    HdBasisCurves::ConfigureRepr(HdReprTokens->refinedWireOnSurf,
-                                 HdBasisCurvesGeomStylePatch);
-    HdBasisCurves::ConfigureRepr(HdReprTokens->points,
-                                 HdBasisCurvesGeomStylePoints);
+    HdBasisCurves::ConfigureRepr(HdReprTokens->hull, HdBasisCurvesGeomStylePatch);
+    HdBasisCurves::ConfigureRepr(HdReprTokens->smoothHull, HdBasisCurvesGeomStylePatch);
+    HdBasisCurves::ConfigureRepr(HdReprTokens->wire, HdBasisCurvesGeomStyleWire);
+    HdBasisCurves::ConfigureRepr(HdReprTokens->wireOnSurf, HdBasisCurvesGeomStylePatch);
+    HdBasisCurves::ConfigureRepr(HdReprTokens->refined, HdBasisCurvesGeomStylePatch);
+    HdBasisCurves::ConfigureRepr(HdReprTokens->refinedWire, HdBasisCurvesGeomStyleWire);
+    HdBasisCurves::ConfigureRepr(HdReprTokens->refinedWireOnSurf, HdBasisCurvesGeomStylePatch);
+    HdBasisCurves::ConfigureRepr(HdReprTokens->points, HdBasisCurvesGeomStylePoints);
 
-    HdPoints::ConfigureRepr(HdReprTokens->hull,
-                            HdPointsGeomStylePoints);
-    HdPoints::ConfigureRepr(HdReprTokens->smoothHull,
-                            HdPointsGeomStylePoints);
-    HdPoints::ConfigureRepr(HdReprTokens->wire,
-                            HdPointsGeomStylePoints);
-    HdPoints::ConfigureRepr(HdReprTokens->wireOnSurf,
-                            HdPointsGeomStylePoints);
-    HdPoints::ConfigureRepr(HdReprTokens->refined,
-                            HdPointsGeomStylePoints);
-    HdPoints::ConfigureRepr(HdReprTokens->refinedWire,
-                            HdPointsGeomStylePoints);
-    HdPoints::ConfigureRepr(HdReprTokens->refinedWireOnSurf,
-                            HdPointsGeomStylePoints);
-    HdPoints::ConfigureRepr(HdReprTokens->points,
-                            HdPointsGeomStylePoints);
+    HdPoints::ConfigureRepr(HdReprTokens->hull, HdPointsGeomStylePoints);
+    HdPoints::ConfigureRepr(HdReprTokens->smoothHull, HdPointsGeomStylePoints);
+    HdPoints::ConfigureRepr(HdReprTokens->wire, HdPointsGeomStylePoints);
+    HdPoints::ConfigureRepr(HdReprTokens->wireOnSurf, HdPointsGeomStylePoints);
+    HdPoints::ConfigureRepr(HdReprTokens->refined, HdPointsGeomStylePoints);
+    HdPoints::ConfigureRepr(HdReprTokens->refinedWire, HdPointsGeomStylePoints);
+    HdPoints::ConfigureRepr(HdReprTokens->refinedWireOnSurf, HdPointsGeomStylePoints);
+    HdPoints::ConfigureRepr(HdReprTokens->points, HdPointsGeomStylePoints);
 }
 // -------------------------------------------------------------------------- //
 /// \name Draw Item Handling
 // -------------------------------------------------------------------------- //
 
-
 struct _FilterParam {
-    const TfTokenVector     &renderTags;
-    const HdRenderIndex     *renderIndex;
+    const TfTokenVector &renderTags;
+    const HdRenderIndex *renderIndex;
 };
 
-static bool
-_DrawItemFilterPredicate(const SdfPath &rprimID, const void *predicateParam)
-{
-    const _FilterParam *filterParam =
-                              static_cast<const _FilterParam *>(predicateParam);
+static bool _DrawItemFilterPredicate(const SdfPath &rprimID, const void *predicateParam) {
+    const _FilterParam *filterParam = static_cast<const _FilterParam *>(predicateParam);
 
-    const TfTokenVector     &renderTags  = filterParam->renderTags;
-    const HdRenderIndex     *renderIndex = filterParam->renderIndex;
+    const TfTokenVector &renderTags = filterParam->renderTags;
+    const HdRenderIndex *renderIndex = filterParam->renderIndex;
 
     //
     // Render Tag Filter
@@ -1004,18 +789,16 @@ _DrawItemFilterPredicate(const SdfPath &rprimID, const void *predicateParam)
         }
     }
 
-   return false;
+    return false;
 }
 
-HdRenderIndex::HdDrawItemPtrVector
-HdRenderIndex::GetDrawItems(HdRprimCollection const& collection,
-                            TfTokenVector const& renderTags)
-{
+HdRenderIndex::HdDrawItemPtrVector HdRenderIndex::GetDrawItems(HdRprimCollection const &collection,
+                                                               TfTokenVector const &renderTags) {
     HD_TRACE_FUNCTION();
 
     SdfPathVector rprimIds;
 
-    const SdfPathVector &paths        = GetRprimIds();
+    const SdfPathVector &paths = GetRprimIds();
     const SdfPathVector &includePaths = collection.GetRootPaths();
     const SdfPathVector &excludePaths = collection.GetExcludePaths();
 
@@ -1023,25 +806,14 @@ HdRenderIndex::GetDrawItems(HdRprimCollection const& collection,
 
     HdPrimGather gather;
 
-    gather.PredicatedFilter(paths,
-                            includePaths,
-                            excludePaths,
-                            _DrawItemFilterPredicate,
-                            &filterParam,
-                            &rprimIds);
+    gather.PredicatedFilter(paths, includePaths, excludePaths, _DrawItemFilterPredicate, &filterParam, &rprimIds);
 
     _ConcurrentDrawItems concurrentDrawItems;
 
-
-    WorkParallelForN(rprimIds.size(),
-                         std::bind(&HdRenderIndex::_AppendDrawItems,
-                                   this,
-                                   std::cref(rprimIds),
-                                   std::placeholders::_1,     // begin
-                                   std::placeholders::_2,     // end
-                                   std::cref(collection),
-                                   &concurrentDrawItems));
-
+    WorkParallelForN(rprimIds.size(), std::bind(&HdRenderIndex::_AppendDrawItems, this, std::cref(rprimIds),
+                                                std::placeholders::_1,  // begin
+                                                std::placeholders::_2,  // end
+                                                std::cref(collection), &concurrentDrawItems));
 
     typedef tbb::flattened2d<_ConcurrentDrawItems> _FlattenDrawItems;
 
@@ -1049,17 +821,13 @@ HdRenderIndex::GetDrawItems(HdRprimCollection const& collection,
 
     // Merge thread results to the output data structure
     HdDrawItemPtrVector finalResult;
-    finalResult.insert(finalResult.end(),
-                       result.begin(),
-                       result.end());
+    finalResult.insert(finalResult.end(), result.begin(), result.end());
 
     return finalResult;
 }
 
-TfToken
-HdRenderIndex::GetRenderTag(SdfPath const& id) const
-{
-    _RprimInfo const* info = TfMapLookupPtr(_rprimMap, id);
+TfToken HdRenderIndex::GetRenderTag(SdfPath const &id) const {
+    _RprimInfo const *info = TfMapLookupPtr(_rprimMap, id);
     if (info == nullptr) {
         return HdRenderTagTokens->hidden;
     }
@@ -1067,27 +835,20 @@ HdRenderIndex::GetRenderTag(SdfPath const& id) const
     return info->rprim->GetRenderTag();
 }
 
-TfToken
-HdRenderIndex::UpdateRenderTag(SdfPath const& id,
-                               HdDirtyBits bits)
-{
-    _RprimInfo const* info = TfMapLookupPtr(_rprimMap, id);
+TfToken HdRenderIndex::UpdateRenderTag(SdfPath const &id, HdDirtyBits bits) {
+    _RprimInfo const *info = TfMapLookupPtr(_rprimMap, id);
     if (info == nullptr) {
         return HdRenderTagTokens->hidden;
     }
 
     if (bits & HdChangeTracker::DirtyRenderTag) {
-        info->rprim->UpdateRenderTag(info->sceneDelegate,
-                                    _renderDelegate->GetRenderParam());
-        _tracker.MarkRprimClean(id,
-                                bits & ~HdChangeTracker::DirtyRenderTag);
+        info->rprim->UpdateRenderTag(info->sceneDelegate, _renderDelegate->GetRenderParam());
+        _tracker.MarkRprimClean(id, bits & ~HdChangeTracker::DirtyRenderTag);
     }
     return info->rprim->GetRenderTag();
 }
 
-SdfPathVector
-HdRenderIndex::GetRprimSubtree(SdfPath const& rootPath)
-{
+SdfPathVector HdRenderIndex::GetRprimSubtree(SdfPath const &rootPath) {
     SdfPathVector paths;
 
     HdPrimGather gather;
@@ -1097,356 +858,283 @@ HdRenderIndex::GetRprimSubtree(SdfPath const& rootPath)
 }
 
 namespace {
-    // A struct that captures (just) the repr opinion of a collection.
-    struct _CollectionReprSpec {
-        _CollectionReprSpec(HdReprSelector const &repr, bool forced) :
-            reprSelector(repr), useCollectionRepr(forced) {}
-        HdReprSelector reprSelector;
-        bool useCollectionRepr;
+// A struct that captures (just) the repr opinion of a collection.
+struct _CollectionReprSpec {
+    _CollectionReprSpec(HdReprSelector const &repr, bool forced) : reprSelector(repr), useCollectionRepr(forced) {}
+    HdReprSelector reprSelector;
+    bool useCollectionRepr;
 
-        bool operator == (_CollectionReprSpec const &other) const {
-            return  (reprSelector == other.reprSelector) &&
-                    (useCollectionRepr == other.useCollectionRepr);
-        }
-    };
-    // Repr specs to sync for all the dirty Rprims. This information is
-    // gathered during task sync from the render pass' collection opinion.
-    using _CollectionReprSpecVector = std::vector<_CollectionReprSpec>;
+    bool operator==(_CollectionReprSpec const &other) const {
+        return (reprSelector == other.reprSelector) && (useCollectionRepr == other.useCollectionRepr);
+    }
+};
+// Repr specs to sync for all the dirty Rprims. This information is
+// gathered during task sync from the render pass' collection opinion.
+using _CollectionReprSpecVector = std::vector<_CollectionReprSpec>;
 
-    // -------------------------------------------------------------------------
-    struct _RprimSyncRequestVector {
-        void PushBack(HdRprim *rprim,
-                      SdfPath const &rprimId,
-                      HdDirtyBits dirtyBits)
-        {
-            rprims.push_back(rprim);
-            request.IDs.push_back(rprimId);
-            request.dirtyBits.push_back(dirtyBits);
-        }
-
-        std::vector<HdRprim *> rprims;
-        HdSyncRequestVector request;
-
-        _RprimSyncRequestVector() = default;
-        // XXX: This is a heavy structure and should not be copied.
-        //_RprimSyncRequestVector(const _RprimSyncRequestVector&) = delete;
-        _RprimSyncRequestVector& operator =(const _RprimSyncRequestVector&)
-            = delete;
-    };
-    // A map of the Rprims to sync per scene delegate.
-    using _SceneDelegateRprimSyncRequestMap =
-        TfHashMap<HdSceneDelegate*, _RprimSyncRequestVector, TfHash>;
-
-    struct _SceneDelegateSyncWorker {
-        _SceneDelegateRprimSyncRequestMap* _map;
-        std::vector<HdSceneDelegate*> _delegates;
-    public:
-        _SceneDelegateSyncWorker(
-            _SceneDelegateRprimSyncRequestMap* map) : _map(map)
-        {
-            _delegates.reserve(map->size());
-            for (auto const &entry : *map) {
-                _delegates.push_back(entry.first);
-            }
-        }
-
-        void Process(size_t begin, size_t end)
-        {
-            for (size_t i = begin; i < end; i++) {
-                HdSceneDelegate* sd = _delegates[i];
-                _RprimSyncRequestVector* r = TfMapLookupPtr(*_map, sd);
-                sd->Sync(&r->request);
-            }
-        }
-    };
-
-    static HdReprSelector
-    _GetResolvedReprSelector(HdReprSelector const &rprimReprSelector,
-                             HdReprSelector const &colReprSelector,
-                             bool forceColRepr)
-    {
-        // if not forced, the prim's authored opinion composites over the
-        // collection's repr, otherwise we respect the collection's repr
-        // (used for shadows)
-        if (!forceColRepr) {
-            return rprimReprSelector.CompositeOver(colReprSelector);
-        }
-        return colReprSelector;
+// -------------------------------------------------------------------------
+struct _RprimSyncRequestVector {
+    void PushBack(HdRprim *rprim, SdfPath const &rprimId, HdDirtyBits dirtyBits) {
+        rprims.push_back(rprim);
+        request.IDs.push_back(rprimId);
+        request.dirtyBits.push_back(dirtyBits);
     }
 
-    struct _SyncRPrims {
-        HdSceneDelegate *_sceneDelegate;
-        _RprimSyncRequestVector &_r;
-        _CollectionReprSpecVector const &_reprSpecs;
-        HdChangeTracker &_tracker;
-        HdRenderParam *_renderParam;
-    public:
-        _SyncRPrims( HdSceneDelegate *sceneDelegate,
-                     _RprimSyncRequestVector& r,
-                     _CollectionReprSpecVector const &reprSpecs,
-                     HdChangeTracker &tracker,
-                     HdRenderParam *renderParam)
-         : _sceneDelegate(sceneDelegate)
-         , _r(r)
-         , _reprSpecs(reprSpecs)
-         , _tracker(tracker)
-         , _renderParam(renderParam)
-        {
-        }
+    std::vector<HdRprim *> rprims;
+    HdSyncRequestVector request;
 
-        void Sync(size_t begin, size_t end)
-        {
-            for (size_t i = begin; i < end; ++i)
-            {
-                HdRprim &rprim = *_r.rprims[i];
+    _RprimSyncRequestVector() = default;
+    // XXX: This is a heavy structure and should not be copied.
+    //_RprimSyncRequestVector(const _RprimSyncRequestVector&) = delete;
+    _RprimSyncRequestVector &operator=(const _RprimSyncRequestVector &) = delete;
+};
+// A map of the Rprims to sync per scene delegate.
+using _SceneDelegateRprimSyncRequestMap = TfHashMap<HdSceneDelegate *, _RprimSyncRequestVector, TfHash>;
 
-                HdDirtyBits dirtyBits = _r.request.dirtyBits[i];
+struct _SceneDelegateSyncWorker {
+    _SceneDelegateRprimSyncRequestMap *_map;
+    std::vector<HdSceneDelegate *> _delegates;
 
-                TfTokenVector reprsSynced;
-                for (const _CollectionReprSpec& spec : _reprSpecs) {
-                    // The rprim's authored repr selector is
-                    // guaranteed to have been set at this point (via
-                    // InitRepr/DirtyRepr handling during PreSync)
-                    HdReprSelector reprSelector =
-                        _GetResolvedReprSelector(rprim.GetReprSelector(),
-                                                 spec.reprSelector,
-                                                 spec.useCollectionRepr);
-
-                    for (size_t i = 0;
-                         i < HdReprSelector::MAX_TOPOLOGY_REPRS; ++i) {
-
-                        TfToken const& reprToken = reprSelector[i];
-                        // Sync valid repr tokens once.
-                        if (reprSelector.IsActiveRepr(i) &&
-                            std::find(reprsSynced.begin(), reprsSynced.end(),
-                                      reprToken) == reprsSynced.end()) {
-
-                            rprim.Sync(_sceneDelegate,
-                                        _renderParam,
-                                        &dirtyBits,
-                                        reprToken);
-
-                            reprsSynced.push_back(reprToken);
-                        }
-                    }
-                }
-
-                _tracker.MarkRprimClean(rprim.GetId(), dirtyBits);
-            }
-        }
-    };
-
-    static void
-    _InitRprimReprs(HdSceneDelegate *sceneDelegate,
-                    HdReprSelector const& colReprSelector,
-                    bool forceColRepr,
-                    HdRprim *rprim,
-                    HdDirtyBits *dirtyBits)
-    {
-        HdReprSelector reprSelector = _GetResolvedReprSelector(
-                                            rprim->GetReprSelector(),
-                                            colReprSelector,
-                                            forceColRepr);
-
-        for (size_t i = 0; i < HdReprSelector::MAX_TOPOLOGY_REPRS; ++i) {
-            if (reprSelector.IsActiveRepr(i)) {
-                TfToken const& reprToken = reprSelector[i];
-                rprim->InitRepr(sceneDelegate,
-                                reprToken,
-                                dirtyBits);
-            }
+public:
+    _SceneDelegateSyncWorker(_SceneDelegateRprimSyncRequestMap *map) : _map(map) {
+        _delegates.reserve(map->size());
+        for (auto const &entry : *map) {
+            _delegates.push_back(entry.first);
         }
     }
 
-    static void
-    _PreSyncRPrims(HdSceneDelegate *sceneDelegate,
-                   HdChangeTracker *tracker,
-                   _RprimSyncRequestVector *syncReq,
-                   _CollectionReprSpecVector const& reprSpecs,
-                   size_t begin,
-                   size_t end)
-    {
-        for (size_t i = begin; i < end; ++i)
-        {
-            HdRprim         *rprim         = syncReq->rprims[i];
-            HdDirtyBits     &dirtyBits     = syncReq->request.dirtyBits[i];
-
-            // Initialize all utilized reprs for the rprim.
-            //
-            // An Rprim may require additional data to perform a sync of a repr
-            // for the first time.  Therefore, inform the Rprim of the new repr
-            // and give it the opportunity to modify the dirty bits in the
-            // request before providing them to the scene delegate.
-            //
-            // The InitRepr bit is set when the dirty list is reset to all
-            // the Rprim ids. See HdDirtyList::_UpdateDirtyIdsIfNeeded().
-            //
-            // The DirtyRepr bit on the otherhand is set when the scene
-            // delegate's prim repr state changes and thus the prim must
-            // fetch it again from the scene delgate.
-            //
-            // In both cases, if the repr is new for the prim, this leaves the
-            // NewRepr dirty bit on the prim (otherwise NewRepr is clean).
-            if ((dirtyBits &
-                     (HdChangeTracker::InitRepr | HdChangeTracker::DirtyRepr))
-                  != 0) {
-
-                rprim->UpdateReprSelector(sceneDelegate, &dirtyBits);
-
-                for (const _CollectionReprSpec& spec : reprSpecs) {
-                    _InitRprimReprs(sceneDelegate,
-                                    spec.reprSelector,
-                                    spec.useCollectionRepr,
-                                    rprim,
-                                    &dirtyBits);
-                }
-                dirtyBits &= ~HdChangeTracker::InitRepr;
-                // Clear the InitRepr bit in the change tracker.
-                tracker->MarkRprimClean(rprim->GetId(), dirtyBits);
-            }
-
-            if (rprim->CanSkipDirtyBitPropagationAndSync(dirtyBits)) {
-                // XXX: This is quite hacky. See comment in the implementation
-                // of HdRprim::CanSkipDirtyBitPropagationAndSync
-                dirtyBits = HdChangeTracker::Clean;
-                tracker->ResetRprimVaryingState(rprim->GetId());
-                continue;
-            }
-
-            // A render delegate may require additional information
-            // from the scene delegate to process a change.
-            //
-            // Calling PropagateRprimDirtyBits gives the Rprim an opportunity
-            // to update the dirty bits in order to request the information
-            // before passing the request to the scene deleate.
-            dirtyBits = rprim->PropagateRprimDirtyBits(dirtyBits);
+    void Process(size_t begin, size_t end) {
+        for (size_t i = begin; i < end; i++) {
+            HdSceneDelegate *sd = _delegates[i];
+            _RprimSyncRequestVector *r = TfMapLookupPtr(*_map, sd);
+            sd->Sync(&r->request);
         }
-    }
-
-    static void
-    _PreSyncRequestVector(HdSceneDelegate *sceneDelegate,
-                          HdChangeTracker *tracker,
-                          _RprimSyncRequestVector *syncReq,
-                          _CollectionReprSpecVector const &reprSpecs)
-    {
-        size_t numPrims = syncReq->rprims.size();
-        WorkParallelForN(numPrims,
-                         std::bind(&_PreSyncRPrims,
-                                   sceneDelegate, tracker,
-                                   syncReq, std::cref(reprSpecs),
-                                   std::placeholders::_1,
-                                   std::placeholders::_2));
-
-        // Pre-sync may have completely cleaned prims, so as an optimization
-        // remove them from the sync request list.
-        size_t primIdx = 0;
-        while (primIdx < numPrims)
-        {
-            if (HdChangeTracker::IsClean(syncReq->request.dirtyBits[primIdx])) {
-                if (numPrims == 1) {
-                    syncReq->rprims.clear();
-                    syncReq->request.IDs.clear();
-                    syncReq->request.dirtyBits.clear();
-                    ++primIdx;
-                } else {
-
-                    std::swap(syncReq->rprims[primIdx],
-                              syncReq->rprims[numPrims -1]);
-                    std::swap(syncReq->request.IDs[primIdx],
-                              syncReq->request.IDs[numPrims -1]);
-                    std::swap(syncReq->request.dirtyBits[primIdx],
-                              syncReq->request.dirtyBits[numPrims -1]);
-
-                    syncReq->rprims.pop_back();
-                    syncReq->request.IDs.pop_back();
-                    syncReq->request.dirtyBits.pop_back();
-                    --numPrims;
-                }
-            } else {
-                ++primIdx;
-            }
-        }
-    }
-
-    // Gather the unique set of render tags requested by the tasks.
-    static TfTokenVector
-    _GatherRenderTags(const HdTaskSharedPtrVector *tasks)
-    {
-        TfTokenVector tags;
-        size_t numTasks = tasks->size();
-        for (size_t taskNum = 0; taskNum < numTasks; ++taskNum) {
-            const HdTaskSharedPtr &task = (*tasks)[taskNum];
-            const TfTokenVector &taskRenderTags = task->GetRenderTags();
-
-            tags.insert(tags.end(),
-                        taskRenderTags.begin(),
-                        taskRenderTags.end());
-        }
-
-        // Deduplicate.
-        std::sort(tags.begin(), tags.end());
-        TfTokenVector::iterator newEnd =
-                std::unique(tags.begin(), tags.end());
-        tags.erase(newEnd, tags.end());
-
-        return tags;
-    }
-
-    static _CollectionReprSpecVector
-    _GatherReprSpecs(const HdRprimCollectionVector &collections)
-    {
-        _CollectionReprSpecVector reprSpecs;
-        for (HdRprimCollection const &collection : collections) {
-            HdReprSelector const &rs = collection.GetReprSelector();
-            if (!rs.AnyActiveRepr()) {
-                continue; // Skip empty/disabled reprs
-            }
-            _CollectionReprSpec reprSpec(rs, collection.IsForcedRepr());
-
-            if (std::find(reprSpecs.begin(), reprSpecs.end(), reprSpec)
-                == reprSpecs.end()) {
-
-                reprSpecs.push_back(reprSpec);
-            }
-        }
-
-        if (TfDebug::IsEnabled(HD_SYNC_ALL)) {
-            std::cout << "Reprs to sync: [";
-            for (auto const &rs : reprSpecs) {
-                std::cout << "    " << rs.reprSelector << std::endl;
-            }
-            std::cout << "]" << std::endl;
-        }
-
-        return reprSpecs;
-    }
-
-    static HdReprSelectorVector
-    _GetReprSelectors(_CollectionReprSpecVector const &specs)
-    {
-        HdReprSelectorVector reprs;
-
-        for (const auto &spec : specs) {
-            HdReprSelector const &repr = spec.reprSelector;
-            if (std::find(reprs.begin(), reprs.end(), repr) == reprs.end()) {
-                reprs.push_back(repr);
-            }
-        }
-
-        return reprs;
     }
 };
 
-void
-HdRenderIndex::EnqueueCollectionToSync(HdRprimCollection const &col)
-{
-    _collectionsToSync.push_back(col);
+static HdReprSelector _GetResolvedReprSelector(HdReprSelector const &rprimReprSelector,
+                                               HdReprSelector const &colReprSelector,
+                                               bool forceColRepr) {
+    // if not forced, the prim's authored opinion composites over the
+    // collection's repr, otherwise we respect the collection's repr
+    // (used for shadows)
+    if (!forceColRepr) {
+        return rprimReprSelector.CompositeOver(colReprSelector);
+    }
+    return colReprSelector;
 }
 
-void
-HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
-                       HdTaskContext *taskContext)
-{
+struct _SyncRPrims {
+    HdSceneDelegate *_sceneDelegate;
+    _RprimSyncRequestVector &_r;
+    _CollectionReprSpecVector const &_reprSpecs;
+    HdChangeTracker &_tracker;
+    HdRenderParam *_renderParam;
+
+public:
+    _SyncRPrims(HdSceneDelegate *sceneDelegate,
+                _RprimSyncRequestVector &r,
+                _CollectionReprSpecVector const &reprSpecs,
+                HdChangeTracker &tracker,
+                HdRenderParam *renderParam)
+        : _sceneDelegate(sceneDelegate), _r(r), _reprSpecs(reprSpecs), _tracker(tracker), _renderParam(renderParam) {}
+
+    void Sync(size_t begin, size_t end) {
+        for (size_t i = begin; i < end; ++i) {
+            HdRprim &rprim = *_r.rprims[i];
+
+            HdDirtyBits dirtyBits = _r.request.dirtyBits[i];
+
+            TfTokenVector reprsSynced;
+            for (const _CollectionReprSpec &spec : _reprSpecs) {
+                // The rprim's authored repr selector is
+                // guaranteed to have been set at this point (via
+                // InitRepr/DirtyRepr handling during PreSync)
+                HdReprSelector reprSelector =
+                        _GetResolvedReprSelector(rprim.GetReprSelector(), spec.reprSelector, spec.useCollectionRepr);
+
+                for (size_t i = 0; i < HdReprSelector::MAX_TOPOLOGY_REPRS; ++i) {
+                    TfToken const &reprToken = reprSelector[i];
+                    // Sync valid repr tokens once.
+                    if (reprSelector.IsActiveRepr(i) &&
+                        std::find(reprsSynced.begin(), reprsSynced.end(), reprToken) == reprsSynced.end()) {
+                        rprim.Sync(_sceneDelegate, _renderParam, &dirtyBits, reprToken);
+
+                        reprsSynced.push_back(reprToken);
+                    }
+                }
+            }
+
+            _tracker.MarkRprimClean(rprim.GetId(), dirtyBits);
+        }
+    }
+};
+
+static void _InitRprimReprs(HdSceneDelegate *sceneDelegate,
+                            HdReprSelector const &colReprSelector,
+                            bool forceColRepr,
+                            HdRprim *rprim,
+                            HdDirtyBits *dirtyBits) {
+    HdReprSelector reprSelector = _GetResolvedReprSelector(rprim->GetReprSelector(), colReprSelector, forceColRepr);
+
+    for (size_t i = 0; i < HdReprSelector::MAX_TOPOLOGY_REPRS; ++i) {
+        if (reprSelector.IsActiveRepr(i)) {
+            TfToken const &reprToken = reprSelector[i];
+            rprim->InitRepr(sceneDelegate, reprToken, dirtyBits);
+        }
+    }
+}
+
+static void _PreSyncRPrims(HdSceneDelegate *sceneDelegate,
+                           HdChangeTracker *tracker,
+                           _RprimSyncRequestVector *syncReq,
+                           _CollectionReprSpecVector const &reprSpecs,
+                           size_t begin,
+                           size_t end) {
+    for (size_t i = begin; i < end; ++i) {
+        HdRprim *rprim = syncReq->rprims[i];
+        HdDirtyBits &dirtyBits = syncReq->request.dirtyBits[i];
+
+        // Initialize all utilized reprs for the rprim.
+        //
+        // An Rprim may require additional data to perform a sync of a repr
+        // for the first time.  Therefore, inform the Rprim of the new repr
+        // and give it the opportunity to modify the dirty bits in the
+        // request before providing them to the scene delegate.
+        //
+        // The InitRepr bit is set when the dirty list is reset to all
+        // the Rprim ids. See HdDirtyList::_UpdateDirtyIdsIfNeeded().
+        //
+        // The DirtyRepr bit on the otherhand is set when the scene
+        // delegate's prim repr state changes and thus the prim must
+        // fetch it again from the scene delgate.
+        //
+        // In both cases, if the repr is new for the prim, this leaves the
+        // NewRepr dirty bit on the prim (otherwise NewRepr is clean).
+        if ((dirtyBits & (HdChangeTracker::InitRepr | HdChangeTracker::DirtyRepr)) != 0) {
+            rprim->UpdateReprSelector(sceneDelegate, &dirtyBits);
+
+            for (const _CollectionReprSpec &spec : reprSpecs) {
+                _InitRprimReprs(sceneDelegate, spec.reprSelector, spec.useCollectionRepr, rprim, &dirtyBits);
+            }
+            dirtyBits &= ~HdChangeTracker::InitRepr;
+            // Clear the InitRepr bit in the change tracker.
+            tracker->MarkRprimClean(rprim->GetId(), dirtyBits);
+        }
+
+        if (rprim->CanSkipDirtyBitPropagationAndSync(dirtyBits)) {
+            // XXX: This is quite hacky. See comment in the implementation
+            // of HdRprim::CanSkipDirtyBitPropagationAndSync
+            dirtyBits = HdChangeTracker::Clean;
+            tracker->ResetRprimVaryingState(rprim->GetId());
+            continue;
+        }
+
+        // A render delegate may require additional information
+        // from the scene delegate to process a change.
+        //
+        // Calling PropagateRprimDirtyBits gives the Rprim an opportunity
+        // to update the dirty bits in order to request the information
+        // before passing the request to the scene deleate.
+        dirtyBits = rprim->PropagateRprimDirtyBits(dirtyBits);
+    }
+}
+
+static void _PreSyncRequestVector(HdSceneDelegate *sceneDelegate,
+                                  HdChangeTracker *tracker,
+                                  _RprimSyncRequestVector *syncReq,
+                                  _CollectionReprSpecVector const &reprSpecs) {
+    size_t numPrims = syncReq->rprims.size();
+    WorkParallelForN(numPrims, std::bind(&_PreSyncRPrims, sceneDelegate, tracker, syncReq, std::cref(reprSpecs),
+                                         std::placeholders::_1, std::placeholders::_2));
+
+    // Pre-sync may have completely cleaned prims, so as an optimization
+    // remove them from the sync request list.
+    size_t primIdx = 0;
+    while (primIdx < numPrims) {
+        if (HdChangeTracker::IsClean(syncReq->request.dirtyBits[primIdx])) {
+            if (numPrims == 1) {
+                syncReq->rprims.clear();
+                syncReq->request.IDs.clear();
+                syncReq->request.dirtyBits.clear();
+                ++primIdx;
+            } else {
+                std::swap(syncReq->rprims[primIdx], syncReq->rprims[numPrims - 1]);
+                std::swap(syncReq->request.IDs[primIdx], syncReq->request.IDs[numPrims - 1]);
+                std::swap(syncReq->request.dirtyBits[primIdx], syncReq->request.dirtyBits[numPrims - 1]);
+
+                syncReq->rprims.pop_back();
+                syncReq->request.IDs.pop_back();
+                syncReq->request.dirtyBits.pop_back();
+                --numPrims;
+            }
+        } else {
+            ++primIdx;
+        }
+    }
+}
+
+// Gather the unique set of render tags requested by the tasks.
+static TfTokenVector _GatherRenderTags(const HdTaskSharedPtrVector *tasks) {
+    TfTokenVector tags;
+    size_t numTasks = tasks->size();
+    for (size_t taskNum = 0; taskNum < numTasks; ++taskNum) {
+        const HdTaskSharedPtr &task = (*tasks)[taskNum];
+        const TfTokenVector &taskRenderTags = task->GetRenderTags();
+
+        tags.insert(tags.end(), taskRenderTags.begin(), taskRenderTags.end());
+    }
+
+    // Deduplicate.
+    std::sort(tags.begin(), tags.end());
+    TfTokenVector::iterator newEnd = std::unique(tags.begin(), tags.end());
+    tags.erase(newEnd, tags.end());
+
+    return tags;
+}
+
+static _CollectionReprSpecVector _GatherReprSpecs(const HdRprimCollectionVector &collections) {
+    _CollectionReprSpecVector reprSpecs;
+    for (HdRprimCollection const &collection : collections) {
+        HdReprSelector const &rs = collection.GetReprSelector();
+        if (!rs.AnyActiveRepr()) {
+            continue;  // Skip empty/disabled reprs
+        }
+        _CollectionReprSpec reprSpec(rs, collection.IsForcedRepr());
+
+        if (std::find(reprSpecs.begin(), reprSpecs.end(), reprSpec) == reprSpecs.end()) {
+            reprSpecs.push_back(reprSpec);
+        }
+    }
+
+    if (TfDebug::IsEnabled(HD_SYNC_ALL)) {
+        std::cout << "Reprs to sync: [";
+        for (auto const &rs : reprSpecs) {
+            std::cout << "    " << rs.reprSelector << std::endl;
+        }
+        std::cout << "]" << std::endl;
+    }
+
+    return reprSpecs;
+}
+
+static HdReprSelectorVector _GetReprSelectors(_CollectionReprSpecVector const &specs) {
+    HdReprSelectorVector reprs;
+
+    for (const auto &spec : specs) {
+        HdReprSelector const &repr = spec.reprSelector;
+        if (std::find(reprs.begin(), reprs.end(), repr) == reprs.end()) {
+            reprs.push_back(repr);
+        }
+    }
+
+    return reprs;
+}
+};  // namespace
+
+void HdRenderIndex::EnqueueCollectionToSync(HdRprimCollection const &col) { _collectionsToSync.push_back(col); }
+
+void HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks, HdTaskContext *taskContext) {
     HD_TRACE_FUNCTION();
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1462,14 +1150,11 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
     //
     ////////////////////////////////////////////////////////////////////////////
 
-
     HdRenderParam *renderParam = _renderDelegate->GetRenderParam();
 
-    _bprimIndex.SyncPrims(_tracker, _renderDelegate->GetRenderParam(),
-                          _renderDelegate);
+    _bprimIndex.SyncPrims(_tracker, _renderDelegate->GetRenderParam(), _renderDelegate);
 
-    _sprimIndex.SyncPrims(_tracker, _renderDelegate->GetRenderParam(),
-                          _renderDelegate);
+    _sprimIndex.SyncPrims(_tracker, _renderDelegate->GetRenderParam(), _renderDelegate);
 
     ////////////////////////////////////////////////////////////////////////////
     //
@@ -1486,8 +1171,7 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
             HdTaskSharedPtr &task = (*tasks)[taskNum];
 
             if (!TF_VERIFY(task)) {
-                TF_CODING_ERROR("Null Task in task list.  Entry Num: %zu",
-                                taskNum);
+                TF_CODING_ERROR("Null Task in task list.  Entry Num: %zu", taskNum);
                 continue;
             }
 
@@ -1513,9 +1197,7 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
 
                 HdDirtyBits taskDirtyBits = _tracker.GetTaskDirtyBits(taskId);
 
-                taskInfo.task->Sync(taskInfo.sceneDelegate,
-                                    taskContext,
-                                    &taskDirtyBits);
+                taskInfo.task->Sync(taskInfo.sceneDelegate, taskContext, &taskDirtyBits);
 
                 _tracker.MarkTaskClean(taskId, taskDirtyBits);
 
@@ -1524,9 +1206,7 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
                 HdDirtyBits taskDirtyBits = 0;
 
                 // This is an untracked task, never added to the render index.
-                task->Sync(nullptr,
-                           taskContext,
-                           &taskDirtyBits);
+                task->Sync(nullptr, taskContext, &taskDirtyBits);
             }
         }
     }
@@ -1545,13 +1225,12 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
 
     // b. Update dirty list params, if needed sync render tags,
     // and get dirty rprim ids
-    _rprimDirtyList.UpdateRenderTagsAndReprSelectors(taskRenderTags,
-                                                     reprSelectors);
+    _rprimDirtyList.UpdateRenderTagsAndReprSelectors(taskRenderTags, reprSelectors);
 
     // NOTE: GetDirtyRprims relies on up-to-date render tags; if render tags
     // are dirty, this call will sync render tags before compiling the dirty
     // list. This is outside of the usual sync order, but is necessary for now.
-    SdfPathVector const& dirtyRprimIds = _rprimDirtyList.GetDirtyRprims();
+    SdfPathVector const &dirtyRprimIds = _rprimDirtyList.GetDirtyRprims();
 
     // c. Bucket rprims by their scene delegate to help build the the list
     //    of rprims to sync for each scene delegate.
@@ -1560,8 +1239,8 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
     bool pruneDirtyList = false;
     {
         HF_TRACE_FUNCTION_SCOPE("Build Sync Map: Rprims");
-        HdSceneDelegate* curDel = nullptr;
-        _RprimSyncRequestVector* curVec = nullptr;
+        HdSceneDelegate *curDel = nullptr;
+        _RprimSyncRequestVector *curVec = nullptr;
         int numSkipped = 0;
         int numNonVarying = 0;
         for (SdfPath const &rprimId : dirtyRprimIds) {
@@ -1609,27 +1288,24 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
         // small number of dirty items.
         //
         constexpr size_t MIN_DIRTY_LIST_SIZE = 500;
-        constexpr float MIN_RATIO_RPRIMS_SKIPPED = 0.25f; // 25 %
-        constexpr float MIN_RATIO_RPRIMS_NON_VARYING = 0.10f; // 10 %
+        constexpr float MIN_RATIO_RPRIMS_SKIPPED = 0.25f;      // 25 %
+        constexpr float MIN_RATIO_RPRIMS_NON_VARYING = 0.10f;  // 10 %
         const size_t numDirtyRprims = dirtyRprimIds.size();
 
         if (numDirtyRprims > MIN_DIRTY_LIST_SIZE) {
-            float ratioNumSkipped = numSkipped / (float) numDirtyRprims;
-            float ratioNonVarying = numNonVarying / (float) numDirtyRprims;
+            float ratioNumSkipped = numSkipped / (float)numDirtyRprims;
+            float ratioNonVarying = numNonVarying / (float)numDirtyRprims;
 
             resetVaryingState = ratioNumSkipped > MIN_RATIO_RPRIMS_SKIPPED;
-            pruneDirtyList =
-                ratioNonVarying > MIN_RATIO_RPRIMS_NON_VARYING;
+            pruneDirtyList = ratioNonVarying > MIN_RATIO_RPRIMS_NON_VARYING;
 
             if (TfDebug::IsEnabled(HD_VARYING_STATE)) {
                 std::stringstream ss;
 
-                ss  << "Dirty List Redundancy: Skipped = "
-                    << ratioNumSkipped * 100.0f << "% ("
-                    <<  numSkipped << " / " << numDirtyRprims << ") "
-                    << "Non-Varying  = "
-                    << ratioNonVarying * 100.0f << "% ("
-                    << numNonVarying << " / "  << numDirtyRprims << ") \n";
+                ss << "Dirty List Redundancy: Skipped = " << ratioNumSkipped * 100.0f << "% (" << numSkipped << " / "
+                   << numDirtyRprims << ") "
+                   << "Non-Varying  = " << ratioNonVarying * 100.0f << "% (" << numNonVarying << " / " << numDirtyRprims
+                   << ") \n";
 
                 TfDebug::Helper().Msg(ss.str());
             }
@@ -1659,12 +1335,7 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
                 HdSceneDelegate *sceneDelegate = entry.first;
                 _RprimSyncRequestVector *r = &entry.second;
                 preSyncDispatcher.Run(
-                    std::bind(&_PreSyncRequestVector,
-                              sceneDelegate,
-                              &_tracker,
-                              r,
-                              std::cref(reprSpecs)));
-
+                        std::bind(&_PreSyncRequestVector, sceneDelegate, &_tracker, r, std::cref(reprSpecs)));
             }
         });
     }
@@ -1675,38 +1346,30 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
         HF_TRACE_FUNCTION_SCOPE("Scene Delegate Sync");
         // Dispatch synchronization work to each delegate.
         _SceneDelegateSyncWorker worker(&sdRprimSyncMap);
-        WorkParallelForN(sdRprimSyncMap.size(),
-                         std::bind(&_SceneDelegateSyncWorker::Process,
-                                   std::ref(worker),
-                                   std::placeholders::_1,
-                                   std::placeholders::_2));
+        WorkParallelForN(sdRprimSyncMap.size(), std::bind(&_SceneDelegateSyncWorker::Process, std::ref(worker),
+                                                          std::placeholders::_1, std::placeholders::_2));
     }
 
     // f. Rprim Sync
     WorkWithScopedParallelism([&]() {
         WorkDispatcher dispatcher;
         for (auto &entry : sdRprimSyncMap) {
-            HdSceneDelegate* sceneDelegate = entry.first;
-            _RprimSyncRequestVector& r = entry.second;
+            HdSceneDelegate *sceneDelegate = entry.first;
+            _RprimSyncRequestVector &r = entry.second;
 
             {
-                _SyncRPrims workerState(
-                    sceneDelegate, r, reprSpecs, _tracker, renderParam);
+                _SyncRPrims workerState(sceneDelegate, r, reprSpecs, _tracker, renderParam);
 
                 if (!TfDebug::IsEnabled(HD_DISABLE_MULTITHREADED_RPRIM_SYNC) &&
-                    sceneDelegate->IsEnabled(
-                        HdOptionTokens->parallelRprimSync)) {
+                    sceneDelegate->IsEnabled(HdOptionTokens->parallelRprimSync)) {
                     TRACE_SCOPE("Parallel Rprim Sync");
                     // In the lambda below, we capture workerState by value and
                     // incur a copy in the std::bind because the lambda
                     // execution may be delayed (until we call Wait), resulting
                     // in workerState going out of scope.
                     dispatcher.Run([&r, workerState]() {
-                        WorkParallelForN(r.rprims.size(),
-                                         std::bind(
-                                             &_SyncRPrims::Sync, workerState,
-                                             std::placeholders::_1,
-                                             std::placeholders::_2));
+                        WorkParallelForN(r.rprims.size(), std::bind(&_SyncRPrims::Sync, workerState,
+                                                                    std::placeholders::_1, std::placeholders::_2));
                     });
                 } else {
                     TRACE_SCOPE("Serial Rprim Sync");
@@ -1725,9 +1388,8 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
             HdSceneDelegate *delegate = entry.first;
             delegate->PostSyncCleanup();
         }
-        const HdSceneDelegatePtrVector& sprimDelegates =
-            _sprimIndex.GetSceneDelegatesForDirtyPrims();
-        for (HdSceneDelegate* delegate : sprimDelegates) {
+        const HdSceneDelegatePtrVector &sprimDelegates = _sprimIndex.GetSceneDelegatesForDirtyPrims();
+        for (HdSceneDelegate *delegate : sprimDelegates) {
             delegate->PostSyncCleanup();
         }
 
@@ -1740,15 +1402,9 @@ HdRenderIndex::SyncAll(HdTaskSharedPtrVector *tasks,
     }
 }
 
-HdDriverVector const&
-HdRenderIndex::GetDrivers() const
-{
-    return _drivers;
-}
+HdDriverVector const &HdRenderIndex::GetDrivers() const { return _drivers; }
 
-void
-HdRenderIndex::_CompactPrimIds()
-{
+void HdRenderIndex::_CompactPrimIds() {
     _rprimPrimIdMap.resize(_rprimMap.size());
     int32_t nextPrimId = 0;
     for (const auto &pair : _rprimMap) {
@@ -1759,9 +1415,7 @@ HdRenderIndex::_CompactPrimIds()
     }
 }
 
-void
-HdRenderIndex::_AllocatePrimId(HdRprim *prim)
-{
+void HdRenderIndex::_AllocatePrimId(HdRprim *prim) {
     const size_t maxId = (1 << 24) - 1;
     if (_rprimPrimIdMap.size() > maxId) {
         // We are wrapping around our max prim id.. time to reallocate
@@ -1775,9 +1429,7 @@ HdRenderIndex::_AllocatePrimId(HdRprim *prim)
     _rprimPrimIdMap.push_back(prim->GetId());
 }
 
-SdfPath
-HdRenderIndex::GetRprimPathFromPrimId(int primId) const
-{
+SdfPath HdRenderIndex::GetRprimPathFromPrimId(int primId) const {
     if (static_cast<size_t>(primId) >= _rprimPrimIdMap.size()) {
         return SdfPath();
     }
@@ -1785,26 +1437,19 @@ HdRenderIndex::GetRprimPathFromPrimId(int primId) const
     return _rprimPrimIdMap[primId];
 }
 
-void
-HdRenderIndex::InsertInstancer(HdSceneDelegate* delegate,
-                               SdfPath const &id)
-{
+void HdRenderIndex::InsertInstancer(HdSceneDelegate *delegate, SdfPath const &id) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
     if (_IsEnabledSceneIndexEmulation()) {
-        _emulationSceneIndex->AddLegacyPrim(
-            id, HdPrimTypeTokens->instancer, delegate);
+        _emulationSceneIndex->AddLegacyPrim(id, HdPrimTypeTokens->instancer, delegate);
         return;
     }
 
     _InsertInstancer(delegate, id);
 }
 
-void
-HdRenderIndex::_InsertInstancer(HdSceneDelegate* delegate,
-                                SdfPath const& id)
-{
+void HdRenderIndex::_InsertInstancer(HdSceneDelegate *delegate, SdfPath const &id) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -1814,13 +1459,11 @@ HdRenderIndex::_InsertInstancer(HdSceneDelegate* delegate,
 
     SdfPath const &sceneDelegateId = delegate->GetDelegateID();
     if (!id.HasPrefix(sceneDelegateId)) {
-        TF_CODING_ERROR("Scene Delegate Id (%s) must prefix prim Id (%s)",
-                        sceneDelegateId.GetText(), id.GetText());
+        TF_CODING_ERROR("Scene Delegate Id (%s) must prefix prim Id (%s)", sceneDelegateId.GetText(), id.GetText());
         return;
     }
 
-    HdInstancer *instancer =
-        _renderDelegate->CreateInstancer(delegate, id);
+    HdInstancer *instancer = _renderDelegate->CreateInstancer(delegate, id);
     if (instancer == nullptr) {
         return;
     }
@@ -1829,9 +1472,7 @@ HdRenderIndex::_InsertInstancer(HdSceneDelegate* delegate,
     _tracker.InstancerInserted(id, instancer->GetInitialDirtyBitsMask());
 }
 
-void
-HdRenderIndex::RemoveInstancer(SdfPath const& id)
-{
+void HdRenderIndex::RemoveInstancer(SdfPath const &id) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -1843,16 +1484,13 @@ HdRenderIndex::RemoveInstancer(SdfPath const& id)
     _RemoveInstancer(id);
 }
 
-void
-HdRenderIndex::_RemoveInstancer(SdfPath const& id)
-{
+void HdRenderIndex::_RemoveInstancer(SdfPath const &id) {
     _InstancerMap::iterator it = _instancerMap.find(id);
-    if (it == _instancerMap.end())
-        return;
+    if (it == _instancerMap.end()) return;
 
     HdInstancer *instancer = it->second;
 
-    SdfPath const& instancerId = instancer->GetParentId();
+    SdfPath const &instancerId = instancer->GetParentId();
     if (!instancerId.IsEmpty()) {
         _tracker.RemoveInstancerInstancerDependency(instancerId, id);
     }
@@ -1862,13 +1500,9 @@ HdRenderIndex::_RemoveInstancer(SdfPath const& id)
     instancer->Finalize(_renderDelegate->GetRenderParam());
     _instancerMap.erase(it);
     _renderDelegate->DestroyInstancer(instancer);
-
 }
 
-void
-HdRenderIndex::_RemoveInstancerSubtree(const SdfPath &root,
-                                       HdSceneDelegate* sceneDelegate)
-{
+void HdRenderIndex::_RemoveInstancerSubtree(const SdfPath &root, HdSceneDelegate *sceneDelegate) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -1877,11 +1511,9 @@ HdRenderIndex::_RemoveInstancerSubtree(const SdfPath &root,
         const SdfPath &id = it->first;
         HdInstancer *instancer = it->second;
 
-        if (id.HasPrefix(root) &&
-            (sceneDelegate == nullptr || sceneDelegate == instancer->GetDelegate())) {
-
+        if (id.HasPrefix(root) && (sceneDelegate == nullptr || sceneDelegate == instancer->GetDelegate())) {
             HdInstancer *instancer = it->second;
-            SdfPath const& instancerId = instancer->GetParentId();
+            SdfPath const &instancerId = instancer->GetParentId();
             if (!instancerId.IsEmpty()) {
                 _tracker.RemoveInstancerInstancerDependency(instancerId, id);
             }
@@ -1907,10 +1539,7 @@ HdRenderIndex::_RemoveInstancerSubtree(const SdfPath &root,
     }
 }
 
-
-HdInstancer *
-HdRenderIndex::GetInstancer(SdfPath const &id) const
-{
+HdInstancer *HdRenderIndex::GetInstancer(SdfPath const &id) const {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -1920,9 +1549,7 @@ HdRenderIndex::GetInstancer(SdfPath const &id) const
     return instancer;
 }
 
-HdRprim const *
-HdRenderIndex::GetRprim(SdfPath const &id) const
-{
+HdRprim const *HdRenderIndex::GetRprim(SdfPath const &id) const {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -1934,9 +1561,7 @@ HdRenderIndex::GetRprim(SdfPath const &id) const
     return nullptr;
 }
 
-HdSceneDelegate *
-HdRenderIndex::GetSceneDelegateForRprim(SdfPath const &id) const
-{
+HdSceneDelegate *HdRenderIndex::GetSceneDelegateForRprim(SdfPath const &id) const {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -1949,9 +1574,8 @@ HdRenderIndex::GetSceneDelegateForRprim(SdfPath const &id) const
         // No known render delegates make use of this call.
         HdSceneIndexPrim prim = _emulationSceneIndex->GetPrim(id);
         if (prim.dataSource) {
-            if (auto ds = HdTypedSampledDataSource<HdSceneDelegate*>::Cast(
-                    prim.dataSource->Get(
-                        HdSceneIndexEmulationTokens->sceneDelegate))) {
+            if (auto ds = HdTypedSampledDataSource<HdSceneDelegate *>::Cast(
+                        prim.dataSource->Get(HdSceneIndexEmulationTokens->sceneDelegate))) {
                 HdSceneDelegate *delegate = ds->GetTypedValue(0.0f);
                 return delegate;
             }
@@ -1971,11 +1595,9 @@ HdRenderIndex::GetSceneDelegateForRprim(SdfPath const &id) const
     return nullptr;
 }
 
-bool
-HdRenderIndex::GetSceneDelegateAndInstancerIds(SdfPath const &id,
-                                               SdfPath* delegateId,
-                                               SdfPath* instancerId) const
-{
+bool HdRenderIndex::GetSceneDelegateAndInstancerIds(SdfPath const &id,
+                                                    SdfPath *delegateId,
+                                                    SdfPath *instancerId) const {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
@@ -1992,9 +1614,8 @@ HdRenderIndex::GetSceneDelegateAndInstancerIds(SdfPath const &id,
             // No known render delegates make use of this call.
             HdSceneIndexPrim prim = _emulationSceneIndex->GetPrim(id);
             if (prim.dataSource) {
-                if (auto ds = HdTypedSampledDataSource<HdSceneDelegate*>::Cast(
-                        prim.dataSource->Get(
-                            HdSceneIndexEmulationTokens->sceneDelegate))) {
+                if (auto ds = HdTypedSampledDataSource<HdSceneDelegate *>::Cast(
+                            prim.dataSource->Get(HdSceneIndexEmulationTokens->sceneDelegate))) {
                     HdSceneDelegate *delegate = ds->GetTypedValue(0.0f);
                     if (delegate) {
                         *delegateId = delegate->GetDelegateID();
@@ -2005,7 +1626,7 @@ HdRenderIndex::GetSceneDelegateAndInstancerIds(SdfPath const &id,
                 *delegateId = _siSd->GetDelegateID();
             }
         } else {
-            *delegateId  = rprimInfo.sceneDelegate->GetDelegateID();
+            *delegateId = rprimInfo.sceneDelegate->GetDelegateID();
         }
 
         *instancerId = rprimInfo.rprim->GetInstancerId();
@@ -2016,52 +1637,40 @@ HdRenderIndex::GetSceneDelegateAndInstancerIds(SdfPath const &id,
     return false;
 }
 
-void
-HdRenderIndex::_InitPrimTypes()
-{
+void HdRenderIndex::_InitPrimTypes() {
     _sprimIndex.InitPrimTypes(_renderDelegate->GetSupportedSprimTypes());
     _bprimIndex.InitPrimTypes(_renderDelegate->GetSupportedBprimTypes());
 }
 
-bool
-HdRenderIndex::IsRprimTypeSupported(TfToken const& typeId) const
-{
-    TfTokenVector const& supported = _renderDelegate->GetSupportedRprimTypes();
+bool HdRenderIndex::IsRprimTypeSupported(TfToken const &typeId) const {
+    TfTokenVector const &supported = _renderDelegate->GetSupportedRprimTypes();
     return (std::find(supported.begin(), supported.end(), typeId) != supported.end());
 }
 
-bool
-HdRenderIndex::IsSprimTypeSupported(TfToken const& typeId) const
-{
-    TfTokenVector const& supported = _renderDelegate->GetSupportedSprimTypes();
+bool HdRenderIndex::IsSprimTypeSupported(TfToken const &typeId) const {
+    TfTokenVector const &supported = _renderDelegate->GetSupportedSprimTypes();
     return (std::find(supported.begin(), supported.end(), typeId) != supported.end());
 }
 
-bool
-HdRenderIndex::IsBprimTypeSupported(TfToken const& typeId) const
-{
-    TfTokenVector const& supported = _renderDelegate->GetSupportedBprimTypes();
+bool HdRenderIndex::IsBprimTypeSupported(TfToken const &typeId) const {
+    TfTokenVector const &supported = _renderDelegate->GetSupportedBprimTypes();
     return (std::find(supported.begin(), supported.end(), typeId) != supported.end());
 }
 
-void
-HdRenderIndex::_AppendDrawItems(
-                const SdfPathVector &rprimIds,
-                size_t begin,
-                size_t end,
-                HdRprimCollection const& collection,
-                _ConcurrentDrawItems* result)
-{
-    HdReprSelector const& colReprSelector = collection.GetReprSelector();
+void HdRenderIndex::_AppendDrawItems(const SdfPathVector &rprimIds,
+                                     size_t begin,
+                                     size_t end,
+                                     HdRprimCollection const &collection,
+                                     _ConcurrentDrawItems *result) {
+    HdReprSelector const &colReprSelector = collection.GetReprSelector();
     bool forceColRepr = collection.IsForcedRepr();
-    TfToken const& materialTag = collection.GetMaterialTag();
+    TfToken const &materialTag = collection.GetMaterialTag();
 
     HdDrawItemPtrVector &drawItems = result->local();
 
     if (materialTag.IsEmpty()) {
         // Get draw items for this thread.
-        for (size_t idNum = begin; idNum < end; ++idNum)
-        {
+        for (size_t idNum = begin; idNum < end; ++idNum) {
             const SdfPath &rprimId = rprimIds[idNum];
 
             _RprimMap::const_iterator it = _rprimMap.find(rprimId);
@@ -2071,18 +1680,14 @@ HdRenderIndex::_AppendDrawItems(
 
                 // Append the draw items for each valid repr in the resolved
                 // composite representation to the command buffer.
-                HdReprSelector reprSelector = _GetResolvedReprSelector(
-                                                    rprim->GetReprSelector(),
-                                                    colReprSelector,
-                                                    forceColRepr);
+                HdReprSelector reprSelector =
+                        _GetResolvedReprSelector(rprim->GetReprSelector(), colReprSelector, forceColRepr);
 
-                for (size_t i = 0; i < HdReprSelector::MAX_TOPOLOGY_REPRS; ++i)
-                {
+                for (size_t i = 0; i < HdReprSelector::MAX_TOPOLOGY_REPRS; ++i) {
                     if (reprSelector.IsActiveRepr(i)) {
-                        TfToken const& reprToken = reprSelector[i];
+                        TfToken const &reprToken = reprSelector[i];
 
-                        for (const HdRepr::DrawItemUniquePtr &rprimDrawItem
-                                : rprim->GetDrawItems(reprToken)) {
+                        for (const HdRepr::DrawItemUniquePtr &rprimDrawItem : rprim->GetDrawItems(reprToken)) {
                             drawItems.push_back(rprimDrawItem.get());
                         }
                     }
@@ -2091,8 +1696,7 @@ HdRenderIndex::_AppendDrawItems(
         }
     } else {
         // Filter draw items by material tag.
-        for (size_t idNum = begin; idNum < end; ++idNum)
-        {
+        for (size_t idNum = begin; idNum < end; ++idNum) {
             const SdfPath &rprimId = rprimIds[idNum];
 
             _RprimMap::const_iterator it = _rprimMap.find(rprimId);
@@ -2102,20 +1706,15 @@ HdRenderIndex::_AppendDrawItems(
 
                 // Append the draw items for each valid repr in the resolved
                 // composite representation to the command buffer.
-                HdReprSelector reprSelector = _GetResolvedReprSelector(
-                                                    rprim->GetReprSelector(),
-                                                    colReprSelector,
-                                                    forceColRepr);
+                HdReprSelector reprSelector =
+                        _GetResolvedReprSelector(rprim->GetReprSelector(), colReprSelector, forceColRepr);
 
-                for (size_t i = 0; i < HdReprSelector::MAX_TOPOLOGY_REPRS; ++i)
-                {
+                for (size_t i = 0; i < HdReprSelector::MAX_TOPOLOGY_REPRS; ++i) {
                     if (reprSelector.IsActiveRepr(i)) {
-                        TfToken const& reprToken = reprSelector[i];
+                        TfToken const &reprToken = reprSelector[i];
 
-                        for (const HdRepr::DrawItemUniquePtr &rprimDrawItem
-                                : rprim->GetDrawItems(reprToken)) {
-                            if (rprimDrawItem->GetMaterialTag() == materialTag)
-                            {
+                        for (const HdRepr::DrawItemUniquePtr &rprimDrawItem : rprim->GetDrawItems(reprToken)) {
+                            if (rprimDrawItem->GetMaterialTag() == materialTag) {
                                 drawItems.push_back(rprimDrawItem.get());
                             }
                         }
