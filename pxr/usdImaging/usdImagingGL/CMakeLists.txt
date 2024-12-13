@@ -31,7 +31,7 @@ pxr_library(usdImagingGL
         usdShade
         usdImaging
         usdPhysicsImaging
-        usdSimImaging
+        sim
         ar
         ${TBB_tbb_LIBRARY}
 

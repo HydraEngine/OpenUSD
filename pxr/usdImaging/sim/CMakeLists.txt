@@ -1,5 +1,5 @@
 set(PXR_PREFIX pxr/usdImaging)
-set(PXR_PACKAGE usdSimImaging)
+set(PXR_PACKAGE sim)
 
 if (APPLE)
     set(physx5_SOURCE_DIR $ENV{HOME}/Desktop/PhysX-Mac/physx)
@@ -48,7 +48,7 @@ if (physx5_SOURCE_DIR)
     )
 endif ()
 
-pxr_library(usdSimImaging
+pxr_library(sim
         LIBRARIES
         hio
         hd
