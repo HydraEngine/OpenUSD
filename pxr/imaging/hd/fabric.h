@@ -194,7 +194,7 @@ public:
     std::map<SdfPath, HdDirectMaterialBindingsSchema> _materialBindings;
 
     SdfPathTable<GfMatrix4d> _globalXforms;
-    SdfPathTable<GfMatrix4d> _resultXforms;
+    std::map<SdfPath, GfMatrix4d> _resultXforms;
     HdSceneIndexObserver::DirtiedPrimEntries _dirtyEntries;
 };
 
