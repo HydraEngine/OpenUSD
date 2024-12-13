@@ -389,16 +389,7 @@ void UsdImagingGLEngine::Render(const UsdPrim &root, const UsdImagingGLRenderPar
 }
 
 void UsdImagingGLEngine::Update(float dt) {
-    _simulationEngine->UpdateAll(dt);
     _fabricSceneIndex->FlushDirties();
-}
-
-void UsdImagingGLEngine::SyncFabric() {
-    _simulationEngine->Sync();
-}
-
-void UsdImagingGLEngine::UnSyncFabric() {
-    _simulationEngine->UnSync();
 }
 
 bool UsdImagingGLEngine::IsConverged() const {
@@ -1036,7 +1027,6 @@ void UsdImagingGLEngine::_SetRenderDelegate(HdPluginRenderDelegateUniqueHandle &
 
         _sceneIndex = _displayStyleSceneIndex = HdsiLegacyDisplayStyleOverrideSceneIndex::New(_sceneIndex);
         _sceneIndex = _fabricSceneIndex = FabricSceneIndex::New(_sceneIndex, _renderIndex->fabric());
-        _simulationEngine = std::make_unique<sim::PhysxEngine>(_renderIndex->fabric());
 
         _renderIndex->InsertSceneIndex(_sceneIndex, _sceneDelegateId);
     } else {

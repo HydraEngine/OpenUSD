@@ -17,7 +17,6 @@
 
 #include "pxr/usdImaging/usdImagingGL/renderParams.h"
 #include "pxr/usdImaging/usdImagingGL/rendererSettings.h"
-#include "pxr/usdImaging/sim/physxEngine.h"
 
 #include "pxr/imaging/cameraUtil/conformWindow.h"
 
@@ -150,10 +149,6 @@ public:
     /// @{
     // ---------------------------------------------------------------------
     void Update(float dt);
-
-    void SyncFabric();
-
-    void UnSyncFabric();
 
     /// Support for batched drawing
     USDIMAGINGGL_API
@@ -770,7 +765,6 @@ private:
     HdsiPrimTypePruningSceneIndexRefPtr _lightPruningSceneIndex;
     HdSceneIndexBaseRefPtr _sceneIndex;
     FabricSceneIndexRefPtr _fabricSceneIndex;
-    std::unique_ptr<sim::PhysxEngine> _simulationEngine;
 
     std::unique_ptr<UsdImagingDelegate> _sceneDelegate;
 
