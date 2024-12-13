@@ -15,12 +15,12 @@
 /* **                                                                      ** */
 /* ************************************************************************** */
 
-#ifndef PXR_USD_IMAGING_USD_IMAGING_DIRECT_MATERIAL_BINDING_SCHEMA_H
-#define PXR_USD_IMAGING_USD_IMAGING_DIRECT_MATERIAL_BINDING_SCHEMA_H
+#ifndef PXR_IMAGING_HD_DIRECT_MATERIAL_BINDING_SCHEMA_H
+#define PXR_IMAGING_HD_DIRECT_MATERIAL_BINDING_SCHEMA_H
 
 /// \file
 
-#include "pxr/usdImaging/usdImaging/api.h"
+#include "pxr/imaging/hd/api.h"
 
 #include "pxr/imaging/hd/schema.h"
 
@@ -32,33 +32,33 @@ PXR_NAMESPACE_OPEN_SCOPE
 // --(BEGIN CUSTOM CODE: Declares)--
 // --(END CUSTOM CODE: Declares)--
 
-#define USD_IMAGING_DIRECT_MATERIAL_BINDING_SCHEMA_TOKENS \
+#define HD_DIRECT_MATERIAL_BINDING_SCHEMA_TOKENS \
     (directMaterialBinding) \
     (materialPath) \
     (bindingStrength) \
 
-TF_DECLARE_PUBLIC_TOKENS(UsdImagingDirectMaterialBindingSchemaTokens, USDIMAGING_API,
-    USD_IMAGING_DIRECT_MATERIAL_BINDING_SCHEMA_TOKENS);
+TF_DECLARE_PUBLIC_TOKENS(HdDirectMaterialBindingSchemaTokens, HD_API,
+    HD_DIRECT_MATERIAL_BINDING_SCHEMA_TOKENS);
 
 //-----------------------------------------------------------------------------
 
 
-class UsdImagingDirectMaterialBindingSchema : public HdSchema
+class HdDirectMaterialBindingSchema : public HdSchema
 {
 public:
     /// \name Schema retrieval
     /// @{
 
-    UsdImagingDirectMaterialBindingSchema(HdContainerDataSourceHandle container)
+    HdDirectMaterialBindingSchema(HdContainerDataSourceHandle container)
       : HdSchema(container) {}
 
     /// Retrieves a container data source with the schema's default name token
     /// "directMaterialBinding" from the parent container and constructs a
-    /// UsdImagingDirectMaterialBindingSchema instance.
+    /// HdDirectMaterialBindingSchema instance.
     /// Because the requested container data source may not exist, the result
     /// should be checked with IsDefined() or a bool comparison before use.
-    USDIMAGING_API
-    static UsdImagingDirectMaterialBindingSchema GetFromParent(
+    HD_API
+    static HdDirectMaterialBindingSchema GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer);
 
     /// @}
@@ -69,10 +69,10 @@ public:
     /// \name Member accessor
     /// @{
 
-    USDIMAGING_API
+    HD_API
     HdPathDataSourceHandle GetMaterialPath() const;
 
-    USDIMAGING_API
+    HD_API
     HdTokenDataSourceHandle GetBindingStrength() const; 
 
     /// @}
@@ -82,12 +82,12 @@ public:
 
     /// Returns a token where the container representing this schema is found in
     /// a container by default.
-    USDIMAGING_API
+    HD_API
     static const TfToken &GetSchemaToken();
 
     /// Returns an HdDataSourceLocator (relative to the prim-level data source)
     /// where the container representing this schema is found by default.
-    USDIMAGING_API
+    HD_API
     static const HdDataSourceLocator &GetDefaultLocator();
 
     /// @} 
@@ -102,14 +102,14 @@ public:
     /// low-level interface. For cases in which it's desired to define
     /// the container with a sparse set of child fields, the Builder class
     /// is often more convenient and readable.
-    USDIMAGING_API
+    HD_API
     static HdContainerDataSourceHandle
     BuildRetained(
         const HdPathDataSourceHandle &materialPath,
         const HdTokenDataSourceHandle &bindingStrength
     );
 
-    /// \class UsdImagingDirectMaterialBindingSchema::Builder
+    /// \class HdDirectMaterialBindingSchema::Builder
     /// 
     /// Utility class for setting sparse sets of child data source fields to be
     /// filled as arguments into BuildRetained. Because all setter methods
@@ -118,15 +118,15 @@ public:
     class Builder
     {
     public:
-        USDIMAGING_API
+        HD_API
         Builder &SetMaterialPath(
             const HdPathDataSourceHandle &materialPath);
-        USDIMAGING_API
+        HD_API
         Builder &SetBindingStrength(
             const HdTokenDataSourceHandle &bindingStrength);
 
         /// Returns a container data source containing the members set thus far.
-        USDIMAGING_API
+        HD_API
         HdContainerDataSourceHandle Build();
 
     private:

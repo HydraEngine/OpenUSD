@@ -140,10 +140,8 @@ void PhysxEngine::Sync() {
 
         // Find Material
         physx::PxMaterial* material{nullptr};
-        UsdImagingDirectMaterialBindingsSchema materialBindingSchema =
-                UsdImagingDirectMaterialBindingsSchema::GetFromParent(prim.dataSource);
-        if (materialBindingSchema) {
-            auto binding = materialBindingSchema.GetDirectMaterialBinding(TfToken("physics"));
+        if (auto iter = _fabric._materialBindings.find(primPath); iter != _fabric._materialBindings.end()) {
+            auto binding = iter->second.GetDirectMaterialBinding(TfToken("physics"));
             if (binding) {
                 auto path = binding.GetMaterialPath()->GetTypedValue(0);
                 material = FindMaterial(path);

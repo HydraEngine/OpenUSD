@@ -286,6 +286,8 @@ pxr_library(hd
         sceneSchema
         filteredPairsSchema
         collisionGroupSchema
+        directMaterialBindingSchema
+        directMaterialBindingsSchema
 
     PUBLIC_HEADERS
         api.h

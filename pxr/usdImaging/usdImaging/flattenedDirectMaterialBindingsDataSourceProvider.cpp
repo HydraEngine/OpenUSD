@@ -6,8 +6,8 @@
 //
 #include "pxr/usdImaging/usdImaging/flattenedDirectMaterialBindingsDataSourceProvider.h"
 
-#include "pxr/usdImaging/usdImaging/directMaterialBindingSchema.h"
-#include "pxr/usdImaging/usdImaging/directMaterialBindingsSchema.h"
+#include "pxr/imaging/hd/directMaterialBindingSchema.h"
+#include "pxr/imaging/hd/directMaterialBindingsSchema.h"
 
 #include "pxr/imaging/hd/materialBindingsSchema.h"
 
@@ -50,7 +50,7 @@ public:
     HdDataSourceBaseHandle Get(const TfToken &name) override {
         const TfToken &purpose = name;
         
-        UsdImagingDirectMaterialBindingSchema parentSchema(
+        HdDirectMaterialBindingSchema parentSchema(
             HdContainerDataSource::Cast(_parentBindings->Get(purpose)));
 
         if (HdTokenDataSourceHandle const strengthDs =

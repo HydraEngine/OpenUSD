@@ -15,7 +15,7 @@
 /* **                                                                      ** */
 /* ************************************************************************** */
 
-#include "pxr/usdImaging/usdImaging/directMaterialBindingSchema.h"
+#include "pxr/imaging/hd/directMaterialBindingSchema.h"
 
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -26,29 +26,29 @@
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-TF_DEFINE_PUBLIC_TOKENS(UsdImagingDirectMaterialBindingSchemaTokens,
-    USD_IMAGING_DIRECT_MATERIAL_BINDING_SCHEMA_TOKENS);
+TF_DEFINE_PUBLIC_TOKENS(HdDirectMaterialBindingSchemaTokens,
+    HD_DIRECT_MATERIAL_BINDING_SCHEMA_TOKENS);
 
 // --(BEGIN CUSTOM CODE: Schema Methods)--
 // --(END CUSTOM CODE: Schema Methods)--
 
 HdPathDataSourceHandle
-UsdImagingDirectMaterialBindingSchema::GetMaterialPath() const
+HdDirectMaterialBindingSchema::GetMaterialPath() const
 {
     return _GetTypedDataSource<HdPathDataSource>(
-        UsdImagingDirectMaterialBindingSchemaTokens->materialPath);
+        HdDirectMaterialBindingSchemaTokens->materialPath);
 }
 
 HdTokenDataSourceHandle
-UsdImagingDirectMaterialBindingSchema::GetBindingStrength() const
+HdDirectMaterialBindingSchema::GetBindingStrength() const
 {
     return _GetTypedDataSource<HdTokenDataSource>(
-        UsdImagingDirectMaterialBindingSchemaTokens->bindingStrength);
+        HdDirectMaterialBindingSchemaTokens->bindingStrength);
 }
 
 /*static*/
 HdContainerDataSourceHandle
-UsdImagingDirectMaterialBindingSchema::BuildRetained(
+HdDirectMaterialBindingSchema::BuildRetained(
         const HdPathDataSourceHandle &materialPath,
         const HdTokenDataSourceHandle &bindingStrength
 )
@@ -59,27 +59,27 @@ UsdImagingDirectMaterialBindingSchema::BuildRetained(
     size_t _count = 0;
 
     if (materialPath) {
-        _names[_count] = UsdImagingDirectMaterialBindingSchemaTokens->materialPath;
+        _names[_count] = HdDirectMaterialBindingSchemaTokens->materialPath;
         _values[_count++] = materialPath;
     }
 
     if (bindingStrength) {
-        _names[_count] = UsdImagingDirectMaterialBindingSchemaTokens->bindingStrength;
+        _names[_count] = HdDirectMaterialBindingSchemaTokens->bindingStrength;
         _values[_count++] = bindingStrength;
     }
     return HdRetainedContainerDataSource::New(_count, _names, _values);
 }
 
-UsdImagingDirectMaterialBindingSchema::Builder &
-UsdImagingDirectMaterialBindingSchema::Builder::SetMaterialPath(
+HdDirectMaterialBindingSchema::Builder &
+HdDirectMaterialBindingSchema::Builder::SetMaterialPath(
     const HdPathDataSourceHandle &materialPath)
 {
     _materialPath = materialPath;
     return *this;
 }
 
-UsdImagingDirectMaterialBindingSchema::Builder &
-UsdImagingDirectMaterialBindingSchema::Builder::SetBindingStrength(
+HdDirectMaterialBindingSchema::Builder &
+HdDirectMaterialBindingSchema::Builder::SetBindingStrength(
     const HdTokenDataSourceHandle &bindingStrength)
 {
     _bindingStrength = bindingStrength;
@@ -87,36 +87,36 @@ UsdImagingDirectMaterialBindingSchema::Builder::SetBindingStrength(
 }
 
 HdContainerDataSourceHandle
-UsdImagingDirectMaterialBindingSchema::Builder::Build()
+HdDirectMaterialBindingSchema::Builder::Build()
 {
-    return UsdImagingDirectMaterialBindingSchema::BuildRetained(
+    return HdDirectMaterialBindingSchema::BuildRetained(
         _materialPath,
         _bindingStrength
     );
 }
 
 /*static*/
-UsdImagingDirectMaterialBindingSchema
-UsdImagingDirectMaterialBindingSchema::GetFromParent(
+HdDirectMaterialBindingSchema
+HdDirectMaterialBindingSchema::GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer)
 {
-    return UsdImagingDirectMaterialBindingSchema(
+    return HdDirectMaterialBindingSchema(
         fromParentContainer
         ? HdContainerDataSource::Cast(fromParentContainer->Get(
-                UsdImagingDirectMaterialBindingSchemaTokens->directMaterialBinding))
+                HdDirectMaterialBindingSchemaTokens->directMaterialBinding))
         : nullptr);
 }
 
 /*static*/
 const TfToken &
-UsdImagingDirectMaterialBindingSchema::GetSchemaToken()
+HdDirectMaterialBindingSchema::GetSchemaToken()
 {
-    return UsdImagingDirectMaterialBindingSchemaTokens->directMaterialBinding;
+    return HdDirectMaterialBindingSchemaTokens->directMaterialBinding;
 }
 
 /*static*/
 const HdDataSourceLocator &
-UsdImagingDirectMaterialBindingSchema::GetDefaultLocator()
+HdDirectMaterialBindingSchema::GetDefaultLocator()
 {
     static const HdDataSourceLocator locator(GetSchemaToken());
     return locator;

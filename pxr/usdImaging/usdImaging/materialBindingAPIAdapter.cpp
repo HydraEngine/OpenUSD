@@ -8,8 +8,8 @@
 
 #include "pxr/usdImaging/usdImaging/collectionMaterialBindingSchema.h"
 #include "pxr/usdImaging/usdImaging/collectionMaterialBindingsSchema.h"
-#include "pxr/usdImaging/usdImaging/directMaterialBindingSchema.h"
-#include "pxr/usdImaging/usdImaging/directMaterialBindingsSchema.h"
+#include "pxr/imaging/hd/directMaterialBindingSchema.h"
+#include "pxr/imaging/hd/directMaterialBindingsSchema.h"
 
 #include "pxr/usd/usdShade/materialBindingAPI.h"
 
@@ -17,35 +17,26 @@
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-TF_DEFINE_PRIVATE_TOKENS(
-    _tokens,
-    ((materialNamespace, "material:"))
-);
+TF_DEFINE_PRIVATE_TOKENS(_tokens, ((materialNamespace, "material:")));
 
-TF_REGISTRY_FUNCTION(TfType)
-{
+TF_REGISTRY_FUNCTION(TfType) {
     typedef UsdImagingMaterialBindingAPIAdapter Adapter;
-    TfType t = TfType::Define<Adapter, TfType::Bases<Adapter::BaseAdapter> >();
-    t.SetFactory< UsdImagingAPISchemaAdapterFactory<Adapter> >();
+    TfType t = TfType::Define<Adapter, TfType::Bases<Adapter::BaseAdapter>>();
+    t.SetFactory<UsdImagingAPISchemaAdapterFactory<Adapter>>();
 }
 
 // ----------------------------------------------------------------------------
 
-namespace
-{
+namespace {
 
 template <typename T>
 using _RetainedTypedDs = HdRetainedTypedSampledDataSource<T>;
 
-class _CollectionMaterialBindingsContainerDataSource : public HdContainerDataSource
-{
+class _CollectionMaterialBindingsContainerDataSource : public HdContainerDataSource {
 public:
-
     HD_DECLARE_DATASOURCE(_CollectionMaterialBindingsContainerDataSource);
 
-    _CollectionMaterialBindingsContainerDataSource(const UsdPrim &prim)
-    : _mbApi(prim) {
-    }
+    _CollectionMaterialBindingsContainerDataSource(const UsdPrim &prim) : _mbApi(prim) {}
 
     TfTokenVector GetNames() override {
         // XXX This returns all the possible values for material purpose
@@ -60,13 +51,8 @@ public:
     }
 
 private:
-
-    HdDataSourceBaseHandle
-    _BuildCollectionBindingsVectorDataSource(
-        const TfToken &purpose) const
-    {
-        using _CollectionBindings =
-            UsdShadeMaterialBindingAPI::CollectionBindingVector;
+    HdDataSourceBaseHandle _BuildCollectionBindingsVectorDataSource(const TfToken &purpose) const {
+        using _CollectionBindings = UsdShadeMaterialBindingAPI::CollectionBindingVector;
 
         _CollectionBindings bindings = _mbApi.GetCollectionBindings(purpose);
         if (bindings.empty()) {
@@ -79,38 +65,27 @@ private:
             if (binding.IsValid()) {
                 auto const &b = binding;
                 bindingsDs.push_back(
-                    UsdImagingCollectionMaterialBindingSchema::Builder()
-                    .SetCollectionPath(
-                        _RetainedTypedDs<SdfPath>::New(b.GetCollectionPath()))
-                    .SetMaterialPath(
-                        _RetainedTypedDs<SdfPath>::New(b.GetMaterialPath()))
-                    .SetBindingStrength(
-                        _RetainedTypedDs<TfToken>::New(
-                            UsdShadeMaterialBindingAPI::GetMaterialBindingStrength(
-                                b.GetBindingRel())))
-                    .Build()
-                );
+                        UsdImagingCollectionMaterialBindingSchema::Builder()
+                                .SetCollectionPath(_RetainedTypedDs<SdfPath>::New(b.GetCollectionPath()))
+                                .SetMaterialPath(_RetainedTypedDs<SdfPath>::New(b.GetMaterialPath()))
+                                .SetBindingStrength(_RetainedTypedDs<TfToken>::New(
+                                        UsdShadeMaterialBindingAPI::GetMaterialBindingStrength(b.GetBindingRel())))
+                                .Build());
             }
         }
 
-        return HdRetainedSmallVectorDataSource::New(
-            bindingsDs.size(), bindingsDs.data());
+        return HdRetainedSmallVectorDataSource::New(bindingsDs.size(), bindingsDs.data());
     }
 
     UsdShadeMaterialBindingAPI _mbApi;
 };
 HD_DECLARE_DATASOURCE_HANDLES(_CollectionMaterialBindingsContainerDataSource);
 
-
-class _DirectMaterialBindingsContainerDataSource : public HdContainerDataSource
-{
+class _DirectMaterialBindingsContainerDataSource : public HdContainerDataSource {
 public:
-
     HD_DECLARE_DATASOURCE(_DirectMaterialBindingsContainerDataSource);
 
-    _DirectMaterialBindingsContainerDataSource(const UsdPrim &prim)
-    : _mbApi(prim) {
-    }
+    _DirectMaterialBindingsContainerDataSource(const UsdPrim &prim) : _mbApi(prim) {}
 
     TfTokenVector GetNames() override {
         // XXX This returns all the possible values for material purpose
@@ -131,15 +106,11 @@ public:
             return nullptr;
         }
 
-        return
-            UsdImagingDirectMaterialBindingSchema::Builder()
-            .SetMaterialPath(
-                _RetainedTypedDs<SdfPath>::New(db.GetMaterialPath()))
-            .SetBindingStrength(
-                _RetainedTypedDs<TfToken>::New(
-                    UsdShadeMaterialBindingAPI::GetMaterialBindingStrength(
-                        bindingRel)))
-            .Build();
+        return HdDirectMaterialBindingSchema::Builder()
+                .SetMaterialPath(_RetainedTypedDs<SdfPath>::New(db.GetMaterialPath()))
+                .SetBindingStrength(_RetainedTypedDs<TfToken>::New(
+                        UsdShadeMaterialBindingAPI::GetMaterialBindingStrength(bindingRel)))
+                .Build();
     }
 
 private:
@@ -147,10 +118,7 @@ private:
 };
 HD_DECLARE_DATASOURCE_HANDLES(_DirectMaterialBindingsContainerDataSource);
 
-
-std::pair<bool,bool>
-_HasDirectAndCollectionBindings(const UsdPrim &prim)
-{
+std::pair<bool, bool> _HasDirectAndCollectionBindings(const UsdPrim &prim) {
     // Note: GetAuthoredPropertiesInNamespace for "material:binding" returns
     //       "material:binding:*" but not "material:binding". So, we use
     //       "material:" instead to get all bindings.
@@ -158,83 +126,66 @@ _HasDirectAndCollectionBindings(const UsdPrim &prim)
     //       "material:binding:collection" suffices.
     //
     const std::vector<UsdProperty> colBindingProps =
-        prim.GetAuthoredPropertiesInNamespace(
-            UsdShadeTokens->materialBindingCollection.GetString());
+            prim.GetAuthoredPropertiesInNamespace(UsdShadeTokens->materialBindingCollection.GetString());
 
     const bool hasCollectionBinding = !colBindingProps.empty();
-    
-    const std::vector<UsdProperty> allBindingProps =
-        prim.GetAuthoredPropertiesInNamespace(
-            _tokens->materialNamespace.GetString());
 
-    const bool hasDirectBinding =
-        allBindingProps.size() > colBindingProps.size();
+    const std::vector<UsdProperty> allBindingProps =
+            prim.GetAuthoredPropertiesInNamespace(_tokens->materialNamespace.GetString());
+
+    const bool hasDirectBinding = allBindingProps.size() > colBindingProps.size();
 
     return {hasDirectBinding, hasCollectionBinding};
 }
 
-} // anonymous namespace
+}  // anonymous namespace
 
 // ----------------------------------------------------------------------------
 
-HdContainerDataSourceHandle
-UsdImagingMaterialBindingAPIAdapter::GetImagingSubprimData(
-    UsdPrim const& prim,
-    TfToken const& subprim,
-    TfToken const& appliedInstanceName,
-    const UsdImagingDataSourceStageGlobals &stageGlobals)
-{
+HdContainerDataSourceHandle UsdImagingMaterialBindingAPIAdapter::GetImagingSubprimData(
+        UsdPrim const &prim,
+        TfToken const &subprim,
+        TfToken const &appliedInstanceName,
+        const UsdImagingDataSourceStageGlobals &stageGlobals) {
     if (!subprim.IsEmpty() || !appliedInstanceName.IsEmpty()) {
         return nullptr;
     }
 
-    const std::pair<bool,bool> hasBindings =
-        _HasDirectAndCollectionBindings(prim);
+    const std::pair<bool, bool> hasBindings = _HasDirectAndCollectionBindings(prim);
     const bool &hasDirectBindings = hasBindings.first;
     const bool &hasCollectionBindings = hasBindings.second;
 
     return HdRetainedContainerDataSource::New(
-        UsdImagingDirectMaterialBindingsSchema::GetSchemaToken(),
-        hasDirectBindings
-        ? _DirectMaterialBindingsContainerDataSource::New(prim)
-        : nullptr,
+            HdDirectMaterialBindingsSchema::GetSchemaToken(),
+            hasDirectBindings ? _DirectMaterialBindingsContainerDataSource::New(prim) : nullptr,
 
-        UsdImagingCollectionMaterialBindingsSchema::GetSchemaToken(),
-        hasCollectionBindings
-        ? _CollectionMaterialBindingsContainerDataSource::New(prim)
-        : nullptr);
+            UsdImagingCollectionMaterialBindingsSchema::GetSchemaToken(),
+            hasCollectionBindings ? _CollectionMaterialBindingsContainerDataSource::New(prim) : nullptr);
 }
 
-HdDataSourceLocatorSet
-UsdImagingMaterialBindingAPIAdapter::InvalidateImagingSubprim(
-    UsdPrim const& prim,
-    TfToken const& subprim,
-    TfToken const& appliedInstanceName,
-    TfTokenVector const& properties,
-    const UsdImagingPropertyInvalidationType invalidationType)
-{
-
+HdDataSourceLocatorSet UsdImagingMaterialBindingAPIAdapter::InvalidateImagingSubprim(
+        UsdPrim const &prim,
+        TfToken const &subprim,
+        TfToken const &appliedInstanceName,
+        TfTokenVector const &properties,
+        const UsdImagingPropertyInvalidationType invalidationType) {
     // QUESTION: We aren't ourselves creating any subprims but do we need to
     //           contribute to them?
     if (!subprim.IsEmpty() || !appliedInstanceName.IsEmpty()) {
         return HdDataSourceLocatorSet();
     }
 
-    const auto &dirBindingsLocator =
-        UsdImagingDirectMaterialBindingsSchema::GetDefaultLocator();
-    const auto &colBindingsLocator =
-        UsdImagingCollectionMaterialBindingsSchema::GetDefaultLocator();
+    const auto &dirBindingsLocator = HdDirectMaterialBindingsSchema::GetDefaultLocator();
+    const auto &colBindingsLocator = UsdImagingCollectionMaterialBindingsSchema::GetDefaultLocator();
 
     // Edits to the binding path or strength or collection requires
     // reevaluation of the resolved binding.
     for (const TfToken &propertyName : properties) {
-        if (TfStringStartsWith(propertyName,
-                UsdShadeTokens->materialBindingCollection)) {
+        if (TfStringStartsWith(propertyName, UsdShadeTokens->materialBindingCollection)) {
             return colBindingsLocator;
         }
-        
-        if (TfStringStartsWith(propertyName,
-                UsdShadeTokens->materialBinding)) {
+
+        if (TfStringStartsWith(propertyName, UsdShadeTokens->materialBinding)) {
             return dirBindingsLocator;
         }
     }

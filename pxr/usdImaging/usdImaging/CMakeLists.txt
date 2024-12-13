@@ -32,8 +32,6 @@ pxr_library(usdImaging
         collectionCache
         collectionMaterialBindingSchema
         collectionMaterialBindingsSchema
-        directMaterialBindingSchema
-        directMaterialBindingsSchema
         dataSourceAttribute
         dataSourceAttributeColorSpace
         dataSourceBasisCurves

@@ -75,30 +75,6 @@
     ),
 
     #--------------------------------------------------------------------------
-    # usdImaging/directMaterialBinding - corresponds to UsdShadeMaterialBindingAPI::DirectBinding
-    dict(
-        SCHEMA_NAME = 'DirectMaterialBinding',
-        SCHEMA_TOKEN = 'directMaterialBinding',
-        ADD_DEFAULT_LOCATOR = True,
-        MEMBERS = [
-            ('materialPath', T_PATH, {}),
-            ('bindingStrength', T_TOKEN, {}),
-        ],
-    ),
-
-    #--------------------------------------------------------------------------
-    # usdImaging/DirectMaterialBindings - corresponds to UsdShadeMaterialBindingAPI::DirectBinding
-    dict(
-        SCHEMA_NAME = 'DirectMaterialBindings',
-        SCHEMA_TOKEN = 'directMaterialBindings',
-        EXTRA_TOKENS = [
-            '(allPurpose, "")',
-        ],
-        ADD_DEFAULT_LOCATOR = True,
-        GENERIC_BUILD_RETAINED = True,
-    ),
-
-    #--------------------------------------------------------------------------
     # usdImaging/collectionMaterialBinding - corresponds to UsdShadeMaterialBindingAPI::CollectionBinding
     dict(
         SCHEMA_NAME = 'CollectionMaterialBinding',

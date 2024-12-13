@@ -15,18 +15,18 @@
 /* **                                                                      ** */
 /* ************************************************************************** */
 
-#ifndef PXR_USD_IMAGING_USD_IMAGING_DIRECT_MATERIAL_BINDINGS_SCHEMA_H
-#define PXR_USD_IMAGING_USD_IMAGING_DIRECT_MATERIAL_BINDINGS_SCHEMA_H
+#ifndef PXR_IMAGING_HD_DIRECT_MATERIAL_BINDINGS_SCHEMA_H
+#define PXR_IMAGING_HD_DIRECT_MATERIAL_BINDINGS_SCHEMA_H
 
 /// \file
 
-#include "pxr/usdImaging/usdImaging/api.h"
+#include "pxr/imaging/hd/api.h"
 
 #include "pxr/imaging/hd/schema.h"
 
 // --(BEGIN CUSTOM CODE: Includes)--
 
-#include "pxr/usdImaging/usdImaging/directMaterialBindingSchema.h"
+#include "pxr/imaging/hd/directMaterialBindingSchema.h"
 
 // --(END CUSTOM CODE: Includes)--
 
@@ -35,32 +35,32 @@ PXR_NAMESPACE_OPEN_SCOPE
 // --(BEGIN CUSTOM CODE: Declares)--
 // --(END CUSTOM CODE: Declares)--
 
-#define USD_IMAGING_DIRECT_MATERIAL_BINDINGS_SCHEMA_TOKENS \
+#define HD_DIRECT_MATERIAL_BINDINGS_SCHEMA_TOKENS \
     (directMaterialBindings) \
     ((allPurpose, "")) \
 
-TF_DECLARE_PUBLIC_TOKENS(UsdImagingDirectMaterialBindingsSchemaTokens, USDIMAGING_API,
-    USD_IMAGING_DIRECT_MATERIAL_BINDINGS_SCHEMA_TOKENS);
+TF_DECLARE_PUBLIC_TOKENS(HdDirectMaterialBindingsSchemaTokens, HD_API,
+    HD_DIRECT_MATERIAL_BINDINGS_SCHEMA_TOKENS);
 
 //-----------------------------------------------------------------------------
 
 
-class UsdImagingDirectMaterialBindingsSchema : public HdSchema
+class HdDirectMaterialBindingsSchema : public HdSchema
 {
 public:
     /// \name Schema retrieval
     /// @{
 
-    UsdImagingDirectMaterialBindingsSchema(HdContainerDataSourceHandle container)
+    HdDirectMaterialBindingsSchema(HdContainerDataSourceHandle container)
       : HdSchema(container) {}
 
     /// Retrieves a container data source with the schema's default name token
     /// "directMaterialBindings" from the parent container and constructs a
-    /// UsdImagingDirectMaterialBindingsSchema instance.
+    /// HdDirectMaterialBindingsSchema instance.
     /// Because the requested container data source may not exist, the result
     /// should be checked with IsDefined() or a bool comparison before use.
-    USDIMAGING_API
-    static UsdImagingDirectMaterialBindingsSchema GetFromParent(
+    HD_API
+    static HdDirectMaterialBindingsSchema GetFromParent(
         const HdContainerDataSourceHandle &fromParentContainer);
 
     /// @}
@@ -69,17 +69,17 @@ public:
 
     /// Returns the purposes for which bindings may be available.
     /// \note This API is preferable to schema.GetContainer()->GetNames().
-    USDIMAGING_API
+    HD_API
     TfTokenVector GetPurposes();
 
     /// Returns the 'allPurpose' binding.
-    USDIMAGING_API
-    UsdImagingDirectMaterialBindingSchema
+    HD_API
+    HdDirectMaterialBindingSchema
     GetDirectMaterialBinding();
 
     /// Returns the binding for the requested purpose.
-    USDIMAGING_API
-    UsdImagingDirectMaterialBindingSchema
+    HD_API
+    HdDirectMaterialBindingSchema
     GetDirectMaterialBinding(const TfToken &purpose);
 
 // --(END CUSTOM CODE: Schema Methods)--
@@ -94,12 +94,12 @@ public:
 
     /// Returns a token where the container representing this schema is found in
     /// a container by default.
-    USDIMAGING_API
+    HD_API
     static const TfToken &GetSchemaToken();
 
     /// Returns an HdDataSourceLocator (relative to the prim-level data source)
     /// where the container representing this schema is found by default.
-    USDIMAGING_API
+    HD_API
     static const HdDataSourceLocator &GetDefaultLocator();
 
     /// @} 
