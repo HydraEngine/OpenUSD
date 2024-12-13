@@ -208,6 +208,85 @@ pxr_library(hd
         vtBufferSource
         xformSchema
 
+        fabricSceneIndex
+        fabric
+        physxArticulationSchema
+        physxCameraDroneSchema
+        physxCameraFollowLookSchema
+        physxCameraFollowSchema
+        physxCameraFollowVelocitySchema
+        physxCameraSchema
+        physxCharacterControllerSchema
+        physxCollisionSchema
+        physxContactReportSchema
+        physxConvexDecompositionCollisionSchema
+        physxConvexHullCollisionSchema
+        physxCookedDataSchema
+        physxForceSchema
+        physxIsosurfaceSchema
+        physxJointSchema
+        physxJointStateSchema
+        physxMaterialSchema
+        physxMeshMergeCollisionSchema
+        physxMimicJointSchema
+        physxPhysicsDistanceJointSchema
+        physxPhysicsGearJointSchema
+        physxPhysicsInstancerSchema
+        physxPhysicsJointInstancerSchema
+        physxPhysicsRackAndPinionJointSchema
+        physxResidualReportingSchema
+        physxRigidBodySchema
+        physxSceneQuasistaticSchema
+        physxSceneSchema
+        physxSDFMeshCollisionSchema
+        physxSphereFillCollisionSchema
+        physxSurfaceVelocitySchema
+        physxTriangleMeshCollisionSchema
+        physxTriangleMeshSimplificationCollisionSchema
+        physxTriggerSchema
+        physxTriggerStateSchema
+        physxVehicleAckermannSteeringSchema
+        physxVehicleAutoGearBoxSchema
+        physxVehicleBrakesSchema
+        physxVehicleClutchSchema
+        physxVehicleContextSchema
+        physxVehicleControllerSchema
+        physxVehicleDriveBasicSchema
+        physxVehicleDriveStandardSchema
+        physxVehicleEngineSchema
+        physxVehicleGearsSchema
+        physxVehicleMultiWheelDifferentialSchema
+        physxVehicleNonlinearCommandResponseSchema
+        physxVehicleSchema
+        physxVehicleSteeringSchema
+        physxVehicleSuspensionComplianceSchema
+        physxVehicleSuspensionSchema
+        physxVehicleTankControllerSchema
+        physxVehicleTankDifferentialSchema
+        physxVehicleTireFrictionTableSchema
+        physxVehicleTireSchema
+        physxVehicleWheelAttachmentSchema
+        physxVehicleWheelControllerSchema
+        physxVehicleWheelSchema
+
+        physicsMaterialSchema
+        collisionSchema
+        meshCollisionSchema
+        massSchema
+        rigidBodySchema
+        articulationRootSchema
+        driveSchema
+        limitSchema
+        jointSchema
+        distanceJointSchema
+        fixedJointSchema
+        prismaticJointSchema
+        revoluteJointSchema
+        sphericalJointSchema
+        sceneSchema
+        filteredPairsSchema
+        collisionGroupSchema
+
     PUBLIC_HEADERS
         api.h
         dataSourceTypeDefs.h

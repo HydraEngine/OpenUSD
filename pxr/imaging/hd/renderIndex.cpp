@@ -32,7 +32,7 @@
 #include "pxr/imaging/hd/sprim.h"
 #include "pxr/imaging/hd/task.h"
 #include "pxr/imaging/hd/tokens.h"
-#include "pxr/imaging/fabric/fabric.h"
+#include "pxr/imaging/hd/fabric.h"
 
 #include "pxr/base/work/dispatcher.h"
 #include "pxr/base/work/loops.h"

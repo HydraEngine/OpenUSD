@@ -82,6 +82,7 @@
 #include "pxr/imaging/hd/volumeFieldBindingSchema.h"
 #include "pxr/imaging/hd/volumeFieldSchema.h"
 #include "pxr/imaging/hd/xformSchema.h"
+#include "pxr/imaging/hd/fabric.h"
 
 #include "pxr/imaging/hf/perfLog.h"
 #include "pxr/imaging/pxOsd/subdivTags.h"
@@ -1919,10 +1920,14 @@ size_t HdSceneIndexAdapterSceneDelegate::_SamplePrimvar(SdfPath const &id,
 GfMatrix4d HdSceneIndexAdapterSceneDelegate::GetTransform(SdfPath const &id) {
     TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
-    GfMatrix4d m;
-    m.SetIdentity();
-
     auto &fabric = GetRenderIndex().fabric();
+    auto xform = fabric.findXform(id);
+    if (xform) {
+        return xform.value();
+    }
+
+    GfMatrix4d m{};
+    m.SetIdentity();
 
     HdSceneIndexPrim prim = _GetInputPrim(id);
 
