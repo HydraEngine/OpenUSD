@@ -104,9 +104,9 @@ public:
 
     void PrimsDirtied(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::DirtiedPrimEntry& entry);
 
-    HdSceneIndexObserver::DirtiedPrimEntries& dirtyEntries() { return _dirtyEntries; }
+    void InsertDirtyEntry(const SdfPath& path);
 
-    std::optional<GfMatrix4d> findXform(const SdfPath& path);
+    std::optional<GfMatrix4d> FindXform(const SdfPath& path);
 
     std::map<SdfPath, HdArticulationRootSchema> _articulationRoots;
     std::map<SdfPath, HdCollisionGroupSchema> _collisionGroups;

@@ -26,6 +26,9 @@ public:
     HD_API
     SdfPathVector GetChildPrimPaths(const SdfPath &primPath) const override;
 
+    HD_API
+    void FlushDirties();
+
 protected:
     explicit FabricSceneIndex(const HdSceneIndexBaseRefPtr &inputSceneIndex, Fabric& fabric);
 

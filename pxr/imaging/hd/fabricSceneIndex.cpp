@@ -45,8 +45,6 @@ void FabricSceneIndex::_PrimsDirtied(const HdSceneIndexBase &sender,
         _fabric.PrimsDirtied(prim, entry);
     }
     _SendPrimsDirtied(entries);
-    _SendPrimsDirtied(_fabric.dirtyEntries());
-    _fabric.dirtyEntries().clear();
 }
 
 HdSceneIndexPrim FabricSceneIndex::GetPrim(const SdfPath &primPath) const {
@@ -56,6 +54,11 @@ HdSceneIndexPrim FabricSceneIndex::GetPrim(const SdfPath &primPath) const {
 
 SdfPathVector FabricSceneIndex::GetChildPrimPaths(const SdfPath &primPath) const {
     return _GetInputSceneIndex()->GetChildPrimPaths(primPath);
+}
+
+void FabricSceneIndex::FlushDirties() {
+    _SendPrimsDirtied(_fabric._dirtyEntries);
+    _fabric._dirtyEntries.clear();
 }
 
 PXR_NAMESPACE_CLOSE_SCOPE

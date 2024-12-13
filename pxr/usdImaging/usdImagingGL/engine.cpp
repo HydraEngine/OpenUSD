@@ -390,6 +390,7 @@ void UsdImagingGLEngine::Render(const UsdPrim &root, const UsdImagingGLRenderPar
 
 void UsdImagingGLEngine::Update(float dt) {
     _simulationEngine->UpdateAll(dt);
+    _fabricSceneIndex->FlushDirties();
 }
 
 void UsdImagingGLEngine::SyncFabric() {

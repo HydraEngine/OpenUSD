@@ -79,6 +79,7 @@ void PhysxEngine::UpdateAll(float dt) {
             auto shapeXform = begin->second;
             shapeXform = shapeXform / originalXform * xform;
             _fabric._resultXforms[begin->first] = shapeXform;
+            _fabric.InsertDirtyEntry(begin->first);
         }
     }
 }

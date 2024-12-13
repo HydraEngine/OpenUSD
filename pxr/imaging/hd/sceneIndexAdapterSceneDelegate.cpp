@@ -1921,7 +1921,7 @@ GfMatrix4d HdSceneIndexAdapterSceneDelegate::GetTransform(SdfPath const &id) {
     TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
     auto &fabric = GetRenderIndex().fabric();
-    auto xform = fabric.findXform(id);
+    auto xform = fabric.FindXform(id);
     if (xform) {
         return xform.value();
     }

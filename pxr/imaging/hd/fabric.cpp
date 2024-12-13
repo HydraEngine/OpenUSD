@@ -363,12 +363,17 @@ void Fabric::PrimsRemoved(const HdSceneIndexPrim& prim, const HdSceneIndexObserv
 
 void Fabric::PrimsDirtied(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::DirtiedPrimEntry& entry) {}
 
-std::optional<GfMatrix4d> Fabric::findXform(const SdfPath& path) {
+std::optional<GfMatrix4d> Fabric::FindXform(const SdfPath& path) {
     auto iter = _resultXforms.find(path);
     if (iter != _resultXforms.end()) {
         return iter->second;
     }
     return std::nullopt;
+}
+
+void Fabric::InsertDirtyEntry(const SdfPath& path) {
+    static HdDataSourceLocatorSet locators = {pxr::HdXformSchema::GetDefaultLocator()};
+    _dirtyEntries.emplace_back(path, locators);
 }
 
 PXR_NAMESPACE_CLOSE_SCOPE
