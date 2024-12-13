@@ -9,8 +9,7 @@
 
 #include "pxr/usdImaging/usdImaging/delegate.h"
 #include "pxr/usdImaging/usdImaging/indexProxy.h"
-#include "pxr/usdImaging/usdPhysicsImaging/physxPhysicsRackAndPinionJointSchema.h"
-#include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/imaging/hd/physxPhysicsRackAndPinionJointSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include "pxr/usd/usdPhysX/physicsRackAndPinionJoint.h"
@@ -35,7 +34,7 @@ TfTokenVector UsdImagingPhysicsRackAndPinionJointAdapter::GetImagingSubprims(Usd
 
 TfToken UsdImagingPhysicsRackAndPinionJointAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens->physxPhysicsRackAndPinionJoint;
+        return HdPhysxPhysicsRackAndPinionJointSchemaTokens->physxPhysicsRackAndPinionJoint;
     }
     return UsdImagingPhysicsJointAdapter::GetImagingSubprimType(prim, subprim);
 }

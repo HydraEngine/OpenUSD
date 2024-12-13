@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxResidualReportingSchema.h"
+#include "pxr/imaging/hd/physxResidualReportingSchema.h"
 #include "pxr/usd/usdPhysX/residualReportingAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,38 +31,38 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxResidualReportingSchemaTokens->maxResidualPositionIteration,  //
-                UsdPhysicsImagingPhysxResidualReportingSchemaTokens->maxResidualVelocityIteration,  //
-                UsdPhysicsImagingPhysxResidualReportingSchemaTokens->rmsResidualPositionIteration,  //
-                UsdPhysicsImagingPhysxResidualReportingSchemaTokens->rmsResidualVelocityIteration,  //
+                HdPhysxResidualReportingSchemaTokens->maxResidualPositionIteration,  //
+                HdPhysxResidualReportingSchemaTokens->maxResidualVelocityIteration,  //
+                HdPhysxResidualReportingSchemaTokens->rmsResidualPositionIteration,  //
+                HdPhysxResidualReportingSchemaTokens->rmsResidualVelocityIteration,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxResidualReportingSchemaTokens->maxResidualPositionIteration) {
+        if (name == HdPhysxResidualReportingSchemaTokens->maxResidualPositionIteration) {
             if (UsdAttribute attr = _api.GetMaxResidualPositionIterationAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxResidualReportingSchemaTokens->maxResidualVelocityIteration) {
+        } else if (name == HdPhysxResidualReportingSchemaTokens->maxResidualVelocityIteration) {
             if (UsdAttribute attr = _api.GetMaxResidualVelocityIterationAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxResidualReportingSchemaTokens->rmsResidualPositionIteration) {
+        } else if (name == HdPhysxResidualReportingSchemaTokens->rmsResidualPositionIteration) {
             if (UsdAttribute attr = _api.GetRmsResidualPositionIterationAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxResidualReportingSchemaTokens->rmsResidualVelocityIteration) {
+        } else if (name == HdPhysxResidualReportingSchemaTokens->rmsResidualVelocityIteration) {
             if (UsdAttribute attr = _api.GetRmsResidualVelocityIterationAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -89,7 +89,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXResidualReportingAPIAdapter::G
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxResidualReportingSchemaTokens->physxResidualReporting,
+                HdPhysxResidualReportingSchemaTokens->physxResidualReporting,
                 PhysxDataSource::New(prim));
     }
 
@@ -109,7 +109,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXResidualReportingAPIAdapter::Invali
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxResidualReportingSchema::GetDefaultLocator());
+            result.insert(HdPhysxResidualReportingSchema::GetDefaultLocator());
         }
     }
 

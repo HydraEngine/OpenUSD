@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleWheelAttachmentSchema.h"
+#include "pxr/imaging/hd/physxVehicleWheelAttachmentSchema.h"
 #include "pxr/usd/usdPhysX/vehicleWheelAttachmentAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,54 +31,54 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleWheelAttachmentSchemaTokens->index,                       //
-                UsdPhysicsImagingPhysxVehicleWheelAttachmentSchemaTokens->suspensionFrameOrientation,  //
-                UsdPhysicsImagingPhysxVehicleWheelAttachmentSchemaTokens->suspensionFramePosition,     //
-                UsdPhysicsImagingPhysxVehicleWheelAttachmentSchemaTokens->suspensionTravelDirection,   //
-                UsdPhysicsImagingPhysxVehicleWheelAttachmentSchemaTokens->wheelFrameOrientation,       //
-                UsdPhysicsImagingPhysxVehicleWheelAttachmentSchemaTokens->wheelFramePosition,          //
+                HdPhysxVehicleWheelAttachmentSchemaTokens->index,                       //
+                HdPhysxVehicleWheelAttachmentSchemaTokens->suspensionFrameOrientation,  //
+                HdPhysxVehicleWheelAttachmentSchemaTokens->suspensionFramePosition,     //
+                HdPhysxVehicleWheelAttachmentSchemaTokens->suspensionTravelDirection,   //
+                HdPhysxVehicleWheelAttachmentSchemaTokens->wheelFrameOrientation,       //
+                HdPhysxVehicleWheelAttachmentSchemaTokens->wheelFramePosition,          //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleWheelAttachmentSchemaTokens->index) {
+        if (name == HdPhysxVehicleWheelAttachmentSchemaTokens->index) {
             if (UsdAttribute attr = _api.GetIndexAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleWheelAttachmentSchemaTokens->suspensionFrameOrientation) {
+        } else if (name == HdPhysxVehicleWheelAttachmentSchemaTokens->suspensionFrameOrientation) {
             if (UsdAttribute attr = _api.GetSuspensionFrameOrientationAttr()) {
                 GfQuatf v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfQuatf>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleWheelAttachmentSchemaTokens->suspensionFramePosition) {
+        } else if (name == HdPhysxVehicleWheelAttachmentSchemaTokens->suspensionFramePosition) {
             if (UsdAttribute attr = _api.GetSuspensionFramePositionAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleWheelAttachmentSchemaTokens->suspensionTravelDirection) {
+        } else if (name == HdPhysxVehicleWheelAttachmentSchemaTokens->suspensionTravelDirection) {
             if (UsdAttribute attr = _api.GetSuspensionTravelDirectionAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleWheelAttachmentSchemaTokens->wheelFrameOrientation) {
+        } else if (name == HdPhysxVehicleWheelAttachmentSchemaTokens->wheelFrameOrientation) {
             if (UsdAttribute attr = _api.GetWheelFrameOrientationAttr()) {
                 GfQuatf v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfQuatf>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleWheelAttachmentSchemaTokens->wheelFramePosition) {
+        } else if (name == HdPhysxVehicleWheelAttachmentSchemaTokens->wheelFramePosition) {
             if (UsdAttribute attr = _api.GetWheelFramePositionAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
@@ -105,7 +105,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleWheelAttachmentAPIAdapt
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxVehicleWheelAttachmentSchemaTokens->physxVehicleWheelAttachment,
+                HdPhysxVehicleWheelAttachmentSchemaTokens->physxVehicleWheelAttachment,
                 PhysxDataSource::New(prim));
     }
 
@@ -125,7 +125,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleWheelAttachmentAPIAdapter::I
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleWheelAttachmentSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleWheelAttachmentSchema::GetDefaultLocator());
         }
     }
 

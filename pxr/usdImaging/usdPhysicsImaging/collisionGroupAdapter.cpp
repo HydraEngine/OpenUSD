@@ -10,8 +10,7 @@
 #include "pxr/usdImaging/usdImaging/dataSourceRenderPrims.h"
 #include "pxr/usdImaging/usdImaging/delegate.h"
 #include "pxr/usdImaging/usdImaging/indexProxy.h"
-#include "pxr/usdImaging/usdPhysicsImaging/collisionGroupSchema.h"
-#include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/imaging/hd/collisionGroupSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -35,9 +34,9 @@ public:
 
     static const TfTokenVector& GetPropertyNames() {
         static const TfTokenVector names = {
-                UsdPhysicsImagingCollisionGroupSchemaTokens->mergeGroupName,  //
-                UsdPhysicsImagingCollisionGroupSchemaTokens->invertFilteredGroups,   //
-                UsdPhysicsImagingCollisionGroupSchemaTokens->filteredGroups   //
+                HdCollisionGroupSchemaTokens->mergeGroupName,  //
+                HdCollisionGroupSchemaTokens->invertFilteredGroups,   //
+                HdCollisionGroupSchemaTokens->filteredGroups   //
         };
 
         return names;
@@ -46,7 +45,7 @@ public:
     TfTokenVector GetNames() override { return GetPropertyNames(); }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingCollisionGroupSchemaTokens->mergeGroupName) {
+        if (name == HdCollisionGroupSchemaTokens->mergeGroupName) {
             if (UsdAttribute attr = _usdPhysicsCollisionGroup.GetMergeGroupNameAttr()) {
                 std::string v;
                 if (attr.Get(&v)) {
@@ -55,7 +54,7 @@ public:
             }
         }
 
-        if (name == UsdPhysicsImagingCollisionGroupSchemaTokens->invertFilteredGroups) {
+        if (name == HdCollisionGroupSchemaTokens->invertFilteredGroups) {
             if (UsdAttribute attr = _usdPhysicsCollisionGroup.GetInvertFilteredGroupsAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
@@ -64,7 +63,7 @@ public:
             }
         }
 
-        if (name == UsdPhysicsImagingCollisionGroupSchemaTokens->filteredGroups) {
+        if (name == HdCollisionGroupSchemaTokens->filteredGroups) {
             if (UsdRelationship rel = _usdPhysicsCollisionGroup.GetFilteredGroupsRel()) {
                 return DependentPrimsDataSource::New(rel);
             }
@@ -101,12 +100,12 @@ public:
     USDIMAGING_API
     TfTokenVector GetNames() override {
         // Note: Skip properties on UsdImagingDataSourcePrim.
-        return {UsdPhysicsImagingCollisionGroupSchema::GetSchemaToken()};
+        return {HdCollisionGroupSchema::GetSchemaToken()};
     }
 
     USDIMAGING_API
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingCollisionGroupSchema::GetSchemaToken()) {
+        if (name == HdCollisionGroupSchema::GetSchemaToken()) {
             return _DataSourcePhysicsCollisionGroup::New(_GetSceneIndexPath(), UsdPhysicsCollisionGroup(_GetUsdPrim()),
                                                          _GetStageGlobals());
         }
@@ -129,7 +128,7 @@ public:
 
         for (const TfToken& propertyName : properties) {
             if (tokensSet.find(propertyName) != tokensSet.end()) {
-                locators.insert(UsdPhysicsImagingCollisionGroupSchema::GetDefaultLocator().Append(propertyName));
+                locators.insert(HdCollisionGroupSchema::GetDefaultLocator().Append(propertyName));
             }
         }
 
@@ -155,7 +154,7 @@ TfTokenVector UsdImagingPhysicsCollisionGroupAdapter::GetImagingSubprims(UsdPrim
 
 TfToken UsdImagingPhysicsCollisionGroupAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return UsdPhysicsImagingCollisionGroupSchemaTokens->collisionGroup;
+        return HdCollisionGroupSchemaTokens->collisionGroup;
     }
     return TfToken();
 }

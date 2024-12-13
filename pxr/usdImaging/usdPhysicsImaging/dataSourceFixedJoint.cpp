@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/dataSourceFixedJoint.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/fixedJointSchema.h"
+#include "pxr/imaging/hd/fixedJointSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -34,12 +34,12 @@ UsdImagingDataSourceFixedJointPrim::UsdImagingDataSourceFixedJointPrim(
 
 TfTokenVector UsdImagingDataSourceFixedJointPrim::GetNames() {
     TfTokenVector result = UsdImagingDataSourcePrim::GetNames();
-    result.push_back(UsdPhysicsImagingFixedJointSchema::GetSchemaToken());
+    result.push_back(HdFixedJointSchema::GetSchemaToken());
     return result;
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceFixedJointPrim::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingFixedJointSchema::GetSchemaToken()) {
+    if (name == HdFixedJointSchema::GetSchemaToken()) {
         return UsdImagingDataSourceFixedJoint::New(_GetSceneIndexPath(), UsdPhysicsFixedJoint(_GetUsdPrim()),
                                                       _GetStageGlobals());
     }
@@ -61,7 +61,7 @@ HdDataSourceLocatorSet UsdImagingDataSourceFixedJointPrim::Invalidate(
     for (const TfToken &propertyName : properties) {
         for (const TfToken &usdName : usdNames) {
             if (propertyName == usdName) {
-                locators.insert(UsdPhysicsImagingFixedJointSchema::GetDefaultLocator().Append(propertyName));
+                locators.insert(HdFixedJointSchema::GetDefaultLocator().Append(propertyName));
             }
         }
     }

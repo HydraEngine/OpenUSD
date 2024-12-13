@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/dataSourceRevoluteJoint.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/revoluteJointSchema.h"
+#include "pxr/imaging/hd/revoluteJointSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -23,21 +23,21 @@ TfTokenVector UsdImagingDataSourceRevoluteJoint::GetNames() {
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceRevoluteJoint::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingRevoluteJointSchemaTokens->axis) {
+    if (name == HdRevoluteJointSchemaTokens->axis) {
         if (UsdAttribute attr = _usdRevoluteJoint.GetAxisAttr()) {
             TfToken v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<TfToken>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingRevoluteJointSchemaTokens->lowerLimit) {
+    } else if (name == HdRevoluteJointSchemaTokens->lowerLimit) {
         if (UsdAttribute attr = _usdRevoluteJoint.GetLowerLimitAttr()) {
             float v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<float>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingRevoluteJointSchemaTokens->upperLimit) {
+    } else if (name == HdRevoluteJointSchemaTokens->upperLimit) {
         if (UsdAttribute attr = _usdRevoluteJoint.GetUpperLimitAttr()) {
             float v{};
             if (attr.Get(&v)) {
@@ -56,12 +56,12 @@ UsdImagingDataSourceRevoluteJointPrim::UsdImagingDataSourceRevoluteJointPrim(
 
 TfTokenVector UsdImagingDataSourceRevoluteJointPrim::GetNames() {
     TfTokenVector result = UsdImagingDataSourceJointPrim::GetNames();
-    result.push_back(UsdPhysicsImagingRevoluteJointSchema::GetSchemaToken());
+    result.push_back(HdRevoluteJointSchema::GetSchemaToken());
     return result;
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceRevoluteJointPrim::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingRevoluteJointSchema::GetSchemaToken()) {
+    if (name == HdRevoluteJointSchema::GetSchemaToken()) {
         return UsdImagingDataSourceRevoluteJoint::New(_GetSceneIndexPath(), UsdPhysicsRevoluteJoint(_GetUsdPrim()),
                                                       _GetStageGlobals());
     }
@@ -84,7 +84,7 @@ HdDataSourceLocatorSet UsdImagingDataSourceRevoluteJointPrim::Invalidate(
     for (const TfToken &propertyName : properties) {
         for (const TfToken &usdName : usdNames) {
             if (propertyName == usdName) {
-                locators.insert(UsdPhysicsImagingRevoluteJointSchema::GetDefaultLocator().Append(propertyName));
+                locators.insert(HdRevoluteJointSchema::GetDefaultLocator().Append(propertyName));
             }
         }
     }

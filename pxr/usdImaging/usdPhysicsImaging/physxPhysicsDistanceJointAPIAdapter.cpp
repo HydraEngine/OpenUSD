@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxPhysicsDistanceJointSchema.h"
+#include "pxr/imaging/hd/physxPhysicsDistanceJointSchema.h"
 #include "pxr/usd/usdPhysX/physicsDistanceJointAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,30 +31,30 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxPhysicsDistanceJointSchemaTokens->springDamping,    //
-                UsdPhysicsImagingPhysxPhysicsDistanceJointSchemaTokens->springEnabled,    //
-                UsdPhysicsImagingPhysxPhysicsDistanceJointSchemaTokens->springStiffness,  //
+                HdPhysxPhysicsDistanceJointSchemaTokens->springDamping,    //
+                HdPhysxPhysicsDistanceJointSchemaTokens->springEnabled,    //
+                HdPhysxPhysicsDistanceJointSchemaTokens->springStiffness,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxPhysicsDistanceJointSchemaTokens->springDamping) {
+        if (name == HdPhysxPhysicsDistanceJointSchemaTokens->springDamping) {
             if (UsdAttribute attr = _api.GetSpringDampingAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxPhysicsDistanceJointSchemaTokens->springEnabled) {
+        } else if (name == HdPhysxPhysicsDistanceJointSchemaTokens->springEnabled) {
             if (UsdAttribute attr = _api.GetSpringEnabledAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxPhysicsDistanceJointSchemaTokens->springStiffness) {
+        } else if (name == HdPhysxPhysicsDistanceJointSchemaTokens->springStiffness) {
             if (UsdAttribute attr = _api.GetSpringStiffnessAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -81,7 +81,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXPhysicsDistanceJointAPIAdapter
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxPhysicsDistanceJointSchemaTokens->physxPhysicsDistanceJoint,
+                HdPhysxPhysicsDistanceJointSchemaTokens->physxPhysicsDistanceJoint,
                 PhysxDataSource::New(prim));
     }
 
@@ -101,7 +101,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXPhysicsDistanceJointAPIAdapter::Inv
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxPhysicsDistanceJointSchema::GetDefaultLocator());
+            result.insert(HdPhysxPhysicsDistanceJointSchema::GetDefaultLocator());
         }
     }
 

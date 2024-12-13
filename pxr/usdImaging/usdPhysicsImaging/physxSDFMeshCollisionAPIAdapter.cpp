@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxSDFMeshCollisionSchema.h"
+#include "pxr/imaging/hd/physxSDFMeshCollisionSchema.h"
 #include "pxr/usd/usdPhysX/sDFMeshCollisionAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,62 +31,62 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfBitsPerSubgridPixel,           //
-                UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfEnableRemeshing,               //
-                UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfMargin,                        //
-                UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfNarrowBandThickness,           //
-                UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfResolution,                    //
-                UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfSubgridResolution,             //
-                UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfTriangleCountReductionFactor,  //
+                HdPhysxSDFMeshCollisionSchemaTokens->sdfBitsPerSubgridPixel,           //
+                HdPhysxSDFMeshCollisionSchemaTokens->sdfEnableRemeshing,               //
+                HdPhysxSDFMeshCollisionSchemaTokens->sdfMargin,                        //
+                HdPhysxSDFMeshCollisionSchemaTokens->sdfNarrowBandThickness,           //
+                HdPhysxSDFMeshCollisionSchemaTokens->sdfResolution,                    //
+                HdPhysxSDFMeshCollisionSchemaTokens->sdfSubgridResolution,             //
+                HdPhysxSDFMeshCollisionSchemaTokens->sdfTriangleCountReductionFactor,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfBitsPerSubgridPixel) {
+        if (name == HdPhysxSDFMeshCollisionSchemaTokens->sdfBitsPerSubgridPixel) {
             if (UsdAttribute attr = _api.GetSdfBitsPerSubgridPixelAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfEnableRemeshing) {
+        } else if (name == HdPhysxSDFMeshCollisionSchemaTokens->sdfEnableRemeshing) {
             if (UsdAttribute attr = _api.GetSdfEnableRemeshingAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfMargin) {
+        } else if (name == HdPhysxSDFMeshCollisionSchemaTokens->sdfMargin) {
             if (UsdAttribute attr = _api.GetSdfMarginAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfNarrowBandThickness) {
+        } else if (name == HdPhysxSDFMeshCollisionSchemaTokens->sdfNarrowBandThickness) {
             if (UsdAttribute attr = _api.GetSdfNarrowBandThicknessAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfResolution) {
+        } else if (name == HdPhysxSDFMeshCollisionSchemaTokens->sdfResolution) {
             if (UsdAttribute attr = _api.GetSdfResolutionAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfSubgridResolution) {
+        } else if (name == HdPhysxSDFMeshCollisionSchemaTokens->sdfSubgridResolution) {
             if (UsdAttribute attr = _api.GetSdfSubgridResolutionAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->sdfTriangleCountReductionFactor) {
+        } else if (name == HdPhysxSDFMeshCollisionSchemaTokens->sdfTriangleCountReductionFactor) {
             if (UsdAttribute attr = _api.GetSdfTriangleCountReductionFactorAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -113,7 +113,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXSDFMeshCollisionAPIAdapter::Ge
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxSDFMeshCollisionSchemaTokens->physxSDFMeshCollision, PhysxDataSource::New(prim));
+                HdPhysxSDFMeshCollisionSchemaTokens->physxSDFMeshCollision, PhysxDataSource::New(prim));
     }
 
     return nullptr;
@@ -132,7 +132,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXSDFMeshCollisionAPIAdapter::Invalid
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxSDFMeshCollisionSchema::GetDefaultLocator());
+            result.insert(HdPhysxSDFMeshCollisionSchema::GetDefaultLocator());
         }
     }
 

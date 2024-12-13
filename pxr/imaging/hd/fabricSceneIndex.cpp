@@ -7,38 +7,6 @@
 #include "pxr/imaging/hd/fabricSceneIndex.h"
 #include "pxr/imaging/hd/fabric.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/collisionSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/jointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/distanceJointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/revoluteJointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/fixedJointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/sphericalJointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/prismaticJointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/driveSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/limitSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/articulationRootSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/rigidBodySchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/collisionGroupSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/massSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/filteredPairsSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/meshCollisionSchema.h"
-#include "pxr/usdImaging/usdImaging/directMaterialBindingsSchema.h"
-
-#include "pxr/imaging/hd/cubeSchema.h"
-#include "pxr/imaging/hd/capsuleSchema.h"
-#include "pxr/imaging/hd/sphereSchema.h"
-#include "pxr/imaging/hd/coneSchema.h"
-#include "pxr/imaging/hd/cylinderSchema.h"
-#include "pxr/imaging/hd/meshSchema.h"
-#include "pxr/imaging/hd/xformSchema.h"
-
-#include "pxr/usd/usdPhysics/tokens.h"
-#include "pxr/imaging/hd/primvarsSchema.h"
-#include <pxr/imaging/hd/tokens.h>
-#include <iostream>
-
 PXR_NAMESPACE_OPEN_SCOPE
 
 FabricSceneIndexRefPtr FabricSceneIndex::New(const HdSceneIndexBaseRefPtr &inputSceneIndex, Fabric &fabric) {

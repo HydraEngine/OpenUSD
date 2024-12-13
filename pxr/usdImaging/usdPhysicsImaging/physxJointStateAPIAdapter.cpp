@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxJointStateSchema.h"
+#include "pxr/imaging/hd/physxJointStateSchema.h"
 #include "pxr/usd/usdPhysX/jointStateAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,22 +31,22 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxJointStateSchemaTokens->position,  //
-                UsdPhysicsImagingPhysxJointStateSchemaTokens->velocity,  //
+                HdPhysxJointStateSchemaTokens->position,  //
+                HdPhysxJointStateSchemaTokens->velocity,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxJointStateSchemaTokens->position) {
+        if (name == HdPhysxJointStateSchemaTokens->position) {
             if (UsdAttribute attr = _api.GetPositionAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxJointStateSchemaTokens->velocity) {
+        } else if (name == HdPhysxJointStateSchemaTokens->velocity) {
             if (UsdAttribute attr = _api.GetVelocityAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -72,7 +72,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXJointStateAPIAdapter::GetImagi
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxJointStateSchemaTokens->physxJointState,
+        return HdRetainedContainerDataSource::New(HdPhysxJointStateSchemaTokens->physxJointState,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -92,7 +92,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXJointStateAPIAdapter::InvalidateIma
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxJointStateSchema::GetDefaultLocator());
+            result.insert(HdPhysxJointStateSchema::GetDefaultLocator());
         }
     }
 

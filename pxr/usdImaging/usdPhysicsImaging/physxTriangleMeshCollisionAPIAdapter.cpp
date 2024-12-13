@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxTriangleMeshCollisionSchema.h"
+#include "pxr/imaging/hd/physxTriangleMeshCollisionSchema.h"
 #include "pxr/usd/usdPhysX/triangleMeshCollisionAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,14 +31,14 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxTriangleMeshCollisionSchemaTokens->weldTolerance,  //
+                HdPhysxTriangleMeshCollisionSchemaTokens->weldTolerance,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxTriangleMeshCollisionSchemaTokens->weldTolerance) {
+        if (name == HdPhysxTriangleMeshCollisionSchemaTokens->weldTolerance) {
             if (UsdAttribute attr = _api.GetWeldToleranceAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -65,7 +65,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXTriangleMeshCollisionAPIAdapte
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxTriangleMeshCollisionSchemaTokens->physxTriangleMeshCollision,
+                HdPhysxTriangleMeshCollisionSchemaTokens->physxTriangleMeshCollision,
                 PhysxDataSource::New(prim));
     }
 
@@ -85,7 +85,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXTriangleMeshCollisionAPIAdapter::In
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxTriangleMeshCollisionSchema::GetDefaultLocator());
+            result.insert(HdPhysxTriangleMeshCollisionSchema::GetDefaultLocator());
         }
     }
 

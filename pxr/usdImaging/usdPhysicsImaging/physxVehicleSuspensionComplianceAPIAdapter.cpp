@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleSuspensionComplianceSchema.h"
+#include "pxr/imaging/hd/physxVehicleSuspensionComplianceSchema.h"
 #include "pxr/usd/usdPhysX/vehicleSuspensionComplianceAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,38 +31,38 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchemaTokens->suspensionForceAppPoint,  //
-                UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchemaTokens->tireForceAppPoint,        //
-                UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchemaTokens->wheelCamberAngle,         //
-                UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchemaTokens->wheelToeAngle,            //
+                HdPhysxVehicleSuspensionComplianceSchemaTokens->suspensionForceAppPoint,  //
+                HdPhysxVehicleSuspensionComplianceSchemaTokens->tireForceAppPoint,        //
+                HdPhysxVehicleSuspensionComplianceSchemaTokens->wheelCamberAngle,         //
+                HdPhysxVehicleSuspensionComplianceSchemaTokens->wheelToeAngle,            //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchemaTokens->suspensionForceAppPoint) {
+        if (name == HdPhysxVehicleSuspensionComplianceSchemaTokens->suspensionForceAppPoint) {
             if (UsdAttribute attr = _api.GetSuspensionForceAppPointAttr()) {
                 VtArray<GfVec4f> v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<VtArray<GfVec4f>>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchemaTokens->tireForceAppPoint) {
+        } else if (name == HdPhysxVehicleSuspensionComplianceSchemaTokens->tireForceAppPoint) {
             if (UsdAttribute attr = _api.GetTireForceAppPointAttr()) {
                 VtArray<GfVec4f> v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<VtArray<GfVec4f>>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchemaTokens->wheelCamberAngle) {
+        } else if (name == HdPhysxVehicleSuspensionComplianceSchemaTokens->wheelCamberAngle) {
             if (UsdAttribute attr = _api.GetWheelCamberAngleAttr()) {
                 VtArray<GfVec2f> v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<VtArray<GfVec2f>>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchemaTokens->wheelToeAngle) {
+        } else if (name == HdPhysxVehicleSuspensionComplianceSchemaTokens->wheelToeAngle) {
             if (UsdAttribute attr = _api.GetWheelToeAngleAttr()) {
                 VtArray<GfVec2f> v;
                 if (attr.Get(&v)) {
@@ -89,7 +89,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleSuspensionComplianceAPI
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchemaTokens->physxVehicleSuspensionCompliance,
+                HdPhysxVehicleSuspensionComplianceSchemaTokens->physxVehicleSuspensionCompliance,
                 PhysxDataSource::New(prim));
     }
 
@@ -109,7 +109,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleSuspensionComplianceAPIAdapt
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleSuspensionComplianceSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleSuspensionComplianceSchema::GetDefaultLocator());
         }
     }
 

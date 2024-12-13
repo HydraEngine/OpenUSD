@@ -8,8 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/limitSchema.h"
-#include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/imaging/hd/limitSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/limitAPI.h"
 
@@ -32,8 +31,8 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingLimitSchemaTokens->low,   //
-                UsdPhysicsImagingLimitSchemaTokens->high,  //
+                HdLimitSchemaTokens->low,   //
+                HdLimitSchemaTokens->high,  //
         };
 
         return names;
@@ -41,13 +40,13 @@ public:
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
         float v;
-        if (name == UsdPhysicsImagingLimitSchemaTokens->low) {
+        if (name == HdLimitSchemaTokens->low) {
             if (UsdAttribute attr = _api.GetLowAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingLimitSchemaTokens->high) {
+        } else if (name == HdLimitSchemaTokens->high) {
             if (UsdAttribute attr = _api.GetHighAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
@@ -72,7 +71,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsLimitAPIAdapter::GetImagingSubprimD
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingLimitSchemaTokens->limit,
+        return HdRetainedContainerDataSource::New(HdLimitSchemaTokens->limit,
                                                   _PhysicsLimitDataSource::New(prim));
     }
 
@@ -92,7 +91,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsLimitAPIAdapter::InvalidateImagingSubpri
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingLimitSchema::GetDefaultLocator());
+            result.insert(HdLimitSchema::GetDefaultLocator());
         }
     }
 

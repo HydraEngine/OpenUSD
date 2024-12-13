@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxTriangleMeshSimplificationCollisionSchema.h"
+#include "pxr/imaging/hd/physxTriangleMeshSimplificationCollisionSchema.h"
 #include "pxr/usd/usdPhysX/triangleMeshSimplificationCollisionAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,22 +31,22 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxTriangleMeshSimplificationCollisionSchemaTokens->metric,         //
-                UsdPhysicsImagingPhysxTriangleMeshSimplificationCollisionSchemaTokens->weldTolerance,  //
+                HdPhysxTriangleMeshSimplificationCollisionSchemaTokens->metric,         //
+                HdPhysxTriangleMeshSimplificationCollisionSchemaTokens->weldTolerance,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxTriangleMeshSimplificationCollisionSchemaTokens->metric) {
+        if (name == HdPhysxTriangleMeshSimplificationCollisionSchemaTokens->metric) {
             if (UsdAttribute attr = _api.GetMetricAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxTriangleMeshSimplificationCollisionSchemaTokens->weldTolerance) {
+        } else if (name == HdPhysxTriangleMeshSimplificationCollisionSchemaTokens->weldTolerance) {
             if (UsdAttribute attr = _api.GetWeldToleranceAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -72,7 +72,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXTriangleMeshSimplificationColl
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxTriangleMeshSimplificationCollisionSchemaTokens
+        return HdRetainedContainerDataSource::New(HdPhysxTriangleMeshSimplificationCollisionSchemaTokens
                                                           ->physxTriangleMeshSimplificationCollision,
                                                   PhysxDataSource::New(prim));
     }
@@ -93,7 +93,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXTriangleMeshSimplificationCollision
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxTriangleMeshSimplificationCollisionSchema::GetDefaultLocator());
+            result.insert(HdPhysxTriangleMeshSimplificationCollisionSchema::GetDefaultLocator());
         }
     }
 

@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxJointSchema.h"
+#include "pxr/imaging/hd/physxJointSchema.h"
 #include "pxr/usd/usdPhysX/jointAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,38 +31,38 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxJointSchemaTokens->armature,          //
-                UsdPhysicsImagingPhysxJointSchemaTokens->enableProjection,  //
-                UsdPhysicsImagingPhysxJointSchemaTokens->jointFriction,     //
-                UsdPhysicsImagingPhysxJointSchemaTokens->maxJointVelocity,  //
+                HdPhysxJointSchemaTokens->armature,          //
+                HdPhysxJointSchemaTokens->enableProjection,  //
+                HdPhysxJointSchemaTokens->jointFriction,     //
+                HdPhysxJointSchemaTokens->maxJointVelocity,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxJointSchemaTokens->armature) {
+        if (name == HdPhysxJointSchemaTokens->armature) {
             if (UsdAttribute attr = _api.GetArmatureAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxJointSchemaTokens->enableProjection) {
+        } else if (name == HdPhysxJointSchemaTokens->enableProjection) {
             if (UsdAttribute attr = _api.GetEnableProjectionAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxJointSchemaTokens->jointFriction) {
+        } else if (name == HdPhysxJointSchemaTokens->jointFriction) {
             if (UsdAttribute attr = _api.GetJointFrictionAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxJointSchemaTokens->maxJointVelocity) {
+        } else if (name == HdPhysxJointSchemaTokens->maxJointVelocity) {
             if (UsdAttribute attr = _api.GetMaxJointVelocityAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -88,7 +88,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXJointAPIAdapter::GetImagingSub
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxJointSchemaTokens->physxJoint,
+        return HdRetainedContainerDataSource::New(HdPhysxJointSchemaTokens->physxJoint,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -108,7 +108,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXJointAPIAdapter::InvalidateImagingS
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxJointSchema::GetDefaultLocator());
+            result.insert(HdPhysxJointSchema::GetDefaultLocator());
         }
     }
 

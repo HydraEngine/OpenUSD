@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleEngineSchema.h"
+#include "pxr/imaging/hd/physxVehicleEngineSchema.h"
 #include "pxr/usd/usdPhysX/vehicleEngineAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,70 +31,70 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->dampingRateFullThrottle,                  //
-                UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->dampingRateZeroThrottleClutchDisengaged,  //
-                UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->dampingRateZeroThrottleClutchEngaged,     //
-                UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->idleRotationSpeed,                        //
-                UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->maxRotationSpeed,                         //
-                UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->moi,                                      //
-                UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->peakTorque,                               //
-                UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->torqueCurve,                              //
+                HdPhysxVehicleEngineSchemaTokens->dampingRateFullThrottle,                  //
+                HdPhysxVehicleEngineSchemaTokens->dampingRateZeroThrottleClutchDisengaged,  //
+                HdPhysxVehicleEngineSchemaTokens->dampingRateZeroThrottleClutchEngaged,     //
+                HdPhysxVehicleEngineSchemaTokens->idleRotationSpeed,                        //
+                HdPhysxVehicleEngineSchemaTokens->maxRotationSpeed,                         //
+                HdPhysxVehicleEngineSchemaTokens->moi,                                      //
+                HdPhysxVehicleEngineSchemaTokens->peakTorque,                               //
+                HdPhysxVehicleEngineSchemaTokens->torqueCurve,                              //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->dampingRateFullThrottle) {
+        if (name == HdPhysxVehicleEngineSchemaTokens->dampingRateFullThrottle) {
             if (UsdAttribute attr = _api.GetDampingRateFullThrottleAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->dampingRateZeroThrottleClutchDisengaged) {
+        } else if (name == HdPhysxVehicleEngineSchemaTokens->dampingRateZeroThrottleClutchDisengaged) {
             if (UsdAttribute attr = _api.GetDampingRateZeroThrottleClutchDisengagedAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->dampingRateZeroThrottleClutchEngaged) {
+        } else if (name == HdPhysxVehicleEngineSchemaTokens->dampingRateZeroThrottleClutchEngaged) {
             if (UsdAttribute attr = _api.GetDampingRateZeroThrottleClutchEngagedAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->idleRotationSpeed) {
+        } else if (name == HdPhysxVehicleEngineSchemaTokens->idleRotationSpeed) {
             if (UsdAttribute attr = _api.GetIdleRotationSpeedAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->maxRotationSpeed) {
+        } else if (name == HdPhysxVehicleEngineSchemaTokens->maxRotationSpeed) {
             if (UsdAttribute attr = _api.GetMaxRotationSpeedAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->moi) {
+        } else if (name == HdPhysxVehicleEngineSchemaTokens->moi) {
             if (UsdAttribute attr = _api.GetMoiAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->peakTorque) {
+        } else if (name == HdPhysxVehicleEngineSchemaTokens->peakTorque) {
             if (UsdAttribute attr = _api.GetPeakTorqueAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->torqueCurve) {
+        } else if (name == HdPhysxVehicleEngineSchemaTokens->torqueCurve) {
             if (UsdAttribute attr = _api.GetTorqueCurveAttr()) {
                 VtArray<GfVec2f> v;
                 if (attr.Get(&v)) {
@@ -120,7 +120,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleEngineAPIAdapter::GetIm
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxVehicleEngineSchemaTokens->physxVehicleEngine,
+        return HdRetainedContainerDataSource::New(HdPhysxVehicleEngineSchemaTokens->physxVehicleEngine,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -140,7 +140,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleEngineAPIAdapter::Invalidate
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleEngineSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleEngineSchema::GetDefaultLocator());
         }
     }
 

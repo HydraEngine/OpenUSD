@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleTireSchema.h"
+#include "pxr/imaging/hd/physxVehicleTireSchema.h"
 #include "pxr/usd/usdPhysX/vehicleTireAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,46 +31,46 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleTireSchemaTokens->camberStiffness,        //
-                UsdPhysicsImagingPhysxVehicleTireSchemaTokens->frictionVsSlipGraph,    //
-                UsdPhysicsImagingPhysxVehicleTireSchemaTokens->lateralStiffnessGraph,  //
-                UsdPhysicsImagingPhysxVehicleTireSchemaTokens->longitudinalStiffness,  //
-                UsdPhysicsImagingPhysxVehicleTireSchemaTokens->restLoad,               //
+                HdPhysxVehicleTireSchemaTokens->camberStiffness,        //
+                HdPhysxVehicleTireSchemaTokens->frictionVsSlipGraph,    //
+                HdPhysxVehicleTireSchemaTokens->lateralStiffnessGraph,  //
+                HdPhysxVehicleTireSchemaTokens->longitudinalStiffness,  //
+                HdPhysxVehicleTireSchemaTokens->restLoad,               //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleTireSchemaTokens->camberStiffness) {
+        if (name == HdPhysxVehicleTireSchemaTokens->camberStiffness) {
             if (UsdAttribute attr = _api.GetCamberStiffnessAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleTireSchemaTokens->frictionVsSlipGraph) {
+        } else if (name == HdPhysxVehicleTireSchemaTokens->frictionVsSlipGraph) {
             if (UsdAttribute attr = _api.GetFrictionVsSlipGraphAttr()) {
                 VtArray<GfVec2f> v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<VtArray<GfVec2f>>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleTireSchemaTokens->lateralStiffnessGraph) {
+        } else if (name == HdPhysxVehicleTireSchemaTokens->lateralStiffnessGraph) {
             if (UsdAttribute attr = _api.GetLateralStiffnessGraphAttr()) {
                 GfVec2f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec2f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleTireSchemaTokens->longitudinalStiffness) {
+        } else if (name == HdPhysxVehicleTireSchemaTokens->longitudinalStiffness) {
             if (UsdAttribute attr = _api.GetLongitudinalStiffnessAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleTireSchemaTokens->restLoad) {
+        } else if (name == HdPhysxVehicleTireSchemaTokens->restLoad) {
             if (UsdAttribute attr = _api.GetRestLoadAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -96,7 +96,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleTireAPIAdapter::GetImag
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxVehicleTireSchemaTokens->physxVehicleTire,
+        return HdRetainedContainerDataSource::New(HdPhysxVehicleTireSchemaTokens->physxVehicleTire,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -116,7 +116,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleTireAPIAdapter::InvalidateIm
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleTireSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleTireSchema::GetDefaultLocator());
         }
     }
 

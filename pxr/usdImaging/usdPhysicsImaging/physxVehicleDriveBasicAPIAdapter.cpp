@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleDriveBasicSchema.h"
+#include "pxr/imaging/hd/physxVehicleDriveBasicSchema.h"
 #include "pxr/usd/usdPhysX/vehicleDriveBasicAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,14 +31,14 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleDriveBasicSchemaTokens->peakTorque,  //
+                HdPhysxVehicleDriveBasicSchemaTokens->peakTorque,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleDriveBasicSchemaTokens->peakTorque) {
+        if (name == HdPhysxVehicleDriveBasicSchemaTokens->peakTorque) {
             if (UsdAttribute attr = _api.GetPeakTorqueAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -65,7 +65,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleDriveBasicAPIAdapter::G
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxVehicleDriveBasicSchemaTokens->physxVehicleDriveBasic,
+                HdPhysxVehicleDriveBasicSchemaTokens->physxVehicleDriveBasic,
                 PhysxDataSource::New(prim));
     }
 
@@ -85,7 +85,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleDriveBasicAPIAdapter::Invali
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleDriveBasicSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleDriveBasicSchema::GetDefaultLocator());
         }
     }
 

@@ -8,10 +8,8 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/massSchema.h"
-#include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/imaging/hd/massSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
-#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/massAPI.h"
 
 #include <iostream>
@@ -33,46 +31,46 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingMassSchemaTokens->mass,             //
-                UsdPhysicsImagingMassSchemaTokens->density,          //
-                UsdPhysicsImagingMassSchemaTokens->centerOfMass,     //
-                UsdPhysicsImagingMassSchemaTokens->diagonalInertia,  //
-                UsdPhysicsImagingMassSchemaTokens->principalAxes,    //
+                HdMassSchemaTokens->mass,             //
+                HdMassSchemaTokens->density,          //
+                HdMassSchemaTokens->centerOfMass,     //
+                HdMassSchemaTokens->diagonalInertia,  //
+                HdMassSchemaTokens->principalAxes,    //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingMassSchemaTokens->mass) {
+        if (name == HdMassSchemaTokens->mass) {
             if (UsdAttribute attr = _api.GetMassAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingMassSchemaTokens->density) {
+        } else if (name == HdMassSchemaTokens->density) {
             if (UsdAttribute attr = _api.GetDensityAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingMassSchemaTokens->centerOfMass) {
+        } else if (name == HdMassSchemaTokens->centerOfMass) {
             if (UsdAttribute attr = _api.GetCenterOfMassAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingMassSchemaTokens->diagonalInertia) {
+        } else if (name == HdMassSchemaTokens->diagonalInertia) {
             if (UsdAttribute attr = _api.GetDiagonalInertiaAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingMassSchemaTokens->principalAxes) {
+        } else if (name == HdMassSchemaTokens->principalAxes) {
             if (UsdAttribute attr = _api.GetPrincipalAxesAttr()) {
                 GfQuatf v;
                 if (attr.Get(&v)) {
@@ -98,7 +96,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsMassAPIAdapter::GetImagingSubprimDa
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingMassSchemaTokens->mass,
+        return HdRetainedContainerDataSource::New(HdMassSchemaTokens->mass,
                                                   _PhysicsMassDataSource::New(prim));
     }
 
@@ -118,7 +116,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsMassAPIAdapter::InvalidateImagingSubprim
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingMassSchema::GetDefaultLocator());
+            result.insert(HdMassSchema::GetDefaultLocator());
         }
     }
 

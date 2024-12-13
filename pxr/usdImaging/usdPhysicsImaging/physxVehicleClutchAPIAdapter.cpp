@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleClutchSchema.h"
+#include "pxr/imaging/hd/physxVehicleClutchSchema.h"
 #include "pxr/usd/usdPhysX/vehicleClutchAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,14 +31,14 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleClutchSchemaTokens->strength,  //
+                HdPhysxVehicleClutchSchemaTokens->strength,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleClutchSchemaTokens->strength) {
+        if (name == HdPhysxVehicleClutchSchemaTokens->strength) {
             if (UsdAttribute attr = _api.GetStrengthAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -64,7 +64,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleClutchAPIAdapter::GetIm
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxVehicleClutchSchemaTokens->physxVehicleClutch,
+        return HdRetainedContainerDataSource::New(HdPhysxVehicleClutchSchemaTokens->physxVehicleClutch,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -84,7 +84,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleClutchAPIAdapter::Invalidate
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleClutchSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleClutchSchema::GetDefaultLocator());
         }
     }
 

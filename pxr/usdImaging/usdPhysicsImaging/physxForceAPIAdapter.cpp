@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxForceSchema.h"
+#include "pxr/imaging/hd/physxForceSchema.h"
 #include "pxr/usd/usdPhysX/forceAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,46 +31,46 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxForceSchemaTokens->force,              //
-                UsdPhysicsImagingPhysxForceSchemaTokens->forceEnabled,       //
-                UsdPhysicsImagingPhysxForceSchemaTokens->mode,               //
-                UsdPhysicsImagingPhysxForceSchemaTokens->torque,             //
-                UsdPhysicsImagingPhysxForceSchemaTokens->worldFrameEnabled,  //
+                HdPhysxForceSchemaTokens->force,              //
+                HdPhysxForceSchemaTokens->forceEnabled,       //
+                HdPhysxForceSchemaTokens->mode,               //
+                HdPhysxForceSchemaTokens->torque,             //
+                HdPhysxForceSchemaTokens->worldFrameEnabled,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxForceSchemaTokens->force) {
+        if (name == HdPhysxForceSchemaTokens->force) {
             if (UsdAttribute attr = _api.GetForceAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxForceSchemaTokens->forceEnabled) {
+        } else if (name == HdPhysxForceSchemaTokens->forceEnabled) {
             if (UsdAttribute attr = _api.GetForceEnabledAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxForceSchemaTokens->mode) {
+        } else if (name == HdPhysxForceSchemaTokens->mode) {
             if (UsdAttribute attr = _api.GetModeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxForceSchemaTokens->torque) {
+        } else if (name == HdPhysxForceSchemaTokens->torque) {
             if (UsdAttribute attr = _api.GetTorqueAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxForceSchemaTokens->worldFrameEnabled) {
+        } else if (name == HdPhysxForceSchemaTokens->worldFrameEnabled) {
             if (UsdAttribute attr = _api.GetWorldFrameEnabledAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
@@ -96,7 +96,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXForceAPIAdapter::GetImagingSub
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxForceSchemaTokens->physxForce,
+        return HdRetainedContainerDataSource::New(HdPhysxForceSchemaTokens->physxForce,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -116,7 +116,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXForceAPIAdapter::InvalidateImagingS
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxForceSchema::GetDefaultLocator());
+            result.insert(HdPhysxForceSchema::GetDefaultLocator());
         }
     }
 

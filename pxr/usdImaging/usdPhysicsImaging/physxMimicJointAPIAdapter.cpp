@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxMimicJointSchema.h"
+#include "pxr/imaging/hd/physxMimicJointSchema.h"
 #include "pxr/usd/usdPhysX/mimicJointAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,30 +31,30 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxMimicJointSchemaTokens->gearing,             //
-                UsdPhysicsImagingPhysxMimicJointSchemaTokens->offset,              //
-                UsdPhysicsImagingPhysxMimicJointSchemaTokens->referenceJointAxis,  //
+                HdPhysxMimicJointSchemaTokens->gearing,             //
+                HdPhysxMimicJointSchemaTokens->offset,              //
+                HdPhysxMimicJointSchemaTokens->referenceJointAxis,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxMimicJointSchemaTokens->gearing) {
+        if (name == HdPhysxMimicJointSchemaTokens->gearing) {
             if (UsdAttribute attr = _api.GetGearingAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxMimicJointSchemaTokens->offset) {
+        } else if (name == HdPhysxMimicJointSchemaTokens->offset) {
             if (UsdAttribute attr = _api.GetOffsetAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxMimicJointSchemaTokens->referenceJointAxis) {
+        } else if (name == HdPhysxMimicJointSchemaTokens->referenceJointAxis) {
             if (UsdAttribute attr = _api.GetReferenceJointAxisAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
@@ -80,7 +80,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXMimicJointAPIAdapter::GetImagi
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxMimicJointSchemaTokens->physxMimicJoint,
+        return HdRetainedContainerDataSource::New(HdPhysxMimicJointSchemaTokens->physxMimicJoint,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -100,7 +100,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXMimicJointAPIAdapter::InvalidateIma
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxMimicJointSchema::GetDefaultLocator());
+            result.insert(HdPhysxMimicJointSchema::GetDefaultLocator());
         }
     }
 

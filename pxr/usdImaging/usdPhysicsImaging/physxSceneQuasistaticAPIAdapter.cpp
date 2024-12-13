@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxSceneQuasistaticSchema.h"
+#include "pxr/imaging/hd/physxSceneQuasistaticSchema.h"
 #include "pxr/usd/usdPhysX/sceneQuasistaticAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,14 +31,14 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxSceneQuasistaticSchemaTokens->enableQuasistatic,  //
+                HdPhysxSceneQuasistaticSchemaTokens->enableQuasistatic,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxSceneQuasistaticSchemaTokens->enableQuasistatic) {
+        if (name == HdPhysxSceneQuasistaticSchemaTokens->enableQuasistatic) {
             if (UsdAttribute attr = _api.GetEnableQuasistaticAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
@@ -65,7 +65,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXSceneQuasistaticAPIAdapter::Ge
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxSceneQuasistaticSchemaTokens->physxSceneQuasistatic, PhysxDataSource::New(prim));
+                HdPhysxSceneQuasistaticSchemaTokens->physxSceneQuasistatic, PhysxDataSource::New(prim));
     }
 
     return nullptr;
@@ -84,7 +84,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXSceneQuasistaticAPIAdapter::Invalid
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxSceneQuasistaticSchema::GetDefaultLocator());
+            result.insert(HdPhysxSceneQuasistaticSchema::GetDefaultLocator());
         }
     }
 

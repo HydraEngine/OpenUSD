@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleAutoGearBoxSchema.h"
+#include "pxr/imaging/hd/physxVehicleAutoGearBoxSchema.h"
 #include "pxr/usd/usdPhysX/vehicleAutoGearBoxAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,30 +31,30 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleAutoGearBoxSchemaTokens->downRatios,  //
-                UsdPhysicsImagingPhysxVehicleAutoGearBoxSchemaTokens->latency,     //
-                UsdPhysicsImagingPhysxVehicleAutoGearBoxSchemaTokens->upRatios,    //
+                HdPhysxVehicleAutoGearBoxSchemaTokens->downRatios,  //
+                HdPhysxVehicleAutoGearBoxSchemaTokens->latency,     //
+                HdPhysxVehicleAutoGearBoxSchemaTokens->upRatios,    //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleAutoGearBoxSchemaTokens->downRatios) {
+        if (name == HdPhysxVehicleAutoGearBoxSchemaTokens->downRatios) {
             if (UsdAttribute attr = _api.GetDownRatiosAttr()) {
                 VtArray<float> v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<VtArray<float>>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleAutoGearBoxSchemaTokens->latency) {
+        } else if (name == HdPhysxVehicleAutoGearBoxSchemaTokens->latency) {
             if (UsdAttribute attr = _api.GetLatencyAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleAutoGearBoxSchemaTokens->upRatios) {
+        } else if (name == HdPhysxVehicleAutoGearBoxSchemaTokens->upRatios) {
             if (UsdAttribute attr = _api.GetUpRatiosAttr()) {
                 VtArray<float> v;
                 if (attr.Get(&v)) {
@@ -81,7 +81,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleAutoGearBoxAPIAdapter::
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxVehicleAutoGearBoxSchemaTokens->physxVehicleAutoGearBox,
+                HdPhysxVehicleAutoGearBoxSchemaTokens->physxVehicleAutoGearBox,
                 PhysxDataSource::New(prim));
     }
 
@@ -101,7 +101,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleAutoGearBoxAPIAdapter::Inval
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleAutoGearBoxSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleAutoGearBoxSchema::GetDefaultLocator());
         }
     }
 

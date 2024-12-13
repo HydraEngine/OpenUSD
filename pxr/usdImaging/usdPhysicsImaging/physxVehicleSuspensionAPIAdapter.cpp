@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleSuspensionSchema.h"
+#include "pxr/imaging/hd/physxVehicleSuspensionSchema.h"
 #include "pxr/usd/usdPhysX/vehicleSuspensionAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,38 +31,38 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleSuspensionSchemaTokens->springDamperRate,  //
-                UsdPhysicsImagingPhysxVehicleSuspensionSchemaTokens->springStrength,    //
-                UsdPhysicsImagingPhysxVehicleSuspensionSchemaTokens->sprungMass,        //
-                UsdPhysicsImagingPhysxVehicleSuspensionSchemaTokens->travelDistance,    //
+                HdPhysxVehicleSuspensionSchemaTokens->springDamperRate,  //
+                HdPhysxVehicleSuspensionSchemaTokens->springStrength,    //
+                HdPhysxVehicleSuspensionSchemaTokens->sprungMass,        //
+                HdPhysxVehicleSuspensionSchemaTokens->travelDistance,    //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleSuspensionSchemaTokens->springDamperRate) {
+        if (name == HdPhysxVehicleSuspensionSchemaTokens->springDamperRate) {
             if (UsdAttribute attr = _api.GetSpringDamperRateAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSuspensionSchemaTokens->springStrength) {
+        } else if (name == HdPhysxVehicleSuspensionSchemaTokens->springStrength) {
             if (UsdAttribute attr = _api.GetSpringStrengthAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSuspensionSchemaTokens->sprungMass) {
+        } else if (name == HdPhysxVehicleSuspensionSchemaTokens->sprungMass) {
             if (UsdAttribute attr = _api.GetSprungMassAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSuspensionSchemaTokens->travelDistance) {
+        } else if (name == HdPhysxVehicleSuspensionSchemaTokens->travelDistance) {
             if (UsdAttribute attr = _api.GetTravelDistanceAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -89,7 +89,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleSuspensionAPIAdapter::G
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxVehicleSuspensionSchemaTokens->physxVehicleSuspension,
+                HdPhysxVehicleSuspensionSchemaTokens->physxVehicleSuspension,
                 PhysxDataSource::New(prim));
     }
 
@@ -109,7 +109,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleSuspensionAPIAdapter::Invali
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleSuspensionSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleSuspensionSchema::GetDefaultLocator());
         }
     }
 

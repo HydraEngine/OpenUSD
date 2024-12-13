@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/dataSourceJoint.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 #include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
-#include "pxr/usdImaging/usdPhysicsImaging/jointSchema.h"
+#include "pxr/imaging/hd/jointSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -22,74 +22,74 @@ TfTokenVector UsdImagingDataSourceJoint::GetNames() {
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceJoint::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingJointSchemaTokens->localPos0) {
+    if (name == HdJointSchemaTokens->localPos0) {
         if (UsdAttribute attr = _usdJoint.GetLocalPos0Attr()) {
             GfVec3f v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingJointSchemaTokens->localPos1) {
+    } else if (name == HdJointSchemaTokens->localPos1) {
         if (UsdAttribute attr = _usdJoint.GetLocalPos1Attr()) {
             GfVec3f v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingJointSchemaTokens->localRot0) {
+    } else if (name == HdJointSchemaTokens->localRot0) {
         if (UsdAttribute attr = _usdJoint.GetLocalRot0Attr()) {
             GfVec3f v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingJointSchemaTokens->localRot1) {
+    } else if (name == HdJointSchemaTokens->localRot1) {
         if (UsdAttribute attr = _usdJoint.GetLocalRot1Attr()) {
             GfVec3f v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingJointSchemaTokens->jointEnabled) {
+    } else if (name == HdJointSchemaTokens->jointEnabled) {
         if (UsdAttribute attr = _usdJoint.GetJointEnabledAttr()) {
             bool v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<bool>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingJointSchemaTokens->collisionEnabled) {
+    } else if (name == HdJointSchemaTokens->collisionEnabled) {
         if (UsdAttribute attr = _usdJoint.GetCollisionEnabledAttr()) {
             bool v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<bool>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingJointSchemaTokens->excludeFromArticulation) {
+    } else if (name == HdJointSchemaTokens->excludeFromArticulation) {
         if (UsdAttribute attr = _usdJoint.GetExcludeFromArticulationAttr()) {
             bool v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<bool>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingJointSchemaTokens->breakForce) {
+    } else if (name == HdJointSchemaTokens->breakForce) {
         if (UsdAttribute attr = _usdJoint.GetBreakForceAttr()) {
             float v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<float>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingJointSchemaTokens->breakTorque) {
+    } else if (name == HdJointSchemaTokens->breakTorque) {
         if (UsdAttribute attr = _usdJoint.GetBreakTorqueAttr()) {
             float v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<float>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingJointSchemaTokens->body0) {
+    } else if (name == HdJointSchemaTokens->body0) {
         if (UsdRelationship rel = _usdJoint.GetBody0Rel()) {
             return DependentPrimsDataSource::New(rel);
         }
-    } else if (name == UsdPhysicsImagingJointSchemaTokens->body1) {
+    } else if (name == HdJointSchemaTokens->body1) {
         if (UsdRelationship rel = _usdJoint.GetBody1Rel()) {
             return DependentPrimsDataSource::New(rel);
         }
@@ -106,12 +106,12 @@ UsdImagingDataSourceJointPrim::UsdImagingDataSourceJointPrim(const SdfPath &scen
 
 TfTokenVector UsdImagingDataSourceJointPrim::GetNames() {
     TfTokenVector result = UsdImagingDataSourcePrim::GetNames();
-    result.push_back(UsdPhysicsImagingJointSchema::GetSchemaToken());
+    result.push_back(HdJointSchema::GetSchemaToken());
     return result;
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceJointPrim::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingJointSchema::GetSchemaToken()) {
+    if (name == HdJointSchema::GetSchemaToken()) {
         return UsdImagingDataSourceJoint::New(_GetSceneIndexPath(), UsdPhysicsJoint(_GetUsdPrim()), _GetStageGlobals());
     }
 
@@ -132,7 +132,7 @@ HdDataSourceLocatorSet UsdImagingDataSourceJointPrim::Invalidate(
     for (const TfToken &propertyName : properties) {
         for (const TfToken &usdName : usdNames) {
             if (propertyName == usdName) {
-                locators.insert(UsdPhysicsImagingJointSchema::GetDefaultLocator().Append(propertyName));
+                locators.insert(HdJointSchema::GetDefaultLocator().Append(propertyName));
             }
         }
     }

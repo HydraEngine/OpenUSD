@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxCameraSchema.h"
+#include "pxr/imaging/hd/physxCameraSchema.h"
 #include "pxr/usd/usdPhysX/cameraAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,14 +31,14 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxCameraSchemaTokens->alwaysUpdateEnabled,  //
+                HdPhysxCameraSchemaTokens->alwaysUpdateEnabled,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxCameraSchemaTokens->alwaysUpdateEnabled) {
+        if (name == HdPhysxCameraSchemaTokens->alwaysUpdateEnabled) {
             if (UsdAttribute attr = _api.GetAlwaysUpdateEnabledAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
@@ -64,7 +64,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXCameraAPIAdapter::GetImagingSu
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxCameraSchemaTokens->physxCamera,
+        return HdRetainedContainerDataSource::New(HdPhysxCameraSchemaTokens->physxCamera,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -84,7 +84,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXCameraAPIAdapter::InvalidateImaging
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxCameraSchema::GetDefaultLocator());
+            result.insert(HdPhysxCameraSchema::GetDefaultLocator());
         }
     }
 

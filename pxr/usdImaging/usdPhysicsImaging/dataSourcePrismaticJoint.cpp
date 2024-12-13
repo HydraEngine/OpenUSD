@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/dataSourcePrismaticJoint.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/prismaticJointSchema.h"
+#include "pxr/imaging/hd/prismaticJointSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -23,21 +23,21 @@ TfTokenVector UsdImagingDataSourcePrismaticJoint::GetNames() {
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourcePrismaticJoint::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingPrismaticJointSchemaTokens->axis) {
+    if (name == HdPrismaticJointSchemaTokens->axis) {
         if (UsdAttribute attr = _usdPrismaticJoint.GetAxisAttr()) {
             TfToken v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<TfToken>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingPrismaticJointSchemaTokens->lowerLimit) {
+    } else if (name == HdPrismaticJointSchemaTokens->lowerLimit) {
         if (UsdAttribute attr = _usdPrismaticJoint.GetLowerLimitAttr()) {
             float v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<float>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingPrismaticJointSchemaTokens->upperLimit) {
+    } else if (name == HdPrismaticJointSchemaTokens->upperLimit) {
         if (UsdAttribute attr = _usdPrismaticJoint.GetUpperLimitAttr()) {
             float v{};
             if (attr.Get(&v)) {
@@ -56,12 +56,12 @@ UsdImagingDataSourcePrismaticJointPrim::UsdImagingDataSourcePrismaticJointPrim(
 
 TfTokenVector UsdImagingDataSourcePrismaticJointPrim::GetNames() {
     TfTokenVector result = UsdImagingDataSourceJointPrim::GetNames();
-    result.push_back(UsdPhysicsImagingPrismaticJointSchema::GetSchemaToken());
+    result.push_back(HdPrismaticJointSchema::GetSchemaToken());
     return result;
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourcePrismaticJointPrim::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingPrismaticJointSchema::GetSchemaToken()) {
+    if (name == HdPrismaticJointSchema::GetSchemaToken()) {
         return UsdImagingDataSourcePrismaticJoint::New(_GetSceneIndexPath(), UsdPhysicsPrismaticJoint(_GetUsdPrim()),
                                                        _GetStageGlobals());
     }
@@ -84,7 +84,7 @@ HdDataSourceLocatorSet UsdImagingDataSourcePrismaticJointPrim::Invalidate(
     for (const TfToken &propertyName : properties) {
         for (const TfToken &usdName : usdNames) {
             if (propertyName == usdName) {
-                locators.insert(UsdPhysicsImagingPrismaticJointSchema::GetDefaultLocator().Append(propertyName));
+                locators.insert(HdPrismaticJointSchema::GetDefaultLocator().Append(propertyName));
             }
         }
     }

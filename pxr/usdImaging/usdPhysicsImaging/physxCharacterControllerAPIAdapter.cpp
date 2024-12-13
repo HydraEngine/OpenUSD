@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxCharacterControllerSchema.h"
+#include "pxr/imaging/hd/physxCharacterControllerSchema.h"
 #include "pxr/usd/usdPhysX/characterControllerAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,94 +31,94 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->climbingMode,         //
-                UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->contactOffset,        //
-                UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->invisibleWallHeight,  //
-                UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->maxJumpHeight,        //
-                UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->moveTarget,           //
-                UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->nonWalkableMode,      //
-                UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->scaleCoeff,           //
-                UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->slopeLimit,           //
-                UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->stepOffset,           //
-                UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->upAxis,               //
-                UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->volumeGrowth,         //
+                HdPhysxCharacterControllerSchemaTokens->climbingMode,         //
+                HdPhysxCharacterControllerSchemaTokens->contactOffset,        //
+                HdPhysxCharacterControllerSchemaTokens->invisibleWallHeight,  //
+                HdPhysxCharacterControllerSchemaTokens->maxJumpHeight,        //
+                HdPhysxCharacterControllerSchemaTokens->moveTarget,           //
+                HdPhysxCharacterControllerSchemaTokens->nonWalkableMode,      //
+                HdPhysxCharacterControllerSchemaTokens->scaleCoeff,           //
+                HdPhysxCharacterControllerSchemaTokens->slopeLimit,           //
+                HdPhysxCharacterControllerSchemaTokens->stepOffset,           //
+                HdPhysxCharacterControllerSchemaTokens->upAxis,               //
+                HdPhysxCharacterControllerSchemaTokens->volumeGrowth,         //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->climbingMode) {
+        if (name == HdPhysxCharacterControllerSchemaTokens->climbingMode) {
             if (UsdAttribute attr = _api.GetClimbingModeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->contactOffset) {
+        } else if (name == HdPhysxCharacterControllerSchemaTokens->contactOffset) {
             if (UsdAttribute attr = _api.GetContactOffsetAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->invisibleWallHeight) {
+        } else if (name == HdPhysxCharacterControllerSchemaTokens->invisibleWallHeight) {
             if (UsdAttribute attr = _api.GetInvisibleWallHeightAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->maxJumpHeight) {
+        } else if (name == HdPhysxCharacterControllerSchemaTokens->maxJumpHeight) {
             if (UsdAttribute attr = _api.GetMaxJumpHeightAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->moveTarget) {
+        } else if (name == HdPhysxCharacterControllerSchemaTokens->moveTarget) {
             if (UsdAttribute attr = _api.GetMoveTargetAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->nonWalkableMode) {
+        } else if (name == HdPhysxCharacterControllerSchemaTokens->nonWalkableMode) {
             if (UsdAttribute attr = _api.GetNonWalkableModeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->scaleCoeff) {
+        } else if (name == HdPhysxCharacterControllerSchemaTokens->scaleCoeff) {
             if (UsdAttribute attr = _api.GetScaleCoeffAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->slopeLimit) {
+        } else if (name == HdPhysxCharacterControllerSchemaTokens->slopeLimit) {
             if (UsdAttribute attr = _api.GetSlopeLimitAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->stepOffset) {
+        } else if (name == HdPhysxCharacterControllerSchemaTokens->stepOffset) {
             if (UsdAttribute attr = _api.GetStepOffsetAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->upAxis) {
+        } else if (name == HdPhysxCharacterControllerSchemaTokens->upAxis) {
             if (UsdAttribute attr = _api.GetUpAxisAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->volumeGrowth) {
+        } else if (name == HdPhysxCharacterControllerSchemaTokens->volumeGrowth) {
             if (UsdAttribute attr = _api.GetVolumeGrowthAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -145,7 +145,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXCharacterControllerAPIAdapter:
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxCharacterControllerSchemaTokens->physxCharacterController,
+                HdPhysxCharacterControllerSchemaTokens->physxCharacterController,
                 PhysxDataSource::New(prim));
     }
 
@@ -165,7 +165,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXCharacterControllerAPIAdapter::Inva
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxCharacterControllerSchema::GetDefaultLocator());
+            result.insert(HdPhysxCharacterControllerSchema::GetDefaultLocator());
         }
     }
 

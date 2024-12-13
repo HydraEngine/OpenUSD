@@ -9,7 +9,7 @@
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
-#include "pxr/usdImaging/usdPhysicsImaging/physxTriggerStateSchema.h"
+#include "pxr/imaging/hd/physxTriggerStateSchema.h"
 #include "pxr/usd/usdPhysX/triggerStateAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -32,14 +32,14 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxTriggerStateSchemaTokens->triggeredCollisions,  //
+                HdPhysxTriggerStateSchemaTokens->triggeredCollisions,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxTriggerStateSchemaTokens->triggeredCollisions) {
+        if (name == HdPhysxTriggerStateSchemaTokens->triggeredCollisions) {
             if (UsdRelationship rel = _api.GetTriggeredCollisionsRel()) {
                 return DependentPrimsDataSource::New(rel);
             }
@@ -62,7 +62,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXTriggerStateAPIAdapter::GetIma
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxTriggerStateSchemaTokens->physxTriggerState,
+        return HdRetainedContainerDataSource::New(HdPhysxTriggerStateSchemaTokens->physxTriggerState,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -82,7 +82,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXTriggerStateAPIAdapter::InvalidateI
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxTriggerStateSchema::GetDefaultLocator());
+            result.insert(HdPhysxTriggerStateSchema::GetDefaultLocator());
         }
     }
 

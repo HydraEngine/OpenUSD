@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxMaterialSchema.h"
+#include "pxr/imaging/hd/physxMaterialSchema.h"
 #include "pxr/usd/usdPhysX/materialAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,54 +31,54 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxMaterialSchemaTokens->compliantContactAccelerationSpring,  //
-                UsdPhysicsImagingPhysxMaterialSchemaTokens->compliantContactDamping,             //
-                UsdPhysicsImagingPhysxMaterialSchemaTokens->compliantContactStiffness,           //
-                UsdPhysicsImagingPhysxMaterialSchemaTokens->dampingCombineMode,                  //
-                UsdPhysicsImagingPhysxMaterialSchemaTokens->frictionCombineMode,                 //
-                UsdPhysicsImagingPhysxMaterialSchemaTokens->restitutionCombineMode,              //
+                HdPhysxMaterialSchemaTokens->compliantContactAccelerationSpring,  //
+                HdPhysxMaterialSchemaTokens->compliantContactDamping,             //
+                HdPhysxMaterialSchemaTokens->compliantContactStiffness,           //
+                HdPhysxMaterialSchemaTokens->dampingCombineMode,                  //
+                HdPhysxMaterialSchemaTokens->frictionCombineMode,                 //
+                HdPhysxMaterialSchemaTokens->restitutionCombineMode,              //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxMaterialSchemaTokens->compliantContactAccelerationSpring) {
+        if (name == HdPhysxMaterialSchemaTokens->compliantContactAccelerationSpring) {
             if (UsdAttribute attr = _api.GetCompliantContactAccelerationSpringAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxMaterialSchemaTokens->compliantContactDamping) {
+        } else if (name == HdPhysxMaterialSchemaTokens->compliantContactDamping) {
             if (UsdAttribute attr = _api.GetCompliantContactDampingAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxMaterialSchemaTokens->compliantContactStiffness) {
+        } else if (name == HdPhysxMaterialSchemaTokens->compliantContactStiffness) {
             if (UsdAttribute attr = _api.GetCompliantContactStiffnessAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxMaterialSchemaTokens->dampingCombineMode) {
+        } else if (name == HdPhysxMaterialSchemaTokens->dampingCombineMode) {
             if (UsdAttribute attr = _api.GetDampingCombineModeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxMaterialSchemaTokens->frictionCombineMode) {
+        } else if (name == HdPhysxMaterialSchemaTokens->frictionCombineMode) {
             if (UsdAttribute attr = _api.GetFrictionCombineModeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxMaterialSchemaTokens->restitutionCombineMode) {
+        } else if (name == HdPhysxMaterialSchemaTokens->restitutionCombineMode) {
             if (UsdAttribute attr = _api.GetRestitutionCombineModeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
@@ -104,7 +104,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXMaterialAPIAdapter::GetImaging
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxMaterialSchemaTokens->physxMaterial,
+        return HdRetainedContainerDataSource::New(HdPhysxMaterialSchemaTokens->physxMaterial,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -124,7 +124,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXMaterialAPIAdapter::InvalidateImagi
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxMaterialSchema::GetDefaultLocator());
+            result.insert(HdPhysxMaterialSchema::GetDefaultLocator());
         }
     }
 

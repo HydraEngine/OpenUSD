@@ -8,11 +8,9 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/driveSchema.h"
-#include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/imaging/hd/driveSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/driveAPI.h"
-#include "pxr/usd/usdPhysics/tokens.h"
 
 #include <iostream>
 
@@ -33,18 +31,18 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingDriveSchemaTokens->type,
-                UsdPhysicsImagingDriveSchemaTokens->maxForce,        //
-                UsdPhysicsImagingDriveSchemaTokens->targetPosition,  //
-                UsdPhysicsImagingDriveSchemaTokens->targetVelocity,  //
-                UsdPhysicsImagingDriveSchemaTokens->damping,         //
-                UsdPhysicsImagingDriveSchemaTokens->stiffness,       //
+                HdDriveSchemaTokens->type,
+                HdDriveSchemaTokens->maxForce,        //
+                HdDriveSchemaTokens->targetPosition,  //
+                HdDriveSchemaTokens->targetVelocity,  //
+                HdDriveSchemaTokens->damping,         //
+                HdDriveSchemaTokens->stiffness,       //
         };
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingDriveSchemaTokens->type) {
+        if (name == HdDriveSchemaTokens->type) {
             if (UsdAttribute attr = _api.GetTypeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
@@ -52,7 +50,7 @@ public:
                 }
             }
         }
-        if (name == UsdPhysicsImagingDriveSchemaTokens->maxForce) {
+        if (name == HdDriveSchemaTokens->maxForce) {
             if (UsdAttribute attr = _api.GetMaxForceAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -60,7 +58,7 @@ public:
                 }
             }
         }
-        if (name == UsdPhysicsImagingDriveSchemaTokens->targetPosition) {
+        if (name == HdDriveSchemaTokens->targetPosition) {
             if (UsdAttribute attr = _api.GetTargetPositionAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -68,7 +66,7 @@ public:
                 }
             }
         }
-        if (name == UsdPhysicsImagingDriveSchemaTokens->targetVelocity) {
+        if (name == HdDriveSchemaTokens->targetVelocity) {
             if (UsdAttribute attr = _api.GetTargetVelocityAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -76,7 +74,7 @@ public:
                 }
             }
         }
-        if (name == UsdPhysicsImagingDriveSchemaTokens->damping) {
+        if (name == HdDriveSchemaTokens->damping) {
             if (UsdAttribute attr = _api.GetDampingAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -84,7 +82,7 @@ public:
                 }
             }
         }
-        if (name == UsdPhysicsImagingDriveSchemaTokens->stiffness) {
+        if (name == HdDriveSchemaTokens->stiffness) {
             if (UsdAttribute attr = _api.GetStiffnessAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -110,7 +108,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsDriveAPIAdapter::GetImagingSubprimD
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingDriveSchemaTokens->drive,
+        return HdRetainedContainerDataSource::New(HdDriveSchemaTokens->drive,
                                                   _PhysicsDriveDataSource::New(prim));
     }
 
@@ -130,7 +128,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsDriveAPIAdapter::InvalidateImagingSubpri
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingDriveSchema::GetDefaultLocator());
+            result.insert(HdDriveSchema::GetDefaultLocator());
         }
     }
 

@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxContactReportSchema.h"
+#include "pxr/imaging/hd/physxContactReportSchema.h"
 #include "pxr/usd/usdPhysX/contactReportAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,14 +31,14 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxContactReportSchemaTokens->threshold,  //
+                HdPhysxContactReportSchemaTokens->threshold,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxContactReportSchemaTokens->threshold) {
+        if (name == HdPhysxContactReportSchemaTokens->threshold) {
             if (UsdAttribute attr = _api.GetThresholdAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -64,7 +64,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXContactReportAPIAdapter::GetIm
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxContactReportSchemaTokens->physxContactReport,
+        return HdRetainedContainerDataSource::New(HdPhysxContactReportSchemaTokens->physxContactReport,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -84,7 +84,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXContactReportAPIAdapter::Invalidate
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxContactReportSchema::GetDefaultLocator());
+            result.insert(HdPhysxContactReportSchema::GetDefaultLocator());
         }
     }
 

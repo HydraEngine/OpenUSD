@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleTankControllerSchema.h"
+#include "pxr/imaging/hd/physxVehicleTankControllerSchema.h"
 #include "pxr/usd/usdPhysX/vehicleTankControllerAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,22 +31,22 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleTankControllerSchemaTokens->thrust0,  //
-                UsdPhysicsImagingPhysxVehicleTankControllerSchemaTokens->thrust1,  //
+                HdPhysxVehicleTankControllerSchemaTokens->thrust0,  //
+                HdPhysxVehicleTankControllerSchemaTokens->thrust1,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleTankControllerSchemaTokens->thrust0) {
+        if (name == HdPhysxVehicleTankControllerSchemaTokens->thrust0) {
             if (UsdAttribute attr = _api.GetThrust0Attr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleTankControllerSchemaTokens->thrust1) {
+        } else if (name == HdPhysxVehicleTankControllerSchemaTokens->thrust1) {
             if (UsdAttribute attr = _api.GetThrust1Attr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -74,7 +74,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleTankControllerAPIAdapte
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxVehicleTankControllerSchemaTokens->physxVehicleTankController,
+                HdPhysxVehicleTankControllerSchemaTokens->physxVehicleTankController,
                 PhysxDataSource::New(prim));
     }
 
@@ -94,7 +94,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleTankControllerAPIAdapter::In
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleTankControllerSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleTankControllerSchema::GetDefaultLocator());
         }
     }
 

@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxTriggerSchema.h"
+#include "pxr/imaging/hd/physxTriggerSchema.h"
 #include "pxr/usd/usdPhysX/triggerAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,38 +31,38 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxTriggerSchemaTokens->enterScriptType,  //
-                UsdPhysicsImagingPhysxTriggerSchemaTokens->leaveScriptType,  //
-                UsdPhysicsImagingPhysxTriggerSchemaTokens->onEnterScript,    //
-                UsdPhysicsImagingPhysxTriggerSchemaTokens->onLeaveScript,    //
+                HdPhysxTriggerSchemaTokens->enterScriptType,  //
+                HdPhysxTriggerSchemaTokens->leaveScriptType,  //
+                HdPhysxTriggerSchemaTokens->onEnterScript,    //
+                HdPhysxTriggerSchemaTokens->onLeaveScript,    //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxTriggerSchemaTokens->enterScriptType) {
+        if (name == HdPhysxTriggerSchemaTokens->enterScriptType) {
             if (UsdAttribute attr = _api.GetEnterScriptTypeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxTriggerSchemaTokens->leaveScriptType) {
+        } else if (name == HdPhysxTriggerSchemaTokens->leaveScriptType) {
             if (UsdAttribute attr = _api.GetLeaveScriptTypeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxTriggerSchemaTokens->onEnterScript) {
+        } else if (name == HdPhysxTriggerSchemaTokens->onEnterScript) {
             if (UsdAttribute attr = _api.GetOnEnterScriptAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxTriggerSchemaTokens->onLeaveScript) {
+        } else if (name == HdPhysxTriggerSchemaTokens->onLeaveScript) {
             if (UsdAttribute attr = _api.GetOnLeaveScriptAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
@@ -88,7 +88,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXTriggerAPIAdapter::GetImagingS
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxTriggerSchemaTokens->physxTrigger,
+        return HdRetainedContainerDataSource::New(HdPhysxTriggerSchemaTokens->physxTrigger,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -108,7 +108,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXTriggerAPIAdapter::InvalidateImagin
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxTriggerSchema::GetDefaultLocator());
+            result.insert(HdPhysxTriggerSchema::GetDefaultLocator());
         }
     }
 

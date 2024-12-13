@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
-#include "pxr/usdImaging/usdPhysicsImaging/physxPhysicsRackAndPinionJointSchema.h"
+#include "pxr/imaging/hd/physxPhysicsRackAndPinionJointSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -24,18 +24,18 @@ TfTokenVector UsdImagingDataSourceRackAndPinionJoint::GetNames() {
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceRackAndPinionJoint::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens->ratio) {
+    if (name == HdPhysxPhysicsRackAndPinionJointSchemaTokens->ratio) {
         if (UsdAttribute attr = _usdRackAndPinionJoint.GetPhysicsRatioAttr()) {
             float v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<float>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens->hinge) {
+    } else if (name == HdPhysxPhysicsRackAndPinionJointSchemaTokens->hinge) {
         if (UsdRelationship rel = _usdRackAndPinionJoint.GetHingeRel()) {
             return DependentPrimsDataSource::New(rel);
         }
-    } else if (name == UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchemaTokens->prismatic) {
+    } else if (name == HdPhysxPhysicsRackAndPinionJointSchemaTokens->prismatic) {
         if (UsdRelationship rel = _usdRackAndPinionJoint.GetPrismaticRel()) {
             return DependentPrimsDataSource::New(rel);
         }
@@ -51,12 +51,12 @@ UsdImagingDataSourceRackAndPinionJointPrim::UsdImagingDataSourceRackAndPinionJoi
 
 TfTokenVector UsdImagingDataSourceRackAndPinionJointPrim::GetNames() {
     TfTokenVector result = UsdImagingDataSourceJointPrim::GetNames();
-    result.push_back(UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::GetSchemaToken());
+    result.push_back(HdPhysxPhysicsRackAndPinionJointSchema::GetSchemaToken());
     return result;
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceRackAndPinionJointPrim::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::GetSchemaToken()) {
+    if (name == HdPhysxPhysicsRackAndPinionJointSchema::GetSchemaToken()) {
         return UsdImagingDataSourceRackAndPinionJoint::New(
                 _GetSceneIndexPath(), UsdPhysXPhysicsRackAndPinionJoint(_GetUsdPrim()), _GetStageGlobals());
     }
@@ -80,7 +80,7 @@ HdDataSourceLocatorSet UsdImagingDataSourceRackAndPinionJointPrim::Invalidate(
     for (const TfToken &propertyName : properties) {
         for (const TfToken &usdName : usdNames) {
             if (propertyName == usdName) {
-                locators.insert(UsdPhysicsImagingPhysxPhysicsRackAndPinionJointSchema::GetDefaultLocator().Append(
+                locators.insert(HdPhysxPhysicsRackAndPinionJointSchema::GetDefaultLocator().Append(
                         propertyName));
             }
         }

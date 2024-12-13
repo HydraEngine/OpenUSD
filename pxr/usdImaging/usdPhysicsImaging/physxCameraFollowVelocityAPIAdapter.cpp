@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxCameraFollowVelocitySchema.h"
+#include "pxr/imaging/hd/physxCameraFollowVelocitySchema.h"
 #include "pxr/usd/usdPhysX/cameraFollowVelocityAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -49,7 +49,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXCameraFollowVelocityAPIAdapter
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxCameraFollowVelocitySchemaTokens->physxCameraFollowVelocity,
+                HdPhysxCameraFollowVelocitySchemaTokens->physxCameraFollowVelocity,
                 PhysxDataSource::New(prim));
     }
 
@@ -69,7 +69,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXCameraFollowVelocityAPIAdapter::Inv
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxCameraFollowVelocitySchema::GetDefaultLocator());
+            result.insert(HdPhysxCameraFollowVelocitySchema::GetDefaultLocator());
         }
     }
 

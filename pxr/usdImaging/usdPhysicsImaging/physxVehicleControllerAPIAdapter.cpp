@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleControllerSchema.h"
+#include "pxr/imaging/hd/physxVehicleControllerSchema.h"
 #include "pxr/usd/usdPhysX/vehicleControllerAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,46 +31,46 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->accelerator,  //
-                UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->brake0,       //
-                UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->brake1,       //
-                UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->steer,        //
-                UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->targetGear,   //
+                HdPhysxVehicleControllerSchemaTokens->accelerator,  //
+                HdPhysxVehicleControllerSchemaTokens->brake0,       //
+                HdPhysxVehicleControllerSchemaTokens->brake1,       //
+                HdPhysxVehicleControllerSchemaTokens->steer,        //
+                HdPhysxVehicleControllerSchemaTokens->targetGear,   //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->accelerator) {
+        if (name == HdPhysxVehicleControllerSchemaTokens->accelerator) {
             if (UsdAttribute attr = _api.GetAcceleratorAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->brake0) {
+        } else if (name == HdPhysxVehicleControllerSchemaTokens->brake0) {
             if (UsdAttribute attr = _api.GetBrake0Attr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->brake1) {
+        } else if (name == HdPhysxVehicleControllerSchemaTokens->brake1) {
             if (UsdAttribute attr = _api.GetBrake1Attr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->steer) {
+        } else if (name == HdPhysxVehicleControllerSchemaTokens->steer) {
             if (UsdAttribute attr = _api.GetSteerAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->targetGear) {
+        } else if (name == HdPhysxVehicleControllerSchemaTokens->targetGear) {
             if (UsdAttribute attr = _api.GetTargetGearAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -97,7 +97,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleControllerAPIAdapter::G
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxVehicleControllerSchemaTokens->physxVehicleController,
+                HdPhysxVehicleControllerSchemaTokens->physxVehicleController,
                 PhysxDataSource::New(prim));
     }
 
@@ -117,7 +117,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleControllerAPIAdapter::Invali
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleControllerSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleControllerSchema::GetDefaultLocator());
         }
     }
 

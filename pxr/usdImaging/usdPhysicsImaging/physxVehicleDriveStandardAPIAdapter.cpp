@@ -9,7 +9,7 @@
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleDriveStandardSchema.h"
+#include "pxr/imaging/hd/physxVehicleDriveStandardSchema.h"
 #include "pxr/usd/usdPhysX/vehicleDriveStandardAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -32,29 +32,29 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleDriveStandardSchemaTokens->gears,        //
-                UsdPhysicsImagingPhysxVehicleDriveStandardSchemaTokens->engine,       //
-                UsdPhysicsImagingPhysxVehicleDriveStandardSchemaTokens->autoGearBox,  //
-                UsdPhysicsImagingPhysxVehicleDriveStandardSchemaTokens->clutch,       //
+                HdPhysxVehicleDriveStandardSchemaTokens->gears,        //
+                HdPhysxVehicleDriveStandardSchemaTokens->engine,       //
+                HdPhysxVehicleDriveStandardSchemaTokens->autoGearBox,  //
+                HdPhysxVehicleDriveStandardSchemaTokens->clutch,       //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleDriveStandardSchemaTokens->gears) {
+        if (name == HdPhysxVehicleDriveStandardSchemaTokens->gears) {
             if (UsdRelationship rel = _api.GetGearsRel()) {
                 return DependentPrimsDataSource::New(rel);
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleDriveStandardSchemaTokens->engine) {
+        } else if (name == HdPhysxVehicleDriveStandardSchemaTokens->engine) {
             if (UsdRelationship rel = _api.GetEngineRel()) {
                 return DependentPrimsDataSource::New(rel);
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleDriveStandardSchemaTokens->autoGearBox) {
+        } else if (name == HdPhysxVehicleDriveStandardSchemaTokens->autoGearBox) {
             if (UsdRelationship rel = _api.GetAutoGearBoxRel()) {
                 return DependentPrimsDataSource::New(rel);
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleDriveStandardSchemaTokens->clutch) {
+        } else if (name == HdPhysxVehicleDriveStandardSchemaTokens->clutch) {
             if (UsdRelationship rel = _api.GetClutchRel()) {
                 return DependentPrimsDataSource::New(rel);
             }
@@ -78,7 +78,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleDriveStandardAPIAdapter
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxVehicleDriveStandardSchemaTokens->physxVehicleDriveStandard,
+                HdPhysxVehicleDriveStandardSchemaTokens->physxVehicleDriveStandard,
                 PhysxDataSource::New(prim));
     }
 
@@ -98,7 +98,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleDriveStandardAPIAdapter::Inv
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleDriveStandardSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleDriveStandardSchema::GetDefaultLocator());
         }
     }
 

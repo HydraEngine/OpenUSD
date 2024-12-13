@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxCameraFollowLookSchema.h"
+#include "pxr/imaging/hd/physxCameraFollowLookSchema.h"
 #include "pxr/usd/usdPhysX/cameraFollowLookAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,62 +31,62 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->downHillGroundAngle,        //
-                UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->downHillGroundPitch,        //
-                UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->followReverseDistance,      //
-                UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->followReverseSpeed,         //
-                UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->upHillGroundAngle,          //
-                UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->upHillGroundPitch,          //
-                UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->velocityBlendTimeConstant,  //
+                HdPhysxCameraFollowLookSchemaTokens->downHillGroundAngle,        //
+                HdPhysxCameraFollowLookSchemaTokens->downHillGroundPitch,        //
+                HdPhysxCameraFollowLookSchemaTokens->followReverseDistance,      //
+                HdPhysxCameraFollowLookSchemaTokens->followReverseSpeed,         //
+                HdPhysxCameraFollowLookSchemaTokens->upHillGroundAngle,          //
+                HdPhysxCameraFollowLookSchemaTokens->upHillGroundPitch,          //
+                HdPhysxCameraFollowLookSchemaTokens->velocityBlendTimeConstant,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->downHillGroundAngle) {
+        if (name == HdPhysxCameraFollowLookSchemaTokens->downHillGroundAngle) {
             if (UsdAttribute attr = _api.GetDownHillGroundAngleAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->downHillGroundPitch) {
+        } else if (name == HdPhysxCameraFollowLookSchemaTokens->downHillGroundPitch) {
             if (UsdAttribute attr = _api.GetDownHillGroundPitchAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->followReverseDistance) {
+        } else if (name == HdPhysxCameraFollowLookSchemaTokens->followReverseDistance) {
             if (UsdAttribute attr = _api.GetFollowReverseDistanceAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->followReverseSpeed) {
+        } else if (name == HdPhysxCameraFollowLookSchemaTokens->followReverseSpeed) {
             if (UsdAttribute attr = _api.GetFollowReverseSpeedAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->upHillGroundAngle) {
+        } else if (name == HdPhysxCameraFollowLookSchemaTokens->upHillGroundAngle) {
             if (UsdAttribute attr = _api.GetUpHillGroundAngleAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->upHillGroundPitch) {
+        } else if (name == HdPhysxCameraFollowLookSchemaTokens->upHillGroundPitch) {
             if (UsdAttribute attr = _api.GetUpHillGroundPitchAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->velocityBlendTimeConstant) {
+        } else if (name == HdPhysxCameraFollowLookSchemaTokens->velocityBlendTimeConstant) {
             if (UsdAttribute attr = _api.GetVelocityBlendTimeConstantAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -113,7 +113,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysxCameraFollowLookAPIAdapter::Ge
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxCameraFollowLookSchemaTokens->physxCameraFollowLook, PhysxDataSource::New(prim));
+                HdPhysxCameraFollowLookSchemaTokens->physxCameraFollowLook, PhysxDataSource::New(prim));
     }
 
     return nullptr;
@@ -132,7 +132,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysxCameraFollowLookAPIAdapter::Invalid
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxCameraFollowLookSchema::GetDefaultLocator());
+            result.insert(HdPhysxCameraFollowLookSchema::GetDefaultLocator());
         }
     }
 

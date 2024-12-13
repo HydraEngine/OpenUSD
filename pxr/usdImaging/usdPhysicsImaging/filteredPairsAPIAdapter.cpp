@@ -9,8 +9,7 @@
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
-#include "pxr/usdImaging/usdPhysicsImaging/filteredPairsSchema.h"
-#include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/imaging/hd/filteredPairsSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/filteredPairsAPI.h"
 
@@ -33,14 +32,14 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingFilteredPairsSchemaTokens->filteredPairs,  //
+                HdFilteredPairsSchemaTokens->filteredPairs,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingFilteredPairsSchemaTokens->filteredPairs) {
+        if (name == HdFilteredPairsSchemaTokens->filteredPairs) {
             if (UsdRelationship rel = _api.GetFilteredPairsRel()) {
                 return DependentPrimsDataSource::New(rel);
             }
@@ -64,7 +63,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsFilteredPairsAPIAdapter::GetImaging
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingFilteredPairsSchemaTokens->filteredPairs,
+        return HdRetainedContainerDataSource::New(HdFilteredPairsSchemaTokens->filteredPairs,
                                                   _PhysicsFilteredPairsDataSource::New(prim));
     }
 
@@ -84,7 +83,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsFilteredPairsAPIAdapter::InvalidateImagi
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingFilteredPairsSchema::GetDefaultLocator());
+            result.insert(HdFilteredPairsSchema::GetDefaultLocator());
         }
     }
 

@@ -8,10 +8,8 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/meshCollisionSchema.h"
-#include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/imaging/hd/meshCollisionSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
-#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/meshCollisionAPI.h"
 
 #include <iostream>
@@ -33,13 +31,13 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingMeshCollisionSchemaTokens->approximation,  //
+                HdMeshCollisionSchemaTokens->approximation,  //
         };
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingMeshCollisionSchemaTokens->approximation) {
+        if (name == HdMeshCollisionSchemaTokens->approximation) {
             if (UsdAttribute attr = _api.GetApproximationAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
@@ -65,7 +63,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsMeshCollisionAPIAdapter::GetImaging
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingMeshCollisionSchemaTokens->meshCollision,
+        return HdRetainedContainerDataSource::New(HdMeshCollisionSchemaTokens->meshCollision,
                                                   _PhysicsMeshCollisionDataSource::New(prim));
     }
 
@@ -85,7 +83,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsMeshCollisionAPIAdapter::InvalidateImagi
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingMeshCollisionSchema::GetDefaultLocator());
+            result.insert(HdMeshCollisionSchema::GetDefaultLocator());
         }
     }
 

@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxCollisionSchema.h"
+#include "pxr/imaging/hd/physxCollisionSchema.h"
 #include "pxr/usd/usdPhysX/collisionAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,38 +31,38 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxCollisionSchemaTokens->contactOffset,            //
-                UsdPhysicsImagingPhysxCollisionSchemaTokens->minTorsionalPatchRadius,  //
-                UsdPhysicsImagingPhysxCollisionSchemaTokens->restOffset,               //
-                UsdPhysicsImagingPhysxCollisionSchemaTokens->torsionalPatchRadius,     //
+                HdPhysxCollisionSchemaTokens->contactOffset,            //
+                HdPhysxCollisionSchemaTokens->minTorsionalPatchRadius,  //
+                HdPhysxCollisionSchemaTokens->restOffset,               //
+                HdPhysxCollisionSchemaTokens->torsionalPatchRadius,     //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxCollisionSchemaTokens->contactOffset) {
+        if (name == HdPhysxCollisionSchemaTokens->contactOffset) {
             if (UsdAttribute attr = _api.GetContactOffsetAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCollisionSchemaTokens->minTorsionalPatchRadius) {
+        } else if (name == HdPhysxCollisionSchemaTokens->minTorsionalPatchRadius) {
             if (UsdAttribute attr = _api.GetMinTorsionalPatchRadiusAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCollisionSchemaTokens->restOffset) {
+        } else if (name == HdPhysxCollisionSchemaTokens->restOffset) {
             if (UsdAttribute attr = _api.GetRestOffsetAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCollisionSchemaTokens->torsionalPatchRadius) {
+        } else if (name == HdPhysxCollisionSchemaTokens->torsionalPatchRadius) {
             if (UsdAttribute attr = _api.GetTorsionalPatchRadiusAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -88,7 +88,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXCollisionAPIAdapter::GetImagin
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxCollisionSchemaTokens->physxCollision,
+        return HdRetainedContainerDataSource::New(HdPhysxCollisionSchemaTokens->physxCollision,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -108,7 +108,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXCollisionAPIAdapter::InvalidateImag
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxCollisionSchema::GetDefaultLocator());
+            result.insert(HdPhysxCollisionSchema::GetDefaultLocator());
         }
     }
 

@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/dataSourceSphericalJoint.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/sphericalJointSchema.h"
+#include "pxr/imaging/hd/sphericalJointSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -23,21 +23,21 @@ TfTokenVector UsdImagingDataSourceSphericalJoint::GetNames() {
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceSphericalJoint::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingSphericalJointSchemaTokens->axis) {
+    if (name == HdSphericalJointSchemaTokens->axis) {
         if (UsdAttribute attr = _usdSphericalJoint.GetAxisAttr()) {
             TfToken v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<TfToken>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingSphericalJointSchemaTokens->coneAngle0Limit) {
+    } else if (name == HdSphericalJointSchemaTokens->coneAngle0Limit) {
         if (UsdAttribute attr = _usdSphericalJoint.GetConeAngle0LimitAttr()) {
             float v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<float>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingSphericalJointSchemaTokens->coneAngle1Limit) {
+    } else if (name == HdSphericalJointSchemaTokens->coneAngle1Limit) {
         if (UsdAttribute attr = _usdSphericalJoint.GetConeAngle1LimitAttr()) {
             float v{};
             if (attr.Get(&v)) {
@@ -56,12 +56,12 @@ UsdImagingDataSourceSphericalJointPrim::UsdImagingDataSourceSphericalJointPrim(
 
 TfTokenVector UsdImagingDataSourceSphericalJointPrim::GetNames() {
     TfTokenVector result = UsdImagingDataSourceJointPrim::GetNames();
-    result.push_back(UsdPhysicsImagingSphericalJointSchema::GetSchemaToken());
+    result.push_back(HdSphericalJointSchema::GetSchemaToken());
     return result;
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceSphericalJointPrim::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingSphericalJointSchema::GetSchemaToken()) {
+    if (name == HdSphericalJointSchema::GetSchemaToken()) {
         return UsdImagingDataSourceSphericalJoint::New(_GetSceneIndexPath(), UsdPhysicsSphericalJoint(_GetUsdPrim()),
                                                        _GetStageGlobals());
     }
@@ -84,7 +84,7 @@ HdDataSourceLocatorSet UsdImagingDataSourceSphericalJointPrim::Invalidate(
     for (const TfToken &propertyName : properties) {
         for (const TfToken &usdName : usdNames) {
             if (propertyName == usdName) {
-                locators.insert(UsdPhysicsImagingSphericalJointSchema::GetDefaultLocator().Append(propertyName));
+                locators.insert(HdSphericalJointSchema::GetDefaultLocator().Append(propertyName));
             }
         }
     }

@@ -8,8 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/articulationRootSchema.h"
-#include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/imaging/hd/articulationRootSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include <iostream>
@@ -45,7 +44,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsArticulationRootAPIAdapter::GetImag
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingArticulationRootSchemaTokens->articulationRoot,
+        return HdRetainedContainerDataSource::New(HdArticulationRootSchemaTokens->articulationRoot,
                                                   _PhysicsArticulationRootDataSource::New());
     }
 
@@ -65,7 +64,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsArticulationRootAPIAdapter::InvalidateIm
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingArticulationRootSchema::GetDefaultLocator());
+            result.insert(HdArticulationRootSchema::GetDefaultLocator());
         }
     }
 

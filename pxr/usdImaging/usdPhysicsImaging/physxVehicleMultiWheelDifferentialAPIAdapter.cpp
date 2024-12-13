@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleMultiWheelDifferentialSchema.h"
+#include "pxr/imaging/hd/physxVehicleMultiWheelDifferentialSchema.h"
 #include "pxr/usd/usdPhysX/vehicleMultiWheelDifferentialAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,30 +31,30 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleMultiWheelDifferentialSchemaTokens->averageWheelSpeedRatios,  //
-                UsdPhysicsImagingPhysxVehicleMultiWheelDifferentialSchemaTokens->torqueRatios,             //
-                UsdPhysicsImagingPhysxVehicleMultiWheelDifferentialSchemaTokens->wheels,                   //
+                HdPhysxVehicleMultiWheelDifferentialSchemaTokens->averageWheelSpeedRatios,  //
+                HdPhysxVehicleMultiWheelDifferentialSchemaTokens->torqueRatios,             //
+                HdPhysxVehicleMultiWheelDifferentialSchemaTokens->wheels,                   //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleMultiWheelDifferentialSchemaTokens->averageWheelSpeedRatios) {
+        if (name == HdPhysxVehicleMultiWheelDifferentialSchemaTokens->averageWheelSpeedRatios) {
             if (UsdAttribute attr = _api.GetAverageWheelSpeedRatiosAttr()) {
                 VtArray<float> v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<VtArray<float>>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleMultiWheelDifferentialSchemaTokens->torqueRatios) {
+        } else if (name == HdPhysxVehicleMultiWheelDifferentialSchemaTokens->torqueRatios) {
             if (UsdAttribute attr = _api.GetTorqueRatiosAttr()) {
                 VtArray<float> v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<VtArray<float>>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleMultiWheelDifferentialSchemaTokens->wheels) {
+        } else if (name == HdPhysxVehicleMultiWheelDifferentialSchemaTokens->wheels) {
             if (UsdAttribute attr = _api.GetWheelsAttr()) {
                 VtArray<int> v;
                 if (attr.Get(&v)) {
@@ -81,7 +81,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleMultiWheelDifferentialA
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxVehicleMultiWheelDifferentialSchemaTokens->physxVehicleMultiWheelDifferential,
+                HdPhysxVehicleMultiWheelDifferentialSchemaTokens->physxVehicleMultiWheelDifferential,
                 PhysxDataSource::New(prim));
     }
 
@@ -101,7 +101,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleMultiWheelDifferentialAPIAda
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleMultiWheelDifferentialSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleMultiWheelDifferentialSchema::GetDefaultLocator());
         }
     }
 

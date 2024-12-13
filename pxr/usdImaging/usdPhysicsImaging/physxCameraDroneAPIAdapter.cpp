@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxCameraDroneSchema.h"
+#include "pxr/imaging/hd/physxCameraDroneSchema.h"
 #include "pxr/usd/usdPhysX/cameraDroneAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,86 +31,86 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxCameraDroneSchemaTokens->feedForwardVelocityGain,     //
-                UsdPhysicsImagingPhysxCameraDroneSchemaTokens->followDistance,              //
-                UsdPhysicsImagingPhysxCameraDroneSchemaTokens->followHeight,                //
-                UsdPhysicsImagingPhysxCameraDroneSchemaTokens->horizontalVelocityGain,      //
-                UsdPhysicsImagingPhysxCameraDroneSchemaTokens->maxDistance,                 //
-                UsdPhysicsImagingPhysxCameraDroneSchemaTokens->maxSpeed,                    //
-                UsdPhysicsImagingPhysxCameraDroneSchemaTokens->positionOffset,              //
-                UsdPhysicsImagingPhysxCameraDroneSchemaTokens->rotationFilterTimeConstant,  //
-                UsdPhysicsImagingPhysxCameraDroneSchemaTokens->velocityFilterTimeConstant,  //
-                UsdPhysicsImagingPhysxCameraDroneSchemaTokens->verticalVelocityGain,        //
+                HdPhysxCameraDroneSchemaTokens->feedForwardVelocityGain,     //
+                HdPhysxCameraDroneSchemaTokens->followDistance,              //
+                HdPhysxCameraDroneSchemaTokens->followHeight,                //
+                HdPhysxCameraDroneSchemaTokens->horizontalVelocityGain,      //
+                HdPhysxCameraDroneSchemaTokens->maxDistance,                 //
+                HdPhysxCameraDroneSchemaTokens->maxSpeed,                    //
+                HdPhysxCameraDroneSchemaTokens->positionOffset,              //
+                HdPhysxCameraDroneSchemaTokens->rotationFilterTimeConstant,  //
+                HdPhysxCameraDroneSchemaTokens->velocityFilterTimeConstant,  //
+                HdPhysxCameraDroneSchemaTokens->verticalVelocityGain,        //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxCameraDroneSchemaTokens->feedForwardVelocityGain) {
+        if (name == HdPhysxCameraDroneSchemaTokens->feedForwardVelocityGain) {
             if (UsdAttribute attr = _api.GetFeedForwardVelocityGainAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraDroneSchemaTokens->followDistance) {
+        } else if (name == HdPhysxCameraDroneSchemaTokens->followDistance) {
             if (UsdAttribute attr = _api.GetFollowDistanceAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraDroneSchemaTokens->followHeight) {
+        } else if (name == HdPhysxCameraDroneSchemaTokens->followHeight) {
             if (UsdAttribute attr = _api.GetFollowHeightAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraDroneSchemaTokens->horizontalVelocityGain) {
+        } else if (name == HdPhysxCameraDroneSchemaTokens->horizontalVelocityGain) {
             if (UsdAttribute attr = _api.GetHorizontalVelocityGainAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraDroneSchemaTokens->maxDistance) {
+        } else if (name == HdPhysxCameraDroneSchemaTokens->maxDistance) {
             if (UsdAttribute attr = _api.GetMaxDistanceAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraDroneSchemaTokens->maxSpeed) {
+        } else if (name == HdPhysxCameraDroneSchemaTokens->maxSpeed) {
             if (UsdAttribute attr = _api.GetMaxSpeedAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraDroneSchemaTokens->positionOffset) {
+        } else if (name == HdPhysxCameraDroneSchemaTokens->positionOffset) {
             if (UsdAttribute attr = _api.GetPositionOffsetAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraDroneSchemaTokens->rotationFilterTimeConstant) {
+        } else if (name == HdPhysxCameraDroneSchemaTokens->rotationFilterTimeConstant) {
             if (UsdAttribute attr = _api.GetRotationFilterTimeConstantAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraDroneSchemaTokens->velocityFilterTimeConstant) {
+        } else if (name == HdPhysxCameraDroneSchemaTokens->velocityFilterTimeConstant) {
             if (UsdAttribute attr = _api.GetVelocityFilterTimeConstantAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxCameraDroneSchemaTokens->verticalVelocityGain) {
+        } else if (name == HdPhysxCameraDroneSchemaTokens->verticalVelocityGain) {
             if (UsdAttribute attr = _api.GetVerticalVelocityGainAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -136,7 +136,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysxCameraDroneAPIAdapter::GetImag
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxCameraDroneSchemaTokens->physxCameraDrone,
+        return HdRetainedContainerDataSource::New(HdPhysxCameraDroneSchemaTokens->physxCameraDrone,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -156,7 +156,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysxCameraDroneAPIAdapter::InvalidateIm
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxCameraDroneSchema::GetDefaultLocator());
+            result.insert(HdPhysxCameraDroneSchema::GetDefaultLocator());
         }
     }
 

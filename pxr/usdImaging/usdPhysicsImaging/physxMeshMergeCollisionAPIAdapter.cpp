@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxMeshMergeCollisionSchema.h"
+#include "pxr/imaging/hd/physxMeshMergeCollisionSchema.h"
 #include "pxr/usd/usdPhysX/meshMergeCollisionAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -49,7 +49,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXMeshMergeCollisionAPIAdapter::
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxMeshMergeCollisionSchemaTokens->physxMeshMergeCollision,
+                HdPhysxMeshMergeCollisionSchemaTokens->physxMeshMergeCollision,
                 PhysxDataSource::New(prim));
     }
 
@@ -69,7 +69,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXMeshMergeCollisionAPIAdapter::Inval
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxMeshMergeCollisionSchema::GetDefaultLocator());
+            result.insert(HdPhysxMeshMergeCollisionSchema::GetDefaultLocator());
         }
     }
 

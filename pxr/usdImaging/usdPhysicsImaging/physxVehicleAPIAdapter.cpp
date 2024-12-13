@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleSchema.h"
+#include "pxr/imaging/hd/physxVehicleSchema.h"
 #include "pxr/usd/usdPhysX/vehicleAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,21 +31,21 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->highForwardSpeedSubStepCount,           //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->lateralStickyTireDamping,               //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->lateralStickyTireThresholdSpeed,        //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->lateralStickyTireThresholdTime,         //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->limitSuspensionExpansionVelocity,       //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->longitudinalStickyTireDamping,          //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->longitudinalStickyTireThresholdSpeed,   //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->longitudinalStickyTireThresholdTime,    //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->lowForwardSpeedSubStepCount,            //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->minActiveLongitudinalSlipDenominator,   //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->minLateralSlipDenominator,              //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->minPassiveLongitudinalSlipDenominator,  //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->subStepThresholdLongitudinalSpeed,      //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->suspensionLineQueryType,                //
-                UsdPhysicsImagingPhysxVehicleSchemaTokens->vehicleEnabled,                         //
+                HdPhysxVehicleSchemaTokens->highForwardSpeedSubStepCount,           //
+                HdPhysxVehicleSchemaTokens->lateralStickyTireDamping,               //
+                HdPhysxVehicleSchemaTokens->lateralStickyTireThresholdSpeed,        //
+                HdPhysxVehicleSchemaTokens->lateralStickyTireThresholdTime,         //
+                HdPhysxVehicleSchemaTokens->limitSuspensionExpansionVelocity,       //
+                HdPhysxVehicleSchemaTokens->longitudinalStickyTireDamping,          //
+                HdPhysxVehicleSchemaTokens->longitudinalStickyTireThresholdSpeed,   //
+                HdPhysxVehicleSchemaTokens->longitudinalStickyTireThresholdTime,    //
+                HdPhysxVehicleSchemaTokens->lowForwardSpeedSubStepCount,            //
+                HdPhysxVehicleSchemaTokens->minActiveLongitudinalSlipDenominator,   //
+                HdPhysxVehicleSchemaTokens->minLateralSlipDenominator,              //
+                HdPhysxVehicleSchemaTokens->minPassiveLongitudinalSlipDenominator,  //
+                HdPhysxVehicleSchemaTokens->subStepThresholdLongitudinalSpeed,      //
+                HdPhysxVehicleSchemaTokens->suspensionLineQueryType,                //
+                HdPhysxVehicleSchemaTokens->vehicleEnabled,                         //
 
         };
 
@@ -53,105 +53,105 @@ public:
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->highForwardSpeedSubStepCount) {
+        if (name == HdPhysxVehicleSchemaTokens->highForwardSpeedSubStepCount) {
             if (UsdAttribute attr = _api.GetHighForwardSpeedSubStepCountAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->lateralStickyTireDamping) {
+        } else if (name == HdPhysxVehicleSchemaTokens->lateralStickyTireDamping) {
             if (UsdAttribute attr = _api.GetLateralStickyTireDampingAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->lateralStickyTireThresholdSpeed) {
+        } else if (name == HdPhysxVehicleSchemaTokens->lateralStickyTireThresholdSpeed) {
             if (UsdAttribute attr = _api.GetLateralStickyTireThresholdSpeedAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->lateralStickyTireThresholdTime) {
+        } else if (name == HdPhysxVehicleSchemaTokens->lateralStickyTireThresholdTime) {
             if (UsdAttribute attr = _api.GetLateralStickyTireThresholdTimeAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->limitSuspensionExpansionVelocity) {
+        } else if (name == HdPhysxVehicleSchemaTokens->limitSuspensionExpansionVelocity) {
             if (UsdAttribute attr = _api.GetLimitSuspensionExpansionVelocityAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->longitudinalStickyTireDamping) {
+        } else if (name == HdPhysxVehicleSchemaTokens->longitudinalStickyTireDamping) {
             if (UsdAttribute attr = _api.GetLongitudinalStickyTireDampingAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->longitudinalStickyTireThresholdSpeed) {
+        } else if (name == HdPhysxVehicleSchemaTokens->longitudinalStickyTireThresholdSpeed) {
             if (UsdAttribute attr = _api.GetLongitudinalStickyTireThresholdSpeedAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->longitudinalStickyTireThresholdTime) {
+        } else if (name == HdPhysxVehicleSchemaTokens->longitudinalStickyTireThresholdTime) {
             if (UsdAttribute attr = _api.GetLongitudinalStickyTireThresholdTimeAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->lowForwardSpeedSubStepCount) {
+        } else if (name == HdPhysxVehicleSchemaTokens->lowForwardSpeedSubStepCount) {
             if (UsdAttribute attr = _api.GetLowForwardSpeedSubStepCountAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->minActiveLongitudinalSlipDenominator) {
+        } else if (name == HdPhysxVehicleSchemaTokens->minActiveLongitudinalSlipDenominator) {
             if (UsdAttribute attr = _api.GetMinActiveLongitudinalSlipDenominatorAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->minLateralSlipDenominator) {
+        } else if (name == HdPhysxVehicleSchemaTokens->minLateralSlipDenominator) {
             if (UsdAttribute attr = _api.GetMinLateralSlipDenominatorAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->minPassiveLongitudinalSlipDenominator) {
+        } else if (name == HdPhysxVehicleSchemaTokens->minPassiveLongitudinalSlipDenominator) {
             if (UsdAttribute attr = _api.GetMinPassiveLongitudinalSlipDenominatorAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->subStepThresholdLongitudinalSpeed) {
+        } else if (name == HdPhysxVehicleSchemaTokens->subStepThresholdLongitudinalSpeed) {
             if (UsdAttribute attr = _api.GetSubStepThresholdLongitudinalSpeedAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->suspensionLineQueryType) {
+        } else if (name == HdPhysxVehicleSchemaTokens->suspensionLineQueryType) {
             if (UsdAttribute attr = _api.GetSuspensionLineQueryTypeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleSchemaTokens->vehicleEnabled) {
+        } else if (name == HdPhysxVehicleSchemaTokens->vehicleEnabled) {
             if (UsdAttribute attr = _api.GetVehicleEnabledAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
@@ -177,7 +177,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleAPIAdapter::GetImagingS
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxVehicleSchemaTokens->physxVehicle,
+        return HdRetainedContainerDataSource::New(HdPhysxVehicleSchemaTokens->physxVehicle,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -197,7 +197,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleAPIAdapter::InvalidateImagin
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleSchema::GetDefaultLocator());
         }
     }
 

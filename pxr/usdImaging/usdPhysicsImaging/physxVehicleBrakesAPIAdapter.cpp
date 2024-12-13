@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleBrakesSchema.h"
+#include "pxr/imaging/hd/physxVehicleBrakesSchema.h"
 #include "pxr/usd/usdPhysX/vehicleBrakesAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,30 +31,30 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleBrakesSchemaTokens->maxBrakeTorque,     //
-                UsdPhysicsImagingPhysxVehicleBrakesSchemaTokens->torqueMultipliers,  //
-                UsdPhysicsImagingPhysxVehicleBrakesSchemaTokens->wheels,             //
+                HdPhysxVehicleBrakesSchemaTokens->maxBrakeTorque,     //
+                HdPhysxVehicleBrakesSchemaTokens->torqueMultipliers,  //
+                HdPhysxVehicleBrakesSchemaTokens->wheels,             //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleBrakesSchemaTokens->maxBrakeTorque) {
+        if (name == HdPhysxVehicleBrakesSchemaTokens->maxBrakeTorque) {
             if (UsdAttribute attr = _api.GetMaxBrakeTorqueAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleBrakesSchemaTokens->torqueMultipliers) {
+        } else if (name == HdPhysxVehicleBrakesSchemaTokens->torqueMultipliers) {
             if (UsdAttribute attr = _api.GetTorqueMultipliersAttr()) {
                 VtArray<float> v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<VtArray<float>>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleBrakesSchemaTokens->wheels) {
+        } else if (name == HdPhysxVehicleBrakesSchemaTokens->wheels) {
             if (UsdAttribute attr = _api.GetWheelsAttr()) {
                 VtArray<int> v;
                 if (attr.Get(&v)) {
@@ -80,7 +80,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleBrakesAPIAdapter::GetIm
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxVehicleBrakesSchemaTokens->physxVehicleBrakes,
+        return HdRetainedContainerDataSource::New(HdPhysxVehicleBrakesSchemaTokens->physxVehicleBrakes,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -100,7 +100,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleBrakesAPIAdapter::Invalidate
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleBrakesSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleBrakesSchema::GetDefaultLocator());
         }
     }
 

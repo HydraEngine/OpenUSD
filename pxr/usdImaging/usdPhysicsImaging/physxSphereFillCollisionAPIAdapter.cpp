@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxSphereFillCollisionSchema.h"
+#include "pxr/imaging/hd/physxSphereFillCollisionSchema.h"
 #include "pxr/usd/usdPhysX/sphereFillCollisionAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,38 +31,38 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxSphereFillCollisionSchemaTokens->fillMode,         //
-                UsdPhysicsImagingPhysxSphereFillCollisionSchemaTokens->maxSpheres,       //
-                UsdPhysicsImagingPhysxSphereFillCollisionSchemaTokens->seedCount,        //
-                UsdPhysicsImagingPhysxSphereFillCollisionSchemaTokens->voxelResolution,  //
+                HdPhysxSphereFillCollisionSchemaTokens->fillMode,         //
+                HdPhysxSphereFillCollisionSchemaTokens->maxSpheres,       //
+                HdPhysxSphereFillCollisionSchemaTokens->seedCount,        //
+                HdPhysxSphereFillCollisionSchemaTokens->voxelResolution,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxSphereFillCollisionSchemaTokens->fillMode) {
+        if (name == HdPhysxSphereFillCollisionSchemaTokens->fillMode) {
             if (UsdAttribute attr = _api.GetFillModeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSphereFillCollisionSchemaTokens->maxSpheres) {
+        } else if (name == HdPhysxSphereFillCollisionSchemaTokens->maxSpheres) {
             if (UsdAttribute attr = _api.GetMaxSpheresAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSphereFillCollisionSchemaTokens->seedCount) {
+        } else if (name == HdPhysxSphereFillCollisionSchemaTokens->seedCount) {
             if (UsdAttribute attr = _api.GetSeedCountAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSphereFillCollisionSchemaTokens->voxelResolution) {
+        } else if (name == HdPhysxSphereFillCollisionSchemaTokens->voxelResolution) {
             if (UsdAttribute attr = _api.GetVoxelResolutionAttr()) {
                 int v;
                 if (attr.Get(&v)) {
@@ -89,7 +89,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXSphereFillCollisionAPIAdapter:
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxSphereFillCollisionSchemaTokens->physxSphereFillCollision,
+                HdPhysxSphereFillCollisionSchemaTokens->physxSphereFillCollision,
                 PhysxDataSource::New(prim));
     }
 
@@ -109,7 +109,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXSphereFillCollisionAPIAdapter::Inva
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxSphereFillCollisionSchema::GetDefaultLocator());
+            result.insert(HdPhysxSphereFillCollisionSchema::GetDefaultLocator());
         }
     }
 

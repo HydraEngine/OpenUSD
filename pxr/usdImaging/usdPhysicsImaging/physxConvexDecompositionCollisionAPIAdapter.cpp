@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxConvexDecompositionCollisionSchema.h"
+#include "pxr/imaging/hd/physxConvexDecompositionCollisionSchema.h"
 #include "pxr/usd/usdPhysX/convexDecompositionCollisionAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,54 +31,54 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxConvexDecompositionCollisionSchemaTokens->errorPercentage,           //
-                UsdPhysicsImagingPhysxConvexDecompositionCollisionSchemaTokens->hullVertexLimit,         //
-                UsdPhysicsImagingPhysxConvexDecompositionCollisionSchemaTokens->maxConvexHulls,                //
-                UsdPhysicsImagingPhysxConvexDecompositionCollisionSchemaTokens->minThickness,  //
-                UsdPhysicsImagingPhysxConvexDecompositionCollisionSchemaTokens->shrinkWrap,  //
-                UsdPhysicsImagingPhysxConvexDecompositionCollisionSchemaTokens->voxelResolution,        //
+                HdPhysxConvexDecompositionCollisionSchemaTokens->errorPercentage,           //
+                HdPhysxConvexDecompositionCollisionSchemaTokens->hullVertexLimit,         //
+                HdPhysxConvexDecompositionCollisionSchemaTokens->maxConvexHulls,                //
+                HdPhysxConvexDecompositionCollisionSchemaTokens->minThickness,  //
+                HdPhysxConvexDecompositionCollisionSchemaTokens->shrinkWrap,  //
+                HdPhysxConvexDecompositionCollisionSchemaTokens->voxelResolution,        //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxConvexDecompositionCollisionSchemaTokens->errorPercentage) {
+        if (name == HdPhysxConvexDecompositionCollisionSchemaTokens->errorPercentage) {
             if (UsdAttribute attr = _api.GetErrorPercentageAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxConvexDecompositionCollisionSchemaTokens->hullVertexLimit) {
+        } else if (name == HdPhysxConvexDecompositionCollisionSchemaTokens->hullVertexLimit) {
             if (UsdAttribute attr = _api.GetHullVertexLimitAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxConvexDecompositionCollisionSchemaTokens->maxConvexHulls) {
+        } else if (name == HdPhysxConvexDecompositionCollisionSchemaTokens->maxConvexHulls) {
             if (UsdAttribute attr = _api.GetMaxConvexHullsAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxConvexDecompositionCollisionSchemaTokens->minThickness) {
+        } else if (name == HdPhysxConvexDecompositionCollisionSchemaTokens->minThickness) {
             if (UsdAttribute attr = _api.GetMinThicknessAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxConvexDecompositionCollisionSchemaTokens->shrinkWrap) {
+        } else if (name == HdPhysxConvexDecompositionCollisionSchemaTokens->shrinkWrap) {
             if (UsdAttribute attr = _api.GetShrinkWrapAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxConvexDecompositionCollisionSchemaTokens->voxelResolution) {
+        } else if (name == HdPhysxConvexDecompositionCollisionSchemaTokens->voxelResolution) {
             if (UsdAttribute attr = _api.GetVoxelResolutionAttr()) {
                 int v;
                 if (attr.Get(&v)) {
@@ -105,7 +105,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXConvexDecompositionCollisionAP
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxConvexDecompositionCollisionSchemaTokens->physxConvexDecompositionCollision,
+                HdPhysxConvexDecompositionCollisionSchemaTokens->physxConvexDecompositionCollision,
                 PhysxDataSource::New(prim));
     }
 
@@ -125,7 +125,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXConvexDecompositionCollisionAPIAdap
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxConvexDecompositionCollisionSchema::GetDefaultLocator());
+            result.insert(HdPhysxConvexDecompositionCollisionSchema::GetDefaultLocator());
         }
     }
 

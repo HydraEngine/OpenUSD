@@ -10,8 +10,7 @@
 #include "pxr/usdImaging/usdImaging/dataSourceRenderPrims.h"
 #include "pxr/usdImaging/usdImaging/delegate.h"
 #include "pxr/usdImaging/usdImaging/indexProxy.h"
-#include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
-#include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/imaging/hd/sceneSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include "pxr/usd/usdPhysics/scene.h"
@@ -34,8 +33,8 @@ public:
 
     static const TfTokenVector& GetPropertyNames() {
         static const TfTokenVector names = {
-                UsdPhysicsImagingSceneSchemaTokens->gravityDirection,  //
-                UsdPhysicsImagingSceneSchemaTokens->gravityMagnitude   //
+                HdSceneSchemaTokens->gravityDirection,  //
+                HdSceneSchemaTokens->gravityMagnitude   //
         };
 
         return names;
@@ -44,7 +43,7 @@ public:
     TfTokenVector GetNames() override { return GetPropertyNames(); }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingSceneSchemaTokens->gravityDirection) {
+        if (name == HdSceneSchemaTokens->gravityDirection) {
             if (UsdAttribute attr = _usdPhysicsScene.GetGravityDirectionAttr()) {
                 GfVec3f v;
                 if (attr.Get(&v)) {
@@ -53,7 +52,7 @@ public:
             }
         }
 
-        if (name == UsdPhysicsImagingSceneSchemaTokens->gravityMagnitude) {
+        if (name == HdSceneSchemaTokens->gravityMagnitude) {
             if (UsdAttribute attr = _usdPhysicsScene.GetGravityMagnitudeAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -91,12 +90,12 @@ public:
     USDIMAGING_API
     TfTokenVector GetNames() override {
         // Note: Skip properties on UsdImagingDataSourcePrim.
-        return {UsdPhysicsImagingSceneSchema::GetSchemaToken()};
+        return {HdSceneSchema::GetSchemaToken()};
     }
 
     USDIMAGING_API
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingSceneSchema::GetSchemaToken()) {
+        if (name == HdSceneSchema::GetSchemaToken()) {
             return _DataSourcePhysicsScene::New(_GetSceneIndexPath(), UsdPhysicsScene(_GetUsdPrim()),
                                                 _GetStageGlobals());
         }
@@ -119,7 +118,7 @@ public:
 
         for (const TfToken& propertyName : properties) {
             if (tokensSet.find(propertyName) != tokensSet.end()) {
-                locators.insert(UsdPhysicsImagingSceneSchema::GetDefaultLocator().Append(propertyName));
+                locators.insert(HdSceneSchema::GetDefaultLocator().Append(propertyName));
             }
         }
 
@@ -145,7 +144,7 @@ TfTokenVector UsdImagingPhysicsSceneAdapter::GetImagingSubprims(UsdPrim const& p
 
 TfToken UsdImagingPhysicsSceneAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return UsdPhysicsImagingSceneSchemaTokens->scene;
+        return HdSceneSchemaTokens->scene;
     }
     return TfToken();
 }

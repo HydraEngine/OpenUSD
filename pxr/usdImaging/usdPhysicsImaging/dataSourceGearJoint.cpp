@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
 #include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
-#include "pxr/usdImaging/usdPhysicsImaging/physxPhysicsGearJointSchema.h"
+#include "pxr/imaging/hd/physxPhysicsGearJointSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -23,18 +23,18 @@ TfTokenVector UsdImagingDataSourceGearJoint::GetNames() {
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceGearJoint::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingPhysxPhysicsGearJointSchemaTokens->gearRatio) {
+    if (name == HdPhysxPhysicsGearJointSchemaTokens->gearRatio) {
         if (UsdAttribute attr = _usdGearJoint.GetPhysicsGearRatioAttr()) {
             float v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<float>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingPhysxPhysicsGearJointSchemaTokens->hinge0) {
+    } else if (name == HdPhysxPhysicsGearJointSchemaTokens->hinge0) {
         if (UsdRelationship rel = _usdGearJoint.GetHinge0Rel()) {
             return DependentPrimsDataSource::New(rel);
         }
-    } else if (name == UsdPhysicsImagingPhysxPhysicsGearJointSchemaTokens->hinge1) {
+    } else if (name == HdPhysxPhysicsGearJointSchemaTokens->hinge1) {
         if (UsdRelationship rel = _usdGearJoint.GetHinge1Rel()) {
             return DependentPrimsDataSource::New(rel);
         }
@@ -50,12 +50,12 @@ UsdImagingDataSourceGearJointPrim::UsdImagingDataSourceGearJointPrim(
 
 TfTokenVector UsdImagingDataSourceGearJointPrim::GetNames() {
     TfTokenVector result = UsdImagingDataSourceJointPrim::GetNames();
-    result.push_back(UsdPhysicsImagingPhysxPhysicsGearJointSchema::GetSchemaToken());
+    result.push_back(HdPhysxPhysicsGearJointSchema::GetSchemaToken());
     return result;
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceGearJointPrim::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingPhysxPhysicsGearJointSchema::GetSchemaToken()) {
+    if (name == HdPhysxPhysicsGearJointSchema::GetSchemaToken()) {
         return UsdImagingDataSourceGearJoint::New(_GetSceneIndexPath(), UsdPhysXPhysicsGearJoint(_GetUsdPrim()),
                                                   _GetStageGlobals());
     }
@@ -78,7 +78,7 @@ HdDataSourceLocatorSet UsdImagingDataSourceGearJointPrim::Invalidate(
     for (const TfToken &propertyName : properties) {
         for (const TfToken &usdName : usdNames) {
             if (propertyName == usdName) {
-                locators.insert(UsdPhysicsImagingPhysxPhysicsGearJointSchema::GetDefaultLocator().Append(propertyName));
+                locators.insert(HdPhysxPhysicsGearJointSchema::GetDefaultLocator().Append(propertyName));
             }
         }
     }

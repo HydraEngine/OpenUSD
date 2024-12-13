@@ -9,8 +9,7 @@
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
 #include "pxr/usd/usdPhysics/materialAPI.h"
-#include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
-#include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/imaging/hd/physicsMaterialSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include <iostream>
@@ -34,10 +33,10 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingMaterialSchemaTokens->density,          //
-                UsdPhysicsImagingMaterialSchemaTokens->restitution,      //
-                UsdPhysicsImagingMaterialSchemaTokens->dynamicFriction,  //
-                UsdPhysicsImagingMaterialSchemaTokens->staticFriction    //
+                HdPhysicsMaterialSchemaTokens->density,          //
+                HdPhysicsMaterialSchemaTokens->restitution,      //
+                HdPhysicsMaterialSchemaTokens->dynamicFriction,  //
+                HdPhysicsMaterialSchemaTokens->staticFriction    //
         };
 
         return names;
@@ -45,25 +44,25 @@ public:
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
         float v;
-        if (name == UsdPhysicsImagingMaterialSchemaTokens->density) {
+        if (name == HdPhysicsMaterialSchemaTokens->density) {
             if (UsdAttribute attr = _api.GetDensityAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingMaterialSchemaTokens->restitution) {
+        } else if (name == HdPhysicsMaterialSchemaTokens->restitution) {
             if (UsdAttribute attr = _api.GetRestitutionAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingMaterialSchemaTokens->dynamicFriction) {
+        } else if (name == HdPhysicsMaterialSchemaTokens->dynamicFriction) {
             if (UsdAttribute attr = _api.GetDynamicFrictionAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingMaterialSchemaTokens->staticFriction) {
+        } else if (name == HdPhysicsMaterialSchemaTokens->staticFriction) {
             if (UsdAttribute attr = _api.GetStaticFrictionAttr()) {
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
@@ -89,7 +88,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsMaterialAPIAdapter::GetImagingSubpr
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingMaterialSchemaTokens->material,
+        return HdRetainedContainerDataSource::New(HdPhysicsMaterialSchemaTokens->physicsMaterial,
                                                   _PhysicsMaterialDataSource::New(prim, stageGlobals));
     }
 
@@ -109,7 +108,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsMaterialAPIAdapter::InvalidateImagingSub
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingMaterialSchema::GetDefaultLocator());
+            result.insert(HdPhysicsMaterialSchema::GetDefaultLocator());
         }
     }
 

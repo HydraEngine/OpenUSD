@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleAckermannSteeringSchema.h"
+#include "pxr/imaging/hd/physxVehicleAckermannSteeringSchema.h"
 #include "pxr/usd/usdPhysX/vehicleAckermannSteeringAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,54 +31,54 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleAckermannSteeringSchemaTokens->maxSteerAngle,  //
-                UsdPhysicsImagingPhysxVehicleAckermannSteeringSchemaTokens->strength,       //
-                UsdPhysicsImagingPhysxVehicleAckermannSteeringSchemaTokens->trackWidth,     //
-                UsdPhysicsImagingPhysxVehicleAckermannSteeringSchemaTokens->wheel0,         //
-                UsdPhysicsImagingPhysxVehicleAckermannSteeringSchemaTokens->wheel1,         //
-                UsdPhysicsImagingPhysxVehicleAckermannSteeringSchemaTokens->wheelBase,      //
+                HdPhysxVehicleAckermannSteeringSchemaTokens->maxSteerAngle,  //
+                HdPhysxVehicleAckermannSteeringSchemaTokens->strength,       //
+                HdPhysxVehicleAckermannSteeringSchemaTokens->trackWidth,     //
+                HdPhysxVehicleAckermannSteeringSchemaTokens->wheel0,         //
+                HdPhysxVehicleAckermannSteeringSchemaTokens->wheel1,         //
+                HdPhysxVehicleAckermannSteeringSchemaTokens->wheelBase,      //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleAckermannSteeringSchemaTokens->maxSteerAngle) {
+        if (name == HdPhysxVehicleAckermannSteeringSchemaTokens->maxSteerAngle) {
             if (UsdAttribute attr = _api.GetMaxSteerAngleAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleAckermannSteeringSchemaTokens->strength) {
+        } else if (name == HdPhysxVehicleAckermannSteeringSchemaTokens->strength) {
             if (UsdAttribute attr = _api.GetStrengthAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleAckermannSteeringSchemaTokens->trackWidth) {
+        } else if (name == HdPhysxVehicleAckermannSteeringSchemaTokens->trackWidth) {
             if (UsdAttribute attr = _api.GetTrackWidthAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleAckermannSteeringSchemaTokens->wheel0) {
+        } else if (name == HdPhysxVehicleAckermannSteeringSchemaTokens->wheel0) {
             if (UsdAttribute attr = _api.GetWheel0Attr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleAckermannSteeringSchemaTokens->wheel1) {
+        } else if (name == HdPhysxVehicleAckermannSteeringSchemaTokens->wheel1) {
             if (UsdAttribute attr = _api.GetWheel1Attr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleAckermannSteeringSchemaTokens->wheelBase) {
+        } else if (name == HdPhysxVehicleAckermannSteeringSchemaTokens->wheelBase) {
             if (UsdAttribute attr = _api.GetWheelBaseAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -105,7 +105,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleAckermannSteeringAPIAda
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxVehicleAckermannSteeringSchemaTokens->physxVehicleAckermannSteering,
+                HdPhysxVehicleAckermannSteeringSchemaTokens->physxVehicleAckermannSteering,
                 PhysxDataSource::New(prim));
     }
 
@@ -125,7 +125,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleAckermannSteeringAPIAdapter:
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleAckermannSteeringSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleAckermannSteeringSchema::GetDefaultLocator());
         }
     }
 

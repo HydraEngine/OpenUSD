@@ -8,11 +8,9 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/collisionSchema.h"
-#include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/imaging/hd/collisionSchema.h"
 #include "pxr/usdImaging/usdPhysicsImaging/dependentPrimsDataSource.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
-#include "pxr/usd/usdPhysics/tokens.h"
 #include "pxr/usd/usdPhysics/collisionAPI.h"
 
 #include <iostream>
@@ -27,7 +25,6 @@ TF_REGISTRY_FUNCTION(TfType) {
 
 namespace {
 
-
 class _PhysicsCollisionDataSource final : public HdContainerDataSource {
 public:
     HD_DECLARE_DATASOURCE(_PhysicsCollisionDataSource);
@@ -36,22 +33,22 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingCollisionSchemaTokens->collisionEnabled,  //
-                UsdPhysicsImagingCollisionSchemaTokens->simulationOwner,   //
+                HdCollisionSchemaTokens->collisionEnabled,  //
+                HdCollisionSchemaTokens->simulationOwner,   //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingCollisionSchemaTokens->collisionEnabled) {
+        if (name == HdCollisionSchemaTokens->collisionEnabled) {
             if (UsdAttribute attr = _api.GetCollisionEnabledAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingCollisionSchemaTokens->simulationOwner) {
+        } else if (name == HdCollisionSchemaTokens->simulationOwner) {
             if (UsdRelationship rel = _api.GetSimulationOwnerRel()) {
                 return DependentPrimsDataSource::New(rel);
             }
@@ -74,7 +71,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsCollisionAPIAdapter::GetImagingSubp
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingCollisionSchemaTokens->collision,
+        return HdRetainedContainerDataSource::New(HdCollisionSchemaTokens->collision,
                                                   _PhysicsCollisionDataSource::New(prim));
     }
 
@@ -94,7 +91,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsCollisionAPIAdapter::InvalidateImagingSu
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingCollisionSchema::GetDefaultLocator());
+            result.insert(HdCollisionSchema::GetDefaultLocator());
         }
     }
 

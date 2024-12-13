@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxIsosurfaceSchema.h"
+#include "pxr/imaging/hd/physxIsosurfaceSchema.h"
 #include "pxr/usd/usdPhysX/isosurfaceAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,118 +31,118 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->anisotropyMax,                          //
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->anisotropyMin,                          //
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->anisotropyRadius,                       //
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->enableAnisotropy,                       //
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->gridFilteringPasses,                    //
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->gridSmoothingRadiusRelativeToCellSize,  //
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->gridSpacing,                            //
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->isoSurfaceEnabled,                      //
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->isosurfaceLevel,                        //
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->kernelRadius,                           //
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->maxSubgrids,                            //
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->maxTriangles,                           //
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->maxVertices,                            //
-                UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->numMeshSmoothingPasses,                 //
+                HdPhysxIsosurfaceSchemaTokens->anisotropyMax,                          //
+                HdPhysxIsosurfaceSchemaTokens->anisotropyMin,                          //
+                HdPhysxIsosurfaceSchemaTokens->anisotropyRadius,                       //
+                HdPhysxIsosurfaceSchemaTokens->enableAnisotropy,                       //
+                HdPhysxIsosurfaceSchemaTokens->gridFilteringPasses,                    //
+                HdPhysxIsosurfaceSchemaTokens->gridSmoothingRadiusRelativeToCellSize,  //
+                HdPhysxIsosurfaceSchemaTokens->gridSpacing,                            //
+                HdPhysxIsosurfaceSchemaTokens->isoSurfaceEnabled,                      //
+                HdPhysxIsosurfaceSchemaTokens->isosurfaceLevel,                        //
+                HdPhysxIsosurfaceSchemaTokens->kernelRadius,                           //
+                HdPhysxIsosurfaceSchemaTokens->maxSubgrids,                            //
+                HdPhysxIsosurfaceSchemaTokens->maxTriangles,                           //
+                HdPhysxIsosurfaceSchemaTokens->maxVertices,                            //
+                HdPhysxIsosurfaceSchemaTokens->numMeshSmoothingPasses,                 //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->anisotropyMax) {
+        if (name == HdPhysxIsosurfaceSchemaTokens->anisotropyMax) {
             if (UsdAttribute attr = _api.GetAnisotropyMaxAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->anisotropyMin) {
+        } else if (name == HdPhysxIsosurfaceSchemaTokens->anisotropyMin) {
             if (UsdAttribute attr = _api.GetAnisotropyMinAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->anisotropyRadius) {
+        } else if (name == HdPhysxIsosurfaceSchemaTokens->anisotropyRadius) {
             if (UsdAttribute attr = _api.GetAnisotropyRadiusAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->enableAnisotropy) {
+        } else if (name == HdPhysxIsosurfaceSchemaTokens->enableAnisotropy) {
             if (UsdAttribute attr = _api.GetEnableAnisotropyAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->gridFilteringPasses) {
+        } else if (name == HdPhysxIsosurfaceSchemaTokens->gridFilteringPasses) {
             if (UsdAttribute attr = _api.GetGridFilteringPassesAttr()) {
                 std::string v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<std::string>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->gridSmoothingRadiusRelativeToCellSize) {
+        } else if (name == HdPhysxIsosurfaceSchemaTokens->gridSmoothingRadiusRelativeToCellSize) {
             if (UsdAttribute attr = _api.GetGridSmoothingRadiusRelativeToCellSizeAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->gridSpacing) {
+        } else if (name == HdPhysxIsosurfaceSchemaTokens->gridSpacing) {
             if (UsdAttribute attr = _api.GetGridSpacingAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->isoSurfaceEnabled) {
+        } else if (name == HdPhysxIsosurfaceSchemaTokens->isoSurfaceEnabled) {
             if (UsdAttribute attr = _api.GetIsoSurfaceEnabledAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->isosurfaceLevel) {
+        } else if (name == HdPhysxIsosurfaceSchemaTokens->isosurfaceLevel) {
             if (UsdAttribute attr = _api.GetIsosurfaceLevelAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->kernelRadius) {
+        } else if (name == HdPhysxIsosurfaceSchemaTokens->kernelRadius) {
             if (UsdAttribute attr = _api.GetKernelRadiusAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->maxSubgrids) {
+        } else if (name == HdPhysxIsosurfaceSchemaTokens->maxSubgrids) {
             if (UsdAttribute attr = _api.GetMaxSubgridsAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->maxTriangles) {
+        } else if (name == HdPhysxIsosurfaceSchemaTokens->maxTriangles) {
             if (UsdAttribute attr = _api.GetMaxTrianglesAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->maxVertices) {
+        } else if (name == HdPhysxIsosurfaceSchemaTokens->maxVertices) {
             if (UsdAttribute attr = _api.GetMaxVerticesAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->numMeshSmoothingPasses) {
+        } else if (name == HdPhysxIsosurfaceSchemaTokens->numMeshSmoothingPasses) {
             if (UsdAttribute attr = _api.GetNumMeshSmoothingPassesAttr()) {
                 int v;
                 if (attr.Get(&v)) {
@@ -168,7 +168,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXIsosurfaceAPIAdapter::GetImagi
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxIsosurfaceSchemaTokens->physxIsosurface,
+        return HdRetainedContainerDataSource::New(HdPhysxIsosurfaceSchemaTokens->physxIsosurface,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -188,7 +188,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXIsosurfaceAPIAdapter::InvalidateIma
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxIsosurfaceSchema::GetDefaultLocator());
+            result.insert(HdPhysxIsosurfaceSchema::GetDefaultLocator());
         }
     }
 

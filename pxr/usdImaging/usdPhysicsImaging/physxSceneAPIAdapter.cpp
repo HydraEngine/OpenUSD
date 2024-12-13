@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxSceneSchema.h"
+#include "pxr/imaging/hd/physxSceneSchema.h"
 #include "pxr/usd/usdPhysX/sceneAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,302 +31,302 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxSceneSchemaTokens->bounceThreshold,                     //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->broadphaseType,                      //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->collisionSystem,                     //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->enableCCD,                           //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->enableEnhancedDeterminism,           //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->enableExternalForcesEveryIteration,  //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->enableGPUDynamics,                   //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->enableResidualReporting,             //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->enableSceneQuerySupport,             //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->enableStabilization,                 //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->frictionCorrelationDistance,         //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->frictionOffsetThreshold,             //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->frictionType,                        //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->gpuCollisionStackSize,               //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->gpuFoundLostAggregatePairsCapacity,  //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->gpuFoundLostPairsCapacity,           //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->gpuHeapCapacity,                     //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxDeformableSurfaceContacts,     //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxHairContacts,                  //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxNumPartitions,                 //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxParticleContacts,              //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxRigidContactCount,             //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxRigidPatchCount,               //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxSoftBodyContacts,              //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->gpuTempBufferCapacity,               //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->gpuTotalAggregatePairsCapacity,      //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->invertCollisionGroupFilter,          //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->maxBiasCoefficient,                  //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->maxPositionIterationCount,           //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->maxVelocityIterationCount,           //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->minPositionIterationCount,           //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->minVelocityIterationCount,           //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->reportKinematicKinematicPairs,       //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->reportKinematicStaticPairs,          //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->solverType,                          //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->timeStepsPerSecond,                  //
-                UsdPhysicsImagingPhysxSceneSchemaTokens->updateType,                          //
+                HdPhysxSceneSchemaTokens->bounceThreshold,                     //
+                HdPhysxSceneSchemaTokens->broadphaseType,                      //
+                HdPhysxSceneSchemaTokens->collisionSystem,                     //
+                HdPhysxSceneSchemaTokens->enableCCD,                           //
+                HdPhysxSceneSchemaTokens->enableEnhancedDeterminism,           //
+                HdPhysxSceneSchemaTokens->enableExternalForcesEveryIteration,  //
+                HdPhysxSceneSchemaTokens->enableGPUDynamics,                   //
+                HdPhysxSceneSchemaTokens->enableResidualReporting,             //
+                HdPhysxSceneSchemaTokens->enableSceneQuerySupport,             //
+                HdPhysxSceneSchemaTokens->enableStabilization,                 //
+                HdPhysxSceneSchemaTokens->frictionCorrelationDistance,         //
+                HdPhysxSceneSchemaTokens->frictionOffsetThreshold,             //
+                HdPhysxSceneSchemaTokens->frictionType,                        //
+                HdPhysxSceneSchemaTokens->gpuCollisionStackSize,               //
+                HdPhysxSceneSchemaTokens->gpuFoundLostAggregatePairsCapacity,  //
+                HdPhysxSceneSchemaTokens->gpuFoundLostPairsCapacity,           //
+                HdPhysxSceneSchemaTokens->gpuHeapCapacity,                     //
+                HdPhysxSceneSchemaTokens->gpuMaxDeformableSurfaceContacts,     //
+                HdPhysxSceneSchemaTokens->gpuMaxHairContacts,                  //
+                HdPhysxSceneSchemaTokens->gpuMaxNumPartitions,                 //
+                HdPhysxSceneSchemaTokens->gpuMaxParticleContacts,              //
+                HdPhysxSceneSchemaTokens->gpuMaxRigidContactCount,             //
+                HdPhysxSceneSchemaTokens->gpuMaxRigidPatchCount,               //
+                HdPhysxSceneSchemaTokens->gpuMaxSoftBodyContacts,              //
+                HdPhysxSceneSchemaTokens->gpuTempBufferCapacity,               //
+                HdPhysxSceneSchemaTokens->gpuTotalAggregatePairsCapacity,      //
+                HdPhysxSceneSchemaTokens->invertCollisionGroupFilter,          //
+                HdPhysxSceneSchemaTokens->maxBiasCoefficient,                  //
+                HdPhysxSceneSchemaTokens->maxPositionIterationCount,           //
+                HdPhysxSceneSchemaTokens->maxVelocityIterationCount,           //
+                HdPhysxSceneSchemaTokens->minPositionIterationCount,           //
+                HdPhysxSceneSchemaTokens->minVelocityIterationCount,           //
+                HdPhysxSceneSchemaTokens->reportKinematicKinematicPairs,       //
+                HdPhysxSceneSchemaTokens->reportKinematicStaticPairs,          //
+                HdPhysxSceneSchemaTokens->solverType,                          //
+                HdPhysxSceneSchemaTokens->timeStepsPerSecond,                  //
+                HdPhysxSceneSchemaTokens->updateType,                          //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->bounceThreshold) {
+        if (name == HdPhysxSceneSchemaTokens->bounceThreshold) {
             if (UsdAttribute attr = _api.GetBounceThresholdAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->broadphaseType) {
+        } else if (name == HdPhysxSceneSchemaTokens->broadphaseType) {
             if (UsdAttribute attr = _api.GetBroadphaseTypeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->collisionSystem) {
+        } else if (name == HdPhysxSceneSchemaTokens->collisionSystem) {
             if (UsdAttribute attr = _api.GetCollisionSystemAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->enableCCD) {
+        } else if (name == HdPhysxSceneSchemaTokens->enableCCD) {
             if (UsdAttribute attr = _api.GetEnableCCDAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->enableEnhancedDeterminism) {
+        } else if (name == HdPhysxSceneSchemaTokens->enableEnhancedDeterminism) {
             if (UsdAttribute attr = _api.GetEnableEnhancedDeterminismAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->enableExternalForcesEveryIteration) {
+        } else if (name == HdPhysxSceneSchemaTokens->enableExternalForcesEveryIteration) {
             if (UsdAttribute attr = _api.GetEnableExternalForcesEveryIterationAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->enableGPUDynamics) {
+        } else if (name == HdPhysxSceneSchemaTokens->enableGPUDynamics) {
             if (UsdAttribute attr = _api.GetEnableGPUDynamicsAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->enableResidualReporting) {
+        } else if (name == HdPhysxSceneSchemaTokens->enableResidualReporting) {
             if (UsdAttribute attr = _api.GetEnableResidualReportingAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->enableSceneQuerySupport) {
+        } else if (name == HdPhysxSceneSchemaTokens->enableSceneQuerySupport) {
             if (UsdAttribute attr = _api.GetEnableSceneQuerySupportAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->enableStabilization) {
+        } else if (name == HdPhysxSceneSchemaTokens->enableStabilization) {
             if (UsdAttribute attr = _api.GetEnableStabilizationAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->frictionCorrelationDistance) {
+        } else if (name == HdPhysxSceneSchemaTokens->frictionCorrelationDistance) {
             if (UsdAttribute attr = _api.GetFrictionCorrelationDistanceAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->frictionOffsetThreshold) {
+        } else if (name == HdPhysxSceneSchemaTokens->frictionOffsetThreshold) {
             if (UsdAttribute attr = _api.GetFrictionOffsetThresholdAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->frictionType) {
+        } else if (name == HdPhysxSceneSchemaTokens->frictionType) {
             if (UsdAttribute attr = _api.GetFrictionTypeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->gpuCollisionStackSize) {
+        } else if (name == HdPhysxSceneSchemaTokens->gpuCollisionStackSize) {
             if (UsdAttribute attr = _api.GetGpuCollisionStackSizeAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->gpuFoundLostAggregatePairsCapacity) {
+        } else if (name == HdPhysxSceneSchemaTokens->gpuFoundLostAggregatePairsCapacity) {
             if (UsdAttribute attr = _api.GetGpuFoundLostAggregatePairsCapacityAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->gpuFoundLostPairsCapacity) {
+        } else if (name == HdPhysxSceneSchemaTokens->gpuFoundLostPairsCapacity) {
             if (UsdAttribute attr = _api.GetGpuFoundLostPairsCapacityAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->gpuHeapCapacity) {
+        } else if (name == HdPhysxSceneSchemaTokens->gpuHeapCapacity) {
             if (UsdAttribute attr = _api.GetGpuHeapCapacityAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxDeformableSurfaceContacts) {
+        } else if (name == HdPhysxSceneSchemaTokens->gpuMaxDeformableSurfaceContacts) {
             if (UsdAttribute attr = _api.GetGpuMaxDeformableSurfaceContactsAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxHairContacts) {
+        } else if (name == HdPhysxSceneSchemaTokens->gpuMaxHairContacts) {
             if (UsdAttribute attr = _api.GetGpuMaxHairContactsAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxNumPartitions) {
+        } else if (name == HdPhysxSceneSchemaTokens->gpuMaxNumPartitions) {
             if (UsdAttribute attr = _api.GetGpuMaxNumPartitionsAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxParticleContacts) {
+        } else if (name == HdPhysxSceneSchemaTokens->gpuMaxParticleContacts) {
             if (UsdAttribute attr = _api.GetGpuMaxParticleContactsAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxRigidContactCount) {
+        } else if (name == HdPhysxSceneSchemaTokens->gpuMaxRigidContactCount) {
             if (UsdAttribute attr = _api.GetGpuMaxRigidContactCountAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxRigidPatchCount) {
+        } else if (name == HdPhysxSceneSchemaTokens->gpuMaxRigidPatchCount) {
             if (UsdAttribute attr = _api.GetGpuMaxRigidPatchCountAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->gpuMaxSoftBodyContacts) {
+        } else if (name == HdPhysxSceneSchemaTokens->gpuMaxSoftBodyContacts) {
             if (UsdAttribute attr = _api.GetGpuMaxSoftBodyContactsAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->gpuTempBufferCapacity) {
+        } else if (name == HdPhysxSceneSchemaTokens->gpuTempBufferCapacity) {
             if (UsdAttribute attr = _api.GetGpuTempBufferCapacityAttr()) {
                 uint64_t v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->gpuTotalAggregatePairsCapacity) {
+        } else if (name == HdPhysxSceneSchemaTokens->gpuTotalAggregatePairsCapacity) {
             if (UsdAttribute attr = _api.GetGpuTotalAggregatePairsCapacityAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->invertCollisionGroupFilter) {
+        } else if (name == HdPhysxSceneSchemaTokens->invertCollisionGroupFilter) {
             if (UsdAttribute attr = _api.GetInvertCollisionGroupFilterAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->maxBiasCoefficient) {
+        } else if (name == HdPhysxSceneSchemaTokens->maxBiasCoefficient) {
             if (UsdAttribute attr = _api.GetMaxBiasCoefficientAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->maxPositionIterationCount) {
+        } else if (name == HdPhysxSceneSchemaTokens->maxPositionIterationCount) {
             if (UsdAttribute attr = _api.GetMaxPositionIterationCountAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->maxVelocityIterationCount) {
+        } else if (name == HdPhysxSceneSchemaTokens->maxVelocityIterationCount) {
             if (UsdAttribute attr = _api.GetMaxVelocityIterationCountAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->minPositionIterationCount) {
+        } else if (name == HdPhysxSceneSchemaTokens->minPositionIterationCount) {
             if (UsdAttribute attr = _api.GetMinPositionIterationCountAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->minVelocityIterationCount) {
+        } else if (name == HdPhysxSceneSchemaTokens->minVelocityIterationCount) {
             if (UsdAttribute attr = _api.GetMinVelocityIterationCountAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->reportKinematicKinematicPairs) {
+        } else if (name == HdPhysxSceneSchemaTokens->reportKinematicKinematicPairs) {
             if (UsdAttribute attr = _api.GetReportKinematicKinematicPairsAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->reportKinematicStaticPairs) {
+        } else if (name == HdPhysxSceneSchemaTokens->reportKinematicStaticPairs) {
             if (UsdAttribute attr = _api.GetReportKinematicStaticPairsAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->solverType) {
+        } else if (name == HdPhysxSceneSchemaTokens->solverType) {
             if (UsdAttribute attr = _api.GetSolverTypeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->timeStepsPerSecond) {
+        } else if (name == HdPhysxSceneSchemaTokens->timeStepsPerSecond) {
             if (UsdAttribute attr = _api.GetTimeStepsPerSecondAttr()) {
                 uint v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSceneSchemaTokens->updateType) {
+        } else if (name == HdPhysxSceneSchemaTokens->updateType) {
             if (UsdAttribute attr = _api.GetUpdateTypeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
@@ -352,7 +352,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXSceneAPIAdapter::GetImagingSub
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxSceneSchemaTokens->physxScene,
+        return HdRetainedContainerDataSource::New(HdPhysxSceneSchemaTokens->physxScene,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -372,7 +372,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXSceneAPIAdapter::InvalidateImagingS
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxSceneSchema::GetDefaultLocator());
+            result.insert(HdPhysxSceneSchema::GetDefaultLocator());
         }
     }
 

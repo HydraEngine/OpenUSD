@@ -7,7 +7,7 @@
 #include "pxr/usdImaging/usdPhysicsImaging/dataSourceDistanceJoint.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/distanceJointSchema.h"
+#include "pxr/imaging/hd/distanceJointSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -23,14 +23,14 @@ TfTokenVector UsdImagingDataSourceDistanceJoint::GetNames() {
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceDistanceJoint::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingDistanceJointSchemaTokens->minDistance) {
+    if (name == HdDistanceJointSchemaTokens->minDistance) {
         if (UsdAttribute attr = _usdDistanceJoint.GetMinDistanceAttr()) {
             float v{};
             if (attr.Get(&v)) {
                 return HdRetainedTypedSampledDataSource<float>::New(v);
             }
         }
-    } else if (name == UsdPhysicsImagingDistanceJointSchemaTokens->maxDistance) {
+    } else if (name == HdDistanceJointSchemaTokens->maxDistance) {
         if (UsdAttribute attr = _usdDistanceJoint.GetMaxDistanceAttr()) {
             float v{};
             if (attr.Get(&v)) {
@@ -49,12 +49,12 @@ UsdImagingDataSourceDistanceJointPrim::UsdImagingDataSourceDistanceJointPrim(
 
 TfTokenVector UsdImagingDataSourceDistanceJointPrim::GetNames() {
     TfTokenVector result = UsdImagingDataSourceJointPrim::GetNames();
-    result.push_back(UsdPhysicsImagingDistanceJointSchema::GetSchemaToken());
+    result.push_back(HdDistanceJointSchema::GetSchemaToken());
     return result;
 }
 
 HdDataSourceBaseHandle UsdImagingDataSourceDistanceJointPrim::Get(const TfToken &name) {
-    if (name == UsdPhysicsImagingDistanceJointSchema::GetSchemaToken()) {
+    if (name == HdDistanceJointSchema::GetSchemaToken()) {
         return UsdImagingDataSourceDistanceJoint::New(_GetSceneIndexPath(), UsdPhysicsDistanceJoint(_GetUsdPrim()),
                                                       _GetStageGlobals());
     }
@@ -77,7 +77,7 @@ HdDataSourceLocatorSet UsdImagingDataSourceDistanceJointPrim::Invalidate(
     for (const TfToken &propertyName : properties) {
         for (const TfToken &usdName : usdNames) {
             if (propertyName == usdName) {
-                locators.insert(UsdPhysicsImagingDistanceJointSchema::GetDefaultLocator().Append(propertyName));
+                locators.insert(HdDistanceJointSchema::GetDefaultLocator().Append(propertyName));
             }
         }
     }

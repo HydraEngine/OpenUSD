@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleTankDifferentialSchema.h"
+#include "pxr/imaging/hd/physxVehicleTankDifferentialSchema.h"
 #include "pxr/usd/usdPhysX/vehicleTankDifferentialAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,38 +31,38 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleTankDifferentialSchemaTokens->numberOfWheelsPerTrack,    //
-                UsdPhysicsImagingPhysxVehicleTankDifferentialSchemaTokens->thrustIndexPerTrack,       //
-                UsdPhysicsImagingPhysxVehicleTankDifferentialSchemaTokens->trackToWheelIndices,       //
-                UsdPhysicsImagingPhysxVehicleTankDifferentialSchemaTokens->wheelIndicesInTrackOrder,  //
+                HdPhysxVehicleTankDifferentialSchemaTokens->numberOfWheelsPerTrack,    //
+                HdPhysxVehicleTankDifferentialSchemaTokens->thrustIndexPerTrack,       //
+                HdPhysxVehicleTankDifferentialSchemaTokens->trackToWheelIndices,       //
+                HdPhysxVehicleTankDifferentialSchemaTokens->wheelIndicesInTrackOrder,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleTankDifferentialSchemaTokens->numberOfWheelsPerTrack) {
+        if (name == HdPhysxVehicleTankDifferentialSchemaTokens->numberOfWheelsPerTrack) {
             if (UsdAttribute attr = _api.GetNumberOfWheelsPerTrackAttr()) {
                 VtArray<int> v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<VtArray<int>>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleTankDifferentialSchemaTokens->thrustIndexPerTrack) {
+        } else if (name == HdPhysxVehicleTankDifferentialSchemaTokens->thrustIndexPerTrack) {
             if (UsdAttribute attr = _api.GetThrustIndexPerTrackAttr()) {
                 VtArray<int> v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<VtArray<int>>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleTankDifferentialSchemaTokens->trackToWheelIndices) {
+        } else if (name == HdPhysxVehicleTankDifferentialSchemaTokens->trackToWheelIndices) {
             if (UsdAttribute attr = _api.GetTrackToWheelIndicesAttr()) {
                 VtArray<int> v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<VtArray<int>>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleTankDifferentialSchemaTokens->wheelIndicesInTrackOrder) {
+        } else if (name == HdPhysxVehicleTankDifferentialSchemaTokens->wheelIndicesInTrackOrder) {
             if (UsdAttribute attr = _api.GetWheelIndicesInTrackOrderAttr()) {
                 VtArray<int> v;
                 if (attr.Get(&v)) {
@@ -89,7 +89,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleTankDifferentialAPIAdap
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxVehicleTankDifferentialSchemaTokens->physxVehicleTankDifferential,
+                HdPhysxVehicleTankDifferentialSchemaTokens->physxVehicleTankDifferential,
                 PhysxDataSource::New(prim));
     }
 
@@ -109,7 +109,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleTankDifferentialAPIAdapter::
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleTankDifferentialSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleTankDifferentialSchema::GetDefaultLocator());
         }
     }
 

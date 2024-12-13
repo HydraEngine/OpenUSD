@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxArticulationSchema.h"
+#include "pxr/imaging/hd/physxArticulationSchema.h"
 #include "pxr/usd/usdPhysX/articulationAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,54 +31,54 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxArticulationSchemaTokens->articulationEnabled,           //
-                UsdPhysicsImagingPhysxArticulationSchemaTokens->enabledSelfCollisions,         //
-                UsdPhysicsImagingPhysxArticulationSchemaTokens->sleepThreshold,                //
-                UsdPhysicsImagingPhysxArticulationSchemaTokens->solverPositionIterationCount,  //
-                UsdPhysicsImagingPhysxArticulationSchemaTokens->solverVelocityIterationCount,  //
-                UsdPhysicsImagingPhysxArticulationSchemaTokens->stabilizationThreshold,        //
+                HdPhysxArticulationSchemaTokens->articulationEnabled,           //
+                HdPhysxArticulationSchemaTokens->enabledSelfCollisions,         //
+                HdPhysxArticulationSchemaTokens->sleepThreshold,                //
+                HdPhysxArticulationSchemaTokens->solverPositionIterationCount,  //
+                HdPhysxArticulationSchemaTokens->solverVelocityIterationCount,  //
+                HdPhysxArticulationSchemaTokens->stabilizationThreshold,        //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxArticulationSchemaTokens->articulationEnabled) {
+        if (name == HdPhysxArticulationSchemaTokens->articulationEnabled) {
             if (UsdAttribute attr = _api.GetArticulationEnabledAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxArticulationSchemaTokens->enabledSelfCollisions) {
+        } else if (name == HdPhysxArticulationSchemaTokens->enabledSelfCollisions) {
             if (UsdAttribute attr = _api.GetEnabledSelfCollisionsAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxArticulationSchemaTokens->sleepThreshold) {
+        } else if (name == HdPhysxArticulationSchemaTokens->sleepThreshold) {
             if (UsdAttribute attr = _api.GetSleepThresholdAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxArticulationSchemaTokens->solverPositionIterationCount) {
+        } else if (name == HdPhysxArticulationSchemaTokens->solverPositionIterationCount) {
             if (UsdAttribute attr = _api.GetSolverPositionIterationCountAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxArticulationSchemaTokens->solverVelocityIterationCount) {
+        } else if (name == HdPhysxArticulationSchemaTokens->solverVelocityIterationCount) {
             if (UsdAttribute attr = _api.GetSolverVelocityIterationCountAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxArticulationSchemaTokens->stabilizationThreshold) {
+        } else if (name == HdPhysxArticulationSchemaTokens->stabilizationThreshold) {
             if (UsdAttribute attr = _api.GetStabilizationThresholdAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -104,7 +104,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXArticulationRootAPIAdapter::Ge
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxArticulationSchemaTokens->physxArticulation,
+        return HdRetainedContainerDataSource::New(HdPhysxArticulationSchemaTokens->physxArticulation,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -124,7 +124,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXArticulationRootAPIAdapter::Invalid
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxArticulationSchema::GetDefaultLocator());
+            result.insert(HdPhysxArticulationSchema::GetDefaultLocator());
         }
     }
 

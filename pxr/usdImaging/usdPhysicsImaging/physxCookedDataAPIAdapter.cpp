@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxCookedDataSchema.h"
+#include "pxr/imaging/hd/physxCookedDataSchema.h"
 #include "pxr/usd/usdPhysX/cookedDataAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,14 +31,14 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxCookedDataSchemaTokens->buffer,  //
+                HdPhysxCookedDataSchemaTokens->buffer,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxCookedDataSchemaTokens->buffer) {
+        if (name == HdPhysxCookedDataSchemaTokens->buffer) {
             if (UsdAttribute attr = _api.GetBufferAttr()) {
                 VtArray<uchar> v;
                 if (attr.Get(&v)) {
@@ -64,7 +64,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXCookedDataAPIAdapter::GetImagi
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxCookedDataSchemaTokens->physxCookedData,
+        return HdRetainedContainerDataSource::New(HdPhysxCookedDataSchemaTokens->physxCookedData,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -84,7 +84,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXCookedDataAPIAdapter::InvalidateIma
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxCookedDataSchema::GetDefaultLocator());
+            result.insert(HdPhysxCookedDataSchema::GetDefaultLocator());
         }
     }
 

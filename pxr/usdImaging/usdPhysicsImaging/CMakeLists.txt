@@ -12,30 +12,15 @@ pxr_library(usdPhysicsImaging
         PUBLIC_CLASSES
         dependentPrimsDataSource
 
-        materialSchema
         materialAPIAdapter
-        collisionSchema
         collisionAPIAdapter
-        meshCollisionSchema
         meshCollisionAPIAdapter
-        massSchema
         massAPIAdapter
-        rigidBodySchema
         rigidBodyAPIAdapter
 
-        articulationRootSchema
         articulationRootAPIAdapter
-        driveSchema
         driveAPIAdapter
-        limitSchema
         limitAPIAdapter
-
-        jointSchema
-        distanceJointSchema
-        fixedJointSchema
-        prismaticJointSchema
-        revoluteJointSchema
-        sphericalJointSchema
 
         dataSourceJoint
         dataSourceDistanceJoint
@@ -55,71 +40,9 @@ pxr_library(usdPhysicsImaging
         gearJointAdapter
         rackAndPinionJointAdapter
 
-        sceneSchema
         sceneAdapter
-        filteredPairsSchema
         filteredPairsAPIAdapter
-        collisionGroupSchema
         collisionGroupAdapter
-
-        physxArticulationSchema
-        physxCameraDroneSchema
-        physxCameraFollowLookSchema
-        physxCameraFollowSchema
-        physxCameraFollowVelocitySchema
-        physxCameraSchema
-        physxCharacterControllerSchema
-        physxCollisionSchema
-        physxContactReportSchema
-        physxConvexDecompositionCollisionSchema
-        physxConvexHullCollisionSchema
-        physxCookedDataSchema
-        physxForceSchema
-        physxIsosurfaceSchema
-        physxJointSchema
-        physxJointStateSchema
-        physxMaterialSchema
-        physxMeshMergeCollisionSchema
-        physxMimicJointSchema
-        physxPhysicsDistanceJointSchema
-        physxPhysicsGearJointSchema
-        physxPhysicsInstancerSchema
-        physxPhysicsJointInstancerSchema
-        physxPhysicsRackAndPinionJointSchema
-        physxResidualReportingSchema
-        physxRigidBodySchema
-        physxSceneQuasistaticSchema
-        physxSceneSchema
-        physxSDFMeshCollisionSchema
-        physxSphereFillCollisionSchema
-        physxSurfaceVelocitySchema
-        physxTriangleMeshCollisionSchema
-        physxTriangleMeshSimplificationCollisionSchema
-        physxTriggerSchema
-        physxTriggerStateSchema
-        physxVehicleAckermannSteeringSchema
-        physxVehicleAutoGearBoxSchema
-        physxVehicleBrakesSchema
-        physxVehicleClutchSchema
-        physxVehicleContextSchema
-        physxVehicleControllerSchema
-        physxVehicleDriveBasicSchema
-        physxVehicleDriveStandardSchema
-        physxVehicleEngineSchema
-        physxVehicleGearsSchema
-        physxVehicleMultiWheelDifferentialSchema
-        physxVehicleNonlinearCommandResponseSchema
-        physxVehicleSchema
-        physxVehicleSteeringSchema
-        physxVehicleSuspensionComplianceSchema
-        physxVehicleSuspensionSchema
-        physxVehicleTankControllerSchema
-        physxVehicleTankDifferentialSchema
-        physxVehicleTireFrictionTableSchema
-        physxVehicleTireSchema
-        physxVehicleWheelAttachmentSchema
-        physxVehicleWheelControllerSchema
-        physxVehicleWheelSchema
 
         physxArticulationAPIAdapter
         physxCameraDroneAPIAdapter

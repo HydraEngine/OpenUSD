@@ -9,8 +9,7 @@
 
 #include "pxr/usdImaging/usdImaging/delegate.h"
 #include "pxr/usdImaging/usdImaging/indexProxy.h"
-#include "pxr/usdImaging/usdPhysicsImaging/distanceJointSchema.h"
-#include "pxr/usd/usdPhysics/tokens.h"
+#include "pxr/imaging/hd/distanceJointSchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
 #include "pxr/usd/usdPhysics/distanceJoint.h"
@@ -35,7 +34,7 @@ TfTokenVector UsdImagingPhysicsDistanceJointAdapter::GetImagingSubprims(UsdPrim 
 
 TfToken UsdImagingPhysicsDistanceJointAdapter::GetImagingSubprimType(UsdPrim const& prim, TfToken const& subprim) {
     if (subprim.IsEmpty()) {
-        return UsdPhysicsImagingDistanceJointSchemaTokens->distanceJoint;
+        return HdDistanceJointSchemaTokens->distanceJoint;
     }
     return UsdImagingPhysicsJointAdapter::GetImagingSubprimType(prim, subprim);
 }

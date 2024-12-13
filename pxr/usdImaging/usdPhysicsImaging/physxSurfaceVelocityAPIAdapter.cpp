@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxSurfaceVelocitySchema.h"
+#include "pxr/imaging/hd/physxSurfaceVelocitySchema.h"
 #include "pxr/usd/usdPhysX/surfaceVelocityAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,38 +31,38 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxSurfaceVelocitySchemaTokens->surfaceAngularVelocity,     //
-                UsdPhysicsImagingPhysxSurfaceVelocitySchemaTokens->surfaceVelocity,            //
-                UsdPhysicsImagingPhysxSurfaceVelocitySchemaTokens->surfaceVelocityEnabled,     //
-                UsdPhysicsImagingPhysxSurfaceVelocitySchemaTokens->surfaceVelocityLocalSpace,  //
+                HdPhysxSurfaceVelocitySchemaTokens->surfaceAngularVelocity,     //
+                HdPhysxSurfaceVelocitySchemaTokens->surfaceVelocity,            //
+                HdPhysxSurfaceVelocitySchemaTokens->surfaceVelocityEnabled,     //
+                HdPhysxSurfaceVelocitySchemaTokens->surfaceVelocityLocalSpace,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxSurfaceVelocitySchemaTokens->surfaceAngularVelocity) {
+        if (name == HdPhysxSurfaceVelocitySchemaTokens->surfaceAngularVelocity) {
             if (UsdAttribute attr = _api.GetSurfaceAngularVelocityAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSurfaceVelocitySchemaTokens->surfaceVelocity) {
+        } else if (name == HdPhysxSurfaceVelocitySchemaTokens->surfaceVelocity) {
             if (UsdAttribute attr = _api.GetSurfaceVelocityAttr()) {
                 GfVec3f v{};
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSurfaceVelocitySchemaTokens->surfaceVelocityEnabled) {
+        } else if (name == HdPhysxSurfaceVelocitySchemaTokens->surfaceVelocityEnabled) {
             if (UsdAttribute attr = _api.GetSurfaceVelocityEnabledAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxSurfaceVelocitySchemaTokens->surfaceVelocityLocalSpace) {
+        } else if (name == HdPhysxSurfaceVelocitySchemaTokens->surfaceVelocityLocalSpace) {
             if (UsdAttribute attr = _api.GetSurfaceVelocityLocalSpaceAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
@@ -89,7 +89,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXSurfaceVelocityAPIAdapter::Get
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxSurfaceVelocitySchemaTokens->physxSurfaceVelocity, PhysxDataSource::New(prim));
+                HdPhysxSurfaceVelocitySchemaTokens->physxSurfaceVelocity, PhysxDataSource::New(prim));
     }
 
     return nullptr;
@@ -108,7 +108,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXSurfaceVelocityAPIAdapter::Invalida
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxSurfaceVelocitySchema::GetDefaultLocator());
+            result.insert(HdPhysxSurfaceVelocitySchema::GetDefaultLocator());
         }
     }
 

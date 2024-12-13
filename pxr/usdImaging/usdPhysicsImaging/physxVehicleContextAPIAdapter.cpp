@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleContextSchema.h"
+#include "pxr/imaging/hd/physxVehicleContextSchema.h"
 #include "pxr/usd/usdPhysX/vehicleContextAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,30 +31,30 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleContextSchemaTokens->longitudinalAxis,  //
-                UsdPhysicsImagingPhysxVehicleContextSchemaTokens->updateMode,        //
-                UsdPhysicsImagingPhysxVehicleContextSchemaTokens->verticalAxis,      //
+                HdPhysxVehicleContextSchemaTokens->longitudinalAxis,  //
+                HdPhysxVehicleContextSchemaTokens->updateMode,        //
+                HdPhysxVehicleContextSchemaTokens->verticalAxis,      //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleContextSchemaTokens->longitudinalAxis) {
+        if (name == HdPhysxVehicleContextSchemaTokens->longitudinalAxis) {
             if (UsdAttribute attr = _api.GetLongitudinalAxisAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleContextSchemaTokens->updateMode) {
+        } else if (name == HdPhysxVehicleContextSchemaTokens->updateMode) {
             if (UsdAttribute attr = _api.GetUpdateModeAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleContextSchemaTokens->verticalAxis) {
+        } else if (name == HdPhysxVehicleContextSchemaTokens->verticalAxis) {
             if (UsdAttribute attr = _api.GetVerticalAxisAttr()) {
                 TfToken v;
                 if (attr.Get(&v)) {
@@ -80,7 +80,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleContextAPIAdapter::GetI
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxVehicleContextSchemaTokens->physxVehicleContext,
+        return HdRetainedContainerDataSource::New(HdPhysxVehicleContextSchemaTokens->physxVehicleContext,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -100,7 +100,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleContextAPIAdapter::Invalidat
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleContextSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleContextSchema::GetDefaultLocator());
         }
     }
 

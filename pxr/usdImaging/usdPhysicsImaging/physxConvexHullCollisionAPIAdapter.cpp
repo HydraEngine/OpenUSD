@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxConvexHullCollisionSchema.h"
+#include "pxr/imaging/hd/physxConvexHullCollisionSchema.h"
 #include "pxr/usd/usdPhysX/convexHullCollisionAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,22 +31,22 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxConvexHullCollisionSchemaTokens->hullVertexLimit,  //
-                UsdPhysicsImagingPhysxConvexHullCollisionSchemaTokens->minThickness      //
+                HdPhysxConvexHullCollisionSchemaTokens->hullVertexLimit,  //
+                HdPhysxConvexHullCollisionSchemaTokens->minThickness      //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxConvexHullCollisionSchemaTokens->hullVertexLimit) {
+        if (name == HdPhysxConvexHullCollisionSchemaTokens->hullVertexLimit) {
             if (UsdAttribute attr = _api.GetHullVertexLimitAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxConvexHullCollisionSchemaTokens->minThickness) {
+        } else if (name == HdPhysxConvexHullCollisionSchemaTokens->minThickness) {
             if (UsdAttribute attr = _api.GetMinThicknessAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -74,7 +74,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXConvexHullCollisionAPIAdapter:
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxConvexHullCollisionSchemaTokens->physxConvexHullCollision,
+                HdPhysxConvexHullCollisionSchemaTokens->physxConvexHullCollision,
                 PhysxDataSource::New(prim));
     }
 
@@ -94,7 +94,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXConvexHullCollisionAPIAdapter::Inva
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxConvexHullCollisionSchema::GetDefaultLocator());
+            result.insert(HdPhysxConvexHullCollisionSchema::GetDefaultLocator());
         }
     }
 

@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxRigidBodySchema.h"
+#include "pxr/imaging/hd/physxRigidBodySchema.h"
 #include "pxr/usd/usdPhysX/rigidBodyAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,166 +31,166 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->angularDamping,                //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->cfmScale,                      //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->contactSlopCoefficient,        //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->disableGravity,                //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->enableCCD,                     //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->enableGyroscopicForces,        //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->enableSpeculativeCCD,          //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->linearDamping,                 //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->lockedPosAxis,                 //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->lockedRotAxis,                 //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->maxAngularVelocity,            //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->maxContactImpulse,             //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->maxDepenetrationVelocity,      //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->maxLinearVelocity,             //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->retainAccelerations,           //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->sleepThreshold,                //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->solveContact,                  //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->solverPositionIterationCount,  //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->solverVelocityIterationCount,  //
-                UsdPhysicsImagingPhysxRigidBodySchemaTokens->stabilizationThreshold,        //
+                HdPhysxRigidBodySchemaTokens->angularDamping,                //
+                HdPhysxRigidBodySchemaTokens->cfmScale,                      //
+                HdPhysxRigidBodySchemaTokens->contactSlopCoefficient,        //
+                HdPhysxRigidBodySchemaTokens->disableGravity,                //
+                HdPhysxRigidBodySchemaTokens->enableCCD,                     //
+                HdPhysxRigidBodySchemaTokens->enableGyroscopicForces,        //
+                HdPhysxRigidBodySchemaTokens->enableSpeculativeCCD,          //
+                HdPhysxRigidBodySchemaTokens->linearDamping,                 //
+                HdPhysxRigidBodySchemaTokens->lockedPosAxis,                 //
+                HdPhysxRigidBodySchemaTokens->lockedRotAxis,                 //
+                HdPhysxRigidBodySchemaTokens->maxAngularVelocity,            //
+                HdPhysxRigidBodySchemaTokens->maxContactImpulse,             //
+                HdPhysxRigidBodySchemaTokens->maxDepenetrationVelocity,      //
+                HdPhysxRigidBodySchemaTokens->maxLinearVelocity,             //
+                HdPhysxRigidBodySchemaTokens->retainAccelerations,           //
+                HdPhysxRigidBodySchemaTokens->sleepThreshold,                //
+                HdPhysxRigidBodySchemaTokens->solveContact,                  //
+                HdPhysxRigidBodySchemaTokens->solverPositionIterationCount,  //
+                HdPhysxRigidBodySchemaTokens->solverVelocityIterationCount,  //
+                HdPhysxRigidBodySchemaTokens->stabilizationThreshold,        //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->angularDamping) {
+        if (name == HdPhysxRigidBodySchemaTokens->angularDamping) {
             if (UsdAttribute attr = _api.GetAngularDampingAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->cfmScale) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->cfmScale) {
             if (UsdAttribute attr = _api.GetCfmScaleAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->contactSlopCoefficient) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->contactSlopCoefficient) {
             if (UsdAttribute attr = _api.GetContactSlopCoefficientAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->disableGravity) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->disableGravity) {
             if (UsdAttribute attr = _api.GetDisableGravityAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->enableCCD) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->enableCCD) {
             if (UsdAttribute attr = _api.GetEnableCCDAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->enableGyroscopicForces) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->enableGyroscopicForces) {
             if (UsdAttribute attr = _api.GetEnableGyroscopicForcesAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->enableSpeculativeCCD) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->enableSpeculativeCCD) {
             if (UsdAttribute attr = _api.GetEnableSpeculativeCCDAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->linearDamping) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->linearDamping) {
             if (UsdAttribute attr = _api.GetLinearDampingAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->lockedPosAxis) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->lockedPosAxis) {
             if (UsdAttribute attr = _api.GetLockedPosAxisAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->lockedRotAxis) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->lockedRotAxis) {
             if (UsdAttribute attr = _api.GetLockedRotAxisAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->maxAngularVelocity) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->maxAngularVelocity) {
             if (UsdAttribute attr = _api.GetMaxAngularVelocityAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->maxContactImpulse) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->maxContactImpulse) {
             if (UsdAttribute attr = _api.GetMaxContactImpulseAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->maxDepenetrationVelocity) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->maxDepenetrationVelocity) {
             if (UsdAttribute attr = _api.GetMaxDepenetrationVelocityAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->maxLinearVelocity) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->maxLinearVelocity) {
             if (UsdAttribute attr = _api.GetMaxLinearVelocityAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->retainAccelerations) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->retainAccelerations) {
             if (UsdAttribute attr = _api.GetRetainAccelerationsAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->sleepThreshold) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->sleepThreshold) {
             if (UsdAttribute attr = _api.GetSleepThresholdAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->solveContact) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->solveContact) {
             if (UsdAttribute attr = _api.GetSolveContactAttr()) {
                 bool v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<bool>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->solverPositionIterationCount) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->solverPositionIterationCount) {
             if (UsdAttribute attr = _api.GetSolverPositionIterationCountAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->solverVelocityIterationCount) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->solverVelocityIterationCount) {
             if (UsdAttribute attr = _api.GetSolverVelocityIterationCountAttr()) {
                 int v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<int>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxRigidBodySchemaTokens->stabilizationThreshold) {
+        } else if (name == HdPhysxRigidBodySchemaTokens->stabilizationThreshold) {
             if (UsdAttribute attr = _api.GetStabilizationThresholdAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -216,7 +216,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXRigidBodyAPIAdapter::GetImagin
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(UsdPhysicsImagingPhysxRigidBodySchemaTokens->physxRigidBody,
+        return HdRetainedContainerDataSource::New(HdPhysxRigidBodySchemaTokens->physxRigidBody,
                                                   PhysxDataSource::New(prim));
     }
 
@@ -236,7 +236,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXRigidBodyAPIAdapter::InvalidateImag
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxRigidBodySchema::GetDefaultLocator());
+            result.insert(HdPhysxRigidBodySchema::GetDefaultLocator());
         }
     }
 

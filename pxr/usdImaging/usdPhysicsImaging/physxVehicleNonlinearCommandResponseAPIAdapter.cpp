@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleNonlinearCommandResponseSchema.h"
+#include "pxr/imaging/hd/physxVehicleNonlinearCommandResponseSchema.h"
 #include "pxr/usd/usdPhysX/vehicleNonlinearCommandResponseAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,23 +31,23 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleNonlinearCommandResponseSchemaTokens->commandValues,                  //
-                UsdPhysicsImagingPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponses,                 //
-                UsdPhysicsImagingPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponsesPerCommandValue,  //
+                HdPhysxVehicleNonlinearCommandResponseSchemaTokens->commandValues,                  //
+                HdPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponses,                 //
+                HdPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponsesPerCommandValue,  //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleNonlinearCommandResponseSchemaTokens->commandValues) {
+        if (name == HdPhysxVehicleNonlinearCommandResponseSchemaTokens->commandValues) {
             if (UsdAttribute attr = _api.GetCommandValuesAttr()) {
                 VtArray<float> v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<VtArray<float>>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponses) {
+        } else if (name == HdPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponses) {
             if (UsdAttribute attr = _api.GetSpeedResponsesAttr()) {
                 VtArray<GfVec2f> v;
                 if (attr.Get(&v)) {
@@ -55,7 +55,7 @@ public:
                 }
             }
         } else if (name ==
-                   UsdPhysicsImagingPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponsesPerCommandValue) {
+                   HdPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponsesPerCommandValue) {
             if (UsdAttribute attr = _api.GetSpeedResponsesPerCommandValueAttr()) {
                 VtArray<int> v;
                 if (attr.Get(&v)) {
@@ -82,7 +82,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleNonlinearCommandRespons
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxVehicleNonlinearCommandResponseSchemaTokens->physxVehicleNonlinearCommandResponse,
+                HdPhysxVehicleNonlinearCommandResponseSchemaTokens->physxVehicleNonlinearCommandResponse,
                 PhysxDataSource::New(prim));
     }
 
@@ -102,7 +102,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleNonlinearCommandResponseAPIA
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleNonlinearCommandResponseSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleNonlinearCommandResponseSchema::GetDefaultLocator());
         }
     }
 

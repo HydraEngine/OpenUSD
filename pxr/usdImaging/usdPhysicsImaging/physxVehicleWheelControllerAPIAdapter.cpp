@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/physxVehicleWheelControllerSchema.h"
+#include "pxr/imaging/hd/physxVehicleWheelControllerSchema.h"
 #include "pxr/usd/usdPhysX/vehicleWheelControllerAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -31,30 +31,30 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                UsdPhysicsImagingPhysxVehicleWheelControllerSchemaTokens->brakeTorque,  //
-                UsdPhysicsImagingPhysxVehicleWheelControllerSchemaTokens->driveTorque,  //
-                UsdPhysicsImagingPhysxVehicleWheelControllerSchemaTokens->steerAngle,   //
+                HdPhysxVehicleWheelControllerSchemaTokens->brakeTorque,  //
+                HdPhysxVehicleWheelControllerSchemaTokens->driveTorque,  //
+                HdPhysxVehicleWheelControllerSchemaTokens->steerAngle,   //
         };
 
         return names;
     }
 
     HdDataSourceBaseHandle Get(const TfToken& name) override {
-        if (name == UsdPhysicsImagingPhysxVehicleWheelControllerSchemaTokens->brakeTorque) {
+        if (name == HdPhysxVehicleWheelControllerSchemaTokens->brakeTorque) {
             if (UsdAttribute attr = _api.GetBrakeTorqueAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleWheelControllerSchemaTokens->driveTorque) {
+        } else if (name == HdPhysxVehicleWheelControllerSchemaTokens->driveTorque) {
             if (UsdAttribute attr = _api.GetDriveTorqueAttr()) {
                 float v;
                 if (attr.Get(&v)) {
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
-        } else if (name == UsdPhysicsImagingPhysxVehicleWheelControllerSchemaTokens->steerAngle) {
+        } else if (name == HdPhysxVehicleWheelControllerSchemaTokens->steerAngle) {
             if (UsdAttribute attr = _api.GetSteerAngleAttr()) {
                 float v;
                 if (attr.Get(&v)) {
@@ -81,7 +81,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleWheelControllerAPIAdapt
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                UsdPhysicsImagingPhysxVehicleWheelControllerSchemaTokens->physxVehicleWheelController,
+                HdPhysxVehicleWheelControllerSchemaTokens->physxVehicleWheelController,
                 PhysxDataSource::New(prim));
     }
 
@@ -101,7 +101,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleWheelControllerAPIAdapter::I
     HdDataSourceLocatorSet result;
     for (const TfToken& propertyName : properties) {
         if (TfStringStartsWith(propertyName.GetString(), "physics:")) {
-            result.insert(UsdPhysicsImagingPhysxVehicleWheelControllerSchema::GetDefaultLocator());
+            result.insert(HdPhysxVehicleWheelControllerSchema::GetDefaultLocator());
         }
     }
 
