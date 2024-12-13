@@ -69,6 +69,18 @@ void PhysxEngine::UpdateAll(float dt) {
     for (const auto& scene : mScenes) {
         scene.second->Update(dt);
     }
+
+    for (const auto& actor : mDynamicActors) {
+        auto pose = actor.second->getGlobalPose();
+        auto xform = convert(pose);
+        auto [begin, end] = _fabric._globalXforms.FindSubtreeRange(actor.first);
+        auto originalXform = begin->second;
+        for (; begin != end; begin++) {
+            auto shapeXform = begin->second;
+            shapeXform = shapeXform / originalXform * xform;
+            _fabric._resultXforms[begin->first] = shapeXform;
+        }
+    }
 }
 
 void PhysxEngine::Sync() {

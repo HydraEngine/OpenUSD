@@ -392,6 +392,14 @@ void UsdImagingGLEngine::Update(float dt) {
     _simulationEngine->UpdateAll(dt);
 }
 
+void UsdImagingGLEngine::SyncFabric() {
+    _simulationEngine->Sync();
+}
+
+void UsdImagingGLEngine::UnSyncFabric() {
+    _simulationEngine->UnSync();
+}
+
 bool UsdImagingGLEngine::IsConverged() const {
     if (ARCH_UNLIKELY(!_renderDelegate)) {
         return true;

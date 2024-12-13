@@ -292,6 +292,7 @@ void Fabric::PrimsRemoved(const HdSceneIndexPrim& prim, const HdSceneIndexObserv
     _limits.erase(entry.primPath);
     _masses.erase(entry.primPath);
     _materials.erase(entry.primPath);
+    _materialBindings.erase(entry.primPath);
     _meshCollisions.erase(entry.primPath);
     _physxArticulations.erase(entry.primPath);
     _physxCameraDrones.erase(entry.primPath);

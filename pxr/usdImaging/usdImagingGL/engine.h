@@ -151,6 +151,10 @@ public:
     // ---------------------------------------------------------------------
     void Update(float dt);
 
+    void SyncFabric();
+
+    void UnSyncFabric();
+
     /// Support for batched drawing
     USDIMAGINGGL_API
     void PrepareBatch(const UsdPrim& root, const UsdImagingGLRenderParams& params);
