@@ -60,7 +60,7 @@ void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver
     if (auto schema = HdMassSchema::GetFromParent(prim.dataSource)) {
         _masses.insert({entry.primPath, schema});
     }
-    if (auto schema = HdMaterialSchema::GetFromParent(prim.dataSource)) {
+    if (auto schema = HdPhysicsMaterialSchema::GetFromParent(prim.dataSource)) {
         _materials.insert({entry.primPath, schema});
     }
     if (auto schema = HdMeshCollisionSchema::GetFromParent(prim.dataSource)) {

@@ -14,7 +14,7 @@ struct PhysxSceneConfig;
 
 class PhysxScene {
 public:
-    PhysxScene(pxr::GfVec3f gravity, PhysxSceneConfig config);
+    PhysxScene(physx::PxPhysics *creator, pxr::GfVec3f gravity, PhysxSceneConfig config);
 
     physx::PxDirectGPUAPI& GetDirectGPUAPI();
 

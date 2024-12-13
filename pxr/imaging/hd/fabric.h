@@ -8,7 +8,6 @@
 
 #include <pxr/imaging/hd/filteringSceneIndex.h>
 #include <pxr/usd/sdf/pathTable.h>
-#include <pxr/imaging/hd/materialSchema.h>
 #include <pxr/imaging/hd/articulationRootSchema.h>
 #include <pxr/imaging/hd/collisionGroupSchema.h>
 #include <pxr/imaging/hd/collisionSchema.h>
@@ -19,7 +18,7 @@
 #include <pxr/imaging/hd/jointSchema.h>
 #include <pxr/imaging/hd/limitSchema.h>
 #include <pxr/imaging/hd/massSchema.h>
-#include <pxr/imaging/hd/materialSchema.h>
+#include <pxr/imaging/hd/physicsMaterialSchema.h>
 #include <pxr/imaging/hd/meshCollisionSchema.h>
 #include <pxr/imaging/hd/physxArticulationSchema.h>
 #include <pxr/imaging/hd/physxCameraDroneSchema.h>
@@ -108,7 +107,6 @@ public:
 
     std::optional<GfMatrix4d> findXform(const SdfPath& path);
 
-private:
     std::map<SdfPath, HdArticulationRootSchema> _articulationRoots;
     std::map<SdfPath, HdCollisionGroupSchema> _collisionGroups;
     std::map<SdfPath, HdCollisionSchema> _collisions;
@@ -119,7 +117,7 @@ private:
     std::map<SdfPath, HdJointSchema> _joints;
     std::map<SdfPath, HdLimitSchema> _limits;
     std::map<SdfPath, HdMassSchema> _masses;
-    std::map<SdfPath, HdMaterialSchema> _materials;
+    std::map<SdfPath, HdPhysicsMaterialSchema> _materials;
     std::map<SdfPath, HdMeshCollisionSchema> _meshCollisions;
     std::map<SdfPath, HdPhysxArticulationSchema> _physxArticulations;
     std::map<SdfPath, HdPhysxCameraDroneSchema> _physxCameraDrones;

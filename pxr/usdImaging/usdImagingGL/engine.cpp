@@ -29,7 +29,7 @@
 #include "pxr/imaging/hdsi/primTypePruningSceneIndex.h"
 #include "pxr/imaging/hdsi/legacyDisplayStyleOverrideSceneIndex.h"
 #include "pxr/imaging/hdsi/sceneGlobalsSceneIndex.h"
-#include "pxr/usdImaging/sim/physicsSceneIndex.h"
+#include "pxr/imaging/hd/fabricSceneIndex.h"
 #include "pxr/imaging/hdx/pickTask.h"
 #include "pxr/imaging/hdx/taskController.h"
 #include "pxr/imaging/hdx/tokens.h"
@@ -389,7 +389,7 @@ void UsdImagingGLEngine::Render(const UsdPrim &root, const UsdImagingGLRenderPar
 }
 
 void UsdImagingGLEngine::Update(float dt) {
-    _physicsSceneIndex->Update(dt);
+    _simulationEngine->UpdateAll(dt);
 }
 
 bool UsdImagingGLEngine::IsConverged() const {
@@ -1026,7 +1026,8 @@ void UsdImagingGLEngine::_SetRenderDelegate(HdPluginRenderDelegateUniqueHandle &
         _sceneIndex = sceneIndices.finalSceneIndex;
 
         _sceneIndex = _displayStyleSceneIndex = HdsiLegacyDisplayStyleOverrideSceneIndex::New(_sceneIndex);
-        _sceneIndex = _physicsSceneIndex = UsdImagingPhysicsSceneIndex::New(_sceneIndex);
+        _sceneIndex = _fabricSceneIndex = FabricSceneIndex::New(_sceneIndex, _renderIndex->fabric());
+        _simulationEngine = std::make_unique<sim::PhysxEngine>(_renderIndex->fabric());
 
         _renderIndex->InsertSceneIndex(_sceneIndex, _sceneDelegateId);
     } else {

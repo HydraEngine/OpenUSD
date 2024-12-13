@@ -17,6 +17,7 @@
 
 #include "pxr/usdImaging/usdImagingGL/renderParams.h"
 #include "pxr/usdImaging/usdImagingGL/rendererSettings.h"
+#include "pxr/usdImaging/sim/physxEngine.h"
 
 #include "pxr/imaging/cameraUtil/conformWindow.h"
 
@@ -63,7 +64,7 @@ TF_DECLARE_REF_PTRS(HdsiLegacyDisplayStyleOverrideSceneIndex);
 TF_DECLARE_REF_PTRS(HdsiPrimTypePruningSceneIndex);
 TF_DECLARE_REF_PTRS(HdsiSceneGlobalsSceneIndex);
 TF_DECLARE_REF_PTRS(HdSceneIndexBase);
-TF_DECLARE_REF_PTRS(UsdImagingPhysicsSceneIndex);
+TF_DECLARE_REF_PTRS(FabricSceneIndex);
 
 using UsdStageWeakPtr = TfWeakPtr<class UsdStage>;
 
@@ -764,7 +765,8 @@ private:
     HdsiPrimTypePruningSceneIndexRefPtr _materialPruningSceneIndex;
     HdsiPrimTypePruningSceneIndexRefPtr _lightPruningSceneIndex;
     HdSceneIndexBaseRefPtr _sceneIndex;
-    UsdImagingPhysicsSceneIndexRefPtr _physicsSceneIndex;
+    FabricSceneIndexRefPtr _fabricSceneIndex;
+    std::unique_ptr<sim::PhysxEngine> _simulationEngine;
 
     std::unique_ptr<UsdImagingDelegate> _sceneDelegate;
 

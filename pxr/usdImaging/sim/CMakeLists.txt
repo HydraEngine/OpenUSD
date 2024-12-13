@@ -58,8 +58,6 @@ pxr_library(usdSimImaging
         ${physx5_link_libraries}
 
         PUBLIC_CLASSES
-        physicsSceneIndex
-        physxDataSource
         physxEngine
         physxScene
         filterShader

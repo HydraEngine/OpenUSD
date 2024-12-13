@@ -12,9 +12,7 @@ using namespace pxr;
 using namespace physx;
 
 namespace sim {
-PhysxScene::PhysxScene(GfVec3f gravity, PhysxSceneConfig config) {
-    auto creator = PhysxEngine::Get()->getPxPhysics();
-
+PhysxScene::PhysxScene(physx::PxPhysics *creator, GfVec3f gravity, PhysxSceneConfig config) {
     PxSceneDesc sceneDesc(creator->getTolerancesScale());
     sceneDesc.gravity = {config.gravity[0], config.gravity[1], config.gravity[2]};
     sceneDesc.filterShader = TypeAffinityIgnoreFilterShader;

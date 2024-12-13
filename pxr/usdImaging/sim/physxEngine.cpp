@@ -9,31 +9,6 @@
 #include "utils.h"
 #include "pxr/base/tf/diagnostic.h"
 
-#include "pxr/usdImaging/usdPhysicsImaging/materialSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/sceneSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/collisionSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/jointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/distanceJointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/revoluteJointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/fixedJointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/sphericalJointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/prismaticJointSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/driveSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/limitSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/articulationRootSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/rigidBodySchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/collisionGroupSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/massSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/filteredPairsSchema.h"
-#include "pxr/usdImaging/usdPhysicsImaging/meshCollisionSchema.h"
-
-#include "pxr/imaging/hd/cubeSchema.h"
-#include "pxr/imaging/hd/capsuleSchema.h"
-#include "pxr/imaging/hd/sphereSchema.h"
-#include "pxr/imaging/hd/coneSchema.h"
-#include "pxr/imaging/hd/cylinderSchema.h"
-#include "pxr/imaging/hd/meshSchema.h"
-
 #include "pxr/base/gf/transform.h"
 #include <iostream>
 
@@ -65,24 +40,13 @@ public:
 
 static UsdErrorCallback gDefaultErrorCallback;
 
-static std::weak_ptr<PhysxEngine> gEngine;
-std::shared_ptr<PhysxEngine> PhysxEngine::Get(float toleranceLength, float toleranceSpeed) {
-    auto engine = gEngine.lock();
-    if (!engine) {
-        gEngine = engine = std::make_shared<PhysxEngine>(toleranceLength, toleranceSpeed);
-    }
-    return engine;
-}
-
-std::shared_ptr<PhysxEngine> PhysxEngine::GetIfExists() { return gEngine.lock(); }
-
-PhysxEngine::PhysxEngine(float toleranceLength, float toleranceSpeed) {
+PhysxEngine::PhysxEngine(pxr::Fabric& fabric) : _fabric{fabric} {
     mPxFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback);
     if (!mPxFoundation) {
         throw std::runtime_error("PhysX foundation creation failed");
     }
 
-    PxTolerancesScale toleranceScale(toleranceLength, toleranceSpeed);
+    PxTolerancesScale toleranceScale(0.1, 0.2);
 
     mPxPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *mPxFoundation, toleranceScale);
     if (!mPxPhysics) {
@@ -101,19 +65,14 @@ PhysxEngine::~PhysxEngine() {
     mPxFoundation->release();
 }
 
-std::shared_ptr<PhysxScene> PhysxEngine::CreatePxScene(const pxr::SdfPath& primPath,
-                                                       const pxr::HdContainerDataSourceHandle& dataSource) {
-    UsdPhysicsImagingSceneSchema schema = UsdPhysicsImagingSceneSchema::GetFromParent(dataSource);
-    if (schema) {
-        auto g_length = schema.GetGravityMagnitude()->GetTypedValue(0);
-        auto g_dir = schema.GetGravityDirection()->GetTypedValue(0);
-        g_dir *= g_length;
-        auto scene = std::make_shared<PhysxScene>(g_dir, mConfig);
-        mScenes.insert({primPath.GetHash(), scene});
-        mDefaultScene = primPath;
-        return scene;
-    }
-    return nullptr;
+std::shared_ptr<PhysxScene> PhysxEngine::CreatePxScene(const pxr::SdfPath& primPath, const pxr::HdSceneSchema& schema) {
+    auto g_length = schema.GetGravityMagnitude()->GetTypedValue(0);
+    auto g_dir = schema.GetGravityDirection()->GetTypedValue(0);
+    g_dir *= g_length;
+    auto scene = std::make_shared<PhysxScene>(mPxPhysics, g_dir, mConfig);
+    mScenes.insert({primPath.GetHash(), scene});
+    mDefaultScene = primPath;
+    return scene;
 }
 
 std::shared_ptr<PhysxScene> PhysxEngine::FindScene(const pxr::SdfPath& primPath) {
@@ -131,18 +90,14 @@ void PhysxEngine::UpdateAll(float dt) {
 }
 
 physx::PxMaterial* PhysxEngine::CreateMaterial(const pxr::SdfPath& primPath,
-                                               const pxr::HdContainerDataSourceHandle& dataSource) {
-    UsdPhysicsImagingMaterialSchema schema = UsdPhysicsImagingMaterialSchema::GetFromParent(dataSource);
-    if (schema) {
-        auto restitution = schema.GetRestitution()->GetTypedValue(0);
-        auto staticFriction = schema.GetStaticFriction()->GetTypedValue(0);
-        auto dynamicFriction = schema.GetDynamicFriction()->GetTypedValue(0);
+                                               const pxr::HdPhysicsMaterialSchema& schema) {
+    auto restitution = schema.GetRestitution()->GetTypedValue(0);
+    auto staticFriction = schema.GetStaticFriction()->GetTypedValue(0);
+    auto dynamicFriction = schema.GetDynamicFriction()->GetTypedValue(0);
 
-        auto scene = mPxPhysics->createMaterial(staticFriction, dynamicFriction, restitution);
-        mMaterials.insert({primPath.GetHash(), scene});
-        return scene;
-    }
-    return nullptr;
+    auto scene = mPxPhysics->createMaterial(staticFriction, dynamicFriction, restitution);
+    mMaterials.insert({primPath.GetHash(), scene});
+    return scene;
 }
 
 physx::PxMaterial* PhysxEngine::FindMaterial(const pxr::SdfPath& primPath) {
@@ -170,7 +125,7 @@ physx::PxRigidStatic* PhysxEngine::FindStaticActor(const pxr::SdfPath& primPath)
 
 physx::PxRigidDynamic* PhysxEngine::CreateDynamicActor(const pxr::SdfPath& primPath,
                                                        const pxr::GfMatrix4d& transform,
-                                                       const pxr::UsdPhysicsImagingRigidBodySchema& schema) {
+                                                       const pxr::HdRigidBodySchema& schema) {
     auto actor = mPxPhysics->createRigidDynamic(convert(transform));
     mDynamicActors.insert({primPath.GetHash(), actor});
 
@@ -208,7 +163,7 @@ physx::PxRigidActor* PhysxEngine::FindActor(const pxr::SdfPath& primPath) {
 }
 
 physx::PxShape* PhysxEngine::CreateShape(const pxr::SdfPath& primPath,
-                                         const pxr::HdContainerDataSourceHandle& dataSource,
+                                         const pxr::HdCubeSchema& cubeSchema,
                                          pxr::GfMatrix4d shapePose,
                                          physx::PxMaterial* material,
                                          physx::PxRigidActor* actor) {
@@ -217,22 +172,20 @@ physx::PxShape* PhysxEngine::CreateShape(const pxr::SdfPath& primPath,
     auto translation = convert(transform.GetTranslation());
     auto rotation = convert(transform.GetRotation().GetQuat());
 
-    UsdPhysicsImagingCollisionSchema collisionSchema = UsdPhysicsImagingCollisionSchema::GetFromParent(dataSource);
-    auto collisionEnabled = collisionSchema.GetCollisionEnabled()->GetTypedValue(0);
+    //    UsdPhysicsImagingCollisionSchema collisionSchema =
+    //    UsdPhysicsImagingCollisionSchema::GetFromParent(dataSource); auto collisionEnabled =
+    //    collisionSchema.GetCollisionEnabled()->GetTypedValue(0);
 
     PxShape* shape{nullptr};
-    HdCubeSchema cubeSchema = HdCubeSchema::GetFromParent(dataSource);
-    if (cubeSchema) {
-        auto size = (float)cubeSchema.GetSize()->GetTypedValue(0);
-        auto s = scale * size;
-        auto geometry = PxBoxGeometry(s.x / 2, s.y / 2, s.z / 2);
-        shape = mPxPhysics->createShape(geometry, *material);
-    }
+    auto size = (float)cubeSchema.GetSize()->GetTypedValue(0);
+    auto s = scale * size;
+    auto geometry = PxBoxGeometry(s.x / 2, s.y / 2, s.z / 2);
+    shape = mPxPhysics->createShape(geometry, *material);
 
     if (shape) {
-        if (!collisionEnabled) {
-            shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
-        }
+        //        if (!collisionEnabled) {
+        //            shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
+        //        }
 
         shape->setLocalPose(PxTransform(translation, rotation));
         actor->attachShape(*shape);

@@ -7,9 +7,8 @@
 #pragma once
 
 #include <PxPhysicsAPI.h>
-#include <pxr/imaging/hd/sceneIndex.h>
 #include <pxr/usd/usd/prim.h>
-#include <pxr/usdImaging/usdPhysicsImaging/rigidBodySchema.h>
+#include <pxr/imaging/hd/fabric.h>
 
 namespace sim {
 class PhysxScene;
@@ -27,22 +26,18 @@ struct PhysxSceneConfig {
 
 class PhysxEngine {
 public:
-    static std::shared_ptr<PhysxEngine> Get(float toleranceLength = 0.1f, float toleranceSpeed = 0.2f);
-
-    static std::shared_ptr<PhysxEngine> GetIfExists();
-
-    PhysxEngine(float toleranceLength, float toleranceSpeed);
+    PhysxEngine(pxr::Fabric& fabric);
     ::physx::PxPhysics *getPxPhysics() const { return mPxPhysics; }
 
     ~PhysxEngine();
 
 public:
     std::shared_ptr<PhysxScene> CreatePxScene(const pxr::SdfPath &primPath,
-                                              const pxr::HdContainerDataSourceHandle &dataSource);
+                                              const pxr::HdSceneSchema &schema);
     std::shared_ptr<PhysxScene> FindScene(const pxr::SdfPath &primPath);
     void UpdateAll(float dt);
 
-    physx::PxMaterial *CreateMaterial(const pxr::SdfPath &primPath, const pxr::HdContainerDataSourceHandle &dataSource);
+    physx::PxMaterial *CreateMaterial(const pxr::SdfPath &primPath, const pxr::HdPhysicsMaterialSchema &schema);
     physx::PxMaterial *FindMaterial(const pxr::SdfPath &primPath);
     physx::PxMaterial *DefaultMaterial();
 
@@ -50,12 +45,12 @@ public:
     physx::PxRigidStatic *FindStaticActor(const pxr::SdfPath &primPath);
     physx::PxRigidDynamic *CreateDynamicActor(const pxr::SdfPath &primPath,
                                               const pxr::GfMatrix4d &transform,
-                                              const pxr::UsdPhysicsImagingRigidBodySchema &schema);
+                                              const pxr::HdRigidBodySchema &schema);
     physx::PxRigidDynamic *FindDynamicsActor(const pxr::SdfPath &primPath);
     physx::PxRigidActor *FindActor(const pxr::SdfPath &primPath);
 
     physx::PxShape *CreateShape(const pxr::SdfPath &primPath,
-                                const pxr::HdContainerDataSourceHandle &dataSource,
+                                const pxr::HdCubeSchema &schema,
                                 pxr::GfMatrix4d shapePose,
                                 physx::PxMaterial *material,
                                 physx::PxRigidActor *actor);
@@ -65,6 +60,8 @@ public:
     void Sync();
 
 private:
+    pxr::Fabric& _fabric;
+
     ::physx::PxPhysics *mPxPhysics;
     ::physx::PxFoundation *mPxFoundation;
     physx::PxMaterial *mDefaultMaterial;
