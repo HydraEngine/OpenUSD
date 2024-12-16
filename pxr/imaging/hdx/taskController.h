@@ -240,6 +240,14 @@ public:
     HDX_API
     void SetEnablePresentation(bool enabled);
 
+    /// SHADOW SUPPORT
+    HDX_API
+    void SetShadowByLight(GlfSimpleLight const& light,
+                          int slIndex,
+                          GfRange3f const& worldExtent,
+                          SdfPathVector const& shadowCollectionExcludePaths,
+                          std::optional<GfVec3f> shadowDownDir);
+
 private:
     ///
     /// This class is not intended to be copied.
@@ -385,6 +393,7 @@ private:
     std::optional<CameraUtilConformWindowPolicy> _overrideWindowPolicy;
 
     GfVec4d _viewport;
+    SdfPath _shadowLightPath;
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE

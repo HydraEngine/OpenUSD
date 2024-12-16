@@ -36,6 +36,8 @@
 #include "pxr/imaging/glf/simpleLightingContext.h"
 
 #include "pxr/base/gf/camera.h"
+#include "pxr/base/gf/frustum.h"
+#include "pxr/imaging/hdx/shadowMatrixComputation.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
@@ -63,6 +65,93 @@ static const uint32_t MSAA_SAMPLE_COUNT = 4;
 // Distant Light values
 static const float DISTANT_LIGHT_ANGLE = 0.53;
 static const float DISTANT_LIGHT_INTENSITY = 15000.0;
+
+class ShadowMatrixComputation : public HdxShadowMatrixComputation {
+public:
+    ShadowMatrixComputation(GfRange3f const& worldBox, GfVec3f const& lightDir)
+        : _worldBox{worldBox}, _lightDir{lightDir} {
+        _lightDir.Normalize();
+        updateShadowMatrix(_shadowMatrix);
+    }
+
+    std::vector<GfMatrix4d> Compute(GfVec4f const& viewport, CameraUtilConformWindowPolicy policy) override {
+        if (_dirty) updateShadowMatrix(_shadowMatrix);
+        return {_shadowMatrix};
+    }
+
+    std::vector<GfMatrix4d> Compute(CameraUtilFraming const& framing, CameraUtilConformWindowPolicy policy) override {
+        if (_dirty) updateShadowMatrix(_shadowMatrix);
+        return {_shadowMatrix};
+    }
+
+    bool update(GfRange3f const& worldBox, GfVec3f const& lightDir) {
+        if (needsUpdate(worldBox, lightDir)) {
+            _worldBox = worldBox;
+            _lightDir = lightDir;
+
+            _dirty = true;
+        }
+        return _dirty;
+    }
+
+private:
+    [[nodiscard]] bool needsUpdate(GfRange3f const& worldBox, GfVec3f const& lightDir) const {
+        auto _equalsVec3f = [](GfVec3f const& v1, GfVec3f const& v2) {
+            constexpr auto epsilon = 1e-4f;
+            return fabs(v1[0] - v2[0]) < epsilon && fabs(v1[1] - v2[1]) < epsilon && fabs(v1[2] - v2[2]) < epsilon;
+        };
+
+        return !(_equalsVec3f(_lightDir, lightDir) && _equalsVec3f(_worldBox.GetMin(), worldBox.GetMin()) &&
+                 _equalsVec3f(_worldBox.GetMax(), worldBox.GetMax()));
+    }
+
+    void updateShadowMatrix(GfMatrix4d& matrix) {
+        // camera
+        GfFrustum frustum;
+        frustum.SetNearFar(GfRange1d(0.1, 1000.0));
+        frustum.SetPosition(GfVec3d(0, 0, 10));
+        // frustum.SetRotation(GfRotation(GfVec3d(1, 0, 0), 45));
+        auto viewMatrix = frustum.ComputeViewMatrix();
+        frustum.SetProjectionType(GfFrustum::Orthographic);
+        GfBBox3d viewBox{_worldBox, viewMatrix};
+        auto viewRange = viewBox.ComputeAlignedRange();
+        auto size = viewRange.GetSize();
+        auto half_width = size[0] * 0.55f;
+        auto half_height = size[1] * 0.55f;
+        frustum.SetWindow(GfRange2d(GfVec2d(-half_width, -half_height), GfVec2d(half_width, half_height)));
+        auto projectionMatrix = frustum.ComputeProjectionMatrix();
+        matrix = viewMatrix * projectionMatrix;
+
+        _dirty = false;
+    }
+
+    static int farthestBoxCornerIndex(GfVec3f const& v) {
+        // If plane points to -X, -Y, -Z, value is 0.
+        // +X, -Y, -Z == 1
+        // -X, +Y, -Z == 2
+        // +X, +Y, -Z == 3
+        // on up to +X, +Y, +Z == 7.
+        // This matches the SBox3's ml.Vector3 this[ int index ] ordering
+        return (((v[0] < 0) ? 0 : 1) + ((v[1] < 0) ? 0 : 2) + ((v[2] < 0) ? 0 : 4));
+    }
+
+    static int nearestBoxCornerIndex(GfVec3f const& v) { return 7 - farthestBoxCornerIndex(v); }
+
+    static float computeZExtent(GfRange3f const& box, GfVec3f const& dir) {
+        float zmin, zmax;
+        int nearIndex = nearestBoxCornerIndex(dir);
+        int farIndex = farthestBoxCornerIndex(dir);
+        zmin = GfDot(dir, box.GetCorner(nearIndex));
+        zmax = GfDot(dir, box.GetCorner(farIndex));
+        return zmax - zmin;
+    }
+
+private:
+    GfMatrix4d _shadowMatrix;
+    GfRange3f _worldBox;
+    GfVec3f _lightDir;
+    bool _dirty{true};
+};
 
 // ---------------------------------------------------------------------------
 // Delegate implementation.
@@ -671,7 +760,7 @@ void HdxTaskController::_SetParameters(SdfPath const& pathName, GlfSimpleLight c
     // If this is a dome light add the domelight texture resource.
     if (light.IsDomeLight()) {
         _delegate.SetParameter(pathName, HdLightTokens->textureFile, _GetDomeLightTexture(light));
-        _delegate.SetParameter(pathName, HdLightTokens->shadowEnable, VtValue(true));
+        _delegate.SetParameter(pathName, HdLightTokens->shadowEnable, VtValue(false));
     }
     // When not using storm, initialize the camera light transform based on
     // the SimpleLight position
@@ -1219,6 +1308,59 @@ void HdxTaskController::SetShadowParams(HdxShadowTaskParams const& params) {
     }
 }
 
+void HdxTaskController::SetShadowByLight(GlfSimpleLight const& light,
+                                         int slIndex,
+                                         GfRange3f const& worldExtent,
+                                         SdfPathVector const& shadowCollectionExcludePaths,
+                                         std::optional<GfVec3f> shadowDownDir) {
+    if (light.IsDomeLight()) return;
+
+    SdfPath lightPath = GetControllerId().AppendChild(TfToken(TfStringPrintf("light%d", slIndex)));
+    if (_shadowLightPath != lightPath) {
+        _shadowLightPath = lightPath;
+
+        GetRenderIndex()->RemoveSprim(HdPrimTypeTokens->simpleLight, lightPath);
+        GetRenderIndex()->InsertSprim(HdPrimTypeTokens->simpleLight, &_delegate, lightPath);
+
+        // set the parameters for lights[0] and mark as dirty
+        _delegate.SetParameter(lightPath, HdTokens->transform, VtValue(light.GetTransform()));
+        HdxShadowParams shadowParams;
+        shadowParams.enabled = light.HasShadow();
+        shadowParams.resolution = light.GetShadowResolution();
+        // shadowParams.bias = (double)light.GetShadowBias();
+        // shadowParams.normalBias = (double)light.GetShadowNormalBias();
+        shadowParams.blur = (double)light.GetShadowBlur();
+
+        if (shadowDownDir.has_value())
+            shadowParams.shadowMatrix = HdxShadowMatrixComputationSharedPtr(
+                    new ShadowMatrixComputation(worldExtent, shadowDownDir.value()));
+        else {
+            const auto& lightPos = light.GetPosition();
+            shadowParams.shadowMatrix = HdxShadowMatrixComputationSharedPtr(
+                    new ShadowMatrixComputation(worldExtent, GfVec3f{-lightPos[0], -lightPos[1], -lightPos[2]}));
+        }
+
+        _delegate.SetParameter(lightPath, HdLightTokens->shadowParams, shadowParams);
+
+        HdRprimCollection collection(HdTokens->geometry, HdReprSelector(HdReprTokens->smoothHull));
+        collection.SetExcludePaths(shadowCollectionExcludePaths);
+
+        _delegate.SetParameter(lightPath, HdLightTokens->shadowCollection, collection);
+        _delegate.SetParameter(lightPath, HdLightTokens->params, light);
+        GetRenderIndex()->GetChangeTracker().MarkSprimDirty(lightPath, HdLight::AllDirty);
+    } else {
+        auto shadowParams = _delegate.GetParameter<HdxShadowParams>(lightPath, HdLightTokens->shadowParams);
+        const auto& lightPos = light.GetPosition();
+        auto shadowDir =
+                shadowDownDir.has_value() ? shadowDownDir.value() : GfVec3f{-lightPos[0], -lightPos[1], -lightPos[2]};
+
+        std::shared_ptr<ShadowMatrixComputation> pShadowMatrixComputation =
+                std::dynamic_pointer_cast<ShadowMatrixComputation>(shadowParams.shadowMatrix);
+        if (pShadowMatrixComputation->update(worldExtent, shadowDir))
+            GetRenderIndex()->GetChangeTracker().MarkSprimDirty(lightPath, HdLight::DirtyShadowParams);
+    }
+}
+
 void HdxTaskController::SetEnableShadows(bool enable) {
     if (_simpleLightTaskId.IsEmpty()) {
         return;
@@ -1379,7 +1521,12 @@ void HdxTaskController::_SetBuiltInLightingState(GlfSimpleLightingContextPtr con
             }
             // Make sure the light at _lightIds[i] matches activeLights[i]
             if (_GetLightAtId(i) != activeLights[i]) {
-                _ReplaceLightSprim(i, activeLights[i], lightPath);
+                GfRange3f worldExtent(GfVec3f(-9, -9, -5), GfVec3f(9, 9, 2));
+                SdfPathVector shadowCollectionExcludePaths;
+
+                SetShadowByLight(activeLights[i], 0, worldExtent, shadowCollectionExcludePaths, std::nullopt);
+
+                // _ReplaceLightSprim(i, activeLights[i], lightPath);
             }
             if (needToAddLightPath) {
                 _lightIds.push_back(lightPath);
