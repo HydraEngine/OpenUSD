@@ -35,13 +35,10 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 class HdRenderBuffer;
 
-class HdxTaskController final
-{
+class HdxTaskController final {
 public:
     HDX_API
-    HdxTaskController(HdRenderIndex *renderIndex,
-                      SdfPath const& controllerId,
-                      bool gpuEnabled = true);
+    HdxTaskController(HdRenderIndex* renderIndex, SdfPath const& controllerId, bool gpuEnabled = true);
     HDX_API
     ~HdxTaskController();
 
@@ -110,8 +107,7 @@ public:
 
     /// Set custom parameters for an AOV.
     HDX_API
-    void SetRenderOutputSettings(TfToken const& name,
-                                 HdAovDescriptor const& desc);
+    void SetRenderOutputSettings(TfToken const& name, HdAovDescriptor const& desc);
 
     /// Get parameters for an AOV.
     HDX_API
@@ -123,7 +119,7 @@ public:
     /// specific way.
     /// E.g., a uint32_t (aka GLuint) for framebuffer object for OpenGL.
     HDX_API
-    void SetPresentationOutput(TfToken const &api, VtValue const &framebuffer);
+    void SetPresentationOutput(TfToken const& api, VtValue const& framebuffer);
 
     /// -------------------------------------------------------
     /// Lighting API
@@ -136,25 +132,24 @@ public:
 
     /// -------------------------------------------------------
     /// Camera and Framing API
-    
+
     /// Set the size of the render buffers baking the AOVs.
     /// GUI applications should set this to the size of the window.
     ///
     HDX_API
-    void SetRenderBufferSize(const GfVec2i &size);
+    void SetRenderBufferSize(const GfVec2i& size);
 
     /// Determines how the filmback of the camera is mapped into
     /// the pixels of the render buffer and what pixels of the render
     /// buffer will be rendered into.
     HDX_API
-    void SetFraming(const CameraUtilFraming &framing);
+    void SetFraming(const CameraUtilFraming& framing);
 
     /// Specifies whether to force a window policy when conforming
     /// the frustum of the camera to match the display window of
     /// the camera framing.
     HDX_API
-    void SetOverrideWindowPolicy(
-        const std::optional<CameraUtilConformWindowPolicy> &policy);
+    void SetOverrideWindowPolicy(const std::optional<CameraUtilConformWindowPolicy>& policy);
 
     /// -- Scene camera --
     /// Set the camera param on tasks to a USD camera path.
@@ -171,8 +166,7 @@ public:
     /// Set the view and projection matrices for the free camera.
     /// Note: The projection matrix must be pre-adjusted for the window policy.
     HDX_API
-    void SetFreeCameraMatrices(GfMatrix4d const& viewMatrix,
-                               GfMatrix4d const& projectionMatrix);
+    void SetFreeCameraMatrices(GfMatrix4d const& viewMatrix, GfMatrix4d const& projectionMatrix);
     /// Set the free camera clip planes.
     /// (Note: Scene cameras use clipping planes authored on the camera prim)
     HDX_API
@@ -251,9 +245,9 @@ private:
     /// This class is not intended to be copied.
     ///
     HdxTaskController(HdxTaskController const&) = delete;
-    HdxTaskController &operator=(HdxTaskController const&) = delete;
+    HdxTaskController& operator=(HdxTaskController const&) = delete;
 
-    HdRenderIndex *_index;
+    HdRenderIndex* _index;
     SdfPath const _controllerId;
     bool _gpuEnabled;
 
@@ -280,8 +274,7 @@ private:
     void _SetCameraFramingForTasks();
     void _UpdateAovDimensions(GfVec2i const& dimensions);
 
-    void _SetBlendStateForMaterialTag(TfToken const& materialTag,
-                                      HdxRenderTaskParams *renderParams) const;
+    void _SetBlendStateForMaterialTag(TfToken const& materialTag, HdxRenderTaskParams* renderParams) const;
 
     // Render graph topology control.
     bool _ShadowsEnabled() const;
@@ -305,50 +298,40 @@ private:
     // Helper function to get the built-in Camera light type SimpleLight for
     // Storm, and DistantLight otherwise
     TfToken _GetCameraLightType();
-    
-    // Helper functions to set the parameters of a light, get a particular light 
-    // in the scene, replace and remove Sprims from the scene 
+
+    // Helper functions to set the parameters of a light, get a particular light
+    // in the scene, replace and remove Sprims from the scene
     VtValue _GetDomeLightTexture(GlfSimpleLight const& light);
     void _SetParameters(SdfPath const& pathName, GlfSimpleLight const& light);
-    void _SetMaterialNetwork(SdfPath const& pathName, 
-                             GlfSimpleLight const& light);
+    void _SetMaterialNetwork(SdfPath const& pathName, GlfSimpleLight const& light);
     GlfSimpleLight _GetLightAtId(size_t const& pathIdx);
     void _RemoveLightSprim(size_t const& pathIdx);
-    void _ReplaceLightSprim(size_t const& pathIdx, GlfSimpleLight const& light, 
-                        SdfPath const& pathName);
+    void _ReplaceLightSprim(size_t const& pathIdx, GlfSimpleLight const& light, SdfPath const& pathName);
 
     // A private scene delegate member variable backs the tasks and the free cam
     // this controller generates. To keep _Delegate simple, the containing class
     // is responsible for marking things dirty.
-    class _Delegate : public HdSceneDelegate
-    {
+    class _Delegate : public HdSceneDelegate {
     public:
-        _Delegate(HdRenderIndex *parentIndex,
-                  SdfPath const& delegateID)
-            : HdSceneDelegate(parentIndex, delegateID)
-            {}
+        _Delegate(HdRenderIndex* parentIndex, SdfPath const& delegateID) : HdSceneDelegate(parentIndex, delegateID) {}
         ~_Delegate() override = default;
 
         // HdxTaskController set/get interface
         template <typename T>
-        void SetParameter(SdfPath const& id, TfToken const& key,
-                          T const& value) {
+        void SetParameter(SdfPath const& id, TfToken const& key, T const& value) {
             _valueCacheMap[id][key] = value;
         }
         template <typename T>
         T GetParameter(SdfPath const& id, TfToken const& key) const {
             VtValue vParams;
             _ValueCache vCache;
-            TF_VERIFY(
-                TfMapLookup(_valueCacheMap, id, &vCache) &&
-                TfMapLookup(vCache, key, &vParams) &&
-                vParams.IsHolding<T>());
+            TF_VERIFY(TfMapLookup(_valueCacheMap, id, &vCache) && TfMapLookup(vCache, key, &vParams) &&
+                      vParams.IsHolding<T>());
             return vParams.Get<T>();
         }
         bool HasParameter(SdfPath const& id, TfToken const& key) const {
             _ValueCache vCache;
-            if (TfMapLookup(_valueCacheMap, id, &vCache) &&
-                vCache.count(key) > 0) {
+            if (TfMapLookup(_valueCacheMap, id, &vCache) && vCache.count(key) > 0) {
                 return true;
             }
             return false;
@@ -357,14 +340,11 @@ private:
         // HdSceneDelegate interface
         VtValue Get(SdfPath const& id, TfToken const& key) override;
         GfMatrix4d GetTransform(SdfPath const& id) override;
-        VtValue GetLightParamValue(SdfPath const& id, 
-                                   TfToken const& paramName) override;
+        VtValue GetLightParamValue(SdfPath const& id, TfToken const& paramName) override;
         VtValue GetMaterialResource(SdfPath const& id) override;
         bool IsEnabled(TfToken const& option) const override;
-        HdRenderBufferDescriptor
-            GetRenderBufferDescriptor(SdfPath const& id) override;
+        HdRenderBufferDescriptor GetRenderBufferDescriptor(SdfPath const& id) override;
         TfTokenVector GetTaskRenderTags(SdfPath const& taskId) override;
-
 
     private:
         using _ValueCache = TfHashMap<TfToken, VtValue, TfToken::HashFunctor>;
@@ -391,7 +371,7 @@ private:
 
     // Current active camera
     SdfPath _activeCameraId;
-    
+
     // Built-in lights
     SdfPathVector _lightIds;
 
@@ -409,4 +389,4 @@ private:
 
 PXR_NAMESPACE_CLOSE_SCOPE
 
-#endif // PXR_IMAGING_HDX_TASK_CONTROLLER_H
+#endif  // PXR_IMAGING_HDX_TASK_CONTROLLER_H
