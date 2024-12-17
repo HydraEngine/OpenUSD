@@ -57,14 +57,8 @@ HdxDebugDrawTask::~HdxDebugDrawTask() {
         _GetHgi()->DestroyBuffer(&_triangleResource.vertexBuffer);
     }
 
-    if (_pointResource.shaderProgram) {
-        _DestroyShaderProgram(_pointResource.shaderProgram);
-    }
-    if (_lineResource.shaderProgram) {
-        _DestroyShaderProgram(_lineResource.shaderProgram);
-    }
-    if (_triangleResource.shaderProgram) {
-        _DestroyShaderProgram(_triangleResource.shaderProgram);
+    if (_shaderProgram) {
+        _DestroyShaderProgram();
     }
 
     if (_pointResource.pipeline) {
@@ -78,8 +72,8 @@ HdxDebugDrawTask::~HdxDebugDrawTask() {
     }
 }
 
-bool HdxDebugDrawTask::_CreatePointShaderResources() {
-    if (_pointResource.shaderProgram) {
+bool HdxDebugDrawTask::_CreateShaderResources() {
+    if (_shaderProgram) {
         return true;
     }
 
@@ -129,25 +123,15 @@ bool HdxDebugDrawTask::_CreatePointShaderResources() {
     programDesc.debugName = _tokens->debugDrawShader.GetString();
     programDesc.shaderFunctions.push_back(vertFn);
     programDesc.shaderFunctions.push_back(fragFn);
-    _pointResource.shaderProgram = _GetHgi()->CreateShaderProgram(programDesc);
+    _shaderProgram = _GetHgi()->CreateShaderProgram(programDesc);
 
-    if (!_pointResource.shaderProgram->IsValid() || !vertFn->IsValid() || !fragFn->IsValid()) {
+    if (!_shaderProgram->IsValid() || !vertFn->IsValid() || !fragFn->IsValid()) {
         TF_CODING_ERROR("Failed to create point debug draw shader");
-        _PrintCompileErrors(_pointResource.shaderProgram);
-        _DestroyShaderProgram(_pointResource.shaderProgram);
+        _PrintCompileErrors();
+        _DestroyShaderProgram();
         return false;
     }
 
-    return true;
-}
-
-bool HdxDebugDrawTask::_CreateLineShaderResources() {
-    // todo
-    return true;
-}
-
-bool HdxDebugDrawTask::_CreateTriangleShaderResources() {
-    // todo
     return true;
 }
 
@@ -159,7 +143,6 @@ bool HdxDebugDrawTask::_CreatePointBufferResources() {
         // Must re-create any objects that depend on the transform buffer size
         // directly and any objects that depend on those re-created objects.
         _GetHgi()->DestroyGraphicsPipeline(&_pointResource.pipeline);
-        _DestroyShaderProgram(_pointResource.shaderProgram);
         _GetHgi()->DestroyBuffer(&_pointResource.vertexBuffer);
     }
 
@@ -182,7 +165,6 @@ bool HdxDebugDrawTask::_CreateLineBufferResources() {
         // Must re-create any objects that depend on the transform buffer size
         // directly and any objects that depend on those re-created objects.
         _GetHgi()->DestroyGraphicsPipeline(&_lineResource.pipeline);
-        _DestroyShaderProgram(_lineResource.shaderProgram);
         _GetHgi()->DestroyBuffer(&_lineResource.vertexBuffer);
     }
 
@@ -205,7 +187,6 @@ bool HdxDebugDrawTask::_CreateTriangleBufferResources() {
         // Must re-create any objects that depend on the transform buffer size
         // directly and any objects that depend on those re-created objects.
         _GetHgi()->DestroyGraphicsPipeline(&_triangleResource.pipeline);
-        _DestroyShaderProgram(_triangleResource.shaderProgram);
         _GetHgi()->DestroyBuffer(&_triangleResource.vertexBuffer);
     }
 
@@ -246,7 +227,7 @@ bool HdxDebugDrawTask::_CreatePointPipeline(const HgiTextureHandle& colorTexture
     HgiGraphicsPipelineDesc desc;
     desc.debugName = "DebugDraw Point Pipeline";
     desc.primitiveType = HgiPrimitiveTypePointList;
-    desc.shaderProgram = _pointResource.shaderProgram;
+    desc.shaderProgram = _shaderProgram;
 
     // Describe the vertex buffer
     HgiVertexAttributeDesc posAttr;
@@ -306,7 +287,7 @@ bool HdxDebugDrawTask::_CreateLinePipeline(const HgiTextureHandle& colorTexture,
     HgiGraphicsPipelineDesc desc;
     desc.debugName = "DebugDraw Line Pipeline";
     desc.primitiveType = HgiPrimitiveTypeLineList;
-    desc.shaderProgram = _lineResource.shaderProgram;
+    desc.shaderProgram = _shaderProgram;
 
     // Describe the vertex buffer
     HgiVertexAttributeDesc posAttr;
@@ -367,7 +348,7 @@ bool HdxDebugDrawTask::_CreateTrianglePipeline(const HgiTextureHandle& colorText
     HgiGraphicsPipelineDesc desc;
     desc.debugName = "DebugDraw Triangle Pipeline";
     desc.primitiveType = HgiPrimitiveTypeTriangleList;
-    desc.shaderProgram = _triangleResource.shaderProgram;
+    desc.shaderProgram = _shaderProgram;
 
     // Describe the vertex buffer
     HgiVertexAttributeDesc posAttr;
@@ -572,13 +553,7 @@ void HdxDebugDrawTask::Execute(HdTaskContext* ctx) {
     if (!TF_VERIFY(_CreateTriangleBufferResources())) {
         return;
     }
-    if (!TF_VERIFY(_CreatePointShaderResources())) {
-        return;
-    }
-    if (!TF_VERIFY(_CreateLineShaderResources())) {
-        return;
-    }
-    if (!TF_VERIFY(_CreateTriangleShaderResources())) {
+    if (!TF_VERIFY(_CreateShaderResources())) {
         return;
     }
     if (!TF_VERIFY(_CreatePointPipeline(colorTexture, depthTexture))) {
@@ -603,22 +578,22 @@ void HdxDebugDrawTask::Execute(HdTaskContext* ctx) {
     _DrawTriangles(colorTexture, depthTexture, *hdStRenderPassState);
 }
 
-void HdxDebugDrawTask::_DestroyShaderProgram(HgiShaderProgramHandle shaderProgram) {
-    if (!shaderProgram) return;
+void HdxDebugDrawTask::_DestroyShaderProgram() {
+    if (!_shaderProgram) return;
 
-    for (HgiShaderFunctionHandle fn : shaderProgram->GetShaderFunctions()) {
+    for (HgiShaderFunctionHandle fn : _shaderProgram->GetShaderFunctions()) {
         _GetHgi()->DestroyShaderFunction(&fn);
     }
-    _GetHgi()->DestroyShaderProgram(&shaderProgram);
+    _GetHgi()->DestroyShaderProgram(&_shaderProgram);
 }
 
-void HdxDebugDrawTask::_PrintCompileErrors(HgiShaderProgramHandle shaderProgram) {
-    if (!shaderProgram) return;
+void HdxDebugDrawTask::_PrintCompileErrors() {
+    if (!_shaderProgram) return;
 
-    for (HgiShaderFunctionHandle fn : shaderProgram->GetShaderFunctions()) {
+    for (HgiShaderFunctionHandle fn : _shaderProgram->GetShaderFunctions()) {
         std::cout << fn->GetCompileErrors() << std::endl;
     }
-    std::cout << shaderProgram->GetCompileErrors() << std::endl;
+    std::cout << _shaderProgram->GetCompileErrors() << std::endl;
 }
 
 // -------------------------------------------------------------------------- //

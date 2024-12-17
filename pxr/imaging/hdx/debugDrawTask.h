@@ -109,9 +109,7 @@ private:
     HdxDebugDrawTask& operator=(const HdxDebugDrawTask&) = delete;
 
     // Utility function to create the shader for drawing dashed lines.
-    bool _CreatePointShaderResources();
-    bool _CreateLineShaderResources();
-    bool _CreateTriangleShaderResources();
+    bool _CreateShaderResources();
 
     // Utility function to create buffer resources.
     bool _CreatePointBufferResources();
@@ -144,23 +142,23 @@ private:
                         const HdStRenderPassState& hdStRenderPassState);
 
     // Destroy shader program and the shader functions it holds.
-    void _DestroyShaderProgram(HgiShaderProgramHandle shaderProgram);
+    void _DestroyShaderProgram();
 
     // Print shader compile errors.
-    void _PrintCompileErrors(HgiShaderProgramHandle shaderProgram);
+    void _PrintCompileErrors();
 
     HgiAttachmentDesc _colorAttachment;
     HgiAttachmentDesc _depthAttachment;
 
     struct GPUResource {
         HgiBufferHandle vertexBuffer;
-        size_t maxTransforms;
-        HgiShaderProgramHandle shaderProgram;
+        size_t maxTransforms{};
         HgiGraphicsPipelineHandle pipeline;
     };
     GPUResource _pointResource;
     GPUResource _lineResource;
     GPUResource _triangleResource;
+    HgiShaderProgramHandle _shaderProgram;
 
     HdxDebugDrawTaskParams _params;
 };
