@@ -134,7 +134,7 @@ bool HdxDebugDrawTask::_CreatePointShaderResources() {
 
     if (!_pointResource.shaderProgram->IsValid() || !vertFn->IsValid() || !fragFn->IsValid()) {
         TF_CODING_ERROR("Failed to create point debug draw shader");
-        _PrintCompileErrors();
+        _PrintCompileErrors(_pointResource.shaderProgram);
         _DestroyShaderProgram(_pointResource.shaderProgram);
         return false;
     }
@@ -161,7 +161,6 @@ bool HdxDebugDrawTask::_CreatePointBufferResources() {
         // directly and any objects that depend on those re-created objects.
         _GetHgi()->DestroyGraphicsPipeline(&_pointResource.pipeline);
         _DestroyShaderProgram(_pointResource.shaderProgram);
-        _GetHgi()->DestroyResourceBindings(&_pointResource.resourceBindings);
         _GetHgi()->DestroyBuffer(&_pointResource.vertexBuffer);
     }
 
@@ -185,7 +184,6 @@ bool HdxDebugDrawTask::_CreateLineBufferResources() {
         // directly and any objects that depend on those re-created objects.
         _GetHgi()->DestroyGraphicsPipeline(&_lineResource.pipeline);
         _DestroyShaderProgram(_lineResource.shaderProgram);
-        _GetHgi()->DestroyResourceBindings(&_lineResource.resourceBindings);
         _GetHgi()->DestroyBuffer(&_lineResource.vertexBuffer);
     }
 
@@ -209,7 +207,6 @@ bool HdxDebugDrawTask::_CreateTriangleBufferResources() {
         // directly and any objects that depend on those re-created objects.
         _GetHgi()->DestroyGraphicsPipeline(&_triangleResource.pipeline);
         _DestroyShaderProgram(_triangleResource.shaderProgram);
-        _GetHgi()->DestroyResourceBindings(&_triangleResource.resourceBindings);
         _GetHgi()->DestroyBuffer(&_triangleResource.vertexBuffer);
     }
 
@@ -249,7 +246,7 @@ bool HdxDebugDrawTask::_CreatePointPipeline(const HgiTextureHandle& colorTexture
 
     HgiGraphicsPipelineDesc desc;
     desc.debugName = "BoundingBox Pipeline";
-    desc.primitiveType = HgiPrimitiveTypeLineList;
+    desc.primitiveType = HgiPrimitiveTypePointList;
     desc.shaderProgram = _pointResource.shaderProgram;
 
     // Describe the vertex buffer
@@ -320,6 +317,7 @@ GfMatrix4d HdxDebugDrawTask::_ComputeViewProjectionMatrix(const HdStRenderPassSt
 
 void HdxDebugDrawTask::_UpdateShaderConstants(HgiGraphicsCmds* gfxCmds,
                                               const GfVec4i& gfxViewport,
+                                              HgiGraphicsPipelineHandle pipeline,
                                               const HdStRenderPassState& hdStRenderPassState) {
     // View-Projection matrix is the same for either bbox
     const GfMatrix4d viewProj = _ComputeViewProjectionMatrix(hdStRenderPassState);
@@ -327,11 +325,11 @@ void HdxDebugDrawTask::_UpdateShaderConstants(HgiGraphicsCmds* gfxCmds,
     // Update and upload the other constant data.
     const GfVec4f viewport(gfxViewport);
     const _ShaderConstants constants = {viewport, viewProj};
-    gfxCmds->SetConstantValues(_pipeline, HgiShaderStageVertex | HgiShaderStageFragment, 0, sizeof(_ShaderConstants),
+    gfxCmds->SetConstantValues(pipeline, HgiShaderStageVertex | HgiShaderStageFragment, 0, sizeof(_ShaderConstants),
                                &constants);
 }
 
-void HdxDebugDrawTask::_DrawBBoxes(const HgiTextureHandle& colorTexture,
+void HdxDebugDrawTask::_DrawPoints(const HgiTextureHandle& colorTexture,
                                    const HgiTextureHandle& depthTexture,
                                    const HdStRenderPassState& hdStRenderPassState) {
     // Prepare graphics cmds.
@@ -343,15 +341,14 @@ void HdxDebugDrawTask::_DrawBBoxes(const HgiTextureHandle& colorTexture,
 
     // Begin rendering
     HgiGraphicsCmdsUniquePtr gfxCmds = _GetHgi()->CreateGraphicsCmds(gfxDesc);
-    gfxCmds->PushDebugGroup("BoundingBox");
-    gfxCmds->BindPipeline(_pipeline);
-    gfxCmds->BindVertexBuffers({{_vertexBuffer, 0, 0}});
+    gfxCmds->PushDebugGroup("Debug Point");
+    gfxCmds->BindPipeline(_pointResource.pipeline);
+    gfxCmds->BindVertexBuffers({{_pointResource.vertexBuffer, 0, 0}});
 
     const GfVec4i viewport = hdStRenderPassState.ComputeViewport();
     gfxCmds->SetViewport(viewport);
 
-    _UpdateShaderConstants(gfxCmds.get(), viewport, hdStRenderPassState);
-    gfxCmds->BindResources(_resourceBindings);
+    _UpdateShaderConstants(gfxCmds.get(), viewport, _pointResource.pipeline, hdStRenderPassState);
 
     gfxCmds->Draw(24, 0, 0, 0);
 
@@ -360,6 +357,14 @@ void HdxDebugDrawTask::_DrawBBoxes(const HgiTextureHandle& colorTexture,
     // Done recording commands, submit work.
     _GetHgi()->SubmitCmds(gfxCmds.get());
 }
+
+void HdxDebugDrawTask::_DrawLines(const HgiTextureHandle& colorTexture,
+                                  const HgiTextureHandle& depthTexture,
+                                  const HdStRenderPassState& hdStRenderPassState) {}
+
+void HdxDebugDrawTask::_DrawTriangles(const HgiTextureHandle& colorTexture,
+                                      const HgiTextureHandle& depthTexture,
+                                      const HdStRenderPassState& hdStRenderPassState) {}
 
 void HdxDebugDrawTask::_Sync(HdSceneDelegate* delegate, HdTaskContext* ctx, HdDirtyBits* dirtyBits) {
     HD_TRACE_FUNCTION();
@@ -411,18 +416,26 @@ void HdxDebugDrawTask::Execute(HdTaskContext* ctx) {
     if (!TF_VERIFY(_CreateTriangleShaderResources())) {
         return;
     }
-    if (!TF_VERIFY(_CreatePipeline(colorTexture, depthTexture))) {
+    if (!TF_VERIFY(_CreatePointPipeline(colorTexture, depthTexture))) {
+        return;
+    }
+    if (!TF_VERIFY(_CreateLinePipeline(colorTexture, depthTexture))) {
+        return;
+    }
+    if (!TF_VERIFY(_CreateTrianglePipeline(colorTexture, depthTexture))) {
         return;
     }
 
     HdRenderPassStateSharedPtr renderPassState;
     _GetTaskContextData(ctx, HdxTokens->renderPassState, &renderPassState);
-    HdStRenderPassState* const hdStRenderPassState = dynamic_cast<HdStRenderPassState*>(renderPassState.get());
+    auto* const hdStRenderPassState = dynamic_cast<HdStRenderPassState*>(renderPassState.get());
     if (!hdStRenderPassState) {
         return;
     }
 
-    _DrawBBoxes(colorTexture, depthTexture, *hdStRenderPassState);
+    _DrawPoints(colorTexture, depthTexture, *hdStRenderPassState);
+    _DrawLines(colorTexture, depthTexture, *hdStRenderPassState);
+    _DrawTriangles(colorTexture, depthTexture, *hdStRenderPassState);
 }
 
 void HdxDebugDrawTask::_DestroyShaderProgram(HgiShaderProgramHandle shaderProgram) {
@@ -434,13 +447,13 @@ void HdxDebugDrawTask::_DestroyShaderProgram(HgiShaderProgramHandle shaderProgra
     _GetHgi()->DestroyShaderProgram(&shaderProgram);
 }
 
-void HdxDebugDrawTask::_PrintCompileErrors() {
-    if (!_shaderProgram) return;
+void HdxDebugDrawTask::_PrintCompileErrors(HgiShaderProgramHandle shaderProgram) {
+    if (!shaderProgram) return;
 
-    for (HgiShaderFunctionHandle fn : _shaderProgram->GetShaderFunctions()) {
+    for (HgiShaderFunctionHandle fn : shaderProgram->GetShaderFunctions()) {
         std::cout << fn->GetCompileErrors() << std::endl;
     }
-    std::cout << _shaderProgram->GetCompileErrors() << std::endl;
+    std::cout << shaderProgram->GetCompileErrors() << std::endl;
 }
 
 // -------------------------------------------------------------------------- //

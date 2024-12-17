@@ -129,18 +129,25 @@ private:
     // Utility to set the shader constants for drawing.
     void _UpdateShaderConstants(HgiGraphicsCmds* gfxCmds,
                                 const GfVec4i& gfxViewport,
+                                HgiGraphicsPipelineHandle pipeline,
                                 const HdStRenderPassState& hdStRenderPassState);
 
     // Create and submit the draw commands.
-    void _DrawBBoxes(const HgiTextureHandle& colorTexture,
+    void _DrawPoints(const HgiTextureHandle& colorTexture,
                      const HgiTextureHandle& depthTexture,
                      const HdStRenderPassState& hdStRenderPassState);
+    void _DrawLines(const HgiTextureHandle& colorTexture,
+                    const HgiTextureHandle& depthTexture,
+                    const HdStRenderPassState& hdStRenderPassState);
+    void _DrawTriangles(const HgiTextureHandle& colorTexture,
+                        const HgiTextureHandle& depthTexture,
+                        const HdStRenderPassState& hdStRenderPassState);
 
     // Destroy shader program and the shader functions it holds.
     void _DestroyShaderProgram(HgiShaderProgramHandle shaderProgram);
 
     // Print shader compile errors.
-    void _PrintCompileErrors();
+    void _PrintCompileErrors(HgiShaderProgramHandle shaderProgram);
 
     HgiAttachmentDesc _colorAttachment;
     HgiAttachmentDesc _depthAttachment;
