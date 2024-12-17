@@ -1,0 +1,37 @@
+-- glslfx version 0.1
+
+//
+// Copyright 2022 Pixar
+//
+// Licensed under the terms set forth in the LICENSE.txt file available at
+// https://openusd.org/license.
+//
+
+-- configuration
+{
+    "techniques": {
+        "default": {
+            "DebugDrawVertex": {
+                "source": [ "DebugDraw.Vertex" ]
+            },
+            "DebugDrawFragment": {
+                "source": [ "DebugDraw.Fragment" ]
+            }
+        }
+    }
+}
+
+-- glsl DebugDraw.Vertex
+
+void main(void)
+{
+    gl_Position = vp * vec4(position, 1.0);
+    colorOut = color;
+}
+
+-- glsl DebugDraw.Fragment
+
+void main(void)
+{
+    hd_FragColor = colorOut;
+}
