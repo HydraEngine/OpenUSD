@@ -44,40 +44,42 @@ struct _ShaderConstants {
 
 }  // namespace
 
-HdxDebugDrawTask::HdxDebugDrawTask(HdSceneDelegate* delegate, const SdfPath& id)
-    : HdxTask(id),
-      _vertexBuffer(),
-      _maxTransforms(2),
-      _transformsBuffer(),
-      _shaderProgram(),
-      _resourceBindings(),
-      _pipeline(),
-      _params() {}
+HdxDebugDrawTask::HdxDebugDrawTask(HdSceneDelegate* delegate, const SdfPath& id) : HdxTask(id), _params() {}
 
 HdxDebugDrawTask::~HdxDebugDrawTask() {
-    if (_vertexBuffer) {
-        _GetHgi()->DestroyBuffer(&_vertexBuffer);
+    if (_pointResource.vertexBuffer) {
+        _GetHgi()->DestroyBuffer(&_pointResource.vertexBuffer);
+    }
+    if (_lineResource.vertexBuffer) {
+        _GetHgi()->DestroyBuffer(&_lineResource.vertexBuffer);
+    }
+    if (_triangleResource.vertexBuffer) {
+        _GetHgi()->DestroyBuffer(&_triangleResource.vertexBuffer);
     }
 
-    if (_transformsBuffer) {
-        _GetHgi()->DestroyBuffer(&_transformsBuffer);
+    if (_pointResource.shaderProgram) {
+        _DestroyShaderProgram(_pointResource.shaderProgram);
+    }
+    if (_lineResource.shaderProgram) {
+        _DestroyShaderProgram(_lineResource.shaderProgram);
+    }
+    if (_triangleResource.shaderProgram) {
+        _DestroyShaderProgram(_triangleResource.shaderProgram);
     }
 
-    if (_shaderProgram) {
-        _DestroyShaderProgram();
+    if (_pointResource.pipeline) {
+        _GetHgi()->DestroyGraphicsPipeline(&_pointResource.pipeline);
     }
-
-    if (_resourceBindings) {
-        _GetHgi()->DestroyResourceBindings(&_resourceBindings);
+    if (_lineResource.pipeline) {
+        _GetHgi()->DestroyGraphicsPipeline(&_lineResource.pipeline);
     }
-
-    if (_pipeline) {
-        _GetHgi()->DestroyGraphicsPipeline(&_pipeline);
+    if (_triangleResource.pipeline) {
+        _GetHgi()->DestroyGraphicsPipeline(&_triangleResource.pipeline);
     }
 }
 
-bool HdxDebugDrawTask::_CreateShaderResources() {
-    if (_shaderProgram) {
+bool HdxDebugDrawTask::_CreatePointShaderResources() {
+    if (_pointResource.shaderProgram) {
         return true;
     }
 
@@ -105,8 +107,6 @@ bool HdxDebugDrawTask::_CreateShaderResources() {
     dashStartParam.interpolation = HgiInterpolationFlat;
     HgiShaderFunctionAddStageOutput(&vertDesc, dashStartParam);
     addConstantParams(&vertDesc);
-    HgiShaderFunctionAddBuffer(&vertDesc, "worldViewProj", "mat4", 1, HgiBindingTypeUniformArray,
-                               static_cast<uint32_t>(_maxTransforms));
     vsCode += glslfx.GetSource(_tokens->debugDrawVertex);
     vertDesc.shaderCode = vsCode.c_str();
     HgiShaderFunctionHandle vertFn = _GetHgi()->CreateShaderFunction(vertDesc);
@@ -128,83 +128,98 @@ bool HdxDebugDrawTask::_CreateShaderResources() {
     // Setup the shader program
     HgiShaderProgramDesc programDesc;
     programDesc.debugName = _tokens->debugDrawShader.GetString();
-    programDesc.shaderFunctions.push_back(std::move(vertFn));
-    programDesc.shaderFunctions.push_back(std::move(fragFn));
-    _shaderProgram = _GetHgi()->CreateShaderProgram(programDesc);
+    programDesc.shaderFunctions.push_back(vertFn);
+    programDesc.shaderFunctions.push_back(fragFn);
+    _pointResource.shaderProgram = _GetHgi()->CreateShaderProgram(programDesc);
 
-    if (!_shaderProgram->IsValid() || !vertFn->IsValid() || !fragFn->IsValid()) {
-        TF_CODING_ERROR("Failed to create bounding box shader");
+    if (!_pointResource.shaderProgram->IsValid() || !vertFn->IsValid() || !fragFn->IsValid()) {
+        TF_CODING_ERROR("Failed to create point debug draw shader");
         _PrintCompileErrors();
-        _DestroyShaderProgram();
+        _DestroyShaderProgram(_pointResource.shaderProgram);
         return false;
     }
 
     return true;
 }
 
-bool HdxDebugDrawTask::_CreateBufferResources() {
-    if (_vertexBuffer && _transformsBuffer) {
+bool HdxDebugDrawTask::_CreateLineShaderResources() {
+    // todo
+    return true;
+}
+
+bool HdxDebugDrawTask::_CreateTriangleShaderResources() {
+    // todo
+    return true;
+}
+
+bool HdxDebugDrawTask::_CreatePointBufferResources() {
+    if (_pointResource.vertexBuffer) {
+        if (_params.points.size() < _pointResource.maxTransforms) {
+            return true;
+        }
         // Must re-create any objects that depend on the transform buffer size
         // directly and any objects that depend on those re-created objects.
-        _GetHgi()->DestroyGraphicsPipeline(&_pipeline);
-        _DestroyShaderProgram();
-        _GetHgi()->DestroyResourceBindings(&_resourceBindings);
-        _GetHgi()->DestroyBuffer(&_transformsBuffer);
+        _GetHgi()->DestroyGraphicsPipeline(&_pointResource.pipeline);
+        _DestroyShaderProgram(_pointResource.shaderProgram);
+        _GetHgi()->DestroyResourceBindings(&_pointResource.resourceBindings);
+        _GetHgi()->DestroyBuffer(&_pointResource.vertexBuffer);
     }
 
-    if (!_vertexBuffer) {
-        // 12 edges of a cube with sides of length 2, centered at the origin
-        constexpr float vertData[24][3] = {
-                {-1, -1, -1}, {-1, -1, +1}, {-1, +1, -1}, {-1, +1, +1},
-                {+1, -1, -1}, {+1, -1, +1}, {+1, +1, -1}, {+1, +1, +1},
-
-                {-1, -1, -1}, {-1, +1, -1}, {+1, -1, -1}, {+1, +1, -1},
-                {-1, -1, +1}, {-1, +1, +1}, {+1, -1, +1}, {+1, +1, +1},
-
-                {-1, -1, -1}, {+1, -1, -1}, {-1, +1, -1}, {+1, +1, -1},
-                {-1, -1, +1}, {+1, -1, +1}, {-1, +1, +1}, {+1, +1, +1},
-        };
-
-        HgiBufferDesc vboDesc;
-        vboDesc.debugName = "HdxBoundingBoxTask VertexBuffer";
-        vboDesc.usage = HgiBufferUsageVertex;
-        vboDesc.initialData = vertData;
-        vboDesc.byteSize = sizeof(vertData);
-        vboDesc.vertexStride = sizeof(vertData[0]);
-        _vertexBuffer = _GetHgi()->CreateBuffer(vboDesc);
-    }
+    _pointResource.maxTransforms = _params.points.size();
 
     HgiBufferDesc transformsDesc;
-    transformsDesc.debugName = "HdxBoundingBoxTask TransformsBuffer";
-    transformsDesc.usage = HgiBufferUsageUniform;
-    transformsDesc.byteSize = 16 * sizeof(float) * _maxTransforms;
-    _transformsBuffer = _GetHgi()->CreateBuffer(transformsDesc);
+    transformsDesc.debugName = "HdxDebugDrawTask Point VertexBuffer";
+    transformsDesc.usage = HgiBufferUsageVertex;
+    transformsDesc.byteSize = 16 * sizeof(float) * _pointResource.maxTransforms;
+    _pointResource.vertexBuffer = _GetHgi()->CreateBuffer(transformsDesc);
 
     return true;
 }
 
-bool HdxDebugDrawTask::_CreateResourceBindings() {
-    if (_resourceBindings) {
-        return true;
+bool HdxDebugDrawTask::_CreateLineBufferResources() {
+    if (_lineResource.vertexBuffer) {
+        if (_params.points.size() < _lineResource.maxTransforms) {
+            return true;
+        }
+        // Must re-create any objects that depend on the transform buffer size
+        // directly and any objects that depend on those re-created objects.
+        _GetHgi()->DestroyGraphicsPipeline(&_lineResource.pipeline);
+        _DestroyShaderProgram(_lineResource.shaderProgram);
+        _GetHgi()->DestroyResourceBindings(&_lineResource.resourceBindings);
+        _GetHgi()->DestroyBuffer(&_lineResource.vertexBuffer);
     }
 
-    HgiResourceBindingsDesc resourceDesc;
-    resourceDesc.debugName = "BoundingBox";
+    _lineResource.maxTransforms = _params.points.size();
 
-    // Transform array used only in the vertex shader.
-    // Note this binds at index 1 since shader constants are also used, which
-    // will bind at index 0 on some backends.
-    HgiBufferBindDesc bufBind1;
-    bufBind1.bindingIndex = 1;
-    bufBind1.resourceType = HgiBindResourceTypeUniformBuffer;
-    bufBind1.stageUsage = HgiShaderStageVertex;
-    bufBind1.offsets.push_back(0);
-    bufBind1.sizes.push_back(0);
-    bufBind1.buffers.push_back(_transformsBuffer);
-    bufBind1.writable = false;
-    resourceDesc.buffers.push_back(std::move(bufBind1));
+    HgiBufferDesc transformsDesc;
+    transformsDesc.debugName = "HdxDebugDrawTask Line VertexBuffer";
+    transformsDesc.usage = HgiBufferUsageVertex;
+    transformsDesc.byteSize = 16 * sizeof(float) * _lineResource.maxTransforms;
+    _lineResource.vertexBuffer = _GetHgi()->CreateBuffer(transformsDesc);
 
-    _resourceBindings = _GetHgi()->CreateResourceBindings(resourceDesc);
+    return true;
+}
+
+bool HdxDebugDrawTask::_CreateTriangleBufferResources() {
+    if (_triangleResource.vertexBuffer) {
+        if (_params.points.size() < _triangleResource.maxTransforms) {
+            return true;
+        }
+        // Must re-create any objects that depend on the transform buffer size
+        // directly and any objects that depend on those re-created objects.
+        _GetHgi()->DestroyGraphicsPipeline(&_triangleResource.pipeline);
+        _DestroyShaderProgram(_triangleResource.shaderProgram);
+        _GetHgi()->DestroyResourceBindings(&_triangleResource.resourceBindings);
+        _GetHgi()->DestroyBuffer(&_triangleResource.vertexBuffer);
+    }
+
+    _triangleResource.maxTransforms = _params.points.size();
+
+    HgiBufferDesc transformsDesc;
+    transformsDesc.debugName = "HdxDebugDrawTask Triangle VertexBuffer";
+    transformsDesc.usage = HgiBufferUsageVertex;
+    transformsDesc.byteSize = 16 * sizeof(float) * _triangleResource.maxTransforms;
+    _triangleResource.vertexBuffer = _GetHgi()->CreateBuffer(transformsDesc);
 
     return true;
 }
@@ -219,22 +234,23 @@ static bool _MatchesFormatAndSampleCount(const HgiTextureHandle& texture,
     return false;
 }
 
-bool HdxDebugDrawTask::_CreatePipeline(const HgiTextureHandle& colorTexture, const HgiTextureHandle& depthTexture) {
-    if (_pipeline) {
-        const HgiSampleCount sampleCount = _pipeline->GetDescriptor().multiSampleState.sampleCount;
+bool HdxDebugDrawTask::_CreatePointPipeline(const HgiTextureHandle& colorTexture,
+                                            const HgiTextureHandle& depthTexture) {
+    if (_pointResource.pipeline) {
+        const HgiSampleCount sampleCount = _pointResource.pipeline->GetDescriptor().multiSampleState.sampleCount;
 
         if (_MatchesFormatAndSampleCount(colorTexture, _colorAttachment.format, sampleCount) &&
             _MatchesFormatAndSampleCount(depthTexture, _depthAttachment.format, sampleCount)) {
             return true;
         }
 
-        _GetHgi()->DestroyGraphicsPipeline(&_pipeline);
+        _GetHgi()->DestroyGraphicsPipeline(&_pointResource.pipeline);
     }
 
     HgiGraphicsPipelineDesc desc;
     desc.debugName = "BoundingBox Pipeline";
     desc.primitiveType = HgiPrimitiveTypeLineList;
-    desc.shaderProgram = _shaderProgram;
+    desc.shaderProgram = _pointResource.shaderProgram;
 
     // Describe the vertex buffer
     HgiVertexAttributeDesc posAttr;
@@ -268,8 +284,19 @@ bool HdxDebugDrawTask::_CreatePipeline(const HgiTextureHandle& colorTexture, con
     desc.shaderConstantsDesc.stageUsage = HgiShaderStageVertex | HgiShaderStageFragment;
     desc.shaderConstantsDesc.byteSize = sizeof(_ShaderConstants);
 
-    _pipeline = _GetHgi()->CreateGraphicsPipeline(desc);
+    _pointResource.pipeline = _GetHgi()->CreateGraphicsPipeline(desc);
 
+    return true;
+}
+
+bool HdxDebugDrawTask::_CreateLinePipeline(const HgiTextureHandle& colorTexture, const HgiTextureHandle& depthTexture) {
+    // todo
+    return true;
+}
+
+bool HdxDebugDrawTask::_CreateTrianglePipeline(const HgiTextureHandle& colorTexture,
+                                               const HgiTextureHandle& depthTexture) {
+    // todo
     return true;
 }
 
@@ -366,13 +393,22 @@ void HdxDebugDrawTask::Execute(HdTaskContext* ctx) {
     _GetTaskContextData(ctx, HdAovTokens->color, &colorTexture);
     _GetTaskContextData(ctx, HdAovTokens->depth, &depthTexture);
 
-    if (!TF_VERIFY(_CreateBufferResources())) {
+    if (!TF_VERIFY(_CreatePointBufferResources())) {
         return;
     }
-    if (!TF_VERIFY(_CreateShaderResources())) {
+    if (!TF_VERIFY(_CreateLineBufferResources())) {
         return;
     }
-    if (!TF_VERIFY(_CreateResourceBindings())) {
+    if (!TF_VERIFY(_CreateTriangleBufferResources())) {
+        return;
+    }
+    if (!TF_VERIFY(_CreatePointShaderResources())) {
+        return;
+    }
+    if (!TF_VERIFY(_CreateLineShaderResources())) {
+        return;
+    }
+    if (!TF_VERIFY(_CreateTriangleShaderResources())) {
         return;
     }
     if (!TF_VERIFY(_CreatePipeline(colorTexture, depthTexture))) {
@@ -389,13 +425,13 @@ void HdxDebugDrawTask::Execute(HdTaskContext* ctx) {
     _DrawBBoxes(colorTexture, depthTexture, *hdStRenderPassState);
 }
 
-void HdxDebugDrawTask::_DestroyShaderProgram() {
-    if (!_shaderProgram) return;
+void HdxDebugDrawTask::_DestroyShaderProgram(HgiShaderProgramHandle shaderProgram) {
+    if (!shaderProgram) return;
 
-    for (HgiShaderFunctionHandle fn : _shaderProgram->GetShaderFunctions()) {
+    for (HgiShaderFunctionHandle fn : shaderProgram->GetShaderFunctions()) {
         _GetHgi()->DestroyShaderFunction(&fn);
     }
-    _GetHgi()->DestroyShaderProgram(&_shaderProgram);
+    _GetHgi()->DestroyShaderProgram(&shaderProgram);
 }
 
 void HdxDebugDrawTask::_PrintCompileErrors() {
@@ -421,8 +457,8 @@ std::ostream& operator<<(std::ostream& out, const HdxDebugDrawTaskParams& pv) {
 }
 
 bool operator==(const HdxDebugDrawTaskParams& lhs, const HdxDebugDrawTaskParams& rhs) {
-    return lhs.aovName == rhs.aovName && lhs.points.size() == rhs.points.size() && lhs.lines.size() == rhs.lines.size() &&
-           lhs.triangles.size() == rhs.triangles.size();
+    return lhs.aovName == rhs.aovName && lhs.points.size() == rhs.points.size() &&
+           lhs.lines.size() == rhs.lines.size() && lhs.triangles.size() == rhs.triangles.size();
 }
 
 bool operator!=(const HdxDebugDrawTaskParams& lhs, const HdxDebugDrawTaskParams& rhs) { return !(lhs == rhs); }

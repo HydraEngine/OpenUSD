@@ -109,16 +109,19 @@ private:
     HdxDebugDrawTask& operator=(const HdxDebugDrawTask&) = delete;
 
     // Utility function to create the shader for drawing dashed lines.
-    bool _CreateShaderResources();
+    bool _CreatePointShaderResources();
+    bool _CreateLineShaderResources();
+    bool _CreateTriangleShaderResources();
 
     // Utility function to create buffer resources.
-    bool _CreateBufferResources();
-
-    // Utility to create resource bindings
-    bool _CreateResourceBindings();
+    bool _CreatePointBufferResources();
+    bool _CreateLineBufferResources();
+    bool _CreateTriangleBufferResources();
 
     // Utility to create a pipeline.
-    bool _CreatePipeline(const HgiTextureHandle& colorTexture, const HgiTextureHandle& depthTexture);
+    bool _CreatePointPipeline(const HgiTextureHandle& colorTexture, const HgiTextureHandle& depthTexture);
+    bool _CreateLinePipeline(const HgiTextureHandle& colorTexture, const HgiTextureHandle& depthTexture);
+    bool _CreateTrianglePipeline(const HgiTextureHandle& colorTexture, const HgiTextureHandle& depthTexture);
 
     // Utility to get the view and projection matrix from the camera.
     GfMatrix4d _ComputeViewProjectionMatrix(const HdStRenderPassState& hdStRenderPassState) const;
@@ -134,7 +137,7 @@ private:
                      const HdStRenderPassState& hdStRenderPassState);
 
     // Destroy shader program and the shader functions it holds.
-    void _DestroyShaderProgram();
+    void _DestroyShaderProgram(HgiShaderProgramHandle shaderProgram);
 
     // Print shader compile errors.
     void _PrintCompileErrors();
@@ -142,12 +145,15 @@ private:
     HgiAttachmentDesc _colorAttachment;
     HgiAttachmentDesc _depthAttachment;
 
-    HgiBufferHandle _vertexBuffer;
-    size_t _maxTransforms;
-    HgiBufferHandle _transformsBuffer;
-    HgiShaderProgramHandle _shaderProgram;
-    HgiResourceBindingsHandle _resourceBindings;
-    HgiGraphicsPipelineHandle _pipeline;
+    struct GPUResource {
+        HgiBufferHandle vertexBuffer;
+        size_t maxTransforms;
+        HgiShaderProgramHandle shaderProgram;
+        HgiGraphicsPipelineHandle pipeline;
+    };
+    GPUResource _pointResource;
+    GPUResource _lineResource;
+    GPUResource _triangleResource;
 
     HdxDebugDrawTaskParams _params;
 };
