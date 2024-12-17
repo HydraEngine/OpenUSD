@@ -125,10 +125,18 @@ private:
     GfMatrix4d _ComputeViewProjectionMatrix(const HdStRenderPassState& hdStRenderPassState) const;
 
     // Utility to set the shader constants for drawing.
-    void _UpdateShaderConstants(HgiGraphicsCmds* gfxCmds,
-                                const GfVec4i& gfxViewport,
-                                HgiGraphicsPipelineHandle pipeline,
-                                const HdStRenderPassState& hdStRenderPassState);
+    void _UpdatePointShaderConstants(HgiGraphicsCmds* gfxCmds,
+                                     const GfVec4i& gfxViewport,
+                                     HgiGraphicsPipelineHandle pipeline,
+                                     const HdStRenderPassState& hdStRenderPassState);
+    void _UpdateLineShaderConstants(HgiGraphicsCmds* gfxCmds,
+                                    const GfVec4i& gfxViewport,
+                                    HgiGraphicsPipelineHandle pipeline,
+                                    const HdStRenderPassState& hdStRenderPassState);
+    void _UpdateTriangleShaderConstants(HgiGraphicsCmds* gfxCmds,
+                                        const GfVec4i& gfxViewport,
+                                        HgiGraphicsPipelineHandle pipeline,
+                                        const HdStRenderPassState& hdStRenderPassState);
 
     // Create and submit the draw commands.
     void _DrawPoints(const HgiTextureHandle& colorTexture,

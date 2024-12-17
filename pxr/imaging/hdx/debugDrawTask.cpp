@@ -96,7 +96,7 @@ bool HdxDebugDrawTask::_CreateShaderResources() {
     HgiShaderFunctionAddStageOutput(&vertDesc, "gl_Position", "vec4", "position");
     HgiShaderFunctionParamDesc colorParam;
     colorParam.nameInShader = "colorOut";
-    colorParam.type = "float";
+    colorParam.type = "uint";
     colorParam.interpolation = HgiInterpolationFlat;
     HgiShaderFunctionAddStageOutput(&vertDesc, colorParam);
     addConstantParams(&vertDesc);
@@ -236,7 +236,7 @@ bool HdxDebugDrawTask::_CreatePointPipeline(const HgiTextureHandle& colorTexture
     posAttr.shaderBindLocation = 0;
 
     HgiVertexAttributeDesc colorAttr;
-    posAttr.format = HgiFormatFloat32;
+    posAttr.format = HgiFormatInt32;
     posAttr.offset = 3 * sizeof(float);
     posAttr.shaderBindLocation = 1;
 
@@ -296,7 +296,7 @@ bool HdxDebugDrawTask::_CreateLinePipeline(const HgiTextureHandle& colorTexture,
     posAttr.shaderBindLocation = 0;
 
     HgiVertexAttributeDesc colorAttr;
-    posAttr.format = HgiFormatFloat32;
+    posAttr.format = HgiFormatInt32;
     posAttr.offset = 3 * sizeof(float);
     posAttr.shaderBindLocation = 1;
 
@@ -357,7 +357,7 @@ bool HdxDebugDrawTask::_CreateTrianglePipeline(const HgiTextureHandle& colorText
     posAttr.shaderBindLocation = 0;
 
     HgiVertexAttributeDesc colorAttr;
-    posAttr.format = HgiFormatFloat32;
+    posAttr.format = HgiFormatInt32;
     posAttr.offset = 3 * sizeof(float);
     posAttr.shaderBindLocation = 1;
 
@@ -411,10 +411,83 @@ GfMatrix4d HdxDebugDrawTask::_ComputeViewProjectionMatrix(const HdStRenderPassSt
     return view * projection;
 }
 
-void HdxDebugDrawTask::_UpdateShaderConstants(HgiGraphicsCmds* gfxCmds,
-                                              const GfVec4i& gfxViewport,
-                                              HgiGraphicsPipelineHandle pipeline,
-                                              const HdStRenderPassState& hdStRenderPassState) {
+void HdxDebugDrawTask::_UpdatePointShaderConstants(HgiGraphicsCmds* gfxCmds,
+                                                   const GfVec4i& gfxViewport,
+                                                   HgiGraphicsPipelineHandle pipeline,
+                                                   const HdStRenderPassState& hdStRenderPassState) {
+    // Upload the transform data to the GPU.
+    void* transformsStaging = _pointResource.vertexBuffer->GetCPUStagingAddress();
+    memcpy(transformsStaging, _params.points.data(), 4 * sizeof(float) * _params.points.size());
+
+    HgiBufferCpuToGpuOp transformsBlit;
+    transformsBlit.cpuSourceBuffer = transformsStaging;
+    transformsBlit.sourceByteOffset = 0;
+    transformsBlit.gpuDestinationBuffer = _pointResource.vertexBuffer;
+    transformsBlit.destinationByteOffset = 0;
+    transformsBlit.byteSize = 4 * sizeof(float) * _params.points.size();
+
+    HgiBlitCmdsUniquePtr blitCmds = _GetHgi()->CreateBlitCmds();
+    blitCmds->CopyBufferCpuToGpu(transformsBlit);
+    _GetHgi()->SubmitCmds(blitCmds.get());
+
+    // View-Projection matrix is the same for either bbox
+    const GfMatrix4d viewProj = _ComputeViewProjectionMatrix(hdStRenderPassState);
+
+    // Update and upload the other constant data.
+    const GfVec4f viewport(gfxViewport);
+    const _ShaderConstants constants = {viewport, viewProj};
+    gfxCmds->SetConstantValues(pipeline, HgiShaderStageVertex | HgiShaderStageFragment, 0, sizeof(_ShaderConstants),
+                               &constants);
+}
+
+void HdxDebugDrawTask::_UpdateLineShaderConstants(HgiGraphicsCmds* gfxCmds,
+                                                  const GfVec4i& gfxViewport,
+                                                  HgiGraphicsPipelineHandle pipeline,
+                                                  const HdStRenderPassState& hdStRenderPassState) {
+    // Upload the transform data to the GPU.
+    void* transformsStaging = _lineResource.vertexBuffer->GetCPUStagingAddress();
+    memcpy(transformsStaging, _params.lines.data(), 8 * sizeof(float) * _params.lines.size());
+
+    HgiBufferCpuToGpuOp transformsBlit;
+    transformsBlit.cpuSourceBuffer = transformsStaging;
+    transformsBlit.sourceByteOffset = 0;
+    transformsBlit.gpuDestinationBuffer = _lineResource.vertexBuffer;
+    transformsBlit.destinationByteOffset = 0;
+    transformsBlit.byteSize = 8 * sizeof(float) * _params.lines.size();
+
+    HgiBlitCmdsUniquePtr blitCmds = _GetHgi()->CreateBlitCmds();
+    blitCmds->CopyBufferCpuToGpu(transformsBlit);
+    _GetHgi()->SubmitCmds(blitCmds.get());
+
+    // View-Projection matrix is the same for either bbox
+    const GfMatrix4d viewProj = _ComputeViewProjectionMatrix(hdStRenderPassState);
+
+    // Update and upload the other constant data.
+    const GfVec4f viewport(gfxViewport);
+    const _ShaderConstants constants = {viewport, viewProj};
+    gfxCmds->SetConstantValues(pipeline, HgiShaderStageVertex | HgiShaderStageFragment, 0, sizeof(_ShaderConstants),
+                               &constants);
+}
+
+void HdxDebugDrawTask::_UpdateTriangleShaderConstants(HgiGraphicsCmds* gfxCmds,
+                                                      const GfVec4i& gfxViewport,
+                                                      HgiGraphicsPipelineHandle pipeline,
+                                                      const HdStRenderPassState& hdStRenderPassState) {
+    // Upload the transform data to the GPU.
+    void* transformsStaging = _triangleResource.vertexBuffer->GetCPUStagingAddress();
+    memcpy(transformsStaging, _params.triangles.data(), 12 * sizeof(float) * _params.triangles.size());
+
+    HgiBufferCpuToGpuOp transformsBlit;
+    transformsBlit.cpuSourceBuffer = transformsStaging;
+    transformsBlit.sourceByteOffset = 0;
+    transformsBlit.gpuDestinationBuffer = _triangleResource.vertexBuffer;
+    transformsBlit.destinationByteOffset = 0;
+    transformsBlit.byteSize = 12 * sizeof(float) * _params.triangles.size();
+
+    HgiBlitCmdsUniquePtr blitCmds = _GetHgi()->CreateBlitCmds();
+    blitCmds->CopyBufferCpuToGpu(transformsBlit);
+    _GetHgi()->SubmitCmds(blitCmds.get());
+
     // View-Projection matrix is the same for either bbox
     const GfMatrix4d viewProj = _ComputeViewProjectionMatrix(hdStRenderPassState);
 
@@ -444,7 +517,7 @@ void HdxDebugDrawTask::_DrawPoints(const HgiTextureHandle& colorTexture,
     const GfVec4i viewport = hdStRenderPassState.ComputeViewport();
     gfxCmds->SetViewport(viewport);
 
-    _UpdateShaderConstants(gfxCmds.get(), viewport, _pointResource.pipeline, hdStRenderPassState);
+    _UpdatePointShaderConstants(gfxCmds.get(), viewport, _pointResource.pipeline, hdStRenderPassState);
 
     gfxCmds->Draw(24, 0, 0, 0);
 
@@ -473,7 +546,7 @@ void HdxDebugDrawTask::_DrawLines(const HgiTextureHandle& colorTexture,
     const GfVec4i viewport = hdStRenderPassState.ComputeViewport();
     gfxCmds->SetViewport(viewport);
 
-    _UpdateShaderConstants(gfxCmds.get(), viewport, _lineResource.pipeline, hdStRenderPassState);
+    _UpdateLineShaderConstants(gfxCmds.get(), viewport, _lineResource.pipeline, hdStRenderPassState);
 
     gfxCmds->Draw(24, 0, 0, 0);
 
@@ -502,7 +575,7 @@ void HdxDebugDrawTask::_DrawTriangles(const HgiTextureHandle& colorTexture,
     const GfVec4i viewport = hdStRenderPassState.ComputeViewport();
     gfxCmds->SetViewport(viewport);
 
-    _UpdateShaderConstants(gfxCmds.get(), viewport, _triangleResource.pipeline, hdStRenderPassState);
+    _UpdateTriangleShaderConstants(gfxCmds.get(), viewport, _triangleResource.pipeline, hdStRenderPassState);
 
     gfxCmds->Draw(24, 0, 0, 0);
 
