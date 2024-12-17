@@ -126,15 +126,12 @@ private:
 
     // Utility to set the shader constants for drawing.
     void _UpdatePointShaderConstants(HgiGraphicsCmds* gfxCmds,
-                                     const GfVec4i& gfxViewport,
                                      HgiGraphicsPipelineHandle pipeline,
                                      const HdStRenderPassState& hdStRenderPassState);
     void _UpdateLineShaderConstants(HgiGraphicsCmds* gfxCmds,
-                                    const GfVec4i& gfxViewport,
                                     HgiGraphicsPipelineHandle pipeline,
                                     const HdStRenderPassState& hdStRenderPassState);
     void _UpdateTriangleShaderConstants(HgiGraphicsCmds* gfxCmds,
-                                        const GfVec4i& gfxViewport,
                                         HgiGraphicsPipelineHandle pipeline,
                                         const HdStRenderPassState& hdStRenderPassState);
 

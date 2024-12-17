@@ -38,8 +38,7 @@ namespace {
 // Constants struct that has a layout matching what is expected by the GPU.
 // This includes constant data for both vertex and fragment stages.
 struct _ShaderConstants {
-    GfVec4f viewport;
-    GfMatrix4d vp;
+    GfMatrix4f vp;
 };
 
 }  // namespace
@@ -82,7 +81,6 @@ bool HdxDebugDrawTask::_CreateShaderResources() {
     // Using a constant buffer that contains data for both vertex and
     // fragment stages for simplicity.
     auto addConstantParams = [](HgiShaderFunctionDesc* stageDesc) {
-        HgiShaderFunctionAddConstantParam(stageDesc, "viewport", "vec4");
         HgiShaderFunctionAddConstantParam(stageDesc, "vp", "mat4");
     };
 
@@ -126,7 +124,7 @@ bool HdxDebugDrawTask::_CreateShaderResources() {
     _shaderProgram = _GetHgi()->CreateShaderProgram(programDesc);
 
     if (!_shaderProgram->IsValid() || !vertFn->IsValid() || !fragFn->IsValid()) {
-        TF_CODING_ERROR("Failed to create point debug draw shader");
+        TF_CODING_ERROR("Failed to creat debug draw shader");
         _PrintCompileErrors();
         _DestroyShaderProgram();
         return false;
@@ -412,7 +410,6 @@ GfMatrix4d HdxDebugDrawTask::_ComputeViewProjectionMatrix(const HdStRenderPassSt
 }
 
 void HdxDebugDrawTask::_UpdatePointShaderConstants(HgiGraphicsCmds* gfxCmds,
-                                                   const GfVec4i& gfxViewport,
                                                    HgiGraphicsPipelineHandle pipeline,
                                                    const HdStRenderPassState& hdStRenderPassState) {
     // Upload the transform data to the GPU.
@@ -434,14 +431,12 @@ void HdxDebugDrawTask::_UpdatePointShaderConstants(HgiGraphicsCmds* gfxCmds,
     const GfMatrix4d viewProj = _ComputeViewProjectionMatrix(hdStRenderPassState);
 
     // Update and upload the other constant data.
-    const GfVec4f viewport(gfxViewport);
-    const _ShaderConstants constants = {viewport, viewProj};
+    const _ShaderConstants constants = {GfMatrix4f(viewProj)};
     gfxCmds->SetConstantValues(pipeline, HgiShaderStageVertex | HgiShaderStageFragment, 0, sizeof(_ShaderConstants),
                                &constants);
 }
 
 void HdxDebugDrawTask::_UpdateLineShaderConstants(HgiGraphicsCmds* gfxCmds,
-                                                  const GfVec4i& gfxViewport,
                                                   HgiGraphicsPipelineHandle pipeline,
                                                   const HdStRenderPassState& hdStRenderPassState) {
     // Upload the transform data to the GPU.
@@ -463,14 +458,12 @@ void HdxDebugDrawTask::_UpdateLineShaderConstants(HgiGraphicsCmds* gfxCmds,
     const GfMatrix4d viewProj = _ComputeViewProjectionMatrix(hdStRenderPassState);
 
     // Update and upload the other constant data.
-    const GfVec4f viewport(gfxViewport);
-    const _ShaderConstants constants = {viewport, viewProj};
+    const _ShaderConstants constants = {GfMatrix4f(viewProj)};
     gfxCmds->SetConstantValues(pipeline, HgiShaderStageVertex | HgiShaderStageFragment, 0, sizeof(_ShaderConstants),
                                &constants);
 }
 
 void HdxDebugDrawTask::_UpdateTriangleShaderConstants(HgiGraphicsCmds* gfxCmds,
-                                                      const GfVec4i& gfxViewport,
                                                       HgiGraphicsPipelineHandle pipeline,
                                                       const HdStRenderPassState& hdStRenderPassState) {
     // Upload the transform data to the GPU.
@@ -492,8 +485,7 @@ void HdxDebugDrawTask::_UpdateTriangleShaderConstants(HgiGraphicsCmds* gfxCmds,
     const GfMatrix4d viewProj = _ComputeViewProjectionMatrix(hdStRenderPassState);
 
     // Update and upload the other constant data.
-    const GfVec4f viewport(gfxViewport);
-    const _ShaderConstants constants = {viewport, viewProj};
+    const _ShaderConstants constants = {GfMatrix4f(viewProj)};
     gfxCmds->SetConstantValues(pipeline, HgiShaderStageVertex | HgiShaderStageFragment, 0, sizeof(_ShaderConstants),
                                &constants);
 }
@@ -517,7 +509,7 @@ void HdxDebugDrawTask::_DrawPoints(const HgiTextureHandle& colorTexture,
     const GfVec4i viewport = hdStRenderPassState.ComputeViewport();
     gfxCmds->SetViewport(viewport);
 
-    _UpdatePointShaderConstants(gfxCmds.get(), viewport, _pointResource.pipeline, hdStRenderPassState);
+    _UpdatePointShaderConstants(gfxCmds.get(), _pointResource.pipeline, hdStRenderPassState);
 
     gfxCmds->Draw(_params.points.size(), 0, 0, 0);
 
@@ -546,7 +538,7 @@ void HdxDebugDrawTask::_DrawLines(const HgiTextureHandle& colorTexture,
     const GfVec4i viewport = hdStRenderPassState.ComputeViewport();
     gfxCmds->SetViewport(viewport);
 
-    _UpdateLineShaderConstants(gfxCmds.get(), viewport, _lineResource.pipeline, hdStRenderPassState);
+    _UpdateLineShaderConstants(gfxCmds.get(), _lineResource.pipeline, hdStRenderPassState);
 
     gfxCmds->Draw(_params.lines.size(), 0, 0, 0);
 
@@ -575,9 +567,9 @@ void HdxDebugDrawTask::_DrawTriangles(const HgiTextureHandle& colorTexture,
     const GfVec4i viewport = hdStRenderPassState.ComputeViewport();
     gfxCmds->SetViewport(viewport);
 
-    _UpdateTriangleShaderConstants(gfxCmds.get(), viewport, _triangleResource.pipeline, hdStRenderPassState);
+    _UpdateTriangleShaderConstants(gfxCmds.get(), _triangleResource.pipeline, hdStRenderPassState);
 
-    gfxCmds->Draw(_params.triangles.size(), 0, 0, 0);
+    gfxCmds->Draw(_params.triangles.size() * 3, 0, 1, 0);
 
     gfxCmds->PopDebugGroup();
 
