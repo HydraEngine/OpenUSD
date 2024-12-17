@@ -31,6 +31,7 @@ TfToken HdxPackageOitResolveImageShader();
 TfToken HdxPackageOutlineShader();
 TfToken HdxPackageSkydomeShader();
 TfToken HdxPackageBoundingBoxShader();
+TfToken HdxPackageDebugDrawShader();
 
 TfToken HdxPackageDefaultDomeLightTexture();
 

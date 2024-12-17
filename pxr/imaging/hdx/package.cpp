@@ -161,6 +161,13 @@ HdxPackageBoundingBoxShader()
 }
 
 TfToken
+HdxPackageDebugDrawShader()
+{
+    static TfToken shader = _GetShaderPath("debugDraw.glslfx");
+    return shader;
+}
+
+TfToken
 HdxPackageDefaultDomeLightTexture()
 {
     // Use the tex version of the Domelight's environment map if supported

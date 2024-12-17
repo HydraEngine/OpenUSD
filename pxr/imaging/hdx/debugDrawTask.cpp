@@ -77,7 +77,7 @@ bool HdxDebugDrawTask::_CreateShaderResources() {
         return true;
     }
 
-    const HioGlslfx glslfx(HdxPackageBoundingBoxShader(), HioGlslfxTokens->defVal);
+    const HioGlslfx glslfx(HdxPackageDebugDrawShader(), HioGlslfxTokens->defVal);
 
     // Using a constant buffer that contains data for both vertex and
     // fragment stages for simplicity.
@@ -92,11 +92,11 @@ bool HdxDebugDrawTask::_CreateShaderResources() {
     vertDesc.debugName = _tokens->debugDrawVertex.GetString();
     vertDesc.shaderStage = HgiShaderStageVertex;
     HgiShaderFunctionAddStageInput(&vertDesc, "position", "vec3");
-    HgiShaderFunctionAddStageInput(&vertDesc, "color", "uint");
+    HgiShaderFunctionAddStageInput(&vertDesc, "color", "int");
     HgiShaderFunctionAddStageOutput(&vertDesc, "gl_Position", "vec4", "position");
     HgiShaderFunctionParamDesc colorParam;
     colorParam.nameInShader = "colorOut";
-    colorParam.type = "uint";
+    colorParam.type = "int";
     colorParam.interpolation = HgiInterpolationFlat;
     HgiShaderFunctionAddStageOutput(&vertDesc, colorParam);
     addConstantParams(&vertDesc);
@@ -159,7 +159,7 @@ bool HdxDebugDrawTask::_CreatePointBufferResources() {
 
 bool HdxDebugDrawTask::_CreateLineBufferResources() {
     if (_lineResource.vertexBuffer) {
-        if (_params.points.size() < _lineResource.maxTransforms) {
+        if (_params.lines.size() < _lineResource.maxTransforms) {
             return true;
         }
         // Must re-create any objects that depend on the transform buffer size
@@ -168,7 +168,7 @@ bool HdxDebugDrawTask::_CreateLineBufferResources() {
         _GetHgi()->DestroyBuffer(&_lineResource.vertexBuffer);
     }
 
-    _lineResource.maxTransforms = _params.points.size();
+    _lineResource.maxTransforms = _params.lines.size();
 
     HgiBufferDesc transformsDesc;
     transformsDesc.debugName = "HdxDebugDrawTask Line VertexBuffer";
@@ -181,7 +181,7 @@ bool HdxDebugDrawTask::_CreateLineBufferResources() {
 
 bool HdxDebugDrawTask::_CreateTriangleBufferResources() {
     if (_triangleResource.vertexBuffer) {
-        if (_params.points.size() < _triangleResource.maxTransforms) {
+        if (_params.triangles.size() < _triangleResource.maxTransforms) {
             return true;
         }
         // Must re-create any objects that depend on the transform buffer size
@@ -190,7 +190,7 @@ bool HdxDebugDrawTask::_CreateTriangleBufferResources() {
         _GetHgi()->DestroyBuffer(&_triangleResource.vertexBuffer);
     }
 
-    _triangleResource.maxTransforms = _params.points.size();
+    _triangleResource.maxTransforms = _params.triangles.size();
 
     HgiBufferDesc transformsDesc;
     transformsDesc.debugName = "HdxDebugDrawTask Triangle VertexBuffer";
@@ -602,12 +602,12 @@ void HdxDebugDrawTask::Execute(HdTaskContext* ctx) {
     HD_TRACE_FUNCTION();
     HF_MALLOC_TAG_FUNCTION();
 
-    // Only draw the bounding boxes when rendering to the color aov
+    // Only draw the debug when rendering to the color aov
     if (_params.aovName != HdAovTokens->color) {
         return;
     }
 
-    // We want to render the bounding boxes into the color aov
+    // We want to render the debug into the color aov
     // and have them respect the depth aov.
     if (!_HasTaskContextData(ctx, HdAovTokens->color) || !_HasTaskContextData(ctx, HdAovTokens->depth)) {
         return;
@@ -617,26 +617,33 @@ void HdxDebugDrawTask::Execute(HdTaskContext* ctx) {
     _GetTaskContextData(ctx, HdAovTokens->color, &colorTexture);
     _GetTaskContextData(ctx, HdAovTokens->depth, &depthTexture);
 
-    if (!TF_VERIFY(_CreatePointBufferResources())) {
-        return;
-    }
-    if (!TF_VERIFY(_CreateLineBufferResources())) {
-        return;
-    }
-    if (!TF_VERIFY(_CreateTriangleBufferResources())) {
-        return;
-    }
     if (!TF_VERIFY(_CreateShaderResources())) {
         return;
     }
-    if (!TF_VERIFY(_CreatePointPipeline(colorTexture, depthTexture))) {
-        return;
+
+    if (!_params.points.empty()) {
+        if (!TF_VERIFY(_CreatePointBufferResources())) {
+            return;
+        }
+        if (!TF_VERIFY(_CreatePointPipeline(colorTexture, depthTexture))) {
+            return;
+        }
     }
-    if (!TF_VERIFY(_CreateLinePipeline(colorTexture, depthTexture))) {
-        return;
+    if (!_params.lines.empty()) {
+        if (!TF_VERIFY(_CreateLineBufferResources())) {
+            return;
+        }
+        if (!TF_VERIFY(_CreateLinePipeline(colorTexture, depthTexture))) {
+            return;
+        }
     }
-    if (!TF_VERIFY(_CreateTrianglePipeline(colorTexture, depthTexture))) {
-        return;
+    if (!_params.triangles.empty()) {
+        if (!TF_VERIFY(_CreateTriangleBufferResources())) {
+            return;
+        }
+        if (!TF_VERIFY(_CreateTrianglePipeline(colorTexture, depthTexture))) {
+            return;
+        }
     }
 
     HdRenderPassStateSharedPtr renderPassState;
@@ -646,9 +653,15 @@ void HdxDebugDrawTask::Execute(HdTaskContext* ctx) {
         return;
     }
 
-    _DrawPoints(colorTexture, depthTexture, *hdStRenderPassState);
-    _DrawLines(colorTexture, depthTexture, *hdStRenderPassState);
-    _DrawTriangles(colorTexture, depthTexture, *hdStRenderPassState);
+    if (!_params.points.empty()) {
+        _DrawPoints(colorTexture, depthTexture, *hdStRenderPassState);
+    }
+    if (!_params.lines.empty()) {
+        _DrawLines(colorTexture, depthTexture, *hdStRenderPassState);
+    }
+    if (!_params.triangles.empty()) {
+        _DrawTriangles(colorTexture, depthTexture, *hdStRenderPassState);
+    }
 }
 
 void HdxDebugDrawTask::_DestroyShaderProgram() {
@@ -674,7 +687,7 @@ void HdxDebugDrawTask::_PrintCompileErrors() {
 // -------------------------------------------------------------------------- //
 
 std::ostream& operator<<(std::ostream& out, const HdxDebugDrawTaskParams& pv) {
-    out << "BoundingBoxTask Params: (...) { ";
+    out << "DebugDrawTask Params: (...) { ";
     out << "Point Count" << pv.points.size() << ", ";
     out << "Line Count" << pv.lines.size() << ", ";
     out << "Triangle Count" << pv.triangles.size() << ", ";
