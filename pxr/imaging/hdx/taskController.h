@@ -34,6 +34,9 @@ PXR_NAMESPACE_OPEN_SCOPE
 // APIs should be decoupled.
 
 class HdRenderBuffer;
+struct HdxDebugPoint;
+struct HdxDebugLine;
+struct HdxDebugTriangle;
 
 class HdxTaskController final {
 public:
@@ -232,6 +235,15 @@ public:
     void SetBBoxParams(const HdxBoundingBoxTaskParams& params);
 
     /// -------------------------------------------------------
+    /// Debug Draw API
+
+    /// Set the debug draw params.
+    HDX_API
+    void SetDebugDrawParams(const std::vector<HdxDebugPoint>& points,
+                            const std::vector<HdxDebugLine>& lines,
+                            const std::vector<HdxDebugTriangle>& triangles);
+
+    /// -------------------------------------------------------
     /// Present API
 
     /// Enable / disable presenting the render to bound framebuffer.
@@ -275,6 +287,7 @@ private:
     void _CreatePickTask();
     void _CreatePickFromRenderBufferTask();
     void _CreateBoundingBoxTask();
+    void _CreateDebugDrawTask();
     void _CreateAovInputTask();
     void _CreatePresentTask();
 
@@ -375,6 +388,7 @@ private:
     SdfPath _pickTaskId;
     SdfPath _pickFromRenderBufferTaskId;
     SdfPath _boundingBoxTaskId;
+    SdfPath _debugDrawTaskId;
     SdfPath _presentTaskId;
 
     // Current active camera

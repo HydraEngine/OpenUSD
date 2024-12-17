@@ -519,7 +519,7 @@ void HdxDebugDrawTask::_DrawPoints(const HgiTextureHandle& colorTexture,
 
     _UpdatePointShaderConstants(gfxCmds.get(), viewport, _pointResource.pipeline, hdStRenderPassState);
 
-    gfxCmds->Draw(24, 0, 0, 0);
+    gfxCmds->Draw(_params.points.size(), 0, 0, 0);
 
     gfxCmds->PopDebugGroup();
 
@@ -548,7 +548,7 @@ void HdxDebugDrawTask::_DrawLines(const HgiTextureHandle& colorTexture,
 
     _UpdateLineShaderConstants(gfxCmds.get(), viewport, _lineResource.pipeline, hdStRenderPassState);
 
-    gfxCmds->Draw(24, 0, 0, 0);
+    gfxCmds->Draw(_params.lines.size(), 0, 0, 0);
 
     gfxCmds->PopDebugGroup();
 
@@ -577,7 +577,7 @@ void HdxDebugDrawTask::_DrawTriangles(const HgiTextureHandle& colorTexture,
 
     _UpdateTriangleShaderConstants(gfxCmds.get(), viewport, _triangleResource.pipeline, hdStRenderPassState);
 
-    gfxCmds->Draw(24, 0, 0, 0);
+    gfxCmds->Draw(_params.triangles.size(), 0, 0, 0);
 
     gfxCmds->PopDebugGroup();
 

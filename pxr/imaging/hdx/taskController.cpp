@@ -12,6 +12,7 @@
 #include "pxr/imaging/hd/renderBuffer.h"
 #include "pxr/imaging/hdx/aovInputTask.h"
 #include "pxr/imaging/hdx/boundingBoxTask.h"
+#include "pxr/imaging/hdx/debugDrawTask.h"
 #include "pxr/imaging/hdx/colorizeSelectionTask.h"
 #include "pxr/imaging/hdx/colorCorrectionTask.h"
 #include "pxr/imaging/hdx/freeCameraSceneDelegate.h"
@@ -45,7 +46,7 @@ TF_DEFINE_PRIVATE_TOKENS(
         _tokens,
 
         // tasks
-        (simpleLightTask)(shadowTask)(aovInputTask)(selectionTask)(colorizeSelectionTask)(oitResolveTask)(colorCorrectionTask)(pickTask)(pickFromRenderBufferTask)(boundingBoxTask)(presentTask)(skydomeTask)(visualizeAovTask)
+        (simpleLightTask)(shadowTask)(aovInputTask)(selectionTask)(colorizeSelectionTask)(oitResolveTask)(colorCorrectionTask)(pickTask)(pickFromRenderBufferTask)(boundingBoxTask)(debugDrawTask)(presentTask)(skydomeTask)(visualizeAovTask)
 
         // global camera
         (camera)
@@ -245,7 +246,7 @@ HdxTaskController::~HdxTaskController() {
     SdfPath const tasks[] = {_aovInputTaskId,        _oitResolveTaskId, _selectionTaskId,
                              _simpleLightTaskId,     _shadowTaskId,     _colorizeSelectionTaskId,
                              _colorCorrectionTaskId, _pickTaskId,       _pickFromRenderBufferTaskId,
-                             _boundingBoxTaskId,     _presentTaskId};
+                             _boundingBoxTaskId,     _debugDrawTaskId,  _presentTaskId};
 
     for (size_t i = 0; i < sizeof(tasks) / sizeof(tasks[0]); ++i) {
         if (!tasks[i].IsEmpty()) {
@@ -298,6 +299,7 @@ void HdxTaskController::_CreateRenderGraph() {
             _CreatePresentTask();
             _CreatePickTask();
             _CreateBoundingBoxTask();
+            _CreateDebugDrawTask();
         }
 
         // XXX AOVs are OFF by default for Storm TaskController because hybrid
@@ -319,6 +321,7 @@ void HdxTaskController::_CreateRenderGraph() {
                 _CreatePresentTask();
                 _CreatePickFromRenderBufferTask();
                 _CreateBoundingBoxTask();
+                _CreateDebugDrawTask();
             }
             // Initialize the AOV system to render color. Note:
             // SetRenderOutputs special-cases color to include support for
@@ -561,6 +564,16 @@ void HdxTaskController::_CreateBoundingBoxTask() {
     _delegate.SetParameter(_boundingBoxTaskId, HdTokens->params, taskParams);
 }
 
+void HdxTaskController::_CreateDebugDrawTask() {
+    _debugDrawTaskId = GetControllerId().AppendChild(_tokens->debugDrawTask);
+
+    HdxDebugDrawTaskParams taskParams;
+
+    GetRenderIndex()->InsertTask<HdxDebugDrawTask>(&_delegate, _debugDrawTaskId);
+
+    _delegate.SetParameter(_debugDrawTaskId, HdTokens->params, taskParams);
+}
+
 void HdxTaskController::_CreateAovInputTask() {
     _aovInputTaskId = GetControllerId().AppendChild(_tokens->aovInputTask);
 
@@ -643,6 +656,7 @@ HdTaskSharedPtrVector const HdxTaskController::GetRenderingTasks() const {
      * - renderTaskIds (There may be more than one)
      * - aovInputTaskId
      * - boundingBoxTaskId
+     * - debugDrawTaskId
      * - selectionTaskId
      * - colorizeSelectionTaskId
      * - colorCorrectionTaskId
@@ -685,6 +699,10 @@ HdTaskSharedPtrVector const HdxTaskController::GetRenderingTasks() const {
 
         if (!_boundingBoxTaskId.IsEmpty()) {
             tasks.push_back(GetRenderIndex()->GetTask(_boundingBoxTaskId));
+        }
+
+        if (!_debugDrawTaskId.IsEmpty()) {
+            tasks.push_back(GetRenderIndex()->GetTask(_debugDrawTaskId));
         }
 
         // Render volume prims
@@ -1102,6 +1120,16 @@ void HdxTaskController::SetViewportRenderOutput(TfToken const& name) {
 
         _delegate.SetParameter(_boundingBoxTaskId, HdTokens->params, params);
         GetRenderIndex()->GetChangeTracker().MarkTaskDirty(_boundingBoxTaskId, HdChangeTracker::DirtyParams);
+    }
+
+    if (!_debugDrawTaskId.IsEmpty()) {
+        HdxDebugDrawTaskParams params =
+                _delegate.GetParameter<HdxDebugDrawTaskParams>(_debugDrawTaskId, HdTokens->params);
+
+        params.aovName = name;
+
+        _delegate.SetParameter(_debugDrawTaskId, HdTokens->params, params);
+        GetRenderIndex()->GetChangeTracker().MarkTaskDirty(_debugDrawTaskId, HdChangeTracker::DirtyParams);
     }
 }
 
@@ -1698,6 +1726,26 @@ void HdxTaskController::SetBBoxParams(const HdxBoundingBoxTaskParams& params) {
         _delegate.SetParameter(_boundingBoxTaskId, HdTokens->params, mergedParams);
         GetRenderIndex()->GetChangeTracker().MarkTaskDirty(_boundingBoxTaskId, HdChangeTracker::DirtyParams);
     }
+}
+
+void HdxTaskController::SetDebugDrawParams(const std::vector<HdxDebugPoint>& points,
+                                           const std::vector<HdxDebugLine>& lines,
+                                           const std::vector<HdxDebugTriangle>& triangles) {
+    if (_debugDrawTaskId.IsEmpty()) {
+        return;
+    }
+
+    auto oldParams = _delegate.GetParameter<HdxDebugDrawTaskParams>(_debugDrawTaskId, HdTokens->params);
+
+    // We only take the params that will be coming from outside this
+    // HdxTaskController instance.
+    HdxDebugDrawTaskParams mergedParams = oldParams;
+    mergedParams.points = points;
+    mergedParams.lines = lines;
+    mergedParams.triangles = triangles;
+
+    _delegate.SetParameter(_debugDrawTaskId, HdTokens->params, mergedParams);
+    GetRenderIndex()->GetChangeTracker().MarkTaskDirty(_debugDrawTaskId, HdChangeTracker::DirtyParams);
 }
 
 void HdxTaskController::SetEnablePresentation(bool enabled) {
