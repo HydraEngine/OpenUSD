@@ -475,11 +475,61 @@ void HdxDebugDrawTask::_DrawPoints(const HgiTextureHandle& colorTexture,
 
 void HdxDebugDrawTask::_DrawLines(const HgiTextureHandle& colorTexture,
                                   const HgiTextureHandle& depthTexture,
-                                  const HdStRenderPassState& hdStRenderPassState) {}
+                                  const HdStRenderPassState& hdStRenderPassState) {
+    // Prepare graphics cmds.
+    HgiGraphicsCmdsDesc gfxDesc;
+    gfxDesc.colorAttachmentDescs.push_back(_colorAttachment);
+    gfxDesc.colorTextures.push_back(colorTexture);
+    gfxDesc.depthAttachmentDesc = _depthAttachment;
+    gfxDesc.depthTexture = depthTexture;
+
+    // Begin rendering
+    HgiGraphicsCmdsUniquePtr gfxCmds = _GetHgi()->CreateGraphicsCmds(gfxDesc);
+    gfxCmds->PushDebugGroup("Debug Line");
+    gfxCmds->BindPipeline(_lineResource.pipeline);
+    gfxCmds->BindVertexBuffers({{_lineResource.vertexBuffer, 0, 0}});
+
+    const GfVec4i viewport = hdStRenderPassState.ComputeViewport();
+    gfxCmds->SetViewport(viewport);
+
+    _UpdateShaderConstants(gfxCmds.get(), viewport, _lineResource.pipeline, hdStRenderPassState);
+
+    gfxCmds->Draw(24, 0, 0, 0);
+
+    gfxCmds->PopDebugGroup();
+
+    // Done recording commands, submit work.
+    _GetHgi()->SubmitCmds(gfxCmds.get());
+}
 
 void HdxDebugDrawTask::_DrawTriangles(const HgiTextureHandle& colorTexture,
                                       const HgiTextureHandle& depthTexture,
-                                      const HdStRenderPassState& hdStRenderPassState) {}
+                                      const HdStRenderPassState& hdStRenderPassState) {
+    // Prepare graphics cmds.
+    HgiGraphicsCmdsDesc gfxDesc;
+    gfxDesc.colorAttachmentDescs.push_back(_colorAttachment);
+    gfxDesc.colorTextures.push_back(colorTexture);
+    gfxDesc.depthAttachmentDesc = _depthAttachment;
+    gfxDesc.depthTexture = depthTexture;
+
+    // Begin rendering
+    HgiGraphicsCmdsUniquePtr gfxCmds = _GetHgi()->CreateGraphicsCmds(gfxDesc);
+    gfxCmds->PushDebugGroup("Debug Triangle");
+    gfxCmds->BindPipeline(_triangleResource.pipeline);
+    gfxCmds->BindVertexBuffers({{_triangleResource.vertexBuffer, 0, 0}});
+
+    const GfVec4i viewport = hdStRenderPassState.ComputeViewport();
+    gfxCmds->SetViewport(viewport);
+
+    _UpdateShaderConstants(gfxCmds.get(), viewport, _triangleResource.pipeline, hdStRenderPassState);
+
+    gfxCmds->Draw(24, 0, 0, 0);
+
+    gfxCmds->PopDebugGroup();
+
+    // Done recording commands, submit work.
+    _GetHgi()->SubmitCmds(gfxCmds.get());
+}
 
 void HdxDebugDrawTask::_Sync(HdSceneDelegate* delegate, HdTaskContext* ctx, HdDirtyBits* dirtyBits) {
     HD_TRACE_FUNCTION();
