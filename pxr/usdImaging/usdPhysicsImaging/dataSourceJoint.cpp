@@ -38,16 +38,16 @@ HdDataSourceBaseHandle UsdImagingDataSourceJoint::Get(const TfToken &name) {
         }
     } else if (name == HdJointSchemaTokens->localRot0) {
         if (UsdAttribute attr = _usdJoint.GetLocalRot0Attr()) {
-            GfVec3f v{};
+            GfQuatf v{};
             if (attr.Get(&v)) {
-                return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
+                return HdRetainedTypedSampledDataSource<GfQuatf>::New(v);
             }
         }
     } else if (name == HdJointSchemaTokens->localRot1) {
         if (UsdAttribute attr = _usdJoint.GetLocalRot1Attr()) {
-            GfVec3f v{};
+            GfQuatf v{};
             if (attr.Get(&v)) {
-                return HdRetainedTypedSampledDataSource<GfVec3f>::New(v);
+                return HdRetainedTypedSampledDataSource<GfQuatf>::New(v);
             }
         }
     } else if (name == HdJointSchemaTokens->jointEnabled) {

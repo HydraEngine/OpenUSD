@@ -85,10 +85,10 @@ public:
     HdVec3fDataSourceHandle GetLocalPos1() const;
 
     HD_API
-    HdVec3fDataSourceHandle GetLocalRot0() const;
+    HdQuatfDataSourceHandle GetLocalRot0() const;
 
     HD_API
-    HdVec3fDataSourceHandle GetLocalRot1() const;
+    HdQuatfDataSourceHandle GetLocalRot1() const;
 
     HD_API
     HdBoolDataSourceHandle GetJointEnabled() const;
@@ -197,8 +197,8 @@ public:
     BuildRetained(
         const HdVec3fDataSourceHandle &localPos0,
         const HdVec3fDataSourceHandle &localPos1,
-        const HdVec3fDataSourceHandle &localRot0,
-        const HdVec3fDataSourceHandle &localRot1,
+        const HdQuatfDataSourceHandle &localRot0,
+        const HdQuatfDataSourceHandle &localRot1,
         const HdBoolDataSourceHandle &jointEnabled,
         const HdBoolDataSourceHandle &collisionEnabled,
         const HdBoolDataSourceHandle &excludeFromArticulation,
@@ -225,10 +225,10 @@ public:
             const HdVec3fDataSourceHandle &localPos1);
         HD_API
         Builder &SetLocalRot0(
-            const HdVec3fDataSourceHandle &localRot0);
+            const HdQuatfDataSourceHandle &localRot0);
         HD_API
         Builder &SetLocalRot1(
-            const HdVec3fDataSourceHandle &localRot1);
+            const HdQuatfDataSourceHandle &localRot1);
         HD_API
         Builder &SetJointEnabled(
             const HdBoolDataSourceHandle &jointEnabled);
@@ -258,8 +258,8 @@ public:
     private:
         HdVec3fDataSourceHandle _localPos0;
         HdVec3fDataSourceHandle _localPos1;
-        HdVec3fDataSourceHandle _localRot0;
-        HdVec3fDataSourceHandle _localRot1;
+        HdQuatfDataSourceHandle _localRot0;
+        HdQuatfDataSourceHandle _localRot1;
         HdBoolDataSourceHandle _jointEnabled;
         HdBoolDataSourceHandle _collisionEnabled;
         HdBoolDataSourceHandle _excludeFromArticulation;

@@ -68,6 +68,7 @@ pxr_library(hdx
         tokens
         types
         visualizeAovTask
+        debugDrawTask
 
     PUBLIC_HEADERS
         shadowMatrixComputation.h

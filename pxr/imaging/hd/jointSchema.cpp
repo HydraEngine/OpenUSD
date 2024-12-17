@@ -46,17 +46,17 @@ HdJointSchema::GetLocalPos1() const
         HdJointSchemaTokens->localPos1);
 }
 
-HdVec3fDataSourceHandle
+HdQuatfDataSourceHandle
 HdJointSchema::GetLocalRot0() const
 {
-    return _GetTypedDataSource<HdVec3fDataSource>(
+    return _GetTypedDataSource<HdQuatfDataSource>(
         HdJointSchemaTokens->localRot0);
 }
 
-HdVec3fDataSourceHandle
+HdQuatfDataSourceHandle
 HdJointSchema::GetLocalRot1() const
 {
-    return _GetTypedDataSource<HdVec3fDataSource>(
+    return _GetTypedDataSource<HdQuatfDataSource>(
         HdJointSchemaTokens->localRot1);
 }
 
@@ -114,8 +114,8 @@ HdContainerDataSourceHandle
 HdJointSchema::BuildRetained(
         const HdVec3fDataSourceHandle &localPos0,
         const HdVec3fDataSourceHandle &localPos1,
-        const HdVec3fDataSourceHandle &localRot0,
-        const HdVec3fDataSourceHandle &localRot1,
+        const HdQuatfDataSourceHandle &localRot0,
+        const HdQuatfDataSourceHandle &localRot1,
         const HdBoolDataSourceHandle &jointEnabled,
         const HdBoolDataSourceHandle &collisionEnabled,
         const HdBoolDataSourceHandle &excludeFromArticulation,
@@ -205,7 +205,7 @@ HdJointSchema::Builder::SetLocalPos1(
 
 HdJointSchema::Builder &
 HdJointSchema::Builder::SetLocalRot0(
-    const HdVec3fDataSourceHandle &localRot0)
+    const HdQuatfDataSourceHandle &localRot0)
 {
     _localRot0 = localRot0;
     return *this;
@@ -213,7 +213,7 @@ HdJointSchema::Builder::SetLocalRot0(
 
 HdJointSchema::Builder &
 HdJointSchema::Builder::SetLocalRot1(
-    const HdVec3fDataSourceHandle &localRot1)
+    const HdQuatfDataSourceHandle &localRot1)
 {
     _localRot1 = localRot1;
     return *this;

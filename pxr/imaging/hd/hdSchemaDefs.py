@@ -1473,8 +1473,8 @@
         MEMBERS = [
             ('localPos0', T_VEC3F, dict(ADD_LOCATOR = True)),
             ('localPos1', T_VEC3F, dict(ADD_LOCATOR = True)),
-            ('localRot0', T_VEC3F, dict(ADD_LOCATOR = True)),
-            ('localRot1', T_VEC3F, dict(ADD_LOCATOR = True)),
+            ('localRot0', T_QUATF, dict(ADD_LOCATOR = True)),
+            ('localRot1', T_QUATF, dict(ADD_LOCATOR = True)),
             ('jointEnabled', T_BOOL, dict(ADD_LOCATOR = True)),
             ('collisionEnabled', T_BOOL, dict(ADD_LOCATOR = True)),
             ('excludeFromArticulation', T_BOOL, dict(ADD_LOCATOR = True)),
