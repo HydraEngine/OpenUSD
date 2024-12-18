@@ -110,6 +110,8 @@ private:
 
     // Utility function to create the shader for drawing dashed lines.
     bool _CreateShaderResources();
+    // Utility to create resource bindings
+    bool _CreateResourceBindings();
 
     // Utility function to create buffer resources.
     bool _CreatePointBufferResources();
@@ -164,6 +166,7 @@ private:
     GPUResource _lineResource;
     GPUResource _triangleResource;
     HgiShaderProgramHandle _shaderProgram;
+    HgiResourceBindingsHandle _resourceBindings;
 
     HdxDebugDrawTaskParams _params;
 };

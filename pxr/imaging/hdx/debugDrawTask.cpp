@@ -43,7 +43,8 @@ struct _ShaderConstants {
 
 }  // namespace
 
-HdxDebugDrawTask::HdxDebugDrawTask(HdSceneDelegate* delegate, const SdfPath& id) : HdxTask(id), _params() {}
+HdxDebugDrawTask::HdxDebugDrawTask(HdSceneDelegate* delegate, const SdfPath& id)
+    : HdxTask(id), _shaderProgram(), _resourceBindings(), _params() {}
 
 HdxDebugDrawTask::~HdxDebugDrawTask() {
     if (_pointResource.vertexBuffer) {
@@ -58,6 +59,9 @@ HdxDebugDrawTask::~HdxDebugDrawTask() {
 
     if (_shaderProgram) {
         _DestroyShaderProgram();
+    }
+    if (_resourceBindings) {
+        _GetHgi()->DestroyResourceBindings(&_resourceBindings);
     }
 
     if (_pointResource.pipeline) {
@@ -195,6 +199,19 @@ bool HdxDebugDrawTask::_CreateTriangleBufferResources() {
     transformsDesc.usage = HgiBufferUsageVertex;
     transformsDesc.byteSize = 12 * sizeof(float) * _triangleResource.maxTransforms;
     _triangleResource.vertexBuffer = _GetHgi()->CreateBuffer(transformsDesc);
+
+    return true;
+}
+
+bool HdxDebugDrawTask::_CreateResourceBindings() {
+    if (_resourceBindings) {
+        return true;
+    }
+
+    HgiResourceBindingsDesc resourceDesc;
+    resourceDesc.debugName = "Debug Draw";
+
+    _resourceBindings = _GetHgi()->CreateResourceBindings(resourceDesc);
 
     return true;
 }
@@ -510,6 +527,7 @@ void HdxDebugDrawTask::_DrawPoints(const HgiTextureHandle& colorTexture,
     gfxCmds->SetViewport(viewport);
 
     _UpdatePointShaderConstants(gfxCmds.get(), _pointResource.pipeline, hdStRenderPassState);
+    gfxCmds->BindResources(_resourceBindings);
 
     gfxCmds->Draw(_params.points.size(), 0, 0, 0);
 
@@ -539,6 +557,7 @@ void HdxDebugDrawTask::_DrawLines(const HgiTextureHandle& colorTexture,
     gfxCmds->SetViewport(viewport);
 
     _UpdateLineShaderConstants(gfxCmds.get(), _lineResource.pipeline, hdStRenderPassState);
+    gfxCmds->BindResources(_resourceBindings);
 
     gfxCmds->Draw(_params.lines.size(), 0, 0, 0);
 
@@ -568,6 +587,7 @@ void HdxDebugDrawTask::_DrawTriangles(const HgiTextureHandle& colorTexture,
     gfxCmds->SetViewport(viewport);
 
     _UpdateTriangleShaderConstants(gfxCmds.get(), _triangleResource.pipeline, hdStRenderPassState);
+    gfxCmds->BindResources(_resourceBindings);
 
     gfxCmds->Draw(_params.triangles.size() * 3, 0, 1, 0);
 
@@ -610,6 +630,9 @@ void HdxDebugDrawTask::Execute(HdTaskContext* ctx) {
     _GetTaskContextData(ctx, HdAovTokens->depth, &depthTexture);
 
     if (!TF_VERIFY(_CreateShaderResources())) {
+        return;
+    }
+    if (!TF_VERIFY(_CreateResourceBindings())) {
         return;
     }
 
