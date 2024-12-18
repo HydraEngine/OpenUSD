@@ -33,5 +33,5 @@ void main(void)
 
 void main(void)
 {
-    hd_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    hd_FragColor = vec4(colorOut.b, colorOut.g, colorOut.r, 1.0);
 }

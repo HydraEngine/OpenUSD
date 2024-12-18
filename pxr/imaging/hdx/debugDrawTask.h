@@ -31,31 +31,31 @@ PXR_NAMESPACE_OPEN_SCOPE
 class HdStRenderPassState;
 
 struct HdxDebugPoint {
-    HdxDebugPoint(const GfVec3f& p, const int32_t& c) : pos(p), color(c) {}
+    HdxDebugPoint(const GfVec3f& p, const uint32_t& c) : pos(p), color(c) {}
 
     GfVec3f pos;
-    int32_t color;
+    uint32_t color;
 };
 
 struct HdxDebugLine {
-    HdxDebugLine(const GfVec3f& p0, const GfVec3f& p1, const int32_t& c) : pos0(p0), color0(c), pos1(p1), color1(c) {}
+    HdxDebugLine(const GfVec3f& p0, const GfVec3f& p1, const uint32_t& c) : pos0(p0), color0(c), pos1(p1), color1(c) {}
 
     GfVec3f pos0;
-    int32_t color0;
+    uint32_t color0;
     GfVec3f pos1;
-    int32_t color1;
+    uint32_t color1;
 };
 
 struct HdxDebugTriangle {
-    HdxDebugTriangle(const GfVec3f& p0, const GfVec3f& p1, const GfVec3f& p2, const int32_t& c)
+    HdxDebugTriangle(const GfVec3f& p0, const GfVec3f& p1, const GfVec3f& p2, const uint32_t& c)
         : pos0(p0), color0(c), pos1(p1), color1(c), pos2(p2), color2(c) {}
 
     GfVec3f pos0;
-    int32_t color0;
+    uint32_t color0;
     GfVec3f pos1;
-    int32_t color1;
+    uint32_t color1;
     GfVec3f pos2;
-    int32_t color2;
+    uint32_t color2;
 };
 
 /// \class HdxBoundingBoxTaskParams
@@ -119,9 +119,7 @@ private:
     bool _CreateTriangleBufferResources();
 
     // Utility to create a pipeline.
-    bool _CreatePointPipeline(const HgiTextureHandle& colorTexture, const HgiTextureHandle& depthTexture);
-    bool _CreateLinePipeline(const HgiTextureHandle& colorTexture, const HgiTextureHandle& depthTexture);
-    bool _CreateTrianglePipeline(const HgiTextureHandle& colorTexture, const HgiTextureHandle& depthTexture);
+    bool _CreatePipeline(const HgiTextureHandle& colorTexture, const HgiTextureHandle& depthTexture, HgiPrimitiveType primitiveType);
 
     // Utility to get the view and projection matrix from the camera.
     GfMatrix4d _ComputeViewProjectionMatrix(const HdStRenderPassState& hdStRenderPassState) const;

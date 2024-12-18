@@ -94,11 +94,11 @@ bool HdxDebugDrawTask::_CreateShaderResources() {
     vertDesc.debugName = _tokens->debugDrawVertex.GetString();
     vertDesc.shaderStage = HgiShaderStageVertex;
     HgiShaderFunctionAddStageInput(&vertDesc, "position", "vec3");
-    HgiShaderFunctionAddStageInput(&vertDesc, "color", "int");
+    HgiShaderFunctionAddStageInput(&vertDesc, "color", "vec4");
     HgiShaderFunctionAddStageOutput(&vertDesc, "gl_Position", "vec4", "position");
     HgiShaderFunctionParamDesc colorParam;
     colorParam.nameInShader = "colorOut";
-    colorParam.type = "int";
+    colorParam.type = "vec4";
     colorParam.interpolation = HgiInterpolationFlat;
     HgiShaderFunctionAddStageOutput(&vertDesc, colorParam);
     addConstantParams(&vertDesc);
@@ -226,129 +226,9 @@ static bool _MatchesFormatAndSampleCount(const HgiTextureHandle& texture,
     return false;
 }
 
-bool HdxDebugDrawTask::_CreatePointPipeline(const HgiTextureHandle& colorTexture,
-                                            const HgiTextureHandle& depthTexture) {
-    if (_pointResource.pipeline) {
-        const HgiSampleCount sampleCount = _pointResource.pipeline->GetDescriptor().multiSampleState.sampleCount;
-
-        if (_MatchesFormatAndSampleCount(colorTexture, _colorAttachment.format, sampleCount) &&
-            _MatchesFormatAndSampleCount(depthTexture, _depthAttachment.format, sampleCount)) {
-            return true;
-        }
-
-        _GetHgi()->DestroyGraphicsPipeline(&_pointResource.pipeline);
-    }
-
-    HgiGraphicsPipelineDesc desc;
-    desc.debugName = "DebugDraw Point Pipeline";
-    desc.primitiveType = HgiPrimitiveTypePointList;
-    desc.shaderProgram = _shaderProgram;
-
-    // Describe the vertex buffer
-    HgiVertexAttributeDesc posAttr;
-    posAttr.format = HgiFormatFloat32Vec3;
-    posAttr.offset = 0;
-    posAttr.shaderBindLocation = 0;
-
-    HgiVertexAttributeDesc colorAttr;
-    posAttr.format = HgiFormatInt32;
-    posAttr.offset = 3 * sizeof(float);
-    posAttr.shaderBindLocation = 1;
-
-    HgiVertexBufferDesc vboDesc;
-    vboDesc.bindingIndex = 0;
-    vboDesc.vertexStride = 4 * sizeof(float);  // pos, color
-    vboDesc.vertexAttributes.push_back(posAttr);
-    vboDesc.vertexAttributes.push_back(colorAttr);
-
-    desc.vertexBuffers.push_back(std::move(vboDesc));
-
-    // The MSAA on renderPipelineState has to match the render target.
-    const HgiSampleCount sampleCount = colorTexture->GetDescriptor().sampleCount;
-    desc.multiSampleState.multiSampleEnable = sampleCount != HgiSampleCount1;
-    desc.multiSampleState.sampleCount = sampleCount;
-
-    // Setup color attachment descriptor
-    _colorAttachment.format = colorTexture->GetDescriptor().format;
-    _colorAttachment.usage = colorTexture->GetDescriptor().usage;
-    desc.colorAttachmentDescs.push_back(_colorAttachment);
-
-    // Setup depth attachment descriptor
-    _depthAttachment.format = depthTexture->GetDescriptor().format;
-    _depthAttachment.usage = depthTexture->GetDescriptor().usage;
-    desc.depthAttachmentDesc = _depthAttachment;
-
-    // Shared constants used in both vertex and fragment stages.
-    desc.shaderConstantsDesc.stageUsage = HgiShaderStageVertex | HgiShaderStageFragment;
-    desc.shaderConstantsDesc.byteSize = sizeof(_ShaderConstants);
-
-    _pointResource.pipeline = _GetHgi()->CreateGraphicsPipeline(desc);
-
-    return true;
-}
-
-bool HdxDebugDrawTask::_CreateLinePipeline(const HgiTextureHandle& colorTexture, const HgiTextureHandle& depthTexture) {
-    if (_lineResource.pipeline) {
-        const HgiSampleCount sampleCount = _lineResource.pipeline->GetDescriptor().multiSampleState.sampleCount;
-
-        if (_MatchesFormatAndSampleCount(colorTexture, _colorAttachment.format, sampleCount) &&
-            _MatchesFormatAndSampleCount(depthTexture, _depthAttachment.format, sampleCount)) {
-            return true;
-        }
-
-        _GetHgi()->DestroyGraphicsPipeline(&_lineResource.pipeline);
-    }
-
-    HgiGraphicsPipelineDesc desc;
-    desc.debugName = "DebugDraw Line Pipeline";
-    desc.primitiveType = HgiPrimitiveTypeLineList;
-    desc.shaderProgram = _shaderProgram;
-
-    // Describe the vertex buffer
-    HgiVertexAttributeDesc posAttr;
-    posAttr.format = HgiFormatFloat32Vec3;
-    posAttr.offset = 0;
-    posAttr.shaderBindLocation = 0;
-
-    HgiVertexAttributeDesc colorAttr;
-    posAttr.format = HgiFormatInt32;
-    posAttr.offset = 3 * sizeof(float);
-    posAttr.shaderBindLocation = 1;
-
-    HgiVertexBufferDesc vboDesc;
-    vboDesc.bindingIndex = 0;
-    vboDesc.vertexStride = 4 * sizeof(float);  // pos, color
-    vboDesc.vertexAttributes.push_back(posAttr);
-    vboDesc.vertexAttributes.push_back(colorAttr);
-
-    desc.vertexBuffers.push_back(std::move(vboDesc));
-
-    // The MSAA on renderPipelineState has to match the render target.
-    const HgiSampleCount sampleCount = colorTexture->GetDescriptor().sampleCount;
-    desc.multiSampleState.multiSampleEnable = sampleCount != HgiSampleCount1;
-    desc.multiSampleState.sampleCount = sampleCount;
-
-    // Setup color attachment descriptor
-    _colorAttachment.format = colorTexture->GetDescriptor().format;
-    _colorAttachment.usage = colorTexture->GetDescriptor().usage;
-    desc.colorAttachmentDescs.push_back(_colorAttachment);
-
-    // Setup depth attachment descriptor
-    _depthAttachment.format = depthTexture->GetDescriptor().format;
-    _depthAttachment.usage = depthTexture->GetDescriptor().usage;
-    desc.depthAttachmentDesc = _depthAttachment;
-
-    // Shared constants used in both vertex and fragment stages.
-    desc.shaderConstantsDesc.stageUsage = HgiShaderStageVertex | HgiShaderStageFragment;
-    desc.shaderConstantsDesc.byteSize = sizeof(_ShaderConstants);
-
-    _lineResource.pipeline = _GetHgi()->CreateGraphicsPipeline(desc);
-
-    return true;
-}
-
-bool HdxDebugDrawTask::_CreateTrianglePipeline(const HgiTextureHandle& colorTexture,
-                                               const HgiTextureHandle& depthTexture) {
+bool HdxDebugDrawTask::_CreatePipeline(const HgiTextureHandle& colorTexture,
+                                       const HgiTextureHandle& depthTexture,
+                                       HgiPrimitiveType primitiveType) {
     if (_triangleResource.pipeline) {
         const HgiSampleCount sampleCount = _triangleResource.pipeline->GetDescriptor().multiSampleState.sampleCount;
 
@@ -362,7 +242,7 @@ bool HdxDebugDrawTask::_CreateTrianglePipeline(const HgiTextureHandle& colorText
 
     HgiGraphicsPipelineDesc desc;
     desc.debugName = "DebugDraw Triangle Pipeline";
-    desc.primitiveType = HgiPrimitiveTypeTriangleList;
+    desc.primitiveType = primitiveType;
     desc.shaderProgram = _shaderProgram;
 
     // Describe the vertex buffer
@@ -372,7 +252,7 @@ bool HdxDebugDrawTask::_CreateTrianglePipeline(const HgiTextureHandle& colorText
     posAttr.shaderBindLocation = 0;
 
     HgiVertexAttributeDesc colorAttr;
-    posAttr.format = HgiFormatInt32;
+    posAttr.format = HgiFormatUNorm8Vec4;
     posAttr.offset = 3 * sizeof(float);
     posAttr.shaderBindLocation = 1;
 
@@ -402,6 +282,8 @@ bool HdxDebugDrawTask::_CreateTrianglePipeline(const HgiTextureHandle& colorText
     // Shared constants used in both vertex and fragment stages.
     desc.shaderConstantsDesc.stageUsage = HgiShaderStageVertex | HgiShaderStageFragment;
     desc.shaderConstantsDesc.byteSize = sizeof(_ShaderConstants);
+
+    desc.rasterizationState.cullMode = HgiCullModeNone;
 
     _triangleResource.pipeline = _GetHgi()->CreateGraphicsPipeline(desc);
 
@@ -640,7 +522,7 @@ void HdxDebugDrawTask::Execute(HdTaskContext* ctx) {
         if (!TF_VERIFY(_CreatePointBufferResources())) {
             return;
         }
-        if (!TF_VERIFY(_CreatePointPipeline(colorTexture, depthTexture))) {
+        if (!TF_VERIFY(_CreatePipeline(colorTexture, depthTexture, HgiPrimitiveTypePointList))) {
             return;
         }
     }
@@ -648,7 +530,7 @@ void HdxDebugDrawTask::Execute(HdTaskContext* ctx) {
         if (!TF_VERIFY(_CreateLineBufferResources())) {
             return;
         }
-        if (!TF_VERIFY(_CreateLinePipeline(colorTexture, depthTexture))) {
+        if (!TF_VERIFY(_CreatePipeline(colorTexture, depthTexture, HgiPrimitiveTypeLineList))) {
             return;
         }
     }
@@ -656,7 +538,7 @@ void HdxDebugDrawTask::Execute(HdTaskContext* ctx) {
         if (!TF_VERIFY(_CreateTriangleBufferResources())) {
             return;
         }
-        if (!TF_VERIFY(_CreateTrianglePipeline(colorTexture, depthTexture))) {
+        if (!TF_VERIFY(_CreatePipeline(colorTexture, depthTexture, HgiPrimitiveTypeTriangleList))) {
             return;
         }
     }
