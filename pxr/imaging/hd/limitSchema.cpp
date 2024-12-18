@@ -32,6 +32,13 @@ TF_DEFINE_PUBLIC_TOKENS(HdLimitSchemaTokens,
 // --(BEGIN CUSTOM CODE: Schema Methods)--
 // --(END CUSTOM CODE: Schema Methods)--
 
+HdTokenDataSourceHandle
+HdLimitSchema::GetName() const
+{
+    return _GetTypedDataSource<HdTokenDataSource>(
+        HdLimitSchemaTokens->name);
+}
+
 HdFloatDataSourceHandle
 HdLimitSchema::GetLow() const
 {
@@ -49,14 +56,20 @@ HdLimitSchema::GetHigh() const
 /*static*/
 HdContainerDataSourceHandle
 HdLimitSchema::BuildRetained(
+        const HdTokenDataSourceHandle &name,
         const HdFloatDataSourceHandle &low,
         const HdFloatDataSourceHandle &high
 )
 {
-    TfToken _names[2];
-    HdDataSourceBaseHandle _values[2];
+    TfToken _names[3];
+    HdDataSourceBaseHandle _values[3];
 
     size_t _count = 0;
+
+    if (name) {
+        _names[_count] = HdLimitSchemaTokens->name;
+        _values[_count++] = name;
+    }
 
     if (low) {
         _names[_count] = HdLimitSchemaTokens->low;
@@ -68,6 +81,14 @@ HdLimitSchema::BuildRetained(
         _values[_count++] = high;
     }
     return HdRetainedContainerDataSource::New(_count, _names, _values);
+}
+
+HdLimitSchema::Builder &
+HdLimitSchema::Builder::SetName(
+    const HdTokenDataSourceHandle &name)
+{
+    _name = name;
+    return *this;
 }
 
 HdLimitSchema::Builder &
@@ -90,6 +111,7 @@ HdContainerDataSourceHandle
 HdLimitSchema::Builder::Build()
 {
     return HdLimitSchema::BuildRetained(
+        _name,
         _low,
         _high
     );
@@ -119,6 +141,16 @@ const HdDataSourceLocator &
 HdLimitSchema::GetDefaultLocator()
 {
     static const HdDataSourceLocator locator(GetSchemaToken());
+    return locator;
+}
+
+/* static */
+const HdDataSourceLocator &
+HdLimitSchema::GetNameLocator()
+{
+    static const HdDataSourceLocator locator =
+        GetDefaultLocator().Append(
+            HdLimitSchemaTokens->name);
     return locator;
 }
 

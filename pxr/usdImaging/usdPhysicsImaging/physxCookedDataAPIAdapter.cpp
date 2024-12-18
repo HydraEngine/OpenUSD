@@ -31,6 +31,7 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
+                HdPhysxCookedDataSchemaTokens->name,
                 HdPhysxCookedDataSchemaTokens->buffer,  //
         };
 
@@ -45,6 +46,9 @@ public:
                     return HdRetainedTypedSampledDataSource<VtArray<uchar>>::New(v);
                 }
             }
+        }
+        if (name == HdPhysxCookedDataSchemaTokens->name) {
+            return HdRetainedTypedSampledDataSource<TfToken>::New(_api.GetName());
         }
         return nullptr;
     }

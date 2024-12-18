@@ -54,13 +54,20 @@ _CreateWheelsAttr(UsdPhysXVehicleBrakesAPI &self,
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->IntArray), writeSparsely);
 }
 
+static bool _WrapIsPhysxSchemaPhysxVehicleBrakesAPIPath(const SdfPath &path) {
+    TfToken collectionName;
+    return UsdPhysXVehicleBrakesAPI::IsPhysxSchemaPhysxVehicleBrakesAPIPath(
+        path, &collectionName);
+}
+
 static std::string
 _Repr(const UsdPhysXVehicleBrakesAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
+    std::string instanceName = TfPyRepr(self.GetName());
     return TfStringPrintf(
-        "UsdPhysX.VehicleBrakesAPI(%s)",
-        primRepr.c_str());
+        "UsdPhysX.VehicleBrakesAPI(%s, '%s')",
+        primRepr.c_str(), instanceName.c_str());
 }
 
 struct UsdPhysXVehicleBrakesAPI_CanApplyResult : 
@@ -71,10 +78,10 @@ struct UsdPhysXVehicleBrakesAPI_CanApplyResult :
 };
 
 static UsdPhysXVehicleBrakesAPI_CanApplyResult
-_WrapCanApply(const UsdPrim& prim)
+_WrapCanApply(const UsdPrim& prim, const TfToken& name)
 {
     std::string whyNot;
-    bool result = UsdPhysXVehicleBrakesAPI::CanApply(prim, &whyNot);
+    bool result = UsdPhysXVehicleBrakesAPI::CanApply(prim, name, &whyNot);
     return UsdPhysXVehicleBrakesAPI_CanApplyResult(result, whyNot);
 }
 
@@ -91,22 +98,44 @@ void wrapUsdPhysXVehicleBrakesAPI()
         cls("VehicleBrakesAPI");
 
     cls
-        .def(init<UsdPrim>(arg("prim")))
-        .def(init<UsdSchemaBase const&>(arg("schemaObj")))
+        .def(init<UsdPrim, TfToken>((arg("prim"), arg("name"))))
+        .def(init<UsdSchemaBase const&, TfToken>((arg("schemaObj"), arg("name"))))
         .def(TfTypePythonClass())
 
-        .def("Get", &This::Get, (arg("stage"), arg("path")))
+        .def("Get",
+            (UsdPhysXVehicleBrakesAPI(*)(const UsdStagePtr &stage, 
+                                       const SdfPath &path))
+               &This::Get,
+            (arg("stage"), arg("path")))
+        .def("Get",
+            (UsdPhysXVehicleBrakesAPI(*)(const UsdPrim &prim,
+                                       const TfToken &name))
+               &This::Get,
+            (arg("prim"), arg("name")))
         .staticmethod("Get")
 
-        .def("CanApply", &_WrapCanApply, (arg("prim")))
+        .def("GetAll",
+            (std::vector<UsdPhysXVehicleBrakesAPI>(*)(const UsdPrim &prim))
+                &This::GetAll,
+            arg("prim"),
+            return_value_policy<TfPySequenceToList>())
+        .staticmethod("GetAll")
+
+        .def("CanApply", &_WrapCanApply, (arg("prim"), arg("name")))
         .staticmethod("CanApply")
 
-        .def("Apply", &This::Apply, (arg("prim")))
+        .def("Apply", &This::Apply, (arg("prim"), arg("name")))
         .staticmethod("Apply")
 
         .def("GetSchemaAttributeNames",
-             &This::GetSchemaAttributeNames,
+             (const TfTokenVector &(*)(bool))&This::GetSchemaAttributeNames,
              arg("includeInherited")=true,
+             return_value_policy<TfPySequenceToList>())
+        .def("GetSchemaAttributeNames",
+             (TfTokenVector(*)(bool, const TfToken &))
+                &This::GetSchemaAttributeNames,
+             arg("includeInherited"),
+             arg("instanceName"),
              return_value_policy<TfPySequenceToList>())
         .staticmethod("GetSchemaAttributeNames")
 
@@ -138,6 +167,8 @@ void wrapUsdPhysXVehicleBrakesAPI()
              (arg("defaultValue")=object(),
               arg("writeSparsely")=false))
 
+        .def("IsPhysxSchemaPhysxVehicleBrakesAPIPath", _WrapIsPhysxSchemaPhysxVehicleBrakesAPIPath)
+            .staticmethod("IsPhysxSchemaPhysxVehicleBrakesAPIPath")
         .def("__repr__", ::_Repr)
     ;
 

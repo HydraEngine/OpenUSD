@@ -34,6 +34,7 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 #define HD_DRIVE_SCHEMA_TOKENS \
     (drive) \
+    (name) \
     (type) \
     (maxForce) \
     (targetPosition) \
@@ -72,6 +73,9 @@ public:
 
     /// \name Member accessor
     /// @{
+
+    HD_API
+    HdTokenDataSourceHandle GetName() const;
 
     HD_API
     HdTokenDataSourceHandle GetType() const;
@@ -117,6 +121,10 @@ public:
     /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
     /// @{
 
+    /// Prim-level relative data source locator to locate name.
+    HD_API
+    static const HdDataSourceLocator &GetNameLocator();
+
     /// Prim-level relative data source locator to locate type.
     HD_API
     static const HdDataSourceLocator &GetTypeLocator();
@@ -155,6 +163,7 @@ public:
     HD_API
     static HdContainerDataSourceHandle
     BuildRetained(
+        const HdTokenDataSourceHandle &name,
         const HdTokenDataSourceHandle &type,
         const HdFloatDataSourceHandle &maxForce,
         const HdFloatDataSourceHandle &targetPosition,
@@ -172,6 +181,9 @@ public:
     class Builder
     {
     public:
+        HD_API
+        Builder &SetName(
+            const HdTokenDataSourceHandle &name);
         HD_API
         Builder &SetType(
             const HdTokenDataSourceHandle &type);
@@ -196,6 +208,7 @@ public:
         HdContainerDataSourceHandle Build();
 
     private:
+        HdTokenDataSourceHandle _name;
         HdTokenDataSourceHandle _type;
         HdFloatDataSourceHandle _maxForce;
         HdFloatDataSourceHandle _targetPosition;

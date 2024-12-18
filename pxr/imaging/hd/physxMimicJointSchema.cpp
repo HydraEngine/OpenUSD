@@ -32,6 +32,13 @@ TF_DEFINE_PUBLIC_TOKENS(HdPhysxMimicJointSchemaTokens,
 // --(BEGIN CUSTOM CODE: Schema Methods)--
 // --(END CUSTOM CODE: Schema Methods)--
 
+HdTokenDataSourceHandle
+HdPhysxMimicJointSchema::GetName() const
+{
+    return _GetTypedDataSource<HdTokenDataSource>(
+        HdPhysxMimicJointSchemaTokens->name);
+}
+
 HdFloatDataSourceHandle
 HdPhysxMimicJointSchema::GetGearing() const
 {
@@ -56,15 +63,21 @@ HdPhysxMimicJointSchema::GetReferenceJointAxis() const
 /*static*/
 HdContainerDataSourceHandle
 HdPhysxMimicJointSchema::BuildRetained(
+        const HdTokenDataSourceHandle &name,
         const HdFloatDataSourceHandle &gearing,
         const HdFloatDataSourceHandle &offset,
         const HdTokenDataSourceHandle &referenceJointAxis
 )
 {
-    TfToken _names[3];
-    HdDataSourceBaseHandle _values[3];
+    TfToken _names[4];
+    HdDataSourceBaseHandle _values[4];
 
     size_t _count = 0;
+
+    if (name) {
+        _names[_count] = HdPhysxMimicJointSchemaTokens->name;
+        _values[_count++] = name;
+    }
 
     if (gearing) {
         _names[_count] = HdPhysxMimicJointSchemaTokens->gearing;
@@ -81,6 +94,14 @@ HdPhysxMimicJointSchema::BuildRetained(
         _values[_count++] = referenceJointAxis;
     }
     return HdRetainedContainerDataSource::New(_count, _names, _values);
+}
+
+HdPhysxMimicJointSchema::Builder &
+HdPhysxMimicJointSchema::Builder::SetName(
+    const HdTokenDataSourceHandle &name)
+{
+    _name = name;
+    return *this;
 }
 
 HdPhysxMimicJointSchema::Builder &
@@ -111,6 +132,7 @@ HdContainerDataSourceHandle
 HdPhysxMimicJointSchema::Builder::Build()
 {
     return HdPhysxMimicJointSchema::BuildRetained(
+        _name,
         _gearing,
         _offset,
         _referenceJointAxis
@@ -141,6 +163,16 @@ const HdDataSourceLocator &
 HdPhysxMimicJointSchema::GetDefaultLocator()
 {
     static const HdDataSourceLocator locator(GetSchemaToken());
+    return locator;
+}
+
+/* static */
+const HdDataSourceLocator &
+HdPhysxMimicJointSchema::GetNameLocator()
+{
+    static const HdDataSourceLocator locator =
+        GetDefaultLocator().Append(
+            HdPhysxMimicJointSchemaTokens->name);
     return locator;
 }
 

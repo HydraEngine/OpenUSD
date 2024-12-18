@@ -1440,6 +1440,7 @@
         SCHEMA_NAME = 'Drive',
         SCHEMA_TOKEN = 'drive',
         MEMBERS = [
+            ('name', T_TOKEN, dict(ADD_LOCATOR = True)),
             ('type', T_TOKEN, dict(ADD_LOCATOR = True)),
             ('maxForce', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('targetPosition', T_FLOAT, dict(ADD_LOCATOR = True)),
@@ -1490,6 +1491,7 @@
         SCHEMA_NAME = 'Limit',
         SCHEMA_TOKEN = 'limit',
         MEMBERS = [
+            ('name', T_TOKEN, dict(ADD_LOCATOR = True)),
             ('low', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('high', T_FLOAT, dict(ADD_LOCATOR = True)),
         ],
@@ -1593,6 +1595,7 @@
         SCHEMA_NAME = 'PhysxJointState',
         SCHEMA_TOKEN = 'physxJointState',
         MEMBERS = [
+            ('name', T_TOKEN, dict(ADD_LOCATOR = True)),
             ('position', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('velocity', T_FLOAT, dict(ADD_LOCATOR = True)),
         ],
@@ -1760,6 +1763,7 @@
         SCHEMA_NAME = 'PhysxCookedData',
         SCHEMA_TOKEN = 'physxCookedData',
         MEMBERS = [
+            ('name', T_TOKEN, dict(ADD_LOCATOR = True)),
             ('buffer', T_INTARRAY, dict(ADD_LOCATOR = True)),
         ],
 
@@ -1838,6 +1842,7 @@
         SCHEMA_NAME = 'PhysxMimicJoint',
         SCHEMA_TOKEN = 'physxMimicJoint',
         MEMBERS = [
+            ('name', T_TOKEN, dict(ADD_LOCATOR = True)),
             ('gearing', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('offset', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('referenceJointAxis', T_TOKEN, dict(ADD_LOCATOR = True)),
@@ -2126,6 +2131,7 @@
         SCHEMA_NAME = 'PhysxVehicleBrakes',
         SCHEMA_TOKEN = 'physxVehicleBrakes',
         MEMBERS = [
+            ('name', T_TOKEN, dict(ADD_LOCATOR = True)),
             ('maxBrakeTorque', T_FLOAT, dict(ADD_LOCATOR = True)),
             ('torqueMultipliers', T_FLOATARRAY, dict(ADD_LOCATOR = True)),
             ('wheels', T_INTARRAY, dict(ADD_LOCATOR = True)),
@@ -2229,6 +2235,7 @@
         SCHEMA_NAME = 'PhysxVehicleNonlinearCommandResponse',
         SCHEMA_TOKEN = 'physxVehicleNonlinearCommandResponse',
         MEMBERS = [
+            ('name', T_TOKEN, dict(ADD_LOCATOR = True)),
             ('commandValues', T_FLOATARRAY, dict(ADD_LOCATOR = True)),
             ('speedResponses', T_VEC2FARRAY, dict(ADD_LOCATOR = True)),
             ('speedResponsesPerCommandValue', T_INTARRAY, dict(ADD_LOCATOR = True)),

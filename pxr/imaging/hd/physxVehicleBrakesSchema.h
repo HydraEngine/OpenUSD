@@ -34,6 +34,7 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 #define HD_PHYSX_VEHICLE_BRAKES_SCHEMA_TOKENS \
     (physxVehicleBrakes) \
+    (name) \
     (maxBrakeTorque) \
     (torqueMultipliers) \
     (wheels) \
@@ -71,6 +72,9 @@ public:
     /// @{
 
     HD_API
+    HdTokenDataSourceHandle GetName() const;
+
+    HD_API
     HdFloatDataSourceHandle GetMaxBrakeTorque() const;
 
     HD_API
@@ -105,6 +109,10 @@ public:
     /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
     /// @{
 
+    /// Prim-level relative data source locator to locate name.
+    HD_API
+    static const HdDataSourceLocator &GetNameLocator();
+
     /// Prim-level relative data source locator to locate maxBrakeTorque.
     HD_API
     static const HdDataSourceLocator &GetMaxBrakeTorqueLocator();
@@ -131,6 +139,7 @@ public:
     HD_API
     static HdContainerDataSourceHandle
     BuildRetained(
+        const HdTokenDataSourceHandle &name,
         const HdFloatDataSourceHandle &maxBrakeTorque,
         const HdFloatArrayDataSourceHandle &torqueMultipliers,
         const HdIntArrayDataSourceHandle &wheels
@@ -146,6 +155,9 @@ public:
     {
     public:
         HD_API
+        Builder &SetName(
+            const HdTokenDataSourceHandle &name);
+        HD_API
         Builder &SetMaxBrakeTorque(
             const HdFloatDataSourceHandle &maxBrakeTorque);
         HD_API
@@ -160,6 +172,7 @@ public:
         HdContainerDataSourceHandle Build();
 
     private:
+        HdTokenDataSourceHandle _name;
         HdFloatDataSourceHandle _maxBrakeTorque;
         HdFloatArrayDataSourceHandle _torqueMultipliers;
         HdIntArrayDataSourceHandle _wheels;

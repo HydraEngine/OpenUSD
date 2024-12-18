@@ -31,6 +31,7 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
+                HdDriveSchemaTokens->name,
                 HdDriveSchemaTokens->type,
                 HdDriveSchemaTokens->maxForce,        //
                 HdDriveSchemaTokens->targetPosition,  //
@@ -89,6 +90,9 @@ public:
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
+        }
+        if (name == HdDriveSchemaTokens->name) {
+            return HdRetainedTypedSampledDataSource<TfToken>::New(_api.GetName());
         }
         return nullptr;
     }

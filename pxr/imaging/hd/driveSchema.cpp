@@ -33,6 +33,13 @@ TF_DEFINE_PUBLIC_TOKENS(HdDriveSchemaTokens,
 // --(END CUSTOM CODE: Schema Methods)--
 
 HdTokenDataSourceHandle
+HdDriveSchema::GetName() const
+{
+    return _GetTypedDataSource<HdTokenDataSource>(
+        HdDriveSchemaTokens->name);
+}
+
+HdTokenDataSourceHandle
 HdDriveSchema::GetType() const
 {
     return _GetTypedDataSource<HdTokenDataSource>(
@@ -77,6 +84,7 @@ HdDriveSchema::GetStiffness() const
 /*static*/
 HdContainerDataSourceHandle
 HdDriveSchema::BuildRetained(
+        const HdTokenDataSourceHandle &name,
         const HdTokenDataSourceHandle &type,
         const HdFloatDataSourceHandle &maxForce,
         const HdFloatDataSourceHandle &targetPosition,
@@ -85,10 +93,15 @@ HdDriveSchema::BuildRetained(
         const HdFloatDataSourceHandle &stiffness
 )
 {
-    TfToken _names[6];
-    HdDataSourceBaseHandle _values[6];
+    TfToken _names[7];
+    HdDataSourceBaseHandle _values[7];
 
     size_t _count = 0;
+
+    if (name) {
+        _names[_count] = HdDriveSchemaTokens->name;
+        _values[_count++] = name;
+    }
 
     if (type) {
         _names[_count] = HdDriveSchemaTokens->type;
@@ -120,6 +133,14 @@ HdDriveSchema::BuildRetained(
         _values[_count++] = stiffness;
     }
     return HdRetainedContainerDataSource::New(_count, _names, _values);
+}
+
+HdDriveSchema::Builder &
+HdDriveSchema::Builder::SetName(
+    const HdTokenDataSourceHandle &name)
+{
+    _name = name;
+    return *this;
 }
 
 HdDriveSchema::Builder &
@@ -174,6 +195,7 @@ HdContainerDataSourceHandle
 HdDriveSchema::Builder::Build()
 {
     return HdDriveSchema::BuildRetained(
+        _name,
         _type,
         _maxForce,
         _targetPosition,
@@ -207,6 +229,16 @@ const HdDataSourceLocator &
 HdDriveSchema::GetDefaultLocator()
 {
     static const HdDataSourceLocator locator(GetSchemaToken());
+    return locator;
+}
+
+/* static */
+const HdDataSourceLocator &
+HdDriveSchema::GetNameLocator()
+{
+    static const HdDataSourceLocator locator =
+        GetDefaultLocator().Append(
+            HdDriveSchemaTokens->name);
     return locator;
 }
 

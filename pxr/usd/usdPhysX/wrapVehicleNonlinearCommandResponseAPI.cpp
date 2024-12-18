@@ -54,13 +54,20 @@ _CreateSpeedResponsesPerCommandValueAttr(UsdPhysXVehicleNonlinearCommandResponse
         UsdPythonToSdfType(defaultVal, SdfValueTypeNames->IntArray), writeSparsely);
 }
 
+static bool _WrapIsPhysxSchemaPhysxVehicleNonlinearCommandResponseAPIPath(const SdfPath &path) {
+    TfToken collectionName;
+    return UsdPhysXVehicleNonlinearCommandResponseAPI::IsPhysxSchemaPhysxVehicleNonlinearCommandResponseAPIPath(
+        path, &collectionName);
+}
+
 static std::string
 _Repr(const UsdPhysXVehicleNonlinearCommandResponseAPI &self)
 {
     std::string primRepr = TfPyRepr(self.GetPrim());
+    std::string instanceName = TfPyRepr(self.GetName());
     return TfStringPrintf(
-        "UsdPhysX.VehicleNonlinearCommandResponseAPI(%s)",
-        primRepr.c_str());
+        "UsdPhysX.VehicleNonlinearCommandResponseAPI(%s, '%s')",
+        primRepr.c_str(), instanceName.c_str());
 }
 
 struct UsdPhysXVehicleNonlinearCommandResponseAPI_CanApplyResult : 
@@ -71,10 +78,10 @@ struct UsdPhysXVehicleNonlinearCommandResponseAPI_CanApplyResult :
 };
 
 static UsdPhysXVehicleNonlinearCommandResponseAPI_CanApplyResult
-_WrapCanApply(const UsdPrim& prim)
+_WrapCanApply(const UsdPrim& prim, const TfToken& name)
 {
     std::string whyNot;
-    bool result = UsdPhysXVehicleNonlinearCommandResponseAPI::CanApply(prim, &whyNot);
+    bool result = UsdPhysXVehicleNonlinearCommandResponseAPI::CanApply(prim, name, &whyNot);
     return UsdPhysXVehicleNonlinearCommandResponseAPI_CanApplyResult(result, whyNot);
 }
 
@@ -91,22 +98,44 @@ void wrapUsdPhysXVehicleNonlinearCommandResponseAPI()
         cls("VehicleNonlinearCommandResponseAPI");
 
     cls
-        .def(init<UsdPrim>(arg("prim")))
-        .def(init<UsdSchemaBase const&>(arg("schemaObj")))
+        .def(init<UsdPrim, TfToken>((arg("prim"), arg("name"))))
+        .def(init<UsdSchemaBase const&, TfToken>((arg("schemaObj"), arg("name"))))
         .def(TfTypePythonClass())
 
-        .def("Get", &This::Get, (arg("stage"), arg("path")))
+        .def("Get",
+            (UsdPhysXVehicleNonlinearCommandResponseAPI(*)(const UsdStagePtr &stage, 
+                                       const SdfPath &path))
+               &This::Get,
+            (arg("stage"), arg("path")))
+        .def("Get",
+            (UsdPhysXVehicleNonlinearCommandResponseAPI(*)(const UsdPrim &prim,
+                                       const TfToken &name))
+               &This::Get,
+            (arg("prim"), arg("name")))
         .staticmethod("Get")
 
-        .def("CanApply", &_WrapCanApply, (arg("prim")))
+        .def("GetAll",
+            (std::vector<UsdPhysXVehicleNonlinearCommandResponseAPI>(*)(const UsdPrim &prim))
+                &This::GetAll,
+            arg("prim"),
+            return_value_policy<TfPySequenceToList>())
+        .staticmethod("GetAll")
+
+        .def("CanApply", &_WrapCanApply, (arg("prim"), arg("name")))
         .staticmethod("CanApply")
 
-        .def("Apply", &This::Apply, (arg("prim")))
+        .def("Apply", &This::Apply, (arg("prim"), arg("name")))
         .staticmethod("Apply")
 
         .def("GetSchemaAttributeNames",
-             &This::GetSchemaAttributeNames,
+             (const TfTokenVector &(*)(bool))&This::GetSchemaAttributeNames,
              arg("includeInherited")=true,
+             return_value_policy<TfPySequenceToList>())
+        .def("GetSchemaAttributeNames",
+             (TfTokenVector(*)(bool, const TfToken &))
+                &This::GetSchemaAttributeNames,
+             arg("includeInherited"),
+             arg("instanceName"),
              return_value_policy<TfPySequenceToList>())
         .staticmethod("GetSchemaAttributeNames")
 
@@ -138,6 +167,8 @@ void wrapUsdPhysXVehicleNonlinearCommandResponseAPI()
              (arg("defaultValue")=object(),
               arg("writeSparsely")=false))
 
+        .def("IsPhysxSchemaPhysxVehicleNonlinearCommandResponseAPIPath", _WrapIsPhysxSchemaPhysxVehicleNonlinearCommandResponseAPIPath)
+            .staticmethod("IsPhysxSchemaPhysxVehicleNonlinearCommandResponseAPIPath")
         .def("__repr__", ::_Repr)
     ;
 

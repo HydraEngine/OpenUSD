@@ -34,9 +34,81 @@ UsdPhysXVehicleBrakesAPI::Get(const UsdStagePtr &stage, const SdfPath &path)
         TF_CODING_ERROR("Invalid stage");
         return UsdPhysXVehicleBrakesAPI();
     }
-    return UsdPhysXVehicleBrakesAPI(stage->GetPrimAtPath(path));
+    TfToken name;
+    if (!IsPhysxSchemaPhysxVehicleBrakesAPIPath(path, &name)) {
+        TF_CODING_ERROR("Invalid vehicleBrakes path <%s>.", path.GetText());
+        return UsdPhysXVehicleBrakesAPI();
+    }
+    return UsdPhysXVehicleBrakesAPI(stage->GetPrimAtPath(path.GetPrimPath()), name);
 }
 
+UsdPhysXVehicleBrakesAPI
+UsdPhysXVehicleBrakesAPI::Get(const UsdPrim &prim, const TfToken &name)
+{
+    return UsdPhysXVehicleBrakesAPI(prim, name);
+}
+
+/* static */
+std::vector<UsdPhysXVehicleBrakesAPI>
+UsdPhysXVehicleBrakesAPI::GetAll(const UsdPrim &prim)
+{
+    std::vector<UsdPhysXVehicleBrakesAPI> schemas;
+    
+    for (const auto &schemaName :
+         UsdAPISchemaBase::_GetMultipleApplyInstanceNames(prim, _GetStaticTfType())) {
+        schemas.emplace_back(prim, schemaName);
+    }
+
+    return schemas;
+}
+
+
+/* static */
+bool 
+UsdPhysXVehicleBrakesAPI::IsSchemaPropertyBaseName(const TfToken &baseName)
+{
+    static TfTokenVector attrsAndRels = {
+        UsdSchemaRegistry::GetMultipleApplyNameTemplateBaseName(
+            UsdPhysXTokens->vehicleBrakes_MultipleApplyTemplate_MaxBrakeTorque),
+        UsdSchemaRegistry::GetMultipleApplyNameTemplateBaseName(
+            UsdPhysXTokens->vehicleBrakes_MultipleApplyTemplate_TorqueMultipliers),
+        UsdSchemaRegistry::GetMultipleApplyNameTemplateBaseName(
+            UsdPhysXTokens->vehicleBrakes_MultipleApplyTemplate_Wheels),
+    };
+
+    return find(attrsAndRels.begin(), attrsAndRels.end(), baseName)
+            != attrsAndRels.end();
+}
+
+/* static */
+bool
+UsdPhysXVehicleBrakesAPI::IsPhysxSchemaPhysxVehicleBrakesAPIPath(
+    const SdfPath &path, TfToken *name)
+{
+    if (!path.IsPropertyPath()) {
+        return false;
+    }
+
+    std::string propertyName = path.GetName();
+    TfTokenVector tokens = SdfPath::TokenizeIdentifierAsTokens(propertyName);
+
+    // The baseName of the  path can't be one of the 
+    // schema properties. We should validate this in the creation (or apply)
+    // API.
+    TfToken baseName = *tokens.rbegin();
+    if (IsSchemaPropertyBaseName(baseName)) {
+        return false;
+    }
+
+    if (tokens.size() >= 2
+        && tokens[0] == UsdPhysXTokens->vehicleBrakes) {
+        *name = TfToken(propertyName.substr(
+           UsdPhysXTokens->vehicleBrakes.GetString().size() + 1));
+        return true;
+    }
+
+    return false;
+}
 
 /* virtual */
 UsdSchemaKind UsdPhysXVehicleBrakesAPI::_GetSchemaKind() const
@@ -47,17 +119,17 @@ UsdSchemaKind UsdPhysXVehicleBrakesAPI::_GetSchemaKind() const
 /* static */
 bool
 UsdPhysXVehicleBrakesAPI::CanApply(
-    const UsdPrim &prim, std::string *whyNot)
+    const UsdPrim &prim, const TfToken &name, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXVehicleBrakesAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXVehicleBrakesAPI>(name, whyNot);
 }
 
 /* static */
 UsdPhysXVehicleBrakesAPI
-UsdPhysXVehicleBrakesAPI::Apply(const UsdPrim &prim)
+UsdPhysXVehicleBrakesAPI::Apply(const UsdPrim &prim, const TfToken &name)
 {
-    if (prim.ApplyAPI<UsdPhysXVehicleBrakesAPI>()) {
-        return UsdPhysXVehicleBrakesAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXVehicleBrakesAPI>(name)) {
+        return UsdPhysXVehicleBrakesAPI(prim, name);
     }
     return UsdPhysXVehicleBrakesAPI();
 }
@@ -85,16 +157,32 @@ UsdPhysXVehicleBrakesAPI::_GetTfType() const
     return _GetStaticTfType();
 }
 
+/// Returns the property name prefixed with the correct namespace prefix, which
+/// is composed of the the API's propertyNamespacePrefix metadata and the
+/// instance name of the API.
+static inline
+TfToken
+_GetNamespacedPropertyName(const TfToken instanceName, const TfToken propName)
+{
+    return UsdSchemaRegistry::MakeMultipleApplyNameInstance(propName, instanceName);
+}
+
 UsdAttribute
 UsdPhysXVehicleBrakesAPI::GetMaxBrakeTorqueAttr() const
 {
-    return GetPrim().GetAttribute(UsdPhysXTokens->maxBrakeTorque);
+    return GetPrim().GetAttribute(
+        _GetNamespacedPropertyName(
+            GetName(),
+            UsdPhysXTokens->vehicleBrakes_MultipleApplyTemplate_MaxBrakeTorque));
 }
 
 UsdAttribute
 UsdPhysXVehicleBrakesAPI::CreateMaxBrakeTorqueAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
-    return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->maxBrakeTorque,
+    return UsdSchemaBase::_CreateAttr(
+                       _GetNamespacedPropertyName(
+                            GetName(),
+                           UsdPhysXTokens->vehicleBrakes_MultipleApplyTemplate_MaxBrakeTorque),
                        SdfValueTypeNames->Float,
                        /* custom = */ false,
                        SdfVariabilityVarying,
@@ -105,13 +193,19 @@ UsdPhysXVehicleBrakesAPI::CreateMaxBrakeTorqueAttr(VtValue const &defaultValue, 
 UsdAttribute
 UsdPhysXVehicleBrakesAPI::GetTorqueMultipliersAttr() const
 {
-    return GetPrim().GetAttribute(UsdPhysXTokens->torqueMultipliers);
+    return GetPrim().GetAttribute(
+        _GetNamespacedPropertyName(
+            GetName(),
+            UsdPhysXTokens->vehicleBrakes_MultipleApplyTemplate_TorqueMultipliers));
 }
 
 UsdAttribute
 UsdPhysXVehicleBrakesAPI::CreateTorqueMultipliersAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
-    return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->torqueMultipliers,
+    return UsdSchemaBase::_CreateAttr(
+                       _GetNamespacedPropertyName(
+                            GetName(),
+                           UsdPhysXTokens->vehicleBrakes_MultipleApplyTemplate_TorqueMultipliers),
                        SdfValueTypeNames->FloatArray,
                        /* custom = */ false,
                        SdfVariabilityVarying,
@@ -122,13 +216,19 @@ UsdPhysXVehicleBrakesAPI::CreateTorqueMultipliersAttr(VtValue const &defaultValu
 UsdAttribute
 UsdPhysXVehicleBrakesAPI::GetWheelsAttr() const
 {
-    return GetPrim().GetAttribute(UsdPhysXTokens->wheels);
+    return GetPrim().GetAttribute(
+        _GetNamespacedPropertyName(
+            GetName(),
+            UsdPhysXTokens->vehicleBrakes_MultipleApplyTemplate_Wheels));
 }
 
 UsdAttribute
 UsdPhysXVehicleBrakesAPI::CreateWheelsAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
-    return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->wheels,
+    return UsdSchemaBase::_CreateAttr(
+                       _GetNamespacedPropertyName(
+                            GetName(),
+                           UsdPhysXTokens->vehicleBrakes_MultipleApplyTemplate_Wheels),
                        SdfValueTypeNames->IntArray,
                        /* custom = */ false,
                        SdfVariabilityVarying,
@@ -153,9 +253,9 @@ const TfTokenVector&
 UsdPhysXVehicleBrakesAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
-        UsdPhysXTokens->maxBrakeTorque,
-        UsdPhysXTokens->torqueMultipliers,
-        UsdPhysXTokens->wheels,
+        UsdPhysXTokens->vehicleBrakes_MultipleApplyTemplate_MaxBrakeTorque,
+        UsdPhysXTokens->vehicleBrakes_MultipleApplyTemplate_TorqueMultipliers,
+        UsdPhysXTokens->vehicleBrakes_MultipleApplyTemplate_Wheels,
     };
     static TfTokenVector allNames =
         _ConcatenateAttributeNames(
@@ -166,6 +266,24 @@ UsdPhysXVehicleBrakesAPI::GetSchemaAttributeNames(bool includeInherited)
         return allNames;
     else
         return localNames;
+}
+
+/*static*/
+TfTokenVector
+UsdPhysXVehicleBrakesAPI::GetSchemaAttributeNames(
+    bool includeInherited, const TfToken &instanceName)
+{
+    const TfTokenVector &attrNames = GetSchemaAttributeNames(includeInherited);
+    if (instanceName.IsEmpty()) {
+        return attrNames;
+    }
+    TfTokenVector result;
+    result.reserve(attrNames.size());
+    for (const TfToken &attrName : attrNames) {
+        result.push_back(
+            UsdSchemaRegistry::MakeMultipleApplyNameInstance(attrName, instanceName));
+    }
+    return result;
 }
 
 PXR_NAMESPACE_CLOSE_SCOPE

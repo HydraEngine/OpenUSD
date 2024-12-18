@@ -81,10 +81,6 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXVehicleDriveStandardAPI
     const TfToken clutch;
-    /// \brief "commandValues"
-    /// 
-    /// UsdPhysXVehicleNonlinearCommandResponseAPI
-    const TfToken commandValues;
     /// \brief "constrained"
     /// 
     /// Possible value for UsdPhysXCharacterControllerAPI::GetClimbingModeAttr()
@@ -157,10 +153,6 @@ struct UsdPhysXTokensType {
     /// 
     /// Possible value for UsdPhysXMaterialAPI::GetDampingCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetFrictionCombineModeAttr(), Possible value for UsdPhysXMaterialAPI::GetRestitutionCombineModeAttr()
     const TfToken max;
-    /// \brief "maxBrakeTorque"
-    /// 
-    /// UsdPhysXVehicleBrakesAPI
-    const TfToken maxBrakeTorque;
     /// \brief "MBP"
     /// 
     /// Possible value for UsdPhysXSceneAPI::GetBroadphaseTypeAttr()
@@ -1393,14 +1385,6 @@ struct UsdPhysXTokensType {
     /// 
     /// Fallback value for UsdPhysXTriggerAPI::GetEnterScriptTypeAttr(), Fallback value for UsdPhysXTriggerAPI::GetLeaveScriptTypeAttr()
     const TfToken scriptFile;
-    /// \brief "speedResponses"
-    /// 
-    /// UsdPhysXVehicleNonlinearCommandResponseAPI
-    const TfToken speedResponses;
-    /// \brief "speedResponsesPerCommandValue"
-    /// 
-    /// UsdPhysXVehicleNonlinearCommandResponseAPI
-    const TfToken speedResponsesPerCommandValue;
     /// \brief "surface"
     /// 
     /// Possible value for UsdPhysXSphereFillCollisionAPI::GetFillModeAttr()
@@ -1417,10 +1401,6 @@ struct UsdPhysXTokensType {
     /// 
     /// Fallback value for UsdPhysXSceneAPI::GetSolverTypeAttr()
     const TfToken TGS;
-    /// \brief "torqueMultipliers"
-    /// 
-    /// UsdPhysXVehicleBrakesAPI
-    const TfToken torqueMultipliers;
     /// \brief "triggeredCollisions"
     /// 
     /// UsdPhysXTriggerStateAPI
@@ -1429,6 +1409,38 @@ struct UsdPhysXTokensType {
     /// 
     /// Fallback value for UsdPhysXVehicleContextAPI::GetLongitudinalAxisAttr(), Possible value for UsdPhysXVehicleContextAPI::GetUpdateModeAttr(), Fallback value for UsdPhysXVehicleContextAPI::GetVerticalAxisAttr()
     const TfToken undefined;
+    /// \brief "vehicleBrakes"
+    /// 
+    /// Property namespace prefix for the UsdPhysXVehicleBrakesAPI schema.
+    const TfToken vehicleBrakes;
+    /// \brief "vehicleBrakes:__INSTANCE_NAME__:maxBrakeTorque"
+    /// 
+    /// UsdPhysXVehicleBrakesAPI
+    const TfToken vehicleBrakes_MultipleApplyTemplate_MaxBrakeTorque;
+    /// \brief "vehicleBrakes:__INSTANCE_NAME__:torqueMultipliers"
+    /// 
+    /// UsdPhysXVehicleBrakesAPI
+    const TfToken vehicleBrakes_MultipleApplyTemplate_TorqueMultipliers;
+    /// \brief "vehicleBrakes:__INSTANCE_NAME__:wheels"
+    /// 
+    /// UsdPhysXVehicleBrakesAPI
+    const TfToken vehicleBrakes_MultipleApplyTemplate_Wheels;
+    /// \brief "vehicleNonlinearCommandResponse"
+    /// 
+    /// Property namespace prefix for the UsdPhysXVehicleNonlinearCommandResponseAPI schema.
+    const TfToken vehicleNonlinearCommandResponse;
+    /// \brief "vehicleNonlinearCommandResponse:__INSTANCE_NAME__:commandValues"
+    /// 
+    /// UsdPhysXVehicleNonlinearCommandResponseAPI
+    const TfToken vehicleNonlinearCommandResponse_MultipleApplyTemplate_CommandValues;
+    /// \brief "vehicleNonlinearCommandResponse:__INSTANCE_NAME__:speedResponses"
+    /// 
+    /// UsdPhysXVehicleNonlinearCommandResponseAPI
+    const TfToken vehicleNonlinearCommandResponse_MultipleApplyTemplate_SpeedResponses;
+    /// \brief "vehicleNonlinearCommandResponse:__INSTANCE_NAME__:speedResponsesPerCommandValue"
+    /// 
+    /// UsdPhysXVehicleNonlinearCommandResponseAPI
+    const TfToken vehicleNonlinearCommandResponse_MultipleApplyTemplate_SpeedResponsesPerCommandValue;
     /// \brief "velocityChange"
     /// 
     /// Fallback value for UsdPhysXVehicleContextAPI::GetUpdateModeAttr()
@@ -1437,10 +1449,6 @@ struct UsdPhysXTokensType {
     /// 
     /// UsdPhysXVehicleWheelAttachmentAPI
     const TfToken wheel;
-    /// \brief "wheels"
-    /// 
-    /// UsdPhysXVehicleBrakesAPI
-    const TfToken wheels;
     /// \brief "X"
     /// 
     /// Possible value for UsdPhysXCharacterControllerAPI::GetUpAxisAttr()

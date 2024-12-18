@@ -433,7 +433,7 @@
                             "UsdAPISchemaBase"
                         ], 
                         "schemaIdentifier": "PhysxSchemaPhysxVehicleBrakesAPI", 
-                        "schemaKind": "singleApplyAPI"
+                        "schemaKind": "multipleApplyAPI"
                     }, 
                     "UsdPhysXVehicleClutchAPI": {
                         "alias": {
@@ -532,7 +532,7 @@
                             "UsdAPISchemaBase"
                         ], 
                         "schemaIdentifier": "PhysxSchemaPhysxVehicleNonlinearCommandResponseAPI", 
-                        "schemaKind": "singleApplyAPI"
+                        "schemaKind": "multipleApplyAPI"
                     }, 
                     "UsdPhysXVehicleSteeringAPI": {
                         "alias": {

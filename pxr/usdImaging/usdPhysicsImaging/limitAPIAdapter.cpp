@@ -31,6 +31,7 @@ public:
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
+                HdLimitSchemaTokens->name,
                 HdLimitSchemaTokens->low,   //
                 HdLimitSchemaTokens->high,  //
         };
@@ -52,6 +53,8 @@ public:
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
+        } else if (name == HdLimitSchemaTokens->name) {
+            return HdRetainedTypedSampledDataSource<TfToken>::New(_api.GetName());
         }
         return nullptr;
     }
@@ -71,8 +74,7 @@ HdContainerDataSourceHandle UsdImagingPhysicsLimitAPIAdapter::GetImagingSubprimD
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdLimitSchemaTokens->limit,
-                                                  _PhysicsLimitDataSource::New(prim));
+        return HdRetainedContainerDataSource::New(HdLimitSchemaTokens->limit, _PhysicsLimitDataSource::New(prim));
     }
 
     return nullptr;

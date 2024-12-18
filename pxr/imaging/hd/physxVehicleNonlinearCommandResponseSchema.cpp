@@ -32,6 +32,13 @@ TF_DEFINE_PUBLIC_TOKENS(HdPhysxVehicleNonlinearCommandResponseSchemaTokens,
 // --(BEGIN CUSTOM CODE: Schema Methods)--
 // --(END CUSTOM CODE: Schema Methods)--
 
+HdTokenDataSourceHandle
+HdPhysxVehicleNonlinearCommandResponseSchema::GetName() const
+{
+    return _GetTypedDataSource<HdTokenDataSource>(
+        HdPhysxVehicleNonlinearCommandResponseSchemaTokens->name);
+}
+
 HdFloatArrayDataSourceHandle
 HdPhysxVehicleNonlinearCommandResponseSchema::GetCommandValues() const
 {
@@ -56,15 +63,21 @@ HdPhysxVehicleNonlinearCommandResponseSchema::GetSpeedResponsesPerCommandValue()
 /*static*/
 HdContainerDataSourceHandle
 HdPhysxVehicleNonlinearCommandResponseSchema::BuildRetained(
+        const HdTokenDataSourceHandle &name,
         const HdFloatArrayDataSourceHandle &commandValues,
         const HdVec2fArrayDataSourceHandle &speedResponses,
         const HdIntArrayDataSourceHandle &speedResponsesPerCommandValue
 )
 {
-    TfToken _names[3];
-    HdDataSourceBaseHandle _values[3];
+    TfToken _names[4];
+    HdDataSourceBaseHandle _values[4];
 
     size_t _count = 0;
+
+    if (name) {
+        _names[_count] = HdPhysxVehicleNonlinearCommandResponseSchemaTokens->name;
+        _values[_count++] = name;
+    }
 
     if (commandValues) {
         _names[_count] = HdPhysxVehicleNonlinearCommandResponseSchemaTokens->commandValues;
@@ -81,6 +94,14 @@ HdPhysxVehicleNonlinearCommandResponseSchema::BuildRetained(
         _values[_count++] = speedResponsesPerCommandValue;
     }
     return HdRetainedContainerDataSource::New(_count, _names, _values);
+}
+
+HdPhysxVehicleNonlinearCommandResponseSchema::Builder &
+HdPhysxVehicleNonlinearCommandResponseSchema::Builder::SetName(
+    const HdTokenDataSourceHandle &name)
+{
+    _name = name;
+    return *this;
 }
 
 HdPhysxVehicleNonlinearCommandResponseSchema::Builder &
@@ -111,6 +132,7 @@ HdContainerDataSourceHandle
 HdPhysxVehicleNonlinearCommandResponseSchema::Builder::Build()
 {
     return HdPhysxVehicleNonlinearCommandResponseSchema::BuildRetained(
+        _name,
         _commandValues,
         _speedResponses,
         _speedResponsesPerCommandValue
@@ -141,6 +163,16 @@ const HdDataSourceLocator &
 HdPhysxVehicleNonlinearCommandResponseSchema::GetDefaultLocator()
 {
     static const HdDataSourceLocator locator(GetSchemaToken());
+    return locator;
+}
+
+/* static */
+const HdDataSourceLocator &
+HdPhysxVehicleNonlinearCommandResponseSchema::GetNameLocator()
+{
+    static const HdDataSourceLocator locator =
+        GetDefaultLocator().Append(
+            HdPhysxVehicleNonlinearCommandResponseSchemaTokens->name);
     return locator;
 }
 

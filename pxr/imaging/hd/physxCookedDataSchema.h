@@ -34,6 +34,7 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 #define HD_PHYSX_COOKED_DATA_SCHEMA_TOKENS \
     (physxCookedData) \
+    (name) \
     (buffer) \
 
 TF_DECLARE_PUBLIC_TOKENS(HdPhysxCookedDataSchemaTokens, HD_API,
@@ -69,6 +70,9 @@ public:
     /// @{
 
     HD_API
+    HdTokenDataSourceHandle GetName() const;
+
+    HD_API
     HdIntArrayDataSourceHandle GetBuffer() const; 
 
     /// @}
@@ -97,6 +101,10 @@ public:
     /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
     /// @{
 
+    /// Prim-level relative data source locator to locate name.
+    HD_API
+    static const HdDataSourceLocator &GetNameLocator();
+
     /// Prim-level relative data source locator to locate buffer.
     HD_API
     static const HdDataSourceLocator &GetBufferLocator();
@@ -115,6 +123,7 @@ public:
     HD_API
     static HdContainerDataSourceHandle
     BuildRetained(
+        const HdTokenDataSourceHandle &name,
         const HdIntArrayDataSourceHandle &buffer
     );
 
@@ -128,6 +137,9 @@ public:
     {
     public:
         HD_API
+        Builder &SetName(
+            const HdTokenDataSourceHandle &name);
+        HD_API
         Builder &SetBuffer(
             const HdIntArrayDataSourceHandle &buffer);
 
@@ -136,6 +148,7 @@ public:
         HdContainerDataSourceHandle Build();
 
     private:
+        HdTokenDataSourceHandle _name;
         HdIntArrayDataSourceHandle _buffer;
 
     };

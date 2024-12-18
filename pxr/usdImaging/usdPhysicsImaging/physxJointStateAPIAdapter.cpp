@@ -33,6 +33,7 @@ public:
         static const TfTokenVector names = {
                 HdPhysxJointStateSchemaTokens->position,  //
                 HdPhysxJointStateSchemaTokens->velocity,  //
+                HdPhysxJointStateSchemaTokens->name,
         };
 
         return names;
@@ -53,6 +54,9 @@ public:
                     return HdRetainedTypedSampledDataSource<float>::New(v);
                 }
             }
+        }
+        if (name == HdPhysxJointStateSchemaTokens->name) {
+            return HdRetainedTypedSampledDataSource<TfToken>::New(_api.GetName());
         }
         return nullptr;
     }

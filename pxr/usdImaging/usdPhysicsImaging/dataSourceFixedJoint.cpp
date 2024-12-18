@@ -33,7 +33,7 @@ UsdImagingDataSourceFixedJointPrim::UsdImagingDataSourceFixedJointPrim(
     : UsdImagingDataSourceJointPrim(sceneIndexPath, usdPrim, stageGlobals) {}
 
 TfTokenVector UsdImagingDataSourceFixedJointPrim::GetNames() {
-    TfTokenVector result = UsdImagingDataSourcePrim::GetNames();
+    TfTokenVector result = UsdImagingDataSourceJointPrim::GetNames();
     result.push_back(HdFixedJointSchema::GetSchemaToken());
     return result;
 }
@@ -44,7 +44,7 @@ HdDataSourceBaseHandle UsdImagingDataSourceFixedJointPrim::Get(const TfToken &na
                                                       _GetStageGlobals());
     }
 
-    return UsdImagingDataSourcePrim::Get(name);
+    return UsdImagingDataSourceJointPrim::Get(name);
 }
 
 HdDataSourceLocatorSet UsdImagingDataSourceFixedJointPrim::Invalidate(
@@ -54,7 +54,7 @@ HdDataSourceLocatorSet UsdImagingDataSourceFixedJointPrim::Invalidate(
         const UsdImagingPropertyInvalidationType invalidationType) {
     TRACE_FUNCTION();
 
-    HdDataSourceLocatorSet locators = UsdImagingDataSourcePrim::Invalidate(prim, subprim, properties, invalidationType);
+    HdDataSourceLocatorSet locators = UsdImagingDataSourceJointPrim::Invalidate(prim, subprim, properties, invalidationType);
 
     static TfTokenVector usdNames = UsdPhysicsFixedJoint::GetSchemaAttributeNames(/* includeInherited = */ false);
 

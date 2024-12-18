@@ -32,6 +32,13 @@ TF_DEFINE_PUBLIC_TOKENS(HdPhysxVehicleBrakesSchemaTokens,
 // --(BEGIN CUSTOM CODE: Schema Methods)--
 // --(END CUSTOM CODE: Schema Methods)--
 
+HdTokenDataSourceHandle
+HdPhysxVehicleBrakesSchema::GetName() const
+{
+    return _GetTypedDataSource<HdTokenDataSource>(
+        HdPhysxVehicleBrakesSchemaTokens->name);
+}
+
 HdFloatDataSourceHandle
 HdPhysxVehicleBrakesSchema::GetMaxBrakeTorque() const
 {
@@ -56,15 +63,21 @@ HdPhysxVehicleBrakesSchema::GetWheels() const
 /*static*/
 HdContainerDataSourceHandle
 HdPhysxVehicleBrakesSchema::BuildRetained(
+        const HdTokenDataSourceHandle &name,
         const HdFloatDataSourceHandle &maxBrakeTorque,
         const HdFloatArrayDataSourceHandle &torqueMultipliers,
         const HdIntArrayDataSourceHandle &wheels
 )
 {
-    TfToken _names[3];
-    HdDataSourceBaseHandle _values[3];
+    TfToken _names[4];
+    HdDataSourceBaseHandle _values[4];
 
     size_t _count = 0;
+
+    if (name) {
+        _names[_count] = HdPhysxVehicleBrakesSchemaTokens->name;
+        _values[_count++] = name;
+    }
 
     if (maxBrakeTorque) {
         _names[_count] = HdPhysxVehicleBrakesSchemaTokens->maxBrakeTorque;
@@ -81,6 +94,14 @@ HdPhysxVehicleBrakesSchema::BuildRetained(
         _values[_count++] = wheels;
     }
     return HdRetainedContainerDataSource::New(_count, _names, _values);
+}
+
+HdPhysxVehicleBrakesSchema::Builder &
+HdPhysxVehicleBrakesSchema::Builder::SetName(
+    const HdTokenDataSourceHandle &name)
+{
+    _name = name;
+    return *this;
 }
 
 HdPhysxVehicleBrakesSchema::Builder &
@@ -111,6 +132,7 @@ HdContainerDataSourceHandle
 HdPhysxVehicleBrakesSchema::Builder::Build()
 {
     return HdPhysxVehicleBrakesSchema::BuildRetained(
+        _name,
         _maxBrakeTorque,
         _torqueMultipliers,
         _wheels
@@ -141,6 +163,16 @@ const HdDataSourceLocator &
 HdPhysxVehicleBrakesSchema::GetDefaultLocator()
 {
     static const HdDataSourceLocator locator(GetSchemaToken());
+    return locator;
+}
+
+/* static */
+const HdDataSourceLocator &
+HdPhysxVehicleBrakesSchema::GetNameLocator()
+{
+    static const HdDataSourceLocator locator =
+        GetDefaultLocator().Append(
+            HdPhysxVehicleBrakesSchemaTokens->name);
     return locator;
 }
 

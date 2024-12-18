@@ -34,6 +34,7 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 #define HD_PHYSX_JOINT_STATE_SCHEMA_TOKENS \
     (physxJointState) \
+    (name) \
     (position) \
     (velocity) \
 
@@ -70,6 +71,9 @@ public:
     /// @{
 
     HD_API
+    HdTokenDataSourceHandle GetName() const;
+
+    HD_API
     HdFloatDataSourceHandle GetPosition() const;
 
     HD_API
@@ -101,6 +105,10 @@ public:
     /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
     /// @{
 
+    /// Prim-level relative data source locator to locate name.
+    HD_API
+    static const HdDataSourceLocator &GetNameLocator();
+
     /// Prim-level relative data source locator to locate position.
     HD_API
     static const HdDataSourceLocator &GetPositionLocator();
@@ -123,6 +131,7 @@ public:
     HD_API
     static HdContainerDataSourceHandle
     BuildRetained(
+        const HdTokenDataSourceHandle &name,
         const HdFloatDataSourceHandle &position,
         const HdFloatDataSourceHandle &velocity
     );
@@ -137,6 +146,9 @@ public:
     {
     public:
         HD_API
+        Builder &SetName(
+            const HdTokenDataSourceHandle &name);
+        HD_API
         Builder &SetPosition(
             const HdFloatDataSourceHandle &position);
         HD_API
@@ -148,6 +160,7 @@ public:
         HdContainerDataSourceHandle Build();
 
     private:
+        HdTokenDataSourceHandle _name;
         HdFloatDataSourceHandle _position;
         HdFloatDataSourceHandle _velocity;
 

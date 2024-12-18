@@ -32,6 +32,13 @@ TF_DEFINE_PUBLIC_TOKENS(HdPhysxCookedDataSchemaTokens,
 // --(BEGIN CUSTOM CODE: Schema Methods)--
 // --(END CUSTOM CODE: Schema Methods)--
 
+HdTokenDataSourceHandle
+HdPhysxCookedDataSchema::GetName() const
+{
+    return _GetTypedDataSource<HdTokenDataSource>(
+        HdPhysxCookedDataSchemaTokens->name);
+}
+
 HdIntArrayDataSourceHandle
 HdPhysxCookedDataSchema::GetBuffer() const
 {
@@ -42,19 +49,33 @@ HdPhysxCookedDataSchema::GetBuffer() const
 /*static*/
 HdContainerDataSourceHandle
 HdPhysxCookedDataSchema::BuildRetained(
+        const HdTokenDataSourceHandle &name,
         const HdIntArrayDataSourceHandle &buffer
 )
 {
-    TfToken _names[1];
-    HdDataSourceBaseHandle _values[1];
+    TfToken _names[2];
+    HdDataSourceBaseHandle _values[2];
 
     size_t _count = 0;
+
+    if (name) {
+        _names[_count] = HdPhysxCookedDataSchemaTokens->name;
+        _values[_count++] = name;
+    }
 
     if (buffer) {
         _names[_count] = HdPhysxCookedDataSchemaTokens->buffer;
         _values[_count++] = buffer;
     }
     return HdRetainedContainerDataSource::New(_count, _names, _values);
+}
+
+HdPhysxCookedDataSchema::Builder &
+HdPhysxCookedDataSchema::Builder::SetName(
+    const HdTokenDataSourceHandle &name)
+{
+    _name = name;
+    return *this;
 }
 
 HdPhysxCookedDataSchema::Builder &
@@ -69,6 +90,7 @@ HdContainerDataSourceHandle
 HdPhysxCookedDataSchema::Builder::Build()
 {
     return HdPhysxCookedDataSchema::BuildRetained(
+        _name,
         _buffer
     );
 }
@@ -97,6 +119,16 @@ const HdDataSourceLocator &
 HdPhysxCookedDataSchema::GetDefaultLocator()
 {
     static const HdDataSourceLocator locator(GetSchemaToken());
+    return locator;
+}
+
+/* static */
+const HdDataSourceLocator &
+HdPhysxCookedDataSchema::GetNameLocator()
+{
+    static const HdDataSourceLocator locator =
+        GetDefaultLocator().Append(
+            HdPhysxCookedDataSchemaTokens->name);
     return locator;
 }
 

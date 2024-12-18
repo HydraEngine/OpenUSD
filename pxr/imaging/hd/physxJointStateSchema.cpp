@@ -32,6 +32,13 @@ TF_DEFINE_PUBLIC_TOKENS(HdPhysxJointStateSchemaTokens,
 // --(BEGIN CUSTOM CODE: Schema Methods)--
 // --(END CUSTOM CODE: Schema Methods)--
 
+HdTokenDataSourceHandle
+HdPhysxJointStateSchema::GetName() const
+{
+    return _GetTypedDataSource<HdTokenDataSource>(
+        HdPhysxJointStateSchemaTokens->name);
+}
+
 HdFloatDataSourceHandle
 HdPhysxJointStateSchema::GetPosition() const
 {
@@ -49,14 +56,20 @@ HdPhysxJointStateSchema::GetVelocity() const
 /*static*/
 HdContainerDataSourceHandle
 HdPhysxJointStateSchema::BuildRetained(
+        const HdTokenDataSourceHandle &name,
         const HdFloatDataSourceHandle &position,
         const HdFloatDataSourceHandle &velocity
 )
 {
-    TfToken _names[2];
-    HdDataSourceBaseHandle _values[2];
+    TfToken _names[3];
+    HdDataSourceBaseHandle _values[3];
 
     size_t _count = 0;
+
+    if (name) {
+        _names[_count] = HdPhysxJointStateSchemaTokens->name;
+        _values[_count++] = name;
+    }
 
     if (position) {
         _names[_count] = HdPhysxJointStateSchemaTokens->position;
@@ -68,6 +81,14 @@ HdPhysxJointStateSchema::BuildRetained(
         _values[_count++] = velocity;
     }
     return HdRetainedContainerDataSource::New(_count, _names, _values);
+}
+
+HdPhysxJointStateSchema::Builder &
+HdPhysxJointStateSchema::Builder::SetName(
+    const HdTokenDataSourceHandle &name)
+{
+    _name = name;
+    return *this;
 }
 
 HdPhysxJointStateSchema::Builder &
@@ -90,6 +111,7 @@ HdContainerDataSourceHandle
 HdPhysxJointStateSchema::Builder::Build()
 {
     return HdPhysxJointStateSchema::BuildRetained(
+        _name,
         _position,
         _velocity
     );
@@ -119,6 +141,16 @@ const HdDataSourceLocator &
 HdPhysxJointStateSchema::GetDefaultLocator()
 {
     static const HdDataSourceLocator locator(GetSchemaToken());
+    return locator;
+}
+
+/* static */
+const HdDataSourceLocator &
+HdPhysxJointStateSchema::GetNameLocator()
+{
+    static const HdDataSourceLocator locator =
+        GetDefaultLocator().Append(
+            HdPhysxJointStateSchemaTokens->name);
     return locator;
 }
 

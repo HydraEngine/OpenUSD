@@ -50,24 +50,30 @@ public:
     /// Compile time constant representing what kind of schema this class is.
     ///
     /// \sa UsdSchemaKind
-    static const UsdSchemaKind schemaKind = UsdSchemaKind::SingleApplyAPI;
+    static const UsdSchemaKind schemaKind = UsdSchemaKind::MultipleApplyAPI;
 
-    /// Construct a UsdPhysXVehicleBrakesAPI on UsdPrim \p prim .
-    /// Equivalent to UsdPhysXVehicleBrakesAPI::Get(prim.GetStage(), prim.GetPath())
+    /// Construct a UsdPhysXVehicleBrakesAPI on UsdPrim \p prim with
+    /// name \p name . Equivalent to
+    /// UsdPhysXVehicleBrakesAPI::Get(
+    ///    prim.GetStage(),
+    ///    prim.GetPath().AppendProperty(
+    ///        "vehicleBrakes:name"));
+    ///
     /// for a \em valid \p prim, but will not immediately throw an error for
     /// an invalid \p prim
-    explicit UsdPhysXVehicleBrakesAPI(const UsdPrim& prim=UsdPrim())
-        : UsdAPISchemaBase(prim)
-    {
-    }
+    explicit UsdPhysXVehicleBrakesAPI(
+        const UsdPrim& prim=UsdPrim(), const TfToken &name=TfToken())
+        : UsdAPISchemaBase(prim, /*instanceName*/ name)
+    { }
 
-    /// Construct a UsdPhysXVehicleBrakesAPI on the prim held by \p schemaObj .
-    /// Should be preferred over UsdPhysXVehicleBrakesAPI(schemaObj.GetPrim()),
-    /// as it preserves SchemaBase state.
-    explicit UsdPhysXVehicleBrakesAPI(const UsdSchemaBase& schemaObj)
-        : UsdAPISchemaBase(schemaObj)
-    {
-    }
+    /// Construct a UsdPhysXVehicleBrakesAPI on the prim held by \p schemaObj with
+    /// name \p name.  Should be preferred over
+    /// UsdPhysXVehicleBrakesAPI(schemaObj.GetPrim(), name), as it preserves
+    /// SchemaBase state.
+    explicit UsdPhysXVehicleBrakesAPI(
+        const UsdSchemaBase& schemaObj, const TfToken &name)
+        : UsdAPISchemaBase(schemaObj, /*instanceName*/ name)
+    { }
 
     /// Destructor.
     USDPHYSX_API
@@ -80,24 +86,67 @@ public:
     static const TfTokenVector &
     GetSchemaAttributeNames(bool includeInherited=true);
 
+    /// Return a vector of names of all pre-declared attributes for this schema
+    /// class and all its ancestor classes for a given instance name.  Does not
+    /// include attributes that may be authored by custom/extended methods of
+    /// the schemas involved. The names returned will have the proper namespace
+    /// prefix.
+    USDPHYSX_API
+    static TfTokenVector
+    GetSchemaAttributeNames(bool includeInherited, const TfToken &instanceName);
+
+    /// Returns the name of this multiple-apply schema instance
+    TfToken GetName() const {
+        return _GetInstanceName();
+    }
+
     /// Return a UsdPhysXVehicleBrakesAPI holding the prim adhering to this
     /// schema at \p path on \p stage.  If no prim exists at \p path on
     /// \p stage, or if the prim at that path does not adhere to this schema,
-    /// return an invalid schema object.  This is shorthand for the following:
+    /// return an invalid schema object.  \p path must be of the format
+    /// <path>.vehicleBrakes:name .
+    ///
+    /// This is shorthand for the following:
     ///
     /// \code
-    /// UsdPhysXVehicleBrakesAPI(stage->GetPrimAtPath(path));
+    /// TfToken name = SdfPath::StripNamespace(path.GetToken());
+    /// UsdPhysXVehicleBrakesAPI(
+    ///     stage->GetPrimAtPath(path.GetPrimPath()), name);
     /// \endcode
     ///
     USDPHYSX_API
     static UsdPhysXVehicleBrakesAPI
     Get(const UsdStagePtr &stage, const SdfPath &path);
 
+    /// Return a UsdPhysXVehicleBrakesAPI with name \p name holding the
+    /// prim \p prim. Shorthand for UsdPhysXVehicleBrakesAPI(prim, name);
+    USDPHYSX_API
+    static UsdPhysXVehicleBrakesAPI
+    Get(const UsdPrim &prim, const TfToken &name);
 
-    /// Returns true if this <b>single-apply</b> API schema can be applied to 
-    /// the given \p prim. If this schema can not be a applied to the prim, 
-    /// this returns false and, if provided, populates \p whyNot with the 
-    /// reason it can not be applied.
+    /// Return a vector of all named instances of UsdPhysXVehicleBrakesAPI on the 
+    /// given \p prim.
+    USDPHYSX_API
+    static std::vector<UsdPhysXVehicleBrakesAPI>
+    GetAll(const UsdPrim &prim);
+
+    /// Checks if the given name \p baseName is the base name of a property
+    /// of PhysxSchemaPhysxVehicleBrakesAPI.
+    USDPHYSX_API
+    static bool
+    IsSchemaPropertyBaseName(const TfToken &baseName);
+
+    /// Checks if the given path \p path is of an API schema of type
+    /// PhysxSchemaPhysxVehicleBrakesAPI. If so, it stores the instance name of
+    /// the schema in \p name and returns true. Otherwise, it returns false.
+    USDPHYSX_API
+    static bool
+    IsPhysxSchemaPhysxVehicleBrakesAPIPath(const SdfPath &path, TfToken *name);
+
+    /// Returns true if this <b>multiple-apply</b> API schema can be applied,
+    /// with the given instance name, \p name, to the given \p prim. If this 
+    /// schema can not be a applied the prim, this returns false and, if 
+    /// provided, populates \p whyNot with the reason it can not be applied.
     /// 
     /// Note that if CanApply returns false, that does not necessarily imply
     /// that calling Apply will fail. Callers are expected to call CanApply
@@ -112,16 +161,21 @@ public:
     ///
     USDPHYSX_API
     static bool 
-    CanApply(const UsdPrim &prim, std::string *whyNot=nullptr);
+    CanApply(const UsdPrim &prim, const TfToken &name, 
+             std::string *whyNot=nullptr);
 
-    /// Applies this <b>single-apply</b> API schema to the given \p prim.
-    /// This information is stored by adding "PhysxSchemaPhysxVehicleBrakesAPI" to the 
-    /// token-valued, listOp metadata \em apiSchemas on the prim.
+    /// Applies this <b>multiple-apply</b> API schema to the given \p prim 
+    /// along with the given instance name, \p name. 
+    /// 
+    /// This information is stored by adding "PhysxSchemaPhysxVehicleBrakesAPI:<i>name</i>" 
+    /// to the token-valued, listOp metadata \em apiSchemas on the prim.
+    /// For example, if \p name is 'instance1', the token 
+    /// 'PhysxSchemaPhysxVehicleBrakesAPI:instance1' is added to 'apiSchemas'.
     /// 
     /// \return A valid UsdPhysXVehicleBrakesAPI object is returned upon success. 
     /// An invalid (or empty) UsdPhysXVehicleBrakesAPI object is returned upon 
-    /// failure. See \ref UsdPrim::ApplyAPI() for conditions 
-    /// resulting in failure. 
+    /// failure. See \ref UsdPrim::ApplyAPI() for 
+    /// conditions resulting in failure. 
     /// 
     /// \sa UsdPrim::GetAppliedSchemas()
     /// \sa UsdPrim::HasAPI()
@@ -131,7 +185,7 @@ public:
     ///
     USDPHYSX_API
     static UsdPhysXVehicleBrakesAPI 
-    Apply(const UsdPrim &prim);
+    Apply(const UsdPrim &prim, const TfToken &name);
 
 protected:
     /// Returns the kind of schema this class belongs to.

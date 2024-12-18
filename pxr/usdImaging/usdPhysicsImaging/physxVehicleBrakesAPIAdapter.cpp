@@ -34,6 +34,7 @@ public:
                 HdPhysxVehicleBrakesSchemaTokens->maxBrakeTorque,     //
                 HdPhysxVehicleBrakesSchemaTokens->torqueMultipliers,  //
                 HdPhysxVehicleBrakesSchemaTokens->wheels,             //
+                HdPhysxVehicleBrakesSchemaTokens->name
         };
 
         return names;
@@ -61,6 +62,9 @@ public:
                     return HdRetainedTypedSampledDataSource<VtArray<int>>::New(v);
                 }
             }
+        }
+        if (name == HdPhysxVehicleBrakesSchemaTokens->name) {
+            return HdRetainedTypedSampledDataSource<TfToken>::New(_api.GetName());
         }
         return nullptr;
     }

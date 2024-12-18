@@ -34,6 +34,7 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 #define HD_PHYSX_VEHICLE_NONLINEAR_COMMAND_RESPONSE_SCHEMA_TOKENS \
     (physxVehicleNonlinearCommandResponse) \
+    (name) \
     (commandValues) \
     (speedResponses) \
     (speedResponsesPerCommandValue) \
@@ -71,6 +72,9 @@ public:
     /// @{
 
     HD_API
+    HdTokenDataSourceHandle GetName() const;
+
+    HD_API
     HdFloatArrayDataSourceHandle GetCommandValues() const;
 
     HD_API
@@ -105,6 +109,10 @@ public:
     /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
     /// @{
 
+    /// Prim-level relative data source locator to locate name.
+    HD_API
+    static const HdDataSourceLocator &GetNameLocator();
+
     /// Prim-level relative data source locator to locate commandValues.
     HD_API
     static const HdDataSourceLocator &GetCommandValuesLocator();
@@ -131,6 +139,7 @@ public:
     HD_API
     static HdContainerDataSourceHandle
     BuildRetained(
+        const HdTokenDataSourceHandle &name,
         const HdFloatArrayDataSourceHandle &commandValues,
         const HdVec2fArrayDataSourceHandle &speedResponses,
         const HdIntArrayDataSourceHandle &speedResponsesPerCommandValue
@@ -146,6 +155,9 @@ public:
     {
     public:
         HD_API
+        Builder &SetName(
+            const HdTokenDataSourceHandle &name);
+        HD_API
         Builder &SetCommandValues(
             const HdFloatArrayDataSourceHandle &commandValues);
         HD_API
@@ -160,6 +172,7 @@ public:
         HdContainerDataSourceHandle Build();
 
     private:
+        HdTokenDataSourceHandle _name;
         HdFloatArrayDataSourceHandle _commandValues;
         HdVec2fArrayDataSourceHandle _speedResponses;
         HdIntArrayDataSourceHandle _speedResponsesPerCommandValue;

@@ -34,6 +34,7 @@ public:
                 HdPhysxVehicleNonlinearCommandResponseSchemaTokens->commandValues,                  //
                 HdPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponses,                 //
                 HdPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponsesPerCommandValue,  //
+                HdPhysxVehicleNonlinearCommandResponseSchemaTokens->name
         };
 
         return names;
@@ -62,6 +63,9 @@ public:
                     return HdRetainedTypedSampledDataSource<VtArray<int>>::New(v);
                 }
             }
+        }
+        if (name == HdPhysxVehicleNonlinearCommandResponseSchemaTokens->name) {
+            return HdRetainedTypedSampledDataSource<TfToken>::New(_api.GetName());
         }
         return nullptr;
     }

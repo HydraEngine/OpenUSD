@@ -34,9 +34,81 @@ UsdPhysXVehicleNonlinearCommandResponseAPI::Get(const UsdStagePtr &stage, const 
         TF_CODING_ERROR("Invalid stage");
         return UsdPhysXVehicleNonlinearCommandResponseAPI();
     }
-    return UsdPhysXVehicleNonlinearCommandResponseAPI(stage->GetPrimAtPath(path));
+    TfToken name;
+    if (!IsPhysxSchemaPhysxVehicleNonlinearCommandResponseAPIPath(path, &name)) {
+        TF_CODING_ERROR("Invalid vehicleNonlinearCommandResponse path <%s>.", path.GetText());
+        return UsdPhysXVehicleNonlinearCommandResponseAPI();
+    }
+    return UsdPhysXVehicleNonlinearCommandResponseAPI(stage->GetPrimAtPath(path.GetPrimPath()), name);
 }
 
+UsdPhysXVehicleNonlinearCommandResponseAPI
+UsdPhysXVehicleNonlinearCommandResponseAPI::Get(const UsdPrim &prim, const TfToken &name)
+{
+    return UsdPhysXVehicleNonlinearCommandResponseAPI(prim, name);
+}
+
+/* static */
+std::vector<UsdPhysXVehicleNonlinearCommandResponseAPI>
+UsdPhysXVehicleNonlinearCommandResponseAPI::GetAll(const UsdPrim &prim)
+{
+    std::vector<UsdPhysXVehicleNonlinearCommandResponseAPI> schemas;
+    
+    for (const auto &schemaName :
+         UsdAPISchemaBase::_GetMultipleApplyInstanceNames(prim, _GetStaticTfType())) {
+        schemas.emplace_back(prim, schemaName);
+    }
+
+    return schemas;
+}
+
+
+/* static */
+bool 
+UsdPhysXVehicleNonlinearCommandResponseAPI::IsSchemaPropertyBaseName(const TfToken &baseName)
+{
+    static TfTokenVector attrsAndRels = {
+        UsdSchemaRegistry::GetMultipleApplyNameTemplateBaseName(
+            UsdPhysXTokens->vehicleNonlinearCommandResponse_MultipleApplyTemplate_CommandValues),
+        UsdSchemaRegistry::GetMultipleApplyNameTemplateBaseName(
+            UsdPhysXTokens->vehicleNonlinearCommandResponse_MultipleApplyTemplate_SpeedResponses),
+        UsdSchemaRegistry::GetMultipleApplyNameTemplateBaseName(
+            UsdPhysXTokens->vehicleNonlinearCommandResponse_MultipleApplyTemplate_SpeedResponsesPerCommandValue),
+    };
+
+    return find(attrsAndRels.begin(), attrsAndRels.end(), baseName)
+            != attrsAndRels.end();
+}
+
+/* static */
+bool
+UsdPhysXVehicleNonlinearCommandResponseAPI::IsPhysxSchemaPhysxVehicleNonlinearCommandResponseAPIPath(
+    const SdfPath &path, TfToken *name)
+{
+    if (!path.IsPropertyPath()) {
+        return false;
+    }
+
+    std::string propertyName = path.GetName();
+    TfTokenVector tokens = SdfPath::TokenizeIdentifierAsTokens(propertyName);
+
+    // The baseName of the  path can't be one of the 
+    // schema properties. We should validate this in the creation (or apply)
+    // API.
+    TfToken baseName = *tokens.rbegin();
+    if (IsSchemaPropertyBaseName(baseName)) {
+        return false;
+    }
+
+    if (tokens.size() >= 2
+        && tokens[0] == UsdPhysXTokens->vehicleNonlinearCommandResponse) {
+        *name = TfToken(propertyName.substr(
+           UsdPhysXTokens->vehicleNonlinearCommandResponse.GetString().size() + 1));
+        return true;
+    }
+
+    return false;
+}
 
 /* virtual */
 UsdSchemaKind UsdPhysXVehicleNonlinearCommandResponseAPI::_GetSchemaKind() const
@@ -47,17 +119,17 @@ UsdSchemaKind UsdPhysXVehicleNonlinearCommandResponseAPI::_GetSchemaKind() const
 /* static */
 bool
 UsdPhysXVehicleNonlinearCommandResponseAPI::CanApply(
-    const UsdPrim &prim, std::string *whyNot)
+    const UsdPrim &prim, const TfToken &name, std::string *whyNot)
 {
-    return prim.CanApplyAPI<UsdPhysXVehicleNonlinearCommandResponseAPI>(whyNot);
+    return prim.CanApplyAPI<UsdPhysXVehicleNonlinearCommandResponseAPI>(name, whyNot);
 }
 
 /* static */
 UsdPhysXVehicleNonlinearCommandResponseAPI
-UsdPhysXVehicleNonlinearCommandResponseAPI::Apply(const UsdPrim &prim)
+UsdPhysXVehicleNonlinearCommandResponseAPI::Apply(const UsdPrim &prim, const TfToken &name)
 {
-    if (prim.ApplyAPI<UsdPhysXVehicleNonlinearCommandResponseAPI>()) {
-        return UsdPhysXVehicleNonlinearCommandResponseAPI(prim);
+    if (prim.ApplyAPI<UsdPhysXVehicleNonlinearCommandResponseAPI>(name)) {
+        return UsdPhysXVehicleNonlinearCommandResponseAPI(prim, name);
     }
     return UsdPhysXVehicleNonlinearCommandResponseAPI();
 }
@@ -85,16 +157,32 @@ UsdPhysXVehicleNonlinearCommandResponseAPI::_GetTfType() const
     return _GetStaticTfType();
 }
 
+/// Returns the property name prefixed with the correct namespace prefix, which
+/// is composed of the the API's propertyNamespacePrefix metadata and the
+/// instance name of the API.
+static inline
+TfToken
+_GetNamespacedPropertyName(const TfToken instanceName, const TfToken propName)
+{
+    return UsdSchemaRegistry::MakeMultipleApplyNameInstance(propName, instanceName);
+}
+
 UsdAttribute
 UsdPhysXVehicleNonlinearCommandResponseAPI::GetCommandValuesAttr() const
 {
-    return GetPrim().GetAttribute(UsdPhysXTokens->commandValues);
+    return GetPrim().GetAttribute(
+        _GetNamespacedPropertyName(
+            GetName(),
+            UsdPhysXTokens->vehicleNonlinearCommandResponse_MultipleApplyTemplate_CommandValues));
 }
 
 UsdAttribute
 UsdPhysXVehicleNonlinearCommandResponseAPI::CreateCommandValuesAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
-    return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->commandValues,
+    return UsdSchemaBase::_CreateAttr(
+                       _GetNamespacedPropertyName(
+                            GetName(),
+                           UsdPhysXTokens->vehicleNonlinearCommandResponse_MultipleApplyTemplate_CommandValues),
                        SdfValueTypeNames->FloatArray,
                        /* custom = */ false,
                        SdfVariabilityVarying,
@@ -105,13 +193,19 @@ UsdPhysXVehicleNonlinearCommandResponseAPI::CreateCommandValuesAttr(VtValue cons
 UsdAttribute
 UsdPhysXVehicleNonlinearCommandResponseAPI::GetSpeedResponsesAttr() const
 {
-    return GetPrim().GetAttribute(UsdPhysXTokens->speedResponses);
+    return GetPrim().GetAttribute(
+        _GetNamespacedPropertyName(
+            GetName(),
+            UsdPhysXTokens->vehicleNonlinearCommandResponse_MultipleApplyTemplate_SpeedResponses));
 }
 
 UsdAttribute
 UsdPhysXVehicleNonlinearCommandResponseAPI::CreateSpeedResponsesAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
-    return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->speedResponses,
+    return UsdSchemaBase::_CreateAttr(
+                       _GetNamespacedPropertyName(
+                            GetName(),
+                           UsdPhysXTokens->vehicleNonlinearCommandResponse_MultipleApplyTemplate_SpeedResponses),
                        SdfValueTypeNames->Float2Array,
                        /* custom = */ false,
                        SdfVariabilityVarying,
@@ -122,13 +216,19 @@ UsdPhysXVehicleNonlinearCommandResponseAPI::CreateSpeedResponsesAttr(VtValue con
 UsdAttribute
 UsdPhysXVehicleNonlinearCommandResponseAPI::GetSpeedResponsesPerCommandValueAttr() const
 {
-    return GetPrim().GetAttribute(UsdPhysXTokens->speedResponsesPerCommandValue);
+    return GetPrim().GetAttribute(
+        _GetNamespacedPropertyName(
+            GetName(),
+            UsdPhysXTokens->vehicleNonlinearCommandResponse_MultipleApplyTemplate_SpeedResponsesPerCommandValue));
 }
 
 UsdAttribute
 UsdPhysXVehicleNonlinearCommandResponseAPI::CreateSpeedResponsesPerCommandValueAttr(VtValue const &defaultValue, bool writeSparsely) const
 {
-    return UsdSchemaBase::_CreateAttr(UsdPhysXTokens->speedResponsesPerCommandValue,
+    return UsdSchemaBase::_CreateAttr(
+                       _GetNamespacedPropertyName(
+                            GetName(),
+                           UsdPhysXTokens->vehicleNonlinearCommandResponse_MultipleApplyTemplate_SpeedResponsesPerCommandValue),
                        SdfValueTypeNames->IntArray,
                        /* custom = */ false,
                        SdfVariabilityVarying,
@@ -153,9 +253,9 @@ const TfTokenVector&
 UsdPhysXVehicleNonlinearCommandResponseAPI::GetSchemaAttributeNames(bool includeInherited)
 {
     static TfTokenVector localNames = {
-        UsdPhysXTokens->commandValues,
-        UsdPhysXTokens->speedResponses,
-        UsdPhysXTokens->speedResponsesPerCommandValue,
+        UsdPhysXTokens->vehicleNonlinearCommandResponse_MultipleApplyTemplate_CommandValues,
+        UsdPhysXTokens->vehicleNonlinearCommandResponse_MultipleApplyTemplate_SpeedResponses,
+        UsdPhysXTokens->vehicleNonlinearCommandResponse_MultipleApplyTemplate_SpeedResponsesPerCommandValue,
     };
     static TfTokenVector allNames =
         _ConcatenateAttributeNames(
@@ -166,6 +266,24 @@ UsdPhysXVehicleNonlinearCommandResponseAPI::GetSchemaAttributeNames(bool include
         return allNames;
     else
         return localNames;
+}
+
+/*static*/
+TfTokenVector
+UsdPhysXVehicleNonlinearCommandResponseAPI::GetSchemaAttributeNames(
+    bool includeInherited, const TfToken &instanceName)
+{
+    const TfTokenVector &attrNames = GetSchemaAttributeNames(includeInherited);
+    if (instanceName.IsEmpty()) {
+        return attrNames;
+    }
+    TfTokenVector result;
+    result.reserve(attrNames.size());
+    for (const TfToken &attrName : attrNames) {
+        result.push_back(
+            UsdSchemaRegistry::MakeMultipleApplyNameInstance(attrName, instanceName));
+    }
+    return result;
 }
 
 PXR_NAMESPACE_CLOSE_SCOPE

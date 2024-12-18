@@ -2256,7 +2256,8 @@ class "PhysxSchemaPhysxVehicleBrakesAPI" (
     inherits = </APISchemaBase>
     customData = {
         string className = "VehicleBrakesAPI"
-        token apiSchemaType = "singleApply"
+        token apiSchemaType = "multipleApply"
+        token propertyNamespacePrefix = "vehicleBrakes"
     }
     doc = """
         Describes a braking system for a vehicle by specifying which wheels are connected to the brake control and by defining the brake torque that gets applied to those wheels.
@@ -2723,7 +2724,8 @@ class "PhysxSchemaPhysxVehicleNonlinearCommandResponseAPI" (
     inherits = </APISchemaBase>
     customData = {
         string className = "VehicleNonlinearCommandResponseAPI"
-        token apiSchemaType = "singleApply"
+        token apiSchemaType = "multipleApply"
+        token propertyNamespacePrefix = "vehicleNonlinearCommandResponse"
     }
     doc = """
         Describes a system of graphs to define nonlinear responses to PhysxVehicleControllerAPI command values like accelerator, brake0, brake1 and steer.

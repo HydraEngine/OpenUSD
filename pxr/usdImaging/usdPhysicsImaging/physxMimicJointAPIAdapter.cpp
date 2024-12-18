@@ -34,6 +34,7 @@ public:
                 HdPhysxMimicJointSchemaTokens->gearing,             //
                 HdPhysxMimicJointSchemaTokens->offset,              //
                 HdPhysxMimicJointSchemaTokens->referenceJointAxis,  //
+                HdPhysxMimicJointSchemaTokens->name
         };
 
         return names;
@@ -61,6 +62,9 @@ public:
                     return HdRetainedTypedSampledDataSource<TfToken>::New(v);
                 }
             }
+        }
+        if (name == HdPhysxMimicJointSchemaTokens->name) {
+            return HdRetainedTypedSampledDataSource<TfToken>::New(_api.GetName());
         }
         return nullptr;
     }

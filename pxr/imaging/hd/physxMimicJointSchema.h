@@ -34,6 +34,7 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 #define HD_PHYSX_MIMIC_JOINT_SCHEMA_TOKENS \
     (physxMimicJoint) \
+    (name) \
     (gearing) \
     (offset) \
     (referenceJointAxis) \
@@ -71,6 +72,9 @@ public:
     /// @{
 
     HD_API
+    HdTokenDataSourceHandle GetName() const;
+
+    HD_API
     HdFloatDataSourceHandle GetGearing() const;
 
     HD_API
@@ -105,6 +109,10 @@ public:
     /// HdDataSourceLocatorSet sent with HdDataSourceObserver::PrimsDirtied.
     /// @{
 
+    /// Prim-level relative data source locator to locate name.
+    HD_API
+    static const HdDataSourceLocator &GetNameLocator();
+
     /// Prim-level relative data source locator to locate gearing.
     HD_API
     static const HdDataSourceLocator &GetGearingLocator();
@@ -131,6 +139,7 @@ public:
     HD_API
     static HdContainerDataSourceHandle
     BuildRetained(
+        const HdTokenDataSourceHandle &name,
         const HdFloatDataSourceHandle &gearing,
         const HdFloatDataSourceHandle &offset,
         const HdTokenDataSourceHandle &referenceJointAxis
@@ -146,6 +155,9 @@ public:
     {
     public:
         HD_API
+        Builder &SetName(
+            const HdTokenDataSourceHandle &name);
+        HD_API
         Builder &SetGearing(
             const HdFloatDataSourceHandle &gearing);
         HD_API
@@ -160,6 +172,7 @@ public:
         HdContainerDataSourceHandle Build();
 
     private:
+        HdTokenDataSourceHandle _name;
         HdFloatDataSourceHandle _gearing;
         HdFloatDataSourceHandle _offset;
         HdTokenDataSourceHandle _referenceJointAxis;
