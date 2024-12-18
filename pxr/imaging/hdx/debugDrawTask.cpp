@@ -229,15 +229,24 @@ static bool _MatchesFormatAndSampleCount(const HgiTextureHandle& texture,
 bool HdxDebugDrawTask::_CreatePipeline(const HgiTextureHandle& colorTexture,
                                        const HgiTextureHandle& depthTexture,
                                        HgiPrimitiveType primitiveType) {
-    if (_triangleResource.pipeline) {
-        const HgiSampleCount sampleCount = _triangleResource.pipeline->GetDescriptor().multiSampleState.sampleCount;
+    HgiGraphicsPipelineHandle* pipeline;
+    if (primitiveType == HgiPrimitiveTypePointList) {
+        pipeline = &_pointResource.pipeline;
+    } else if (primitiveType == HgiPrimitiveTypeLineList) {
+        pipeline = &_lineResource.pipeline;
+    }  else {
+        pipeline = &_triangleResource.pipeline;
+    }
+
+    if (*pipeline) {
+        const HgiSampleCount sampleCount = (*pipeline)->GetDescriptor().multiSampleState.sampleCount;
 
         if (_MatchesFormatAndSampleCount(colorTexture, _colorAttachment.format, sampleCount) &&
             _MatchesFormatAndSampleCount(depthTexture, _depthAttachment.format, sampleCount)) {
             return true;
         }
 
-        _GetHgi()->DestroyGraphicsPipeline(&_triangleResource.pipeline);
+        _GetHgi()->DestroyGraphicsPipeline(&*pipeline);
     }
 
     HgiGraphicsPipelineDesc desc;
@@ -285,7 +294,7 @@ bool HdxDebugDrawTask::_CreatePipeline(const HgiTextureHandle& colorTexture,
 
     desc.rasterizationState.cullMode = HgiCullModeNone;
 
-    _triangleResource.pipeline = _GetHgi()->CreateGraphicsPipeline(desc);
+    *pipeline = _GetHgi()->CreateGraphicsPipeline(desc);
 
     return true;
 }
@@ -411,7 +420,7 @@ void HdxDebugDrawTask::_DrawPoints(const HgiTextureHandle& colorTexture,
     _UpdatePointShaderConstants(gfxCmds.get(), _pointResource.pipeline, hdStRenderPassState);
     gfxCmds->BindResources(_resourceBindings);
 
-    gfxCmds->Draw(_params.points.size(), 0, 0, 0);
+    gfxCmds->Draw(_params.points.size(), 0, 1, 0);
 
     gfxCmds->PopDebugGroup();
 
@@ -441,7 +450,7 @@ void HdxDebugDrawTask::_DrawLines(const HgiTextureHandle& colorTexture,
     _UpdateLineShaderConstants(gfxCmds.get(), _lineResource.pipeline, hdStRenderPassState);
     gfxCmds->BindResources(_resourceBindings);
 
-    gfxCmds->Draw(_params.lines.size(), 0, 0, 0);
+    gfxCmds->Draw(_params.lines.size() * 2, 0, 1, 0);
 
     gfxCmds->PopDebugGroup();
 
