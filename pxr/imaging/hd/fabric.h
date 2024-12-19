@@ -12,11 +12,11 @@
 #include <pxr/imaging/hd/collisionGroupSchema.h>
 #include <pxr/imaging/hd/collisionSchema.h>
 #include <pxr/imaging/hd/distanceJointSchema.h>
-#include <pxr/imaging/hd/driveSchema.h>
+#include <pxr/imaging/hd/driveEntrySchema.h>
 #include <pxr/imaging/hd/filteredPairsSchema.h>
 #include <pxr/imaging/hd/fixedJointSchema.h>
 #include <pxr/imaging/hd/jointSchema.h>
-#include <pxr/imaging/hd/limitSchema.h>
+#include <pxr/imaging/hd/limitEntrySchema.h>
 #include <pxr/imaging/hd/massSchema.h>
 #include <pxr/imaging/hd/physicsMaterialSchema.h>
 #include <pxr/imaging/hd/meshCollisionSchema.h>
@@ -35,10 +35,10 @@
 #include <pxr/imaging/hd/physxForceSchema.h>
 #include <pxr/imaging/hd/physxIsosurfaceSchema.h>
 #include <pxr/imaging/hd/physxJointSchema.h>
-#include <pxr/imaging/hd/physxJointStateSchema.h>
+#include <pxr/imaging/hd/physxJointStateEntrySchema.h>
 #include <pxr/imaging/hd/physxMaterialSchema.h>
 #include <pxr/imaging/hd/physxMeshMergeCollisionSchema.h>
-#include <pxr/imaging/hd/physxMimicJointSchema.h>
+#include <pxr/imaging/hd/physxMimicJointEntrySchema.h>
 #include <pxr/imaging/hd/physxPhysicsDistanceJointSchema.h>
 #include <pxr/imaging/hd/physxPhysicsGearJointSchema.h>
 #include <pxr/imaging/hd/physxPhysicsInstancerSchema.h>
@@ -57,7 +57,7 @@
 #include <pxr/imaging/hd/physxTriggerStateSchema.h>
 #include <pxr/imaging/hd/physxVehicleAckermannSteeringSchema.h>
 #include <pxr/imaging/hd/physxVehicleAutoGearBoxSchema.h>
-#include <pxr/imaging/hd/physxVehicleBrakesSchema.h>
+#include <pxr/imaging/hd/physxVehicleBrakesEntrySchema.h>
 #include <pxr/imaging/hd/physxVehicleClutchSchema.h>
 #include <pxr/imaging/hd/physxVehicleContextSchema.h>
 #include <pxr/imaging/hd/physxVehicleControllerSchema.h>
@@ -66,7 +66,7 @@
 #include <pxr/imaging/hd/physxVehicleEngineSchema.h>
 #include <pxr/imaging/hd/physxVehicleGearsSchema.h>
 #include <pxr/imaging/hd/physxVehicleMultiWheelDifferentialSchema.h>
-#include <pxr/imaging/hd/physxVehicleNonlinearCommandResponseSchema.h>
+#include <pxr/imaging/hd/physxVehicleNonlinearCommandResponseEntrySchema.h>
 #include <pxr/imaging/hd/physxVehicleSchema.h>
 #include <pxr/imaging/hd/physxVehicleSteeringSchema.h>
 #include <pxr/imaging/hd/physxVehicleSuspensionComplianceSchema.h>
@@ -112,11 +112,11 @@ public:
     std::map<SdfPath, HdCollisionGroupSchema> _collisionGroups;
     std::map<SdfPath, HdCollisionSchema> _collisions;
     std::map<SdfPath, HdDistanceJointSchema> _distanceJoints;
-    std::map<SdfPath, HdDriveSchema> _drives;
+    std::map<SdfPath, HdDriveEntrySchema> _drives;
     std::map<SdfPath, HdFilteredPairsSchema> _filteredPairs;
     std::map<SdfPath, HdFixedJointSchema> _fixedJoints;
     std::map<SdfPath, HdJointSchema> _joints;
-    std::map<SdfPath, HdLimitSchema> _limits;
+    std::map<SdfPath, HdLimitEntrySchema> _limits;
     std::map<SdfPath, HdMassSchema> _masses;
     std::map<SdfPath, HdPhysicsMaterialSchema> _materials;
     std::map<SdfPath, HdMeshCollisionSchema> _meshCollisions;
@@ -135,10 +135,10 @@ public:
     std::map<SdfPath, HdPhysxForceSchema> _physxForces;
     std::map<SdfPath, HdPhysxIsosurfaceSchema> _physxIsosurfaces;
     std::map<SdfPath, HdPhysxJointSchema> _physxJoints;
-    std::map<SdfPath, HdPhysxJointStateSchema> _physxJointStates;
+    std::map<SdfPath, HdPhysxJointStateEntrySchema> _physxJointStates;
     std::map<SdfPath, HdPhysxMaterialSchema> _physxMaterials;
     std::map<SdfPath, HdPhysxMeshMergeCollisionSchema> _physxMeshMergeCollisions;
-    std::map<SdfPath, HdPhysxMimicJointSchema> _physxMimicJoints;
+    std::map<SdfPath, HdPhysxMimicJointEntrySchema> _physxMimicJoints;
     std::map<SdfPath, HdPhysxPhysicsDistanceJointSchema> _physxPhysicsDistanceJoints;
     std::map<SdfPath, HdPhysxPhysicsGearJointSchema> _physxPhysicsGearJoints;
     std::map<SdfPath, HdPhysxPhysicsInstancerSchema> _physxPhysicsInstancers;
@@ -157,7 +157,7 @@ public:
     std::map<SdfPath, HdPhysxTriggerStateSchema> _physxTriggerStates;
     std::map<SdfPath, HdPhysxVehicleAckermannSteeringSchema> _physxVehicleAckermannSteerings;
     std::map<SdfPath, HdPhysxVehicleAutoGearBoxSchema> _physxVehicleAutoGearBoxs;
-    std::map<SdfPath, HdPhysxVehicleBrakesSchema> _physxVehicleBrakes;
+    std::map<SdfPath, HdPhysxVehicleBrakesEntrySchema> _physxVehicleBrakes;
     std::map<SdfPath, HdPhysxVehicleClutchSchema> _physxVehicleClutches;
     std::map<SdfPath, HdPhysxVehicleContextSchema> _physxVehicleContexts;
     std::map<SdfPath, HdPhysxVehicleControllerSchema> _physxVehicleControllers;
@@ -166,7 +166,7 @@ public:
     std::map<SdfPath, HdPhysxVehicleEngineSchema> _physxVehicleEngines;
     std::map<SdfPath, HdPhysxVehicleGearsSchema> _physxVehicleGears;
     std::map<SdfPath, HdPhysxVehicleMultiWheelDifferentialSchema> _physxVehicleMultiWheelDifferentials;
-    std::map<SdfPath, HdPhysxVehicleNonlinearCommandResponseSchema> _physxVehicleNonlinearCommandResponseSchemas;
+    std::map<SdfPath, HdPhysxVehicleNonlinearCommandResponseEntrySchema> _physxVehicleNonlinearCommandResponseSchemas;
     std::map<SdfPath, HdPhysxVehicleSchema> _physxVehicles;
     std::map<SdfPath, HdPhysxVehicleSteeringSchema> _physxVehicleSteerings;
     std::map<SdfPath, HdPhysxVehicleSuspensionComplianceSchema> _physxVehicleSuspensionCompliances;

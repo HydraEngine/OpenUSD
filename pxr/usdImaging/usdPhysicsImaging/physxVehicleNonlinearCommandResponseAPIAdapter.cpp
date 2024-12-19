@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/imaging/hd/physxVehicleNonlinearCommandResponseSchema.h"
+#include "pxr/imaging/hd/physxVehicleNonlinearCommandResponseEntrySchema.h"
 #include "pxr/usd/usdPhysX/vehicleNonlinearCommandResponseAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -27,15 +27,15 @@ class PhysxDataSource final : public HdContainerDataSource {
 public:
     HD_DECLARE_DATASOURCE(PhysxDataSource);
 
-    explicit PhysxDataSource(const UsdPrim& prim) : _api(prim) {}
+    explicit PhysxDataSource(const UsdPrim& prim, TfToken const& appliedInstanceName)
+        : _api(prim, appliedInstanceName) {}
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
                 HdPhysxVehicleNonlinearCommandResponseSchemaTokens->commandValues,                  //
                 HdPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponses,                 //
                 HdPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponsesPerCommandValue,  //
-                HdPhysxVehicleNonlinearCommandResponseSchemaTokens->name
-        };
+                HdPhysxVehicleNonlinearCommandResponseSchemaTokens->name};
 
         return names;
     }
@@ -55,8 +55,7 @@ public:
                     return HdRetainedTypedSampledDataSource<VtArray<GfVec2f>>::New(v);
                 }
             }
-        } else if (name ==
-                   HdPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponsesPerCommandValue) {
+        } else if (name == HdPhysxVehicleNonlinearCommandResponseSchemaTokens->speedResponsesPerCommandValue) {
             if (UsdAttribute attr = _api.GetSpeedResponsesPerCommandValueAttr()) {
                 VtArray<int> v;
                 if (attr.Get(&v)) {
@@ -80,14 +79,15 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXVehicleNonlinearCommandRespons
         TfToken const& subprim,
         TfToken const& appliedInstanceName,
         const UsdImagingDataSourceStageGlobals& stageGlobals) {
-    if (!subprim.IsEmpty() || !appliedInstanceName.IsEmpty()) {
+    if (appliedInstanceName.IsEmpty()) {
         return nullptr;
     }
 
     if (subprim.IsEmpty()) {
         return HdRetainedContainerDataSource::New(
-                HdPhysxVehicleNonlinearCommandResponseSchemaTokens->physxVehicleNonlinearCommandResponse,
-                PhysxDataSource::New(prim));
+                HdPhysxVehicleNonlinearCommandResponseEntrySchemaTokens->physxVehicleNonlinearCommandResponseEntry,
+                HdRetainedContainerDataSource::New(appliedInstanceName,
+                                                   PhysxDataSource::New(prim, appliedInstanceName)));
     }
 
     return nullptr;
@@ -99,7 +99,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXVehicleNonlinearCommandResponseAPIA
         TfToken const& appliedInstanceName,
         TfTokenVector const& properties,
         UsdImagingPropertyInvalidationType invalidationType) {
-    if (!subprim.IsEmpty() || !appliedInstanceName.IsEmpty()) {
+    if (appliedInstanceName.IsEmpty()) {
         return HdDataSourceLocatorSet();
     }
 

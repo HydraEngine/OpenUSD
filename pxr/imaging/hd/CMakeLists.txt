@@ -226,9 +226,11 @@ pxr_library(hd
         physxIsosurfaceSchema
         physxJointSchema
         physxJointStateSchema
+        physxJointStateEntrySchema
         physxMaterialSchema
         physxMeshMergeCollisionSchema
         physxMimicJointSchema
+        physxMimicJointEntrySchema
         physxPhysicsDistanceJointSchema
         physxPhysicsGearJointSchema
         physxPhysicsInstancerSchema
@@ -248,6 +250,7 @@ pxr_library(hd
         physxVehicleAckermannSteeringSchema
         physxVehicleAutoGearBoxSchema
         physxVehicleBrakesSchema
+        physxVehicleBrakesEntrySchema
         physxVehicleClutchSchema
         physxVehicleContextSchema
         physxVehicleControllerSchema
@@ -257,6 +260,7 @@ pxr_library(hd
         physxVehicleGearsSchema
         physxVehicleMultiWheelDifferentialSchema
         physxVehicleNonlinearCommandResponseSchema
+        physxVehicleNonlinearCommandResponseEntrySchema
         physxVehicleSchema
         physxVehicleSteeringSchema
         physxVehicleSuspensionComplianceSchema
@@ -276,7 +280,9 @@ pxr_library(hd
         rigidBodySchema
         articulationRootSchema
         driveSchema
+        driveEntrySchema
         limitSchema
+        limitEntrySchema
         jointSchema
         distanceJointSchema
         fixedJointSchema

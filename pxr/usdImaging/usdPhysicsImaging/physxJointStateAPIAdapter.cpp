@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/imaging/hd/physxJointStateSchema.h"
+#include "pxr/imaging/hd/physxJointStateEntrySchema.h"
 #include "pxr/usd/usdPhysX/jointStateAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -27,7 +27,8 @@ class PhysxDataSource final : public HdContainerDataSource {
 public:
     HD_DECLARE_DATASOURCE(PhysxDataSource);
 
-    explicit PhysxDataSource(const UsdPrim& prim) : _api(prim) {}
+    explicit PhysxDataSource(const UsdPrim& prim, TfToken const& appliedInstanceName)
+        : _api(prim, appliedInstanceName) {}
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
@@ -71,13 +72,15 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXJointStateAPIAdapter::GetImagi
         TfToken const& subprim,
         TfToken const& appliedInstanceName,
         const UsdImagingDataSourceStageGlobals& stageGlobals) {
-    if (!subprim.IsEmpty() || !appliedInstanceName.IsEmpty()) {
+    if (appliedInstanceName.IsEmpty()) {
         return nullptr;
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdPhysxJointStateSchemaTokens->physxJointState,
-                                                  PhysxDataSource::New(prim));
+        return HdRetainedContainerDataSource::New(
+                HdPhysxJointStateEntrySchemaTokens->physxJointStateEntry,
+                HdRetainedContainerDataSource::New(appliedInstanceName,
+                                                   PhysxDataSource::New(prim, appliedInstanceName)));
     }
 
     return nullptr;
@@ -89,7 +92,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXJointStateAPIAdapter::InvalidateIma
         TfToken const& appliedInstanceName,
         TfTokenVector const& properties,
         UsdImagingPropertyInvalidationType invalidationType) {
-    if (!subprim.IsEmpty() || !appliedInstanceName.IsEmpty()) {
+    if (appliedInstanceName.IsEmpty()) {
         return HdDataSourceLocatorSet();
     }
 

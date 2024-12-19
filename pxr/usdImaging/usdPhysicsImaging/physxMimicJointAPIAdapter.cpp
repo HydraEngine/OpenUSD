@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/imaging/hd/physxMimicJointSchema.h"
+#include "pxr/imaging/hd/physxMimicJointEntrySchema.h"
 #include "pxr/usd/usdPhysX/mimicJointAPI.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 
@@ -27,15 +27,14 @@ class PhysxDataSource final : public HdContainerDataSource {
 public:
     HD_DECLARE_DATASOURCE(PhysxDataSource);
 
-    explicit PhysxDataSource(const UsdPrim& prim) : _api(prim) {}
+    explicit PhysxDataSource(const UsdPrim& prim, TfToken const& appliedInstanceName)
+        : _api(prim, appliedInstanceName) {}
 
     TfTokenVector GetNames() override {
-        static const TfTokenVector names = {
-                HdPhysxMimicJointSchemaTokens->gearing,             //
-                HdPhysxMimicJointSchemaTokens->offset,              //
-                HdPhysxMimicJointSchemaTokens->referenceJointAxis,  //
-                HdPhysxMimicJointSchemaTokens->name
-        };
+        static const TfTokenVector names = {HdPhysxMimicJointSchemaTokens->gearing,             //
+                                            HdPhysxMimicJointSchemaTokens->offset,              //
+                                            HdPhysxMimicJointSchemaTokens->referenceJointAxis,  //
+                                            HdPhysxMimicJointSchemaTokens->name};
 
         return names;
     }
@@ -79,13 +78,15 @@ HdContainerDataSourceHandle UsdImagingPhysicsPhysXMimicJointAPIAdapter::GetImagi
         TfToken const& subprim,
         TfToken const& appliedInstanceName,
         const UsdImagingDataSourceStageGlobals& stageGlobals) {
-    if (!subprim.IsEmpty() || !appliedInstanceName.IsEmpty()) {
+    if (appliedInstanceName.IsEmpty()) {
         return nullptr;
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdPhysxMimicJointSchemaTokens->physxMimicJoint,
-                                                  PhysxDataSource::New(prim));
+        return HdRetainedContainerDataSource::New(
+                HdPhysxMimicJointEntrySchemaTokens->physxMimicJointEntry,
+                HdRetainedContainerDataSource::New(appliedInstanceName,
+                                                   PhysxDataSource::New(prim, appliedInstanceName)));
     }
 
     return nullptr;
@@ -97,7 +98,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsPhysXMimicJointAPIAdapter::InvalidateIma
         TfToken const& appliedInstanceName,
         TfTokenVector const& properties,
         UsdImagingPropertyInvalidationType invalidationType) {
-    if (!subprim.IsEmpty() || !appliedInstanceName.IsEmpty()) {
+    if (appliedInstanceName.IsEmpty()) {
         return HdDataSourceLocatorSet();
     }
 

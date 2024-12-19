@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/imaging/hd/driveSchema.h"
+#include "pxr/imaging/hd/driveEntrySchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/driveAPI.h"
 
@@ -27,12 +27,13 @@ class _PhysicsDriveDataSource final : public HdContainerDataSource {
 public:
     HD_DECLARE_DATASOURCE(_PhysicsDriveDataSource);
 
-    explicit _PhysicsDriveDataSource(const UsdPrim& prim) : _api{prim} {}
+    explicit _PhysicsDriveDataSource(const UsdPrim& prim, TfToken const& appliedInstanceName)
+        : _api{prim, appliedInstanceName} {}
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
-                HdDriveSchemaTokens->name,
-                HdDriveSchemaTokens->type,
+                HdDriveSchemaTokens->name,            //
+                HdDriveSchemaTokens->type,            //
                 HdDriveSchemaTokens->maxForce,        //
                 HdDriveSchemaTokens->targetPosition,  //
                 HdDriveSchemaTokens->targetVelocity,  //
@@ -107,13 +108,15 @@ HdContainerDataSourceHandle UsdImagingPhysicsDriveAPIAdapter::GetImagingSubprimD
         TfToken const& subprim,
         TfToken const& appliedInstanceName,
         const UsdImagingDataSourceStageGlobals& stageGlobals) {
-    if (!subprim.IsEmpty() || !appliedInstanceName.IsEmpty()) {
+    if (appliedInstanceName.IsEmpty()) {
         return nullptr;
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdDriveSchemaTokens->drive,
-                                                  _PhysicsDriveDataSource::New(prim));
+        return HdRetainedContainerDataSource::New(
+                HdDriveEntrySchemaTokens->driveEntry,
+                HdRetainedContainerDataSource::New(appliedInstanceName,
+                                                   _PhysicsDriveDataSource::New(prim, appliedInstanceName)));
     }
 
     return nullptr;
@@ -125,7 +128,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsDriveAPIAdapter::InvalidateImagingSubpri
         TfToken const& appliedInstanceName,
         TfTokenVector const& properties,
         UsdImagingPropertyInvalidationType invalidationType) {
-    if (!subprim.IsEmpty() || !appliedInstanceName.IsEmpty()) {
+    if (appliedInstanceName.IsEmpty()) {
         return HdDataSourceLocatorSet();
     }
 

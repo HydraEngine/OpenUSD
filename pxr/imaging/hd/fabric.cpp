@@ -42,7 +42,7 @@ void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver
     if (auto schema = HdDistanceJointSchema::GetFromParent(prim.dataSource)) {
         _distanceJoints.insert({entry.primPath, schema});
     }
-    if (auto schema = HdDriveSchema::GetFromParent(prim.dataSource)) {
+    if (auto schema = HdDriveEntrySchema::GetFromParent(prim.dataSource)) {
         _drives.insert({entry.primPath, schema});
     }
     if (auto schema = HdFilteredPairsSchema::GetFromParent(prim.dataSource)) {
@@ -54,7 +54,7 @@ void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver
     if (auto schema = HdJointSchema::GetFromParent(prim.dataSource)) {
         _joints.insert({entry.primPath, schema});
     }
-    if (auto schema = HdLimitSchema::GetFromParent(prim.dataSource)) {
+    if (auto schema = HdLimitEntrySchema::GetFromParent(prim.dataSource)) {
         _limits.insert({entry.primPath, schema});
     }
     if (auto schema = HdMassSchema::GetFromParent(prim.dataSource)) {
@@ -114,7 +114,7 @@ void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver
     if (auto schema = HdPhysxJointSchema::GetFromParent(prim.dataSource)) {
         _physxJoints.insert({entry.primPath, schema});
     }
-    if (auto schema = HdPhysxJointStateSchema::GetFromParent(prim.dataSource)) {
+    if (auto schema = HdPhysxJointStateEntrySchema::GetFromParent(prim.dataSource)) {
         _physxJointStates.insert({entry.primPath, schema});
     }
     if (auto schema = HdPhysxMaterialSchema::GetFromParent(prim.dataSource)) {
@@ -123,7 +123,7 @@ void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver
     if (auto schema = HdPhysxMeshMergeCollisionSchema::GetFromParent(prim.dataSource)) {
         _physxMeshMergeCollisions.insert({entry.primPath, schema});
     }
-    if (auto schema = HdPhysxMimicJointSchema::GetFromParent(prim.dataSource)) {
+    if (auto schema = HdPhysxMimicJointEntrySchema::GetFromParent(prim.dataSource)) {
         _physxMimicJoints.insert({entry.primPath, schema});
     }
     if (auto schema = HdPhysxPhysicsDistanceJointSchema::GetFromParent(prim.dataSource)) {
@@ -180,7 +180,7 @@ void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver
     if (auto schema = HdPhysxVehicleAutoGearBoxSchema::GetFromParent(prim.dataSource)) {
         _physxVehicleAutoGearBoxs.insert({entry.primPath, schema});
     }
-    if (auto schema = HdPhysxVehicleBrakesSchema::GetFromParent(prim.dataSource)) {
+    if (auto schema = HdPhysxVehicleBrakesEntrySchema::GetFromParent(prim.dataSource)) {
         _physxVehicleBrakes.insert({entry.primPath, schema});
     }
     if (auto schema = HdPhysxVehicleClutchSchema::GetFromParent(prim.dataSource)) {
@@ -207,7 +207,7 @@ void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver
     if (auto schema = HdPhysxVehicleMultiWheelDifferentialSchema::GetFromParent(prim.dataSource)) {
         _physxVehicleMultiWheelDifferentials.insert({entry.primPath, schema});
     }
-    if (auto schema = HdPhysxVehicleNonlinearCommandResponseSchema::GetFromParent(prim.dataSource)) {
+    if (auto schema = HdPhysxVehicleNonlinearCommandResponseEntrySchema::GetFromParent(prim.dataSource)) {
         _physxVehicleNonlinearCommandResponseSchemas.insert({entry.primPath, schema});
     }
     if (auto schema = HdPhysxVehicleSchema::GetFromParent(prim.dataSource)) {

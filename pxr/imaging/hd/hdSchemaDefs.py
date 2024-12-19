@@ -1437,6 +1437,20 @@
         ADD_DEFAULT_LOCATOR = True,
     ),
     dict(
+        SCHEMA_NAME = 'DriveEntry',
+        SCHEMA_TOKEN = 'driveEntry',
+        EXTRA_TOKENS = [
+            '(transX, "transX")',
+            '(transY, "transY")',
+            '(transZ, "transZ")',
+            '(rotX, "rotX")',
+            '(rotY, "rotY")',
+            '(rotZ, "rotZ")',
+        ],
+        ADD_DEFAULT_LOCATOR = True,
+        GENERIC_BUILD_RETAINED = True,
+    ),
+    dict(
         SCHEMA_NAME = 'Drive',
         SCHEMA_TOKEN = 'drive',
         MEMBERS = [
@@ -1486,6 +1500,20 @@
         ],
 
         ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'LimitEntry',
+        SCHEMA_TOKEN = 'limitEntry',
+        EXTRA_TOKENS = [
+            '(transX, "transX")',
+            '(transY, "transY")',
+            '(transZ, "transZ")',
+            '(rotX, "rotX")',
+            '(rotY, "rotY")',
+            '(rotZ, "rotZ")',
+        ],
+        ADD_DEFAULT_LOCATOR = True,
+        GENERIC_BUILD_RETAINED = True,
     ),
     dict(
         SCHEMA_NAME = 'Limit',
@@ -1591,6 +1619,20 @@
     ),
 
     ############# PhysX Schema Extension ###########################################################
+    dict(
+        SCHEMA_NAME = 'PhysxJointStateEntry',
+        SCHEMA_TOKEN = 'physxJointStateEntry',
+        EXTRA_TOKENS = [
+            '(transX, "transX")',
+            '(transY, "transY")',
+            '(transZ, "transZ")',
+            '(rotX, "rotX")',
+            '(rotY, "rotY")',
+            '(rotZ, "rotZ")',
+        ],
+        ADD_DEFAULT_LOCATOR = True,
+        GENERIC_BUILD_RETAINED = True,
+    ),
     dict(
         SCHEMA_NAME = 'PhysxJointState',
         SCHEMA_TOKEN = 'physxJointState',
@@ -1837,6 +1879,17 @@
         ],
 
         ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxMimicJointEntry',
+        SCHEMA_TOKEN = 'physxMimicJointEntry',
+        EXTRA_TOKENS = [
+            '(rotX, "rotX")',
+            '(rotY, "rotY")',
+            '(rotZ, "rotZ")',
+        ],
+        ADD_DEFAULT_LOCATOR = True,
+        GENERIC_BUILD_RETAINED = True,
     ),
     dict(
         SCHEMA_NAME = 'PhysxMimicJoint',
@@ -2128,6 +2181,16 @@
         ADD_DEFAULT_LOCATOR = True,
     ),
     dict(
+        SCHEMA_NAME = 'PhysxVehicleBrakesEntry',
+        SCHEMA_TOKEN = 'physxVehicleBrakesEntry',
+        EXTRA_TOKENS = [
+            '(brakes0, "brakes0")',
+            '(brakes1, "brakes1")',
+        ],
+        ADD_DEFAULT_LOCATOR = True,
+        GENERIC_BUILD_RETAINED = True,
+    ),
+    dict(
         SCHEMA_NAME = 'PhysxVehicleBrakes',
         SCHEMA_TOKEN = 'physxVehicleBrakes',
         MEMBERS = [
@@ -2230,6 +2293,18 @@
         ],
 
         ADD_DEFAULT_LOCATOR = True,
+    ),
+    dict(
+        SCHEMA_NAME = 'PhysxVehicleNonlinearCommandResponseEntry',
+        SCHEMA_TOKEN = 'physxVehicleNonlinearCommandResponseEntry',
+        EXTRA_TOKENS = [
+            '(steer, "steer")',
+            '(brakes0, "brakes0")',
+            '(brakes1, "brakes1")',
+            '(drive, "drive")'
+        ],
+        ADD_DEFAULT_LOCATOR = True,
+        GENERIC_BUILD_RETAINED = True,
     ),
     dict(
         SCHEMA_NAME = 'PhysxVehicleNonlinearCommandResponse',

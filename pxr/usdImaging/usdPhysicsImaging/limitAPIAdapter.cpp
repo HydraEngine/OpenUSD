@@ -8,7 +8,7 @@
 #include "pxr/usdImaging/usdImaging/primAdapter.h"
 #include "pxr/usdImaging/usdImaging/dataSourceAttribute.h"
 
-#include "pxr/imaging/hd/limitSchema.h"
+#include "pxr/imaging/hd/limitEntrySchema.h"
 #include "pxr/imaging/hd/retainedDataSource.h"
 #include "pxr/usd/usdPhysics/limitAPI.h"
 
@@ -27,7 +27,8 @@ class _PhysicsLimitDataSource final : public HdContainerDataSource {
 public:
     HD_DECLARE_DATASOURCE(_PhysicsLimitDataSource);
 
-    _PhysicsLimitDataSource(const UsdPrim& prim) : _api(prim) {}
+    _PhysicsLimitDataSource(const UsdPrim& prim, TfToken const& appliedInstanceName)
+        : _api(prim, appliedInstanceName) {}
 
     TfTokenVector GetNames() override {
         static const TfTokenVector names = {
@@ -69,12 +70,15 @@ HdContainerDataSourceHandle UsdImagingPhysicsLimitAPIAdapter::GetImagingSubprimD
         TfToken const& subprim,
         TfToken const& appliedInstanceName,
         const UsdImagingDataSourceStageGlobals& stageGlobals) {
-    if (!subprim.IsEmpty() || !appliedInstanceName.IsEmpty()) {
+    if (appliedInstanceName.IsEmpty()) {
         return nullptr;
     }
 
     if (subprim.IsEmpty()) {
-        return HdRetainedContainerDataSource::New(HdLimitSchemaTokens->limit, _PhysicsLimitDataSource::New(prim));
+        return HdRetainedContainerDataSource::New(
+                HdLimitEntrySchemaTokens->limitEntry,
+                HdRetainedContainerDataSource::New(appliedInstanceName,
+                                                   _PhysicsLimitDataSource::New(prim, appliedInstanceName)));
     }
 
     return nullptr;
@@ -86,7 +90,7 @@ HdDataSourceLocatorSet UsdImagingPhysicsLimitAPIAdapter::InvalidateImagingSubpri
         TfToken const& appliedInstanceName,
         TfTokenVector const& properties,
         UsdImagingPropertyInvalidationType invalidationType) {
-    if (!subprim.IsEmpty() || !appliedInstanceName.IsEmpty()) {
+    if (appliedInstanceName.IsEmpty()) {
         return HdDataSourceLocatorSet();
     }
 
