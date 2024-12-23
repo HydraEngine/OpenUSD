@@ -35,13 +35,13 @@ void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver
             _planes.insert({entry.primPath, geom});
         }
         if (auto geom = HdPrimvarsSchema::GetFromParent(prim.dataSource)) {
+            _primVars.insert({entry.primPath, geom});
+        }
+        if (auto geom = HdMeshSchema::GetFromParent(prim.dataSource)) {
             _meshes.insert({entry.primPath, geom});
         }
-        if (auto geom = HdMeshTopologySchema::GetFromParent(prim.dataSource)) {
-            _meshTopologies.insert({entry.primPath, geom});
-        }
-        if (auto geom = HdTetMeshTopologySchema::GetFromParent(prim.dataSource)) {
-            _tetMeshTopologies.insert({entry.primPath, geom});
+        if (auto geom = HdTetMeshSchema::GetFromParent(prim.dataSource)) {
+            _tetMeshes.insert({entry.primPath, geom});
         }
         _collisions.insert({entry.primPath, schema});
     }
@@ -288,9 +288,9 @@ void Fabric::PrimsRemoved(const HdSceneIndexPrim& prim, const HdSceneIndexObserv
         _cones.erase(entry.primPath);
         _cylinders.erase(entry.primPath);
         _planes.erase(entry.primPath);
+        _primVars.erase(entry.primPath);
         _meshes.erase(entry.primPath);
-        _meshTopologies.erase(entry.primPath);
-        _tetMeshTopologies.erase(entry.primPath);
+        _tetMeshes.erase(entry.primPath);
     }
     _distanceJoints.erase(entry.primPath);
     _drives.erase(entry.primPath);
