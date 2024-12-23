@@ -92,6 +92,8 @@
 #include <pxr/imaging/hd/cylinderSchema.h>
 #include <pxr/imaging/hd/planeSchema.h>
 #include <pxr/imaging/hd/primvarsSchema.h>
+#include <pxr/imaging/hd/meshTopologySchema.h>
+#include <pxr/imaging/hd/tetMeshTopologySchema.h>
 #include <pxr/imaging/hd/directMaterialBindingsSchema.h>
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -191,6 +193,8 @@ public:
     std::map<SdfPath, HdCylinderSchema> _cylinders;
     std::map<SdfPath, HdPlaneSchema> _planes;
     std::map<SdfPath, HdPrimvarsSchema> _meshes;
+    std::map<SdfPath, HdMeshTopologySchema> _meshTopologies;
+    std::map<SdfPath, HdTetMeshTopologySchema> _tetMeshTopologies;
     std::map<SdfPath, HdDirectMaterialBindingsSchema> _materialBindings;
 
     SdfPathTable<GfMatrix4d> _globalXforms;
