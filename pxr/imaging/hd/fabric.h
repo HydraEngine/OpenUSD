@@ -96,6 +96,8 @@
 #include <pxr/imaging/hd/tetMeshSchema.h>
 #include <pxr/imaging/hd/directMaterialBindingsSchema.h>
 
+#include <optional>
+
 PXR_NAMESPACE_OPEN_SCOPE
 
 class Fabric {
