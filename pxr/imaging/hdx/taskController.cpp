@@ -67,7 +67,7 @@ static const uint32_t MSAA_SAMPLE_COUNT = 4;
 static const float DISTANT_LIGHT_ANGLE = 0.53;
 static const float DISTANT_LIGHT_INTENSITY = 15000.0;
 
-class ShadowMatrixComputation : public HdxShadowMatrixComputation {
+class ShadowMatrixComputation final : public HdxShadowMatrixComputation {
 public:
     ShadowMatrixComputation(GfRange3f const& worldBox, GfVec3f const& lightDir)
         : _worldBox{worldBox}, _lightDir{lightDir} {
@@ -1549,12 +1549,11 @@ void HdxTaskController::_SetBuiltInLightingState(GlfSimpleLightingContextPtr con
             }
             // Make sure the light at _lightIds[i] matches activeLights[i]
             if (_GetLightAtId(i) != activeLights[i]) {
-                GfRange3f worldExtent(GfVec3f(-9, -9, -5), GfVec3f(9, 9, 2));
-                SdfPathVector shadowCollectionExcludePaths;
+                // GfRange3f worldExtent(GfVec3f(-9, -9, -5), GfVec3f(9, 9, 2));
+                // SdfPathVector shadowCollectionExcludePaths;
+                // SetShadowByLight(activeLights[i], 0, worldExtent, shadowCollectionExcludePaths, std::nullopt);
 
-                SetShadowByLight(activeLights[i], 0, worldExtent, shadowCollectionExcludePaths, std::nullopt);
-
-                // _ReplaceLightSprim(i, activeLights[i], lightPath);
+                _ReplaceLightSprim(i, activeLights[i], lightPath);
             }
             if (needToAddLightPath) {
                 _lightIds.push_back(lightPath);
