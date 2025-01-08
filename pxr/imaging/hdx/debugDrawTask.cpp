@@ -88,17 +88,23 @@ bool HdxDebugDrawTask::_CreateShaderResources() {
         HgiShaderFunctionAddConstantParam(stageDesc, "vp", "mat4");
     };
 
+#ifdef __APPLE__
+    std::string colorType = "vec4";
+#else
+    std::string colorType = "uvec4";
+#endif
+
     // Setup the vertex shader
     std::string vsCode;
     HgiShaderFunctionDesc vertDesc;
     vertDesc.debugName = _tokens->debugDrawVertex.GetString();
     vertDesc.shaderStage = HgiShaderStageVertex;
     HgiShaderFunctionAddStageInput(&vertDesc, "position", "vec3");
-    HgiShaderFunctionAddStageInput(&vertDesc, "color", "uvec4");
+    HgiShaderFunctionAddStageInput(&vertDesc, "color", colorType);
     HgiShaderFunctionAddStageOutput(&vertDesc, "gl_Position", "vec4", "position");
     HgiShaderFunctionParamDesc colorParam;
     colorParam.nameInShader = "colorOut";
-    colorParam.type = "uvec4";
+    colorParam.type = colorType;
     colorParam.interpolation = HgiInterpolationFlat;
     HgiShaderFunctionAddStageOutput(&vertDesc, colorParam);
     addConstantParams(&vertDesc);
