@@ -94,11 +94,11 @@ bool HdxDebugDrawTask::_CreateShaderResources() {
     vertDesc.debugName = _tokens->debugDrawVertex.GetString();
     vertDesc.shaderStage = HgiShaderStageVertex;
     HgiShaderFunctionAddStageInput(&vertDesc, "position", "vec3");
-    HgiShaderFunctionAddStageInput(&vertDesc, "color", "vec4");
+    HgiShaderFunctionAddStageInput(&vertDesc, "color", "uvec4");
     HgiShaderFunctionAddStageOutput(&vertDesc, "gl_Position", "vec4", "position");
     HgiShaderFunctionParamDesc colorParam;
     colorParam.nameInShader = "colorOut";
-    colorParam.type = "vec4";
+    colorParam.type = "uvec4";
     colorParam.interpolation = HgiInterpolationFlat;
     HgiShaderFunctionAddStageOutput(&vertDesc, colorParam);
     addConstantParams(&vertDesc);
@@ -109,7 +109,6 @@ bool HdxDebugDrawTask::_CreateShaderResources() {
     // Setup the fragment shader
     std::string fsCode;
     HgiShaderFunctionDesc fragDesc;
-    HgiShaderFunctionAddStageInput(&fragDesc, "gl_FragCoord", "vec4", HgiShaderKeywordTokens->hdFragCoord);
     HgiShaderFunctionAddStageInput(&fragDesc, colorParam);
     HgiShaderFunctionAddStageOutput(&fragDesc, "hd_FragColor", "vec4", "color");
     addConstantParams(&fragDesc);
@@ -154,6 +153,7 @@ bool HdxDebugDrawTask::_CreatePointBufferResources() {
     transformsDesc.debugName = "HdxDebugDrawTask Point VertexBuffer";
     transformsDesc.usage = HgiBufferUsageVertex;
     transformsDesc.byteSize = 4 * sizeof(float) * _pointResource.maxTransforms;
+    transformsDesc.vertexStride = sizeof(float) * 4;
     _pointResource.vertexBuffer = _GetHgi()->CreateBuffer(transformsDesc);
 
     return true;
@@ -176,6 +176,7 @@ bool HdxDebugDrawTask::_CreateLineBufferResources() {
     transformsDesc.debugName = "HdxDebugDrawTask Line VertexBuffer";
     transformsDesc.usage = HgiBufferUsageVertex;
     transformsDesc.byteSize = 8 * sizeof(float) * _lineResource.maxTransforms;
+    transformsDesc.vertexStride = sizeof(float) * 4;
     _lineResource.vertexBuffer = _GetHgi()->CreateBuffer(transformsDesc);
 
     return true;
@@ -198,6 +199,7 @@ bool HdxDebugDrawTask::_CreateTriangleBufferResources() {
     transformsDesc.debugName = "HdxDebugDrawTask Triangle VertexBuffer";
     transformsDesc.usage = HgiBufferUsageVertex;
     transformsDesc.byteSize = 12 * sizeof(float) * _triangleResource.maxTransforms;
+    transformsDesc.vertexStride = sizeof(float) * 4;
     _triangleResource.vertexBuffer = _GetHgi()->CreateBuffer(transformsDesc);
 
     return true;
@@ -333,7 +335,7 @@ void HdxDebugDrawTask::_UpdatePointShaderConstants(HgiGraphicsCmds* gfxCmds,
 
     HgiBlitCmdsUniquePtr blitCmds = _GetHgi()->CreateBlitCmds();
     blitCmds->CopyBufferCpuToGpu(transformsBlit);
-    _GetHgi()->SubmitCmds(blitCmds.get());
+    _GetHgi()->SubmitCmds(blitCmds.get(), HgiSubmitWaitTypeWaitUntilCompleted);
 
     // View-Projection matrix is the same for either bbox
     const GfMatrix4d viewProj = _ComputeViewProjectionMatrix(hdStRenderPassState);
@@ -360,7 +362,7 @@ void HdxDebugDrawTask::_UpdateLineShaderConstants(HgiGraphicsCmds* gfxCmds,
 
     HgiBlitCmdsUniquePtr blitCmds = _GetHgi()->CreateBlitCmds();
     blitCmds->CopyBufferCpuToGpu(transformsBlit);
-    _GetHgi()->SubmitCmds(blitCmds.get());
+    _GetHgi()->SubmitCmds(blitCmds.get(), HgiSubmitWaitTypeWaitUntilCompleted);
 
     // View-Projection matrix is the same for either bbox
     const GfMatrix4d viewProj = _ComputeViewProjectionMatrix(hdStRenderPassState);
@@ -387,7 +389,7 @@ void HdxDebugDrawTask::_UpdateTriangleShaderConstants(HgiGraphicsCmds* gfxCmds,
 
     HgiBlitCmdsUniquePtr blitCmds = _GetHgi()->CreateBlitCmds();
     blitCmds->CopyBufferCpuToGpu(transformsBlit);
-    _GetHgi()->SubmitCmds(blitCmds.get());
+    _GetHgi()->SubmitCmds(blitCmds.get(), HgiSubmitWaitTypeWaitUntilCompleted);
 
     // View-Projection matrix is the same for either bbox
     const GfMatrix4d viewProj = _ComputeViewProjectionMatrix(hdStRenderPassState);
