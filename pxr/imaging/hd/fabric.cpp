@@ -15,6 +15,10 @@ Fabric::HdDrawItemPtrVector Fabric::GetDrawItems(const SdfPath& rprimId) const {
     return _renderIndex->GetDrawItems(rprimId, HdReprSelector(HdReprTokens->smoothHull));
 }
 
+void Fabric::ExecuteComputeTasks() {
+    // todo
+}
+
 void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::AddedPrimEntry& entry) {
     if (auto schema = HdArticulationRootSchema::GetFromParent(prim.dataSource)) {
         _articulationRoots.insert({entry.primPath, schema});

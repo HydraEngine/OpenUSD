@@ -111,6 +111,9 @@ public:
 
     [[nodiscard]] HdDrawItemPtrVector GetDrawItems(const SdfPath& rprimId) const;
 
+    void ExecuteComputeTasks();
+
+public:
     void PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::AddedPrimEntry& entry);
 
     void PrimsRemoved(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::RemovedPrimEntry& entry);
