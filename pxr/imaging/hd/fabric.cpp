@@ -5,8 +5,15 @@
 //  property of any third parties.
 
 #include "pxr/imaging/hd/fabric.h"
+#include "pxr/imaging/hd/renderIndex.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
+
+Fabric::Fabric(HdRenderIndex* index) : _renderIndex(index) {}
+
+Fabric::HdDrawItemPtrVector Fabric::GetDrawItems(const SdfPath& rprimId) const {
+    return _renderIndex->GetDrawItems(rprimId, HdReprSelector(HdReprTokens->smoothHull));
+}
 
 void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::AddedPrimEntry& entry) {
     if (auto schema = HdArticulationRootSchema::GetFromParent(prim.dataSource)) {

@@ -171,7 +171,7 @@ HdRenderIndex::HdRenderIndex(HdRenderDelegate *renderDelegate,
                     rendererDisplayName, _terminalSceneIndex, instanceName);
         }
 
-        _fabric = std::make_unique<Fabric>();
+        _fabric = std::make_unique<Fabric>(this);
         _siSd = std::make_unique<HdSceneIndexAdapterSceneDelegate>(_terminalSceneIndex, this,
                                                                    SdfPath::AbsoluteRootPath());
 
@@ -1723,6 +1723,31 @@ void HdRenderIndex::_AppendDrawItems(const SdfPathVector &rprimIds,
             }
         }
     }
+}
+
+HdRenderIndex::HdDrawItemPtrVector HdRenderIndex::GetDrawItems(const SdfPath &rprimId,
+                                                               HdReprSelector const &colReprSelector) {
+    HdDrawItemPtrVector drawItems;
+
+    if (const auto it = _rprimMap.find(rprimId); it != _rprimMap.end()) {
+        const _RprimInfo &rprimInfo = it->second;
+        const HdRprim *rprim = rprimInfo.rprim;
+
+        // Append the draw items for each valid repr in the resolved
+        // composite representation to the command buffer.
+        const HdReprSelector reprSelector = _GetResolvedReprSelector(rprim->GetReprSelector(), colReprSelector, false);
+
+        for (size_t i = 0; i < HdReprSelector::MAX_TOPOLOGY_REPRS; ++i) {
+            if (reprSelector.IsActiveRepr(i)) {
+                TfToken const &reprToken = reprSelector[i];
+
+                for (const HdRepr::DrawItemUniquePtr &rprimDrawItem : rprim->GetDrawItems(reprToken)) {
+                    drawItems.push_back(rprimDrawItem.get());
+                }
+            }
+        }
+    }
+    return drawItems;
 }
 
 PXR_NAMESPACE_CLOSE_SCOPE

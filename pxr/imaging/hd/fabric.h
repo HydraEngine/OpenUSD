@@ -100,8 +100,17 @@
 
 PXR_NAMESPACE_OPEN_SCOPE
 
+class HdRenderIndex;
+class HdDrawItem;
+
 class Fabric {
 public:
+    using HdDrawItemPtrVector = std::vector<HdDrawItem const*>;
+
+    explicit Fabric(HdRenderIndex* renderIndex);
+
+    [[nodiscard]] HdDrawItemPtrVector GetDrawItems(const SdfPath& rprimId) const;
+
     void PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::AddedPrimEntry& entry);
 
     void PrimsRemoved(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::RemovedPrimEntry& entry);
@@ -202,6 +211,9 @@ public:
     SdfPathTable<GfMatrix4d> _globalXforms;
     std::map<SdfPath, GfMatrix4d> _resultXforms;
     HdSceneIndexObserver::DirtiedPrimEntries _dirtyEntries;
+
+private:
+    HdRenderIndex* _renderIndex;
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE
