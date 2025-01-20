@@ -102,6 +102,7 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 class HdRenderIndex;
 class HdDrawItem;
+class FabricTask;
 
 class Fabric {
 public:
@@ -111,7 +112,9 @@ public:
 
     [[nodiscard]] HdDrawItemPtrVector GetDrawItems(const SdfPath& rprimId) const;
 
-    void ExecuteComputeTasks();
+    void AddComputationTask(std::unique_ptr<FabricTask> task);
+
+    void ExecuteComputeTasks() const;
 
 public:
     void PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::AddedPrimEntry& entry);
@@ -217,6 +220,18 @@ public:
 
 private:
     HdRenderIndex* _renderIndex;
+    std::vector<std::unique_ptr<FabricTask>> _tasks;
+};
+
+class FabricTask {
+public:
+    explicit FabricTask(Fabric* fabric);
+    virtual ~FabricTask() = default;
+
+    virtual void Execute() = 0;
+
+private:
+    Fabric* _fabric;
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE
