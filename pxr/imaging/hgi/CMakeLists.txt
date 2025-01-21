@@ -1,12 +1,20 @@
 set(PXR_PREFIX pxr/imaging)
 set(PXR_PACKAGE hgi)
 
-pxr_library(hgi
-    LIBRARIES
+find_package(CUDAToolkit)
+set(LINK_LIBRARIES
         gf
         plug
         tf
         hio
+)
+if (CUDAToolkit_FOUND)
+    list(APPEND LINK_LIBRARIES CUDA::cudart)
+endif ()
+
+pxr_library(hgi
+    LIBRARIES
+        ${LINK_LIBRARIES}
 
     PUBLIC_CLASSES
         attachmentDesc
@@ -41,6 +49,10 @@ pxr_library(hgi
         enums.h
         handle.h
 )
+
+if (CUDAToolkit_FOUND)
+    target_compile_definitions(hgi PUBLIC WITH_CUDA)
+endif ()
 
 if (${PXR_HEADLESS_TEST_MODE})
     message(STATUS "Skipping ${PXR_PACKAGE} tests because PXR_HEADLESS_TEST_MODE is ON")

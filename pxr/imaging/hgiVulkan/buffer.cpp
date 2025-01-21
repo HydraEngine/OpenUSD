@@ -246,4 +246,9 @@ HgiVulkanBuffer::CreateStagingBuffer(
     return new HgiVulkanBuffer(device, buffer, alloc, desc);
 }
 
+#ifdef WITH_CUDA
+uint64_t HgiVulkanBuffer::CudaMap() {}
+void HgiVulkanBuffer::CudaUnmap() {}
+#endif
+
 PXR_NAMESPACE_CLOSE_SCOPE

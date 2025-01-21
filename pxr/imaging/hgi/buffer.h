@@ -17,9 +17,11 @@
 #include "pxr/imaging/hgi/handle.h"
 #include "pxr/imaging/hgi/types.h"
 
+#ifdef WITH_CUDA
+#include <cuda_runtime.h>
+#endif
 
 PXR_NAMESPACE_OPEN_SCOPE
-
 
 /// \struct HgiBufferDesc
 ///
@@ -42,15 +44,9 @@ PXR_NAMESPACE_OPEN_SCOPE
 ///   of the HgiBuffer has returned.</li>
 /// </ul>
 ///
-struct HgiBufferDesc
-{
+struct HgiBufferDesc {
     HGI_API
-    HgiBufferDesc()
-    : usage(HgiBufferUsageUniform)
-    , byteSize(0)
-    , vertexStride(0)
-    , initialData(nullptr)
-    {}
+    HgiBufferDesc() : usage(HgiBufferUsageUniform), byteSize(0), vertexStride(0), initialData(nullptr) {}
 
     std::string debugName;
     HgiBufferUsage usage;
@@ -60,15 +56,10 @@ struct HgiBufferDesc
 };
 
 HGI_API
-bool operator==(
-    const HgiBufferDesc& lhs,
-    const HgiBufferDesc& rhs);
+bool operator==(const HgiBufferDesc& lhs, const HgiBufferDesc& rhs);
 
 HGI_API
-inline bool operator!=(
-    const HgiBufferDesc& lhs,
-    const HgiBufferDesc& rhs);
-
+inline bool operator!=(const HgiBufferDesc& lhs, const HgiBufferDesc& rhs);
 
 ///
 /// \class HgiBuffer
@@ -78,20 +69,17 @@ inline bool operator!=(
 /// The fill the buffer with data you supply `initialData` in the descriptor.
 /// To update the data inside the buffer later on, use blitCmds.
 ///
-class HgiBuffer
-{
+class HgiBuffer {
 public:
     HGI_API
     virtual ~HgiBuffer();
 
     /// The descriptor describes the object.
-    HGI_API
-    HgiBufferDesc const& GetDescriptor() const;
+    [[nodiscard]] HGI_API HgiBufferDesc const& GetDescriptor() const;
 
     /// Returns the byte size of the GPU buffer.
     /// This can be helpful if the application wishes to tally up memory usage.
-    HGI_API
-    virtual size_t GetByteSizeOfResource() const = 0;
+    [[nodiscard]] HGI_API virtual size_t GetByteSizeOfResource() const = 0;
 
     /// This function returns the handle to the Hgi backend's gpu resource, cast
     /// to a uint64_t. Clients should avoid using this function and instead
@@ -104,8 +92,7 @@ public:
     /// In Metal this returns the id<MTLBuffer> as uint64_t.
     /// In Vulkan this returns the VkBuffer as uint64_t.
     /// In DX12 this returns the ID3D12Resource pointer as uint64_t.
-    HGI_API
-    virtual uint64_t GetRawResource() const = 0;
+    [[nodiscard]] HGI_API virtual uint64_t GetRawResource() const = 0;
 
     /// Returns the 'staging area' in which new buffer data is copied before
     /// it is flushed to GPU.
@@ -119,6 +106,11 @@ public:
     HGI_API
     virtual void* GetCPUStagingAddress() = 0;
 
+#ifdef WITH_CUDA
+    virtual uint64_t CudaMap() = 0;
+    virtual void CudaUnmap() = 0;
+#endif
+
 protected:
     HGI_API
     HgiBuffer(HgiBufferDesc const& desc);
@@ -127,13 +119,12 @@ protected:
 
 private:
     HgiBuffer() = delete;
-    HgiBuffer & operator=(const HgiBuffer&) = delete;
+    HgiBuffer& operator=(const HgiBuffer&) = delete;
     HgiBuffer(const HgiBuffer&) = delete;
 };
 
 using HgiBufferHandle = HgiHandle<HgiBuffer>;
 using HgiBufferHandleVector = std::vector<HgiBufferHandle>;
-
 
 PXR_NAMESPACE_CLOSE_SCOPE
 
