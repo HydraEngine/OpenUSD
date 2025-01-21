@@ -112,8 +112,8 @@ public:
 
     [[nodiscard]] HdDrawItemPtrVector GetDrawItems(const SdfPath& rprimId) const;
 
-    void AddComputationTask(std::unique_ptr<FabricTask> task);
-
+    void AddComputationTask(FabricTask* task);
+    void RemoveComputationTask(FabricTask* task);
     void ExecuteComputeTasks() const;
 
 public:
@@ -220,18 +220,17 @@ public:
 
 private:
     HdRenderIndex* _renderIndex;
-    std::vector<std::unique_ptr<FabricTask>> _tasks;
+    std::vector<FabricTask*> _tasks;
 };
 
 class FabricTask {
 public:
-    explicit FabricTask(Fabric* fabric);
+    void setFabric(Fabric* fabric);
     virtual ~FabricTask() = default;
-
     virtual void Execute() = 0;
 
 private:
-    Fabric* _fabric;
+    Fabric* _fabric{};
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE

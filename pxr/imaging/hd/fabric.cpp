@@ -9,7 +9,7 @@
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-FabricTask::FabricTask(Fabric* fabric) : _fabric{fabric} {}
+void FabricTask::setFabric(Fabric* fabric) { _fabric = fabric; }
 
 Fabric::Fabric(HdRenderIndex* index) : _renderIndex(index) {}
 
@@ -17,7 +17,13 @@ Fabric::HdDrawItemPtrVector Fabric::GetDrawItems(const SdfPath& rprimId) const {
     return _renderIndex->GetDrawItems(rprimId, HdReprSelector(HdReprTokens->smoothHull));
 }
 
-void Fabric::AddComputationTask(std::unique_ptr<FabricTask> task) { _tasks.emplace_back(std::move(task)); }
+void Fabric::AddComputationTask(FabricTask* task) {
+    task->setFabric(this);
+    _tasks.emplace_back(task);
+}
+void Fabric::RemoveComputationTask(FabricTask* task) {
+    _tasks.erase(std::remove(_tasks.begin(), _tasks.end(), task), _tasks.end());
+}
 
 void Fabric::ExecuteComputeTasks() const {
     for (const auto& task : _tasks) {
