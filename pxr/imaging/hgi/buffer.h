@@ -19,6 +19,7 @@
 
 #ifdef WITH_CUDA
 #include <cuda_runtime.h>
+#include "pxr/imaging/hgi/helper_cuda.h"
 #endif
 
 PXR_NAMESPACE_OPEN_SCOPE
@@ -107,8 +108,8 @@ public:
     virtual void* GetCPUStagingAddress() = 0;
 
 #ifdef WITH_CUDA
-    virtual uint64_t CudaMap() = 0;
-    virtual void CudaUnmap() = 0;
+    virtual void* CudaMap(size_t size, cudaStream_t stream) = 0;
+    virtual void CudaUnmap(cudaStream_t stream) = 0;
 #endif
 
 protected:

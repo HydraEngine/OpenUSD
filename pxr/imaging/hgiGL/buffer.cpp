@@ -9,6 +9,10 @@
 #include "pxr/imaging/hgiGL/diagnostic.h"
 #include "pxr/imaging/hgiGL/buffer.h"
 
+#ifdef WITH_CUDA
+#include <cuda_gl_interop.h>
+#endif
+
 PXR_NAMESPACE_OPEN_SCOPE
 
 HgiGLBuffer::HgiGLBuffer(HgiBufferDesc const& desc)
@@ -33,11 +37,18 @@ HgiGLBuffer::HgiGLBuffer(HgiBufferDesc const& desc)
 
     _descriptor.initialData = nullptr;
 
+#ifdef WITH_CUDA
+    checkCudaErrors(cudaGraphicsGLRegisterBuffer(&cuda_vbo_resource, _bufferId, ::cudaGraphicsRegisterFlagsNone));
+#endif
+
     HGIGL_POST_PENDING_GL_ERRORS();
 }
 
 HgiGLBuffer::~HgiGLBuffer() {
     if (_bufferId > 0) {
+#ifdef WITH_CUDA
+        checkCudaErrors(cudaGraphicsUnregisterResource(cuda_vbo_resource));
+#endif
         glDeleteBuffers(1, &_bufferId);
         _bufferId = 0;
     }
@@ -80,8 +91,16 @@ uint64_t HgiGLBuffer::GetBindlessGPUAddress() {
 }
 
 #ifdef WITH_CUDA
-uint64_t HgiGLBuffer::CudaMap() {}
-void HgiGLBuffer::CudaUnmap() {}
+void* HgiGLBuffer::CudaMap(size_t size, cudaStream_t stream) {
+    checkCudaErrors(cudaGraphicsMapResources(1, &cuda_vbo_resource, stream));
+
+    void* cu_buffer;
+    checkCudaErrors(cudaGraphicsResourceGetMappedPointer(&cu_buffer, &size, cuda_vbo_resource));
+    return cu_buffer;
+}
+void HgiGLBuffer::CudaUnmap(cudaStream_t stream) {
+    checkCudaErrors(cudaGraphicsUnmapResources(1, &cuda_vbo_resource, stream));
+}
 #endif
 
 PXR_NAMESPACE_CLOSE_SCOPE

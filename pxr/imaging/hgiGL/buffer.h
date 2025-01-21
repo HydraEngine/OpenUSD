@@ -22,11 +22,9 @@ public:
     HGIGL_API
     ~HgiGLBuffer() override;
 
-    [[nodiscard]] HGIGL_API
-    size_t GetByteSizeOfResource() const override;
+    [[nodiscard]] HGIGL_API size_t GetByteSizeOfResource() const override;
 
-    [[nodiscard]] HGIGL_API
-    uint64_t GetRawResource() const override;
+    [[nodiscard]] HGIGL_API uint64_t GetRawResource() const override;
 
     HGIGL_API
     void* GetCPUStagingAddress() override;
@@ -38,8 +36,8 @@ public:
     uint64_t GetBindlessGPUAddress();
 
 #ifdef WITH_CUDA
-    uint64_t CudaMap() override;
-    void CudaUnmap() override;
+    void* CudaMap(size_t size, cudaStream_t stream) override;
+    void CudaUnmap(cudaStream_t stream) override;
 #endif
 
 protected:
@@ -56,6 +54,10 @@ private:
     uint32_t _bufferId;
     void* _cpuStaging;
     uint64_t _bindlessGPUAddress;
+
+#ifdef WITH_CUDA
+    cudaGraphicsResource* cuda_vbo_resource;
+#endif
 };
 
 PXR_NAMESPACE_CLOSE_SCOPE

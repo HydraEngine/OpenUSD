@@ -48,6 +48,7 @@ pxr_library(hgi
         blitCmdsOps.h
         enums.h
         handle.h
+        helper_cuda.h
 )
 
 if (CUDAToolkit_FOUND)

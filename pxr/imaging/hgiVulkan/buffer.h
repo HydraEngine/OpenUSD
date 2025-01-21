@@ -66,8 +66,8 @@ public:
     static HgiVulkanBuffer* CreateStagingBuffer(HgiVulkanDevice* device, HgiBufferDesc const& desc);
 
 #ifdef WITH_CUDA
-    uint64_t CudaMap() override;
-    void CudaUnmap() override;
+    void* CudaMap(size_t size, cudaStream_t stream) override;
+    void CudaUnmap(cudaStream_t stream) override;
 #endif
 
 protected:
