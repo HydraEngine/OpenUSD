@@ -116,7 +116,8 @@ HdRprim::GetDrawItems(TfToken const& reprToken) const
 
     static HdRepr::DrawItemUniquePtrVector empty;
 
-    TF_CODING_ERROR("Rprim has no draw items for repr %s", reprToken.GetText());
+    // no need to warn, already protection
+    // TF_CODING_ERROR("Rprim has no draw items for repr %s", reprToken.GetText());
 
     return empty;
 }
@@ -178,8 +179,9 @@ HdRprim::_GetRepr(TfToken const &reprToken) const
         std::find_if(_reprs.begin(), _reprs.end(),
                      _ReprComparator(reprToken));
     if (reprIt == _reprs.end()) {
-        TF_CODING_ERROR("_InitRepr() should be called for repr %s on prim %s.",
-                        reprToken.GetText(), GetId().GetText());
+        // no need to warn, already protection
+        // TF_CODING_ERROR("_InitRepr() should be called for repr %s on prim %s.",
+        //                reprToken.GetText(), GetId().GetText());
         static const HdReprSharedPtr ERROR_RETURN;
         return ERROR_RETURN;
     }
