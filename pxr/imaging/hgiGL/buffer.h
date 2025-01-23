@@ -56,6 +56,7 @@ private:
     uint64_t _bindlessGPUAddress;
 
 #ifdef WITH_CUDA
+    bool isMapped{false};
     cudaGraphicsResource* cuda_vbo_resource;
 #endif
 };

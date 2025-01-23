@@ -92,14 +92,20 @@ uint64_t HgiGLBuffer::GetBindlessGPUAddress() {
 
 #ifdef WITH_CUDA
 void* HgiGLBuffer::CudaMap(size_t size, cudaStream_t stream) {
-    checkCudaErrors(cudaGraphicsMapResources(1, &cuda_vbo_resource, stream));
-
+    // must protect for buffer range share with same internal buffer
+    if (!isMapped) {
+        checkCudaErrors(cudaGraphicsMapResources(1, &cuda_vbo_resource, stream));
+        isMapped = true;
+    }
     void* cu_buffer;
     checkCudaErrors(cudaGraphicsResourceGetMappedPointer(&cu_buffer, &size, cuda_vbo_resource));
     return cu_buffer;
 }
 void HgiGLBuffer::CudaUnmap(cudaStream_t stream) {
-    checkCudaErrors(cudaGraphicsUnmapResources(1, &cuda_vbo_resource, stream));
+    if (isMapped) {
+        checkCudaErrors(cudaGraphicsUnmapResources(1, &cuda_vbo_resource, stream));
+        isMapped = false;
+    }
 }
 #endif
 
