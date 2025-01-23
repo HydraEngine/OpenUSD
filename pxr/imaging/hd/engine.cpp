@@ -130,9 +130,9 @@ void HdEngine::Execute(HdRenderIndex *index, HdTaskSharedPtrVector *tasks) {
     renderDelegate->CommitResources(&index->GetChangeTracker());
 
     // --------------------------------------------------------------------- //
-    // Computation PHASE
+    // PreRender Computation PHASE
     // --------------------------------------------------------------------- //
-    index->fabric().ExecuteComputeTasks();
+    index->fabric().ExecutePreRenderTasks();
 
     // --------------------------------------------------------------------- //
     // RenderGraph PHASE
@@ -153,6 +153,11 @@ void HdEngine::Execute(HdRenderIndex *index, HdTaskSharedPtrVector *tasks) {
             task->Execute(&_taskContext);
         }
     }
+
+    // --------------------------------------------------------------------- //
+    // PostRender Computation PHASE
+    // --------------------------------------------------------------------- //
+    index->fabric().ExecutePostRenderTasks();
 }
 
 PXR_NAMESPACE_CLOSE_SCOPE

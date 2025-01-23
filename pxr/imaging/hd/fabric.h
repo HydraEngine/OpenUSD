@@ -112,9 +112,13 @@ public:
 
     [[nodiscard]] HdDrawItemPtrVector GetDrawItems(const SdfPath& rprimId) const;
 
-    void AddComputationTask(FabricTask* task);
-    void RemoveComputationTask(FabricTask* task);
-    void ExecuteComputeTasks() const;
+    void AddPreRenderTask(FabricTask* task);
+    void RemovePreRenderTask(FabricTask* task);
+    void ExecutePreRenderTasks() const;
+
+    void AddPostRenderTask(FabricTask* task);
+    void RemovePostRenderTask(FabricTask* task);
+    void ExecutePostRenderTasks() const;
 
 public:
     void PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::AddedPrimEntry& entry);
@@ -220,7 +224,8 @@ public:
 
 private:
     HdRenderIndex* _renderIndex;
-    std::vector<FabricTask*> _tasks;
+    std::vector<FabricTask*> _preRenderTasks;
+    std::vector<FabricTask*> _postRenderTasks;
 };
 
 class FabricTask {

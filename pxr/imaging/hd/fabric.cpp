@@ -17,16 +17,28 @@ Fabric::HdDrawItemPtrVector Fabric::GetDrawItems(const SdfPath& rprimId) const {
     return _renderIndex->GetDrawItems(rprimId, HdReprSelector(HdReprTokens->smoothHull));
 }
 
-void Fabric::AddComputationTask(FabricTask* task) {
+void Fabric::AddPreRenderTask(FabricTask* task) {
     task->setFabric(this);
-    _tasks.emplace_back(task);
+    _preRenderTasks.emplace_back(task);
 }
-void Fabric::RemoveComputationTask(FabricTask* task) {
-    _tasks.erase(std::remove(_tasks.begin(), _tasks.end(), task), _tasks.end());
+void Fabric::RemovePreRenderTask(FabricTask* task) {
+    _preRenderTasks.erase(std::remove(_preRenderTasks.begin(), _preRenderTasks.end(), task), _preRenderTasks.end());
+}
+void Fabric::ExecutePreRenderTasks() const {
+    for (const auto& task : _preRenderTasks) {
+        task->Execute();
+    }
 }
 
-void Fabric::ExecuteComputeTasks() const {
-    for (const auto& task : _tasks) {
+void Fabric::AddPostRenderTask(FabricTask* task) {
+    task->setFabric(this);
+    _postRenderTasks.emplace_back(task);
+}
+void Fabric::RemovePostRenderTask(FabricTask* task) {
+    _postRenderTasks.erase(std::remove(_postRenderTasks.begin(), _postRenderTasks.end(), task), _postRenderTasks.end());
+}
+void Fabric::ExecutePostRenderTasks() const {
+    for (const auto& task : _postRenderTasks) {
         task->Execute();
     }
 }
