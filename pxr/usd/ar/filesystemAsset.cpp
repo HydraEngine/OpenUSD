@@ -9,11 +9,11 @@
 #include "pxr/usd/ar/resolvedPath.h"
 
 #include "pxr/base/tf/diagnostic.h"
+#include "pxr/base/tf/fileUtils.h"
 #include "pxr/base/arch/errno.h"
 #include "pxr/base/arch/fileSystem.h"
 #include <curl/curl.h>
 #include <fstream>
-#include <iostream>
 
 PXR_NAMESPACE_OPEN_SCOPE
 
@@ -25,32 +25,38 @@ size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::ofstream* u
 
 std::shared_ptr<ArFilesystemAsset> ArFilesystemAsset::Open(const ArResolvedPath& resolvedPath) {
     std::string target = resolvedPath.GetPathString();
-    std::cout<<target<<std::endl;
 
     static std::string http = "http";
     if (target.substr(0, http.size()) == http) {
         const auto url = target;
-        target = std::to_string(resolvedPath.GetHash());
-
-        std::ofstream outFile(target, std::ios::binary);
-        if (!outFile) {
-            return nullptr;
+        size_t pos = 0;
+        while ((pos = target.find('/', pos)) != std::string::npos) {
+            target.replace(pos, 1, "-");
+            pos++;
         }
+        target = "/tmp/" + target;
 
-        if (CURL* curl = curl_easy_init()) {
-            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &outFile);
-            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);  // 跟随重定向
-
-            if (CURLcode res = curl_easy_perform(curl); res != CURLE_OK) {
+        if (!TfPathExists(target)) {
+            // if not exist download by using curl
+            std::ofstream outFile(target, std::ios::binary);
+            if (!outFile) {
                 return nullptr;
             }
 
-            curl_easy_cleanup(curl);  // 清理
-        }
+            if (CURL* curl = curl_easy_init()) {
+                curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+                curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+                curl_easy_setopt(curl, CURLOPT_WRITEDATA, &outFile);
+                curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 
-        outFile.close();  // 关闭文件
+                if (CURLcode res = curl_easy_perform(curl); res != CURLE_OK) {
+                    return nullptr;
+                }
+
+                curl_easy_cleanup(curl);
+            }
+            outFile.close();
+        }
     }
 
     FILE* f = ArchOpenFile(target.c_str(), "rb");
