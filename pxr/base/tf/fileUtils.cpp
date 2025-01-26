@@ -149,6 +149,11 @@ Tf_Stat(string const& path, bool resolveSymlinks, ArchStatType* st = 0)
 bool
 TfPathExists(string const& path, bool resolveSymlinks)
 {
+    static std::string http = "http";
+    if (path.substr(0, http.size()) == http) {
+        return true;
+    }
+
 #if defined(ARCH_OS_WINDOWS)
     return Tf_HasAttribute(path, resolveSymlinks, 0);
 #else

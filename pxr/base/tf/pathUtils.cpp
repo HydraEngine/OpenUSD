@@ -228,6 +228,11 @@ TfNormPath(string const &inPath, bool stripDriveSpecifier)
 string
 TfAbsPath(string const& path)
 {
+    static std::string http = "http";
+    if (path.substr(0, http.size()) == http) {
+        return path;
+    }
+
     return ArchAbsPath(path);
 }
 
@@ -259,6 +264,11 @@ TfReadLink(string const& path)
 
 bool TfIsRelativePath(std::string const& path)
 {
+    static std::string http = "http";
+    if (path.substr(0, http.size()) == http) {
+        return false;
+    }
+
 #if defined(ARCH_OS_WINDOWS)
     return path.empty() ||
         (PathIsRelativeW(ArchWindowsUtf8ToUtf16(path).c_str()) &&
@@ -348,7 +358,7 @@ Tf_Glob(
         // Construct the leftmost pattern.
         const string leftmostPattern = prefix + pattern.substr(0, j);
 
-        // Construct the leftmost pattern's directory. 
+        // Construct the leftmost pattern's directory.
         const string leftmostDir = TfGetPathName(leftmostPattern);
 
         // Glob the leftmost pattern.

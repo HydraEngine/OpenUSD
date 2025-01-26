@@ -11,13 +11,49 @@
 #include "pxr/base/tf/diagnostic.h"
 #include "pxr/base/arch/errno.h"
 #include "pxr/base/arch/fileSystem.h"
+#include <curl/curl.h>
+#include <fstream>
+#include <iostream>
 
 PXR_NAMESPACE_OPEN_SCOPE
 
-std::shared_ptr<ArFilesystemAsset>
-ArFilesystemAsset::Open(const ArResolvedPath& resolvedPath)
-{
-    FILE* f = ArchOpenFile(resolvedPath.GetPathString().c_str(), "rb");
+size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::ofstream* userp) {
+    const size_t totalSize = size * nmemb;
+    userp->write(static_cast<char*>(contents), totalSize);
+    return totalSize;
+}
+
+std::shared_ptr<ArFilesystemAsset> ArFilesystemAsset::Open(const ArResolvedPath& resolvedPath) {
+    std::string target = resolvedPath.GetPathString();
+    std::cout<<target<<std::endl;
+
+    static std::string http = "http";
+    if (target.substr(0, http.size()) == http) {
+        const auto url = target;
+        target = std::to_string(resolvedPath.GetHash());
+
+        std::ofstream outFile(target, std::ios::binary);
+        if (!outFile) {
+            return nullptr;
+        }
+
+        if (CURL* curl = curl_easy_init()) {
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &outFile);
+            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);  // 跟随重定向
+
+            if (CURLcode res = curl_easy_perform(curl); res != CURLE_OK) {
+                return nullptr;
+            }
+
+            curl_easy_cleanup(curl);  // 清理
+        }
+
+        outFile.close();  // 关闭文件
+    }
+
+    FILE* f = ArchOpenFile(target.c_str(), "rb");
     if (!f) {
         return nullptr;
     }
@@ -25,76 +61,51 @@ ArFilesystemAsset::Open(const ArResolvedPath& resolvedPath)
     return std::make_shared<ArFilesystemAsset>(f);
 }
 
-ArTimestamp
-ArFilesystemAsset::GetModificationTimestamp(const ArResolvedPath& resolvedPath)
-{
+ArTimestamp ArFilesystemAsset::GetModificationTimestamp(const ArResolvedPath& resolvedPath) {
     double time;
     if (ArchGetModificationTime(resolvedPath.GetPathString().c_str(), &time)) {
         return ArTimestamp(time);
     }
-    return ArTimestamp();
+    return {};
 }
 
-ArFilesystemAsset::ArFilesystemAsset(FILE* file) 
-    : _file(file) 
-{ 
+ArFilesystemAsset::ArFilesystemAsset(FILE* file) : _file(file) {
     if (!_file) {
         TF_CODING_ERROR("Invalid file handle");
     }
 }
 
-ArFilesystemAsset::~ArFilesystemAsset() 
-{ 
-    fclose(_file); 
-}
+ArFilesystemAsset::~ArFilesystemAsset() { fclose(_file); }
 
-size_t
-ArFilesystemAsset::GetSize() const
-{
-    return ArchGetFileLength(_file);
-}
+size_t ArFilesystemAsset::GetSize() const { return ArchGetFileLength(_file); }
 
-std::shared_ptr<const char> 
-ArFilesystemAsset::GetBuffer() const
-{
+std::shared_ptr<const char> ArFilesystemAsset::GetBuffer() const {
     ArchConstFileMapping mapping = ArchMapFileReadOnly(_file);
     if (!mapping) {
         return nullptr;
     }
 
     struct _Deleter {
-        explicit _Deleter(ArchConstFileMapping&& mapping) 
-            : _mapping(new ArchConstFileMapping(std::move(mapping)))
-        { }
+        explicit _Deleter(ArchConstFileMapping&& mapping) : _mapping(new ArchConstFileMapping(std::move(mapping))) {}
 
-        void operator()(const char* b)
-        {
-            _mapping.reset();
-        }
-        
+        void operator()(const char* b) { _mapping.reset(); }
+
         std::shared_ptr<ArchConstFileMapping> _mapping;
     };
 
     const char* buffer = mapping.get();
-    return std::shared_ptr<const char>(buffer, _Deleter(std::move(mapping)));
+    return {buffer, _Deleter(std::move(mapping))};
 }
 
-size_t
-ArFilesystemAsset::Read(void* buffer, size_t count, size_t offset) const
-{
+size_t ArFilesystemAsset::Read(void* buffer, size_t count, size_t offset) const {
     int64_t numRead = ArchPRead(_file, buffer, count, offset);
     if (numRead == -1) {
-        TF_RUNTIME_ERROR(
-            "Error occurred reading file: %s", ArchStrerror().c_str());
+        TF_RUNTIME_ERROR("Error occurred reading file: %s", ArchStrerror().c_str());
         return 0;
     }
     return numRead;
 }
-        
-std::pair<FILE*, size_t>
-ArFilesystemAsset::GetFileUnsafe() const
-{
-    return std::make_pair(_file, 0);
-}
+
+std::pair<FILE*, size_t> ArFilesystemAsset::GetFileUnsafe() const { return std::make_pair(_file, 0); }
 
 PXR_NAMESPACE_CLOSE_SCOPE

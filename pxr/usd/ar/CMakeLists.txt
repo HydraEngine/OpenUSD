@@ -1,6 +1,8 @@
 set(PXR_PREFIX pxr/usd)
 set(PXR_PACKAGE ar)
 
+find_package(CURL REQUIRED)
+
 pxr_library(ar
     LIBRARIES
         arch
@@ -9,6 +11,7 @@ pxr_library(ar
         plug
         vt
         ${TBB_tbb_LIBRARY}
+        ${CURL_LIBRARIES}
 
     INCLUDE_DIRS
         ${TBB_INCLUDE_DIRS}
