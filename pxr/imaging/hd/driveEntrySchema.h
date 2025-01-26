@@ -35,6 +35,8 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 #define HD_DRIVE_ENTRY_SCHEMA_TOKENS \
     (driveEntry) \
+    ((linear, "linear")) \
+    ((angular, "angular")) \
     ((transX, "transX")) \
     ((transY, "transY")) \
     ((transZ, "transZ")) \
@@ -87,6 +89,11 @@ public:
     HD_API
     HdDriveSchema GetRotZBinding();
 
+    HD_API
+    HdDriveSchema GetLinearBinding();
+
+    HD_API
+    HdDriveSchema GetAngularBinding();
 // --(END CUSTOM CODE: Schema Methods)--
 
     /// \name Member accessor

@@ -35,6 +35,8 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 #define HD_PHYSX_JOINT_STATE_ENTRY_SCHEMA_TOKENS \
     (physxJointStateEntry) \
+    ((linear, "linear")) \
+    ((angular, "angular")) \
     ((transX, "transX")) \
     ((transY, "transY")) \
     ((transZ, "transZ")) \
@@ -86,6 +88,12 @@ public:
 
     HD_API
     HdPhysxJointStateSchema GetRotZBinding();
+
+    HD_API
+    HdPhysxJointStateSchema GetLinearBinding();
+
+    HD_API
+    HdPhysxJointStateSchema GetAngularBinding();
 
 // --(END CUSTOM CODE: Schema Methods)--
 

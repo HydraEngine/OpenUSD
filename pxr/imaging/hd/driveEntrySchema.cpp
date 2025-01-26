@@ -53,6 +53,14 @@ HdDriveSchema HdDriveEntrySchema::GetRotYBinding() {
 HdDriveSchema HdDriveEntrySchema::GetRotZBinding() {
     return HdDriveSchema(_GetTypedDataSource<HdContainerDataSource>(HdDriveEntrySchemaTokens->rotZ));
 }
+
+HdDriveSchema HdDriveEntrySchema::GetLinearBinding() {
+    return HdDriveSchema(_GetTypedDataSource<HdContainerDataSource>(HdDriveEntrySchemaTokens->linear));
+}
+
+HdDriveSchema HdDriveEntrySchema::GetAngularBinding() {
+    return HdDriveSchema(_GetTypedDataSource<HdContainerDataSource>(HdDriveEntrySchemaTokens->angular));
+}
 // --(END CUSTOM CODE: Schema Methods)--
 
 /*static*/

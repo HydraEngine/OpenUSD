@@ -53,6 +53,14 @@ HdLimitSchema HdLimitEntrySchema::GetRotYBinding() {
 HdLimitSchema HdLimitEntrySchema::GetRotZBinding() {
     return HdLimitSchema(_GetTypedDataSource<HdContainerDataSource>(HdLimitEntrySchemaTokens->rotZ));
 }
+
+HdLimitSchema HdLimitEntrySchema::GetLinearBinding() {
+    return HdLimitSchema(_GetTypedDataSource<HdContainerDataSource>(HdLimitEntrySchemaTokens->linear));
+}
+
+HdLimitSchema HdLimitEntrySchema::GetAngularBinding() {
+    return HdLimitSchema(_GetTypedDataSource<HdContainerDataSource>(HdLimitEntrySchemaTokens->angular));
+}
 // --(END CUSTOM CODE: Schema Methods)--
 
 /*static*/

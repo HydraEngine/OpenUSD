@@ -1440,6 +1440,8 @@
         SCHEMA_NAME = 'DriveEntry',
         SCHEMA_TOKEN = 'driveEntry',
         EXTRA_TOKENS = [
+            '(linear, "linear")',
+            '(angular, "angular")',
             '(transX, "transX")',
             '(transY, "transY")',
             '(transZ, "transZ")',
@@ -1505,6 +1507,8 @@
         SCHEMA_NAME = 'LimitEntry',
         SCHEMA_TOKEN = 'limitEntry',
         EXTRA_TOKENS = [
+            '(linear, "linear")',
+            '(angular, "angular")',
             '(transX, "transX")',
             '(transY, "transY")',
             '(transZ, "transZ")',
@@ -1623,6 +1627,8 @@
         SCHEMA_NAME = 'PhysxJointStateEntry',
         SCHEMA_TOKEN = 'physxJointStateEntry',
         EXTRA_TOKENS = [
+            '(linear, "linear")',
+            '(angular, "angular")',
             '(transX, "transX")',
             '(transY, "transY")',
             '(transZ, "transZ")',

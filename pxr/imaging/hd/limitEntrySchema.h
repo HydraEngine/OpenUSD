@@ -35,6 +35,8 @@ PXR_NAMESPACE_OPEN_SCOPE
 
 #define HD_LIMIT_ENTRY_SCHEMA_TOKENS \
     (limitEntry) \
+    ((linear, "linear")) \
+    ((angular, "angular")) \
     ((transX, "transX")) \
     ((transY, "transY")) \
     ((transZ, "transZ")) \
@@ -86,6 +88,12 @@ public:
 
     HD_API
     HdLimitSchema GetRotZBinding();
+
+    HD_API
+    HdLimitSchema GetLinearBinding();
+
+    HD_API
+    HdLimitSchema GetAngularBinding();
 // --(END CUSTOM CODE: Schema Methods)--
 
     /// \name Member accessor

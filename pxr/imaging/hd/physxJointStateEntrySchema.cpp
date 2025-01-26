@@ -53,6 +53,13 @@ HdPhysxJointStateSchema HdPhysxJointStateEntrySchema::GetRotYBinding() {
 HdPhysxJointStateSchema HdPhysxJointStateEntrySchema::GetRotZBinding() {
     return HdPhysxJointStateSchema(_GetTypedDataSource<HdContainerDataSource>(HdPhysxJointStateEntrySchemaTokens->rotZ));
 }
+HdPhysxJointStateSchema HdPhysxJointStateEntrySchema::GetLinearBinding() {
+    return HdPhysxJointStateSchema(_GetTypedDataSource<HdContainerDataSource>(HdPhysxJointStateEntrySchemaTokens->linear));
+}
+
+HdPhysxJointStateSchema HdPhysxJointStateEntrySchema::GetAngularBinding() {
+    return HdPhysxJointStateSchema(_GetTypedDataSource<HdContainerDataSource>(HdPhysxJointStateEntrySchemaTokens->angular));
+}
 // --(END CUSTOM CODE: Schema Methods)--
 
 /*static*/
