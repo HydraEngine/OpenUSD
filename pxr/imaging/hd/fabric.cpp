@@ -6,6 +6,7 @@
 
 #include "pxr/imaging/hd/fabric.h"
 #include "pxr/imaging/hd/renderIndex.h"
+#include "pxr/imaging/hd/materialBindingsSchema.h"
 
 PXR_NAMESPACE_OPEN_SCOPE
 
@@ -50,34 +51,34 @@ void Fabric::PrimsAdded(const HdSceneIndexPrim& prim, const HdSceneIndexObserver
     if (auto schema = HdCollisionGroupSchema::GetFromParent(prim.dataSource)) {
         _collisionGroups.insert({entry.primPath, schema});
     }
+    if (auto geom = HdCubeSchema::GetFromParent(prim.dataSource)) {
+        _cubes.insert({entry.primPath, geom});
+    }
+    if (auto geom = HdCapsuleSchema::GetFromParent(prim.dataSource)) {
+        _capsules.insert({entry.primPath, geom});
+    }
+    if (auto geom = HdSphereSchema::GetFromParent(prim.dataSource)) {
+        _spheres.insert({entry.primPath, geom});
+    }
+    if (auto geom = HdConeSchema::GetFromParent(prim.dataSource)) {
+        _cones.insert({entry.primPath, geom});
+    }
+    if (auto geom = HdCylinderSchema::GetFromParent(prim.dataSource)) {
+        _cylinders.insert({entry.primPath, geom});
+    }
+    if (auto geom = HdPlaneSchema::GetFromParent(prim.dataSource)) {
+        _planes.insert({entry.primPath, geom});
+    }
+    if (auto geom = HdPrimvarsSchema::GetFromParent(prim.dataSource)) {
+        _primVars.insert({entry.primPath, geom});
+    }
+    if (auto geom = HdMeshSchema::GetFromParent(prim.dataSource)) {
+        _meshes.insert({entry.primPath, geom});
+    }
+    if (auto geom = HdTetMeshSchema::GetFromParent(prim.dataSource)) {
+        _tetMeshes.insert({entry.primPath, geom});
+    }
     if (auto schema = HdCollisionSchema::GetFromParent(prim.dataSource)) {
-        if (auto geom = HdCubeSchema::GetFromParent(prim.dataSource)) {
-            _cubes.insert({entry.primPath, geom});
-        }
-        if (auto geom = HdCapsuleSchema::GetFromParent(prim.dataSource)) {
-            _capsules.insert({entry.primPath, geom});
-        }
-        if (auto geom = HdSphereSchema::GetFromParent(prim.dataSource)) {
-            _spheres.insert({entry.primPath, geom});
-        }
-        if (auto geom = HdConeSchema::GetFromParent(prim.dataSource)) {
-            _cones.insert({entry.primPath, geom});
-        }
-        if (auto geom = HdCylinderSchema::GetFromParent(prim.dataSource)) {
-            _cylinders.insert({entry.primPath, geom});
-        }
-        if (auto geom = HdPlaneSchema::GetFromParent(prim.dataSource)) {
-            _planes.insert({entry.primPath, geom});
-        }
-        if (auto geom = HdPrimvarsSchema::GetFromParent(prim.dataSource)) {
-            _primVars.insert({entry.primPath, geom});
-        }
-        if (auto geom = HdMeshSchema::GetFromParent(prim.dataSource)) {
-            _meshes.insert({entry.primPath, geom});
-        }
-        if (auto geom = HdTetMeshSchema::GetFromParent(prim.dataSource)) {
-            _tetMeshes.insert({entry.primPath, geom});
-        }
         _collisions.insert({entry.primPath, schema});
     }
     if (auto schema = HdDistanceJointSchema::GetFromParent(prim.dataSource)) {
@@ -407,15 +408,19 @@ void Fabric::PrimsRemoved(const HdSceneIndexPrim& prim, const HdSceneIndexObserv
 void Fabric::PrimsDirtied(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::DirtiedPrimEntry& entry) {}
 
 std::optional<GfMatrix4d> Fabric::FindXform(const SdfPath& path) {
-    auto iter = _resultXforms.find(path);
-    if (iter != _resultXforms.end()) {
+    if (const auto iter = _resultXforms.find(path); iter != _resultXforms.end()) {
         return iter->second;
     }
     return std::nullopt;
 }
 
-void Fabric::InsertDirtyEntry(const SdfPath& path) {
+void Fabric::InsertXformDirtyEntry(const SdfPath& path) {
     static HdDataSourceLocatorSet locators = {pxr::HdXformSchema::GetDefaultLocator()};
+    _dirtyEntries.emplace_back(path, locators);
+}
+
+void Fabric::InsertMaterialDirtyEntry(const SdfPath& path) {
+    static HdDataSourceLocatorSet locators = {pxr::HdMaterialBindingsSchema::GetDefaultLocator()};
     _dirtyEntries.emplace_back(path, locators);
 }
 

@@ -127,7 +127,9 @@ public:
 
     void PrimsDirtied(const HdSceneIndexPrim& prim, const HdSceneIndexObserver::DirtiedPrimEntry& entry);
 
-    void InsertDirtyEntry(const SdfPath& path);
+    void InsertXformDirtyEntry(const SdfPath& path);
+
+    void InsertMaterialDirtyEntry(const SdfPath& path);
 
     std::optional<GfMatrix4d> FindXform(const SdfPath& path);
 
